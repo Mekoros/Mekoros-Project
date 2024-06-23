@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
 
-from sefaria.model.user_profile import UserProfile
+from mekoros.model.user_profile import UserProfile
 
 import google.auth
 import google.oauth2
@@ -17,7 +17,7 @@ logger = structlog.get_logger(__name__)
 def gauth_required(scope, ajax=False):
     """
     Decorator that requires the user to authenticate
-    with Google and authorize Sefaria to act on their behalf.
+    with Google and authorize Mekoros to act on their behalf.
     If the user has already authenticated, it will call the wrapped function
     with the kwarg `credential` set to the obtained credentials.
     If not, it will start the OAuth 2.0 flow.

@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from sefaria.helper.crm.nationbuilder import NationbuilderConnectionManager
-from sefaria.helper.crm.salesforce import SalesforceConnectionManager
+from mekoros.helper.crm.nationbuilder import NationbuilderConnectionManager
+from mekoros.helper.crm.salesforce import SalesforceConnectionManager
 
 """
 class TestConnectionTest(TestCase):

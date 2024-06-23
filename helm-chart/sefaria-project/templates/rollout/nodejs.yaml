@@ -46,7 +46,7 @@ spec:
                 - mongo
             topologyKey: kubernetes.io.hostname
         nodeAffinity:
-          {{- include "sefaria.nodeAffinities" . | nindent 10 }}
+          {{- include "mekoros.nodeAffinities" . | nindent 10 }}
       containers:
       - name: node
         image: "{{ .Values.nodejs.containerImage.imageRegistry }}:{{ .Values.nodejs.containerImage.tag }}"

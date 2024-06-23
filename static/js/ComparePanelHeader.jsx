@@ -1,7 +1,7 @@
 import React  from 'react';
 import classNames  from 'classnames';
 import PropTypes  from 'prop-types';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 import {
   CategoryColorLine,
   MenuButton,
@@ -26,14 +26,14 @@ const ComparePanelHeader = ({ search, category, openDisplaySettings, navHome, ca
             <SearchButton onClick={handleSearchButtonClick} />
             <input
               id="searchInput" className="readerSearch"
-              title={Sefaria._("Search for Texts or Keywords Here")}
-              placeholder={Sefaria._("Search")}
+              title={Mekoros._("Search for Texts or Keywords Here")}
+              placeholder={Mekoros._("Search")}
               onChange={e => setQuery(e.target.value)} value={query}
               onKeyUp={handleSearchKeyUp}
             />
           </div>
         </div>
-        {Sefaria.interfaceLang !== "hebrew" ? 
+        {Mekoros.interfaceLang !== "hebrew" ? 
         <DisplaySettingsButton onClick={openDisplaySettings} />
         : null}
       </div>
@@ -47,7 +47,7 @@ const ComparePanelHeader = ({ search, category, openDisplaySettings, navHome, ca
           <ContentText text={{en: catTitle, he: heCatTitle}} />
         </h2>
         
-        {(Sefaria.interfaceLang === "hebrew" || !openDisplaySettings) ?
+        {(Mekoros.interfaceLang === "hebrew" || !openDisplaySettings) ?
         <DisplaySettingsButton placeholder={true} />
         : <DisplaySettingsButton onClick={openDisplaySettings} />}
       </div>

@@ -8,7 +8,7 @@
                 display: inline-block;
             }
         </style>
-        <meta name="description"content="A page to test ref catching by the Sefaria linker" />
+        <meta name="description"content="A page to test ref catching by the Mekoros linker" />
         <!-- <meta name="robots" content="noindex,nofollow" /> -->
     </head>
     <body>
@@ -117,7 +117,7 @@
             <p>Shulchan Aruch O.C. 47:12 (acronyms for Chalakim names)</p>
             <p>Kaf HaChaim, Orach Chaim 47:34</p>
 
-            <h3>Some problematic ones</h3> <a href="https://github.com/Sefaria/Sefaria-Project/issues/577">https://github.com/Sefaria/Sefaria-Project/issues/577</a>
+            <h3>Some problematic ones</h3> <a href="https://github.com/Mekoros/Mekoros-Project/issues/577">https://github.com/Mekoros/Mekoros-Project/issues/577</a>
             <p>Kitzur Shulchan Aruch Orach Chaim 7:1</p>
             <p>Kitzur Shulchan Aruch 7:1</p>
             <p>Kaf HaChaim Orach Chaim 47:34</p>
@@ -137,14 +137,14 @@
     <script type="text/javascript" charset="utf-8" src="/linker.v2.js"></script>
 
     <script>
-        sefaria.link({
+        mekoros.link({
             selector: "#foo",
             excludeFromLinking: ".excludeFromLinking",
             excludeFromTracking: ".excludeFromTracking"
         });
-        //sefaria.link({interfaceLang: "hebrew"});
+        //mekoros.link({interfaceLang: "hebrew"});
         /*
-        sefaria.link({
+        mekoros.link({
                  popupStyles: {
                           color: "#e3fc11",
                           border: '4em solid black' 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import PropTypes  from 'prop-types';
 import classNames  from 'classnames';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 import { useIncrementalLoad } from './Hooks';
 import { Promotions } from './Promotions';
 import { NavSidebar } from './NavSidebar';
@@ -40,7 +40,7 @@ const norm_hebrew_ref = tref => tref.replace(/[׳״]/g, '');
 
 
 const fetchBulkText = (translationLanguagePreference, inRefs) =>
-  Sefaria.getBulkText(
+  Mekoros.getBulkText(
     inRefs.map(x => x.ref),
     true, 500, 600,
     translationLanguagePreference
@@ -61,7 +61,7 @@ const fetchBulkText = (translationLanguagePreference, inRefs) =>
 
 
 const fetchBulkSheet = inSheets =>
-    Sefaria.getBulkSheets(inSheets.map(x => x.ref)).then(outSheets => {
+    Mekoros.getBulkSheets(inSheets.map(x => x.ref)).then(outSheets => {
     for (let tempSheet of inSheets) {
       if (outSheets[tempSheet.ref]) {
         outSheets[tempSheet.ref].order = tempSheet.order;
@@ -75,7 +75,7 @@ const fetchBulkSheet = inSheets =>
 const refFilter = (currFilter, ref) => {
   const n = text => !!text ? text.toLowerCase() : '';
   currFilter = n(currFilter);
-  ref[1].categories = Sefaria.refCategories(ref[1].ref).join(" ");
+  ref[1].categories = Mekoros.refCategories(ref[1].ref).join(" ");
   for (let field of ['en', 'he', 'ref', 'categories']) {
     if (n(ref[1][field]).indexOf(currFilter) > -1) { return true; }
   }
@@ -104,16 +104,16 @@ const refSort = (currSortOption, a, b) => {
     return a.order.comp_date - b.order.comp_date;
   }
   else {
-    if ((Sefaria.interfaceLang === 'english') &&
+    if ((Mekoros.interfaceLang === 'english') &&
       (a.order.curatedPrimacy.en > 0 || b.order.curatedPrimacy.en > 0)) {
       return b.order.curatedPrimacy.en - a.order.curatedPrimacy.en; }
-    else if ((Sefaria.interfaceLang === 'hebrew') &&
+    else if ((Mekoros.interfaceLang === 'hebrew') &&
       (a.order.curatedPrimacy.he > 0 || b.order.curatedPrimacy.he > 0)) {
       return b.order.curatedPrimacy.he - a.order.curatedPrimacy.he;
     }
     const aAvailLangs = a.order.availableLangs;
     const bAvailLangs = b.order.availableLangs;
-    if (Sefaria.interfaceLang === 'english' && aAvailLangs.length !== bAvailLangs.length) {
+    if (Mekoros.interfaceLang === 'english' && aAvailLangs.length !== bAvailLangs.length) {
       if (aAvailLangs.indexOf('en') > -1) { return -1; }
       if (bAvailLangs.indexOf('en') > -1) { return 1; }
       return 0;
@@ -133,10 +133,10 @@ const sheetSort = (currSortOption, a, b) => {
   const bTLangHe = 0 + (b.order.titleLanguage === 'hebrew');
   const aLangHe  = 0 + (a.order.language      === 'hebrew');
   const bLangHe  = 0 + (b.order.language      === 'hebrew');
-  if (Sefaria.interfaceLang === 'hebrew' && (aTLangHe ^ bTLangHe || aLangHe ^ bLangHe)) {
+  if (Mekoros.interfaceLang === 'hebrew' && (aTLangHe ^ bTLangHe || aLangHe ^ bLangHe)) {
     if (aTLangHe ^ bTLangHe && aLangHe ^ bLangHe) { return bTLangHe - aTLangHe; }  // title lang takes precedence over content lang
     return (bTLangHe + bLangHe) - (aTLangHe + aLangHe);
-  } else if (Sefaria.interfaceLang === 'english' && (aTLangHe ^ bTLangHe || aLangHe ^ bLangHe)) {
+  } else if (Mekoros.interfaceLang === 'english' && (aTLangHe ^ bTLangHe || aLangHe ^ bLangHe)) {
     if (aTLangHe ^ bTLangHe && aLangHe ^ bLangHe) { return aTLangHe - bTLangHe; }  // title lang takes precedence over content lang
     return (aTLangHe + aLangHe) - (bTLangHe + bLangHe);
   }
@@ -157,17 +157,17 @@ const hasPrompts = (description) => {
      * returns true if description has a title
      * If description is explicitly marked as not published, only return true if user is a moderator
      */
-    return description?.title?.length && (Sefaria.is_moderator || description?.published !== false);
+    return description?.title?.length && (Mekoros.is_moderator || description?.published !== false);
 }
 
 const refRenderWrapper = (toggleSignUpModal, topicData, topicTestVersion) => item => {
   const text = item[1];
   const topicTitle = topicData && topicData.primaryTitle;
-  const langKey = Sefaria.interfaceLang === 'english' ? 'en' : 'he';
+  const langKey = Mekoros.interfaceLang === 'english' ? 'en' : 'he';
   let dataSourceText = '';
 
   if (!!text.dataSources && Object.values(text.dataSources).length > 0) {
-    dataSourceText = `${Sefaria._('This source is connected to ')}"${topicTitle && topicTitle[langKey]}" ${Sefaria._('by')} ${Object.values(text.dataSources).map(d => d[langKey]).join(' & ')}.`;
+    dataSourceText = `${Mekoros._('This source is connected to ')}"${topicTitle && topicTitle[langKey]}" ${Mekoros._('by')} ${Object.values(text.dataSources).map(d => d[langKey]).join(' & ')}.`;
   }
 
   const afterSave = (
@@ -206,21 +206,21 @@ const sheetRenderWrapper = (toggleSignUpModal) => item => (
 
 const TopicCategory = ({topic, topicTitle, setTopic, setNavTopic, compare, initialWidth,
   openDisplaySettings, openSearch}) => {
-    const [topicData, setTopicData] = useState(Sefaria.getTopicFromCache(topic) || {primaryTitle: topicTitle});
-    const [subtopics, setSubtopics] = useState(Sefaria.topicTocPage(topic));
+    const [topicData, setTopicData] = useState(Mekoros.getTopicFromCache(topic) || {primaryTitle: topicTitle});
+    const [subtopics, setSubtopics] = useState(Mekoros.topicTocPage(topic));
 
     useEffect(() => {
-        Sefaria.getTopic(topic).then(setTopicData);
+        Mekoros.getTopic(topic).then(setTopicData);
     }, [topic]);
 
     useEffect(() => {
-        setSubtopics(Sefaria.topicTocPage(topic));
+        setSubtopics(Mekoros.topicTocPage(topic));
     }, [topic]);
 
 
     let topicBlocks = subtopics
       .filter(t => t.shouldDisplay !== false)
-      .sort(Sefaria.sortTopicsCompareFn)
+      .sort(Mekoros.sortTopicsCompareFn)
       .map((t,i) => {
         const { slug, children, description} = t;
         const openTopic = e => {
@@ -280,7 +280,7 @@ const TopicSponsorship = ({topic_slug}) => {
     // TODO: Store this data somewhere intelligent
     const topic_sponsorship_map = {
         "parashat-bereshit": {
-            "en": "Parashat Bereshit, or Genesis, is dedicated to the [Sefaria Pioneers](/pioneers), Sefaria's earliest champions whose immense generosity was essential to the genesis of Sefaria and the digital future of Torah.",
+            "en": "Parashat Bereshit, or Genesis, is dedicated to the [Mekoros Pioneers](/pioneers), Mekoros's earliest champions whose immense generosity was essential to the genesis of Mekoros and the digital future of Torah.",
             "he": "פרשת בראשית מוקדשת [לחלוצי ספריא](/pioneers), מי שעודדו ותמכו בנו בראשית דרכנו ושבזכות נדיבותם הרבה עלה באפשרותנו ליצור את העתיד הדיגיטלי של התורה ושאר המקורות."
         },
         "parashat-lech-lecha": {
@@ -318,21 +318,21 @@ const TopicSponsorship = ({topic_slug}) => {
 const isLinkPublished = (lang, link) => {return link.descriptions?.[lang]?.published !== false;}
 
 const getLinksWithAiContent = (refTopicLinks = []) => {
-    const lang = Sefaria.interfaceLang === "english" ? 'en' : 'he';
+    const lang = Mekoros.interfaceLang === "english" ? 'en' : 'he';
     return refTopicLinks.filter(link => {
         return link.descriptions?.[lang]?.ai_title?.length > 0 && isLinkPublished(lang, link)
     });
 };
 
 const getLinksToGenerate = (refTopicLinks = []) => {
-    const lang = Sefaria.interfaceLang === "english" ? 'en' : 'he';
+    const lang = Mekoros.interfaceLang === "english" ? 'en' : 'he';
     return refTopicLinks.filter(link => {
         return link.descriptions?.[lang]?.ai_context?.length > 0  &&
             !link.descriptions?.[lang]?.prompt;
     });
 };
 const getLinksToPublish = (refTopicLinks = []) => {
-    const lang = Sefaria.interfaceLang === "english" ? 'en' : 'he';
+    const lang = Mekoros.interfaceLang === "english" ? 'en' : 'he';
     return refTopicLinks.filter(link => {
         return !isLinkPublished(lang, link);
     });
@@ -344,7 +344,7 @@ const generatePrompts = async(topicSlug, linksToGenerate) => {
     });
     const payload = {ref_topic_links: linksToGenerate};
     try {
-        await Sefaria.postToApi(`/api/topics/generate-prompts/${topicSlug}`, {}, payload);
+        await Mekoros.postToApi(`/api/topics/generate-prompts/${topicSlug}`, {}, payload);
         const refValues = linksToGenerate.map(item => item.ref).join(", ");
         alert("The following prompts are generating: " + refValues);
     } catch (error) {
@@ -353,13 +353,13 @@ const generatePrompts = async(topicSlug, linksToGenerate) => {
 };
 
 const publishPrompts = async (topicSlug, linksToPublish) => {
-    const lang = Sefaria.interfaceLang === "english" ? 'en' : 'he';
+    const lang = Mekoros.interfaceLang === "english" ? 'en' : 'he';
     linksToPublish.forEach(ref => {
         ref['toTopic'] = topicSlug;
         ref.descriptions[lang]["published"] = true;
     });
     try {
-        const response = await Sefaria.postToApi(`/api/ref-topic-links/bulk`, {}, linksToPublish);
+        const response = await Mekoros.postToApi(`/api/ref-topic-links/bulk`, {}, linksToPublish);
         const refValues = response.map(item => item.anchorRef).join(", ");
         const shouldRefresh = confirm("The following prompts have been published: " + refValues + ". Refresh page to see results?");
         if (shouldRefresh) {
@@ -386,7 +386,7 @@ const getTopicHeaderAdminActionButtons = (topicSlug, refTopicLinks) => {
 
 const TopicHeader = ({ topic, topicData, topicTitle, multiPanel, isCat, setNavTopic, openDisplaySettings, openSearch, topicImage }) => {
   const { en, he } = !!topicData && topicData.primaryTitle ? topicData.primaryTitle : {en: "Loading...", he: "טוען..."};
-  const category = !!topicData ? Sefaria.topicTocCategory(topicData.slug) : null;
+  const category = !!topicData ? Mekoros.topicTocCategory(topicData.slug) : null;
   const tpTopImg = !multiPanel && topicImage ? <TopicImage photoLink={topicImage.image_uri} caption={topicImage.image_caption}/> : null;
   const actionButtons = getTopicHeaderAdminActionButtons(topic, topicData.refs?.about?.refs);
   const hasAiContentLinks = getLinksWithAiContent(topicData.refs?.about?.refs).length != 0;
@@ -424,13 +424,13 @@ return (
        {topicData && topicData.ref ?
          <a href={`/${topicData.ref.url}`} className="resourcesLink button blue">
            <img src="/static/icons/book-icon-black.svg" alt="Book Icon" />
-           <span className="int-en">{ topicData.parasha ? Sefaria._('Read the Portion') : topicData.ref.en }</span>
-           <span className="int-he">{ topicData.parasha ? Sefaria._('Read the Portion') : norm_hebrew_ref(topicData.ref.he) }</span>
+           <span className="int-en">{ topicData.parasha ? Mekoros._('Read the Portion') : topicData.ref.en }</span>
+           <span className="int-he">{ topicData.parasha ? Mekoros._('Read the Portion') : norm_hebrew_ref(topicData.ref.he) }</span>
          </a>
        : null}
        {topicData?.indexes?.length ?
         <div>
-          <div className="sectionTitleText authorIndexTitle"><InterfaceText>Works on Sefaria</InterfaceText></div>
+          <div className="sectionTitleText authorIndexTitle"><InterfaceText>Works on Mekoros</InterfaceText></div>
           <div className="authorIndexList">
             {topicData.indexes.map(({url, title, description}) => <AuthorIndexItem key={url} url={url} title={title} description={description}/>)}
           </div>
@@ -509,7 +509,7 @@ const TopicPage = ({
   topicTestVersion, onSetTopicSort, topicSort
 }) => {
     const defaultTopicData = {primaryTitle: topicTitle, tabs: {}, isLoading: true};
-    const [topicData, setTopicData] = useState(Sefaria.getTopicFromCache(topic, {with_html: true}) || defaultTopicData);
+    const [topicData, setTopicData] = useState(Mekoros.getTopicFromCache(topic, {with_html: true}) || defaultTopicData);
     const [loadedData, setLoadedData] = useState(topicData ? Object.entries(topicData.tabs).reduce((obj, [key, tabObj]) => { obj[key] = tabObj.loadedData; return obj; }, {}) : {});
     const [refsToFetchByTab, setRefsToFetchByTab] = useState({});
     const [parashaData, setParashaData] = useState(null);
@@ -524,9 +524,9 @@ const TopicPage = ({
     // Initial Topic Data, updates when `topic` changes
     useEffect(() => {
       setTopicData(defaultTopicData); // Ensures topicTitle displays while loading
-      const { promise, cancel } = Sefaria.makeCancelable((async () => {
-        const d = await Sefaria.getTopic(topic, {with_html: true});
-        if (d.parasha) { Sefaria.getParashaNextRead(d.parasha).then(setParashaData); }
+      const { promise, cancel } = Mekoros.makeCancelable((async () => {
+        const d = await Mekoros.getTopic(topic, {with_html: true});
+        if (d.parasha) { Mekoros.getParashaNextRead(d.parasha).then(setParashaData); }
         setTopicData(d);
         // Data remaining to fetch that was not already in the cache
         for (let [tabKey, tabObj] of Object.entries(d.tabs)) {
@@ -555,7 +555,7 @@ const TopicPage = ({
       useIncrementalLoad(
         tabObj.fetcher,
         refsToFetchByTab[key] || false,
-        Sefaria._topicPageSize,
+        Mekoros._topicPageSize,
         data => setLoadedData(prev => {
           const updatedData = (!prev[key] || data === false) ? data : [...prev[key], ...data];
           if (topicData?.tabs?.[key]) { topicData.tabs[key].loadedData = updatedData; } // Persist loadedData in cache
@@ -574,7 +574,7 @@ const TopicPage = ({
       displayTabs.push({
         title: {
           en: "Filter",
-          he: Sefaria._("Filter")
+          he: Mekoros._("Filter")
         },
         id: 'filter',
         icon: `/static/icons/arrow-${showFilterHeader ? 'up' : 'down'}-bold.svg`,
@@ -586,7 +586,7 @@ const TopicPage = ({
     let sidebar = null;
     if (topicData) {
         if (topicData.portal_slug) {
-            Sefaria.getPortal(topicData.portal_slug).then(setPortal);
+            Mekoros.getPortal(topicData.portal_slug).then(setPortal);
             if (portal) {
                 sidebar = <PortalNavSideBar portal={portal} entriesToDisplayList={["about", "mobile", "organization", "newsletter"]}/>
             }
@@ -729,7 +729,7 @@ TopicLink.propTypes = {
 
 
 const TopicSideColumn = ({ slug, links, clearAndSetTopic, parashaData, tref, setNavTopic, timePeriod, properties, topicTitle, multiPanel, topicImage }) => {
-  const category = Sefaria.topicTocCategory(slug);
+  const category = Mekoros.topicTocCategory(slug);
   const linkTypeArray = links ? Object.values(links).filter(linkType => !!linkType && linkType.shouldDisplay && linkType.links.filter(l => l.shouldDisplay !== false).length > 0) : [];
   if (linkTypeArray.length === 0) {
     linkTypeArray.push({
@@ -737,7 +737,7 @@ const TopicSideColumn = ({ slug, links, clearAndSetTopic, parashaData, tref, set
         en: !category ? 'Explore Topics' : category.en,
         he: !category ?  'נושאים כלליים' : category.he,
       },
-      links: Sefaria.topicTocPage(category && category.slug).slice(0, 20).map(({slug, en, he}) => ({
+      links: Mekoros.topicTocPage(category && category.slug).slice(0, 20).map(({slug, en, he}) => ({
         topic: slug,
         title: {en, he},
         isCategory: !category,
@@ -773,7 +773,7 @@ const TopicSideColumn = ({ slug, links, clearAndSetTopic, parashaData, tref, set
             {
               linksToDisplay
               .sort((a, b) => {
-                const shortLang = Sefaria.interfaceLang == 'hebrew' ? 'he' : 'en';
+                const shortLang = Mekoros.interfaceLang == 'hebrew' ? 'he' : 'en';
                 if (!!a.title[shortLang] !== !!b.title[shortLang]) {
                   return (0+!!b.title[shortLang]) - (0+!!a.title[shortLang]);
                 }
@@ -848,8 +848,8 @@ const ReadingsComponent = ({ parashaData, tref }) => (
       <InterfaceText text={{en:"Readings", he:"פרשיות והפטרות"}}  />
     </h2>
     <span className="smallText parasha-date">
-      <InterfaceText text={{en:Sefaria.util.localeDate(parashaData.date), he:Sefaria.util.localeDate(parashaData.date)}} />
-      <InterfaceText text={{en:Sefaria.util.hebrewCalendarDateStr(parashaData.date), he:Sefaria.util.hebrewCalendarDateStr(parashaData.date)}} />
+      <InterfaceText text={{en:Mekoros.util.localeDate(parashaData.date), he:Mekoros.util.localeDate(parashaData.date)}} />
+      <InterfaceText text={{en:Mekoros.util.hebrewCalendarDateStr(parashaData.date), he:Mekoros.util.hebrewCalendarDateStr(parashaData.date)}} />
     </span>
     <div className="parasha">
         <div className="sectionTitleText"><InterfaceText text={{en:"Torah", he:"תורה"}} /></div>
@@ -862,9 +862,9 @@ const ReadingsComponent = ({ parashaData, tref }) => (
             parashaData.parasha?.extraDetails?.aliyot?.map((aliya, index) => {
                let sectionNum = index+1;
                let sectionStr = sectionNum <= 7 ? sectionNum : 'M';
-               let heSectionStr = sectionNum <= 7 ? Sefaria.hebrew.encodeHebrewNumeral(sectionNum) : 'מ';
+               let heSectionStr = sectionNum <= 7 ? Mekoros.hebrew.encodeHebrewNumeral(sectionNum) : 'מ';
                return (
-                  <a className="sectionLink" href={"/" + Sefaria.normRef(aliya)} data-ref={aliya} key={aliya}>
+                  <a className="sectionLink" href={"/" + Mekoros.normRef(aliya)} data-ref={aliya} key={aliya}>
                     <InterfaceText text={{en:sectionStr, he:heSectionStr}}/>
                   </a>
                 );
@@ -918,7 +918,7 @@ const TopicMetaData = ({ topicTitle, timePeriod, multiPanel, topicImage, propert
         {
           propValues.map(propObj => {
             let url, urlExists = true;
-            if (Sefaria.interfaceLang === 'hebrew') {
+            if (Mekoros.interfaceLang === 'hebrew') {
               if (!propObj.url.he) { urlExists = false; }
               url = propObj.url.he || propObj.url.en;
             } else {
@@ -928,7 +928,7 @@ const TopicMetaData = ({ topicTitle, timePeriod, multiPanel, topicImage, propert
             if (!url) { return null; }
             return (
               <SimpleLinkedBlock
-                key={url} en={propObj.title + (urlExists ? "" : " (Hebrew)")} he={Sefaria._(propObj.title) + (urlExists ? "" : ` (${Sefaria._("English")})`)}
+                key={url} en={propObj.title + (urlExists ? "" : " (Hebrew)")} he={Mekoros._(propObj.title) + (urlExists ? "" : ` (${Mekoros._("English")})`)}
                 url={url} aclasses={"systemText topicMetaData"} openInNewTab
               />
             );

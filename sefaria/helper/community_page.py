@@ -8,14 +8,14 @@ from pprint import pprint
 
 from django.utils import timezone
 
-from sefaria.model import Ref, Topic, Collection
-from sefaria.sheets import get_sheet, sheet_to_dict
-from sefaria.system.database import db
-from sefaria.utils.calendars import get_parasha
-from sefaria.utils.hebrew import has_hebrew, hebrew_term, hebrew_parasha_name
-from sefaria.utils.util import strip_tags
-from sefaria.helper.topic import get_topic_by_parasha
-from sefaria.system.cache import django_cache, delete_cache_elem, cache_get_key, in_memory_cache
+from mekoros.model import Ref, Topic, Collection
+from mekoros.sheets import get_sheet, sheet_to_dict
+from mekoros.system.database import db
+from mekoros.utils.calendars import get_parasha
+from mekoros.utils.hebrew import has_hebrew, hebrew_term, hebrew_parasha_name
+from mekoros.utils.util import strip_tags
+from mekoros.helper.topic import get_topic_by_parasha
+from mekoros.system.cache import django_cache, delete_cache_elem, cache_get_key, in_memory_cache
 
 
 def get_community_page_data(language="english", refresh=False):
@@ -212,8 +212,8 @@ def get_featured_sheet_from_collection(collection):
 
 def get_featured_sheet_from_topic(slug):
   import random
-  from sefaria.sheets import sheet_list
-  from sefaria.model.topic import RefTopicLinkSet
+  from mekoros.sheets import sheet_list
+  from mekoros.model.topic import RefTopicLinkSet
   sheet_links = RefTopicLinkSet({"is_sheet": True, "toTopic": slug})
   sids = [int(s.ref.replace("Sheet ", "")) for s in sheet_links]
   if not len(sids):
@@ -328,7 +328,7 @@ def sheets_with_content_by_category(cat, print_results=True):
         title = strip_tags(sheet["title"], remove_new_lines=True).strip()
         results.append([sheet["id"], title, ref])
         if print_results:
-          print("www.sefaria.org/sheets/{}\t{}\t{}".format(sheet["id"], title, ref))
+          print("www.mekoros.com/sheets/{}\t{}\t{}".format(sheet["id"], title, ref))
 
   print("\n\n{} Sheet with {}".format(len(sids), cat))
 
@@ -375,6 +375,6 @@ def sheets_by_parashah(print_results=True):
 
   if print_results:
     for result in results:
-      print("{}\t{}\twww.sefaria.org/sheets/{}\t{}\t{}".format(*result))
+      print("{}\t{}\twww.mekoros.com/sheets/{}\t{}\t{}".format(*result))
   else:
     return sheets

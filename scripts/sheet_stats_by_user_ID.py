@@ -3,8 +3,8 @@
 Code stump to get total comments and views of a users source sheets
 """
 from sys import argv
-from sefaria.model import *
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.system.database import db
 
 if len(argv) == 1:
 	print("You need to enter a user ID")

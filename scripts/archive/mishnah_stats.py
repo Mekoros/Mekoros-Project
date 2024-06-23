@@ -8,9 +8,9 @@ import locale
 from datetime import datetime
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, path)
-sys.path.insert(0, path + "/sefaria")
-from sefaria.settings import *
-from sefaria.counts import *
+sys.path.insert(0, path + "/mekoros")
+from mekoros.settings import *
+from mekoros.counts import *
 
 connection = pymongo.Connection()
 db = connection[SEFARIA_DB]
@@ -32,13 +32,13 @@ print("Mishnayot remaing: %d" % remaining)
 # mishnayot done since 6/19
 translated = db.history.find({
 	"rev_type": "add text",
-	"version": "Sefaria Community Translation",
+	"version": "Mekoros Community Translation",
 	"ref": {"$regex": "^Mishna"},
 	"date": {"$gt": start}
 	}).count()
 copied = db.history.find({
 	"rev_type": "add text",
-	"version": {"$ne": "Sefaria Community Translation"},
+	"version": {"$ne": "Mekoros Community Translation"},
 	"ref": {"$regex": "^Mishna"},
 	"date": {"$gt": start}
 	}).count()

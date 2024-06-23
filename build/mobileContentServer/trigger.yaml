@@ -19,7 +19,7 @@ steps:
   # trigger build job
   - name: gcr.io/cloud-builders/git
     id: mcs_clone
-    args: [ "clone", "https://github.com/Sefaria/MobileContentServer.git", "--branch", "${_MCS_BRANCH}", "--single-branch"]
+    args: [ "clone", "https://github.com/Mekoros/MobileContentServer.git", "--branch", "${_MCS_BRANCH}", "--single-branch"]
 
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: "bash"

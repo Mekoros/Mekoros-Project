@@ -6,9 +6,9 @@ import unicodecsv
 import django
 from collections import defaultdict
 django.setup()
-from sefaria.model import *
-from sefaria.system.database import db
-from sefaria.system.exceptions import InputError
+from mekoros.model import *
+from mekoros.system.database import db
+from mekoros.system.exceptions import InputError
 
 ids = db.sheets.find().distinct("id")
 

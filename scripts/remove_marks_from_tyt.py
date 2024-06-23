@@ -1,6 +1,6 @@
 import re
-from sefaria.model.text import IndexSet
-from sefaria.helper.text import modify_text_by_function
+from mekoros.model.text import IndexSet
+from mekoros.helper.text import modify_text_by_function
 
 
 def out_brace(raw_string):

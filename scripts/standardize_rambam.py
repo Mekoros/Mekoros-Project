@@ -1,7 +1,7 @@
 # encoding=utf-8
 
-from sefaria.model import *
-from sefaria.system.exceptions import BookNameError
+from mekoros.model import *
+from mekoros.system.exceptions import BookNameError
 
 tractates = library.get_indexes_in_category('Mishnah', full_records=True)
 assert len(tractates) == 63

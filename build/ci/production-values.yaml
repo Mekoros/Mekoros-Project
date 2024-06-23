@@ -12,14 +12,14 @@ backup:
     enabled: true
     prefix: ""
     public: true
-    bucket: sefaria-mongo-backup
-    archiveBucket: sefaria-mongo-archive
+    bucket: mekoros-mongo-backup
+    archiveBucket: mekoros-mongo-archive
     serviceAccount: database-backup-write
   postgres:
     enabled: true
     version: 10.3
     prefix: ""
-    bucket: sefaria-user-backup
+    bucket: mekoros-user-backup
     serviceAccount: database-backup-write
   sitemaps:
     enabled: true
@@ -124,35 +124,35 @@ tasks:
     llm: llm-llm
 ingress:
   hosts:
-    - host: "sefaria.org"
+    - host: "mekoros.com"
       path: /*
       serviceName: nginx
       port: 80
-    - host: "sefaria.org.il"
+    - host: "mekoros.com"
       path: /*
       serviceName: nginx
       port: 80
-    - host: "www.sefaria.org"
+    - host: "www.mekoros.com"
       path: /*
       serviceName: nginx
       port: 80
-    - host: "www.sefaria.org.il"
+    - host: "www.mekoros.com"
       path: /*
       serviceName: nginx
       port: 80
-    - host: "prod.sefaria.org"
+    - host: "prod.mekoros.com"
       path: /*
       serviceName: nginx
       port: 80
-    - host: "prod.sefaria.org.il"
+    - host: "prod.mekoros.com"
       path: /*
       serviceName: nginx
       port: 80
-    - host: "rollout.sefaria.org"
+    - host: "rollout.mekoros.com"
       path: /*
       serviceName: nginx
       port: 80
-    - host: "rollout.sefaria.org.il"
+    - host: "rollout.mekoros.com"
       path: /*
       serviceName: nginx
       port: 80
@@ -230,22 +230,22 @@ localSettings:
   DEBUG: false
   OFFLINE: "False"
   DOMAIN_LANGUAGE: {
-    "https://www.sefaria.org": "english",
-    "https://www.sefaria.org.il": "hebrew",
+    "https://www.mekoros.com": "english",
+    "https://www.mekoros.com": "hebrew",
   }
   MONGO_HOST: "mongo"
   APSCHEDULER_NAME: "apscheduler-{{ .Values.deployEnv }}"
   TURN_SERVER: ''
   USE_CLOUDFLARE: false
-  FRONT_END_URL:  "http://www.sefaria.org"
+  FRONT_END_URL:  "http://www.mekoros.com"
   OFFLINE: false
   DOWN_FOR_MAINTENANCE: false
-  MAINTENANCE_MESSAGE: "Sefaria is down for scheduled maintenance. We expect to be back online within 15 minutes. Thank you for your patience."
+  MAINTENANCE_MESSAGE: "Mekoros is down for scheduled maintenance. We expect to be back online within 15 minutes. Thank you for your patience."
   GLOBAL_WARNING: false
-  GLOBAL_WARNING_MESSAGE: "Sefaria will be in <b>Read-Only</b> mode for scheduled maintenance from 4:45pm-6:45pm Pacific time. Edits will <b>not</b> be saved during that time."
-  SITE_PACKAGE: "sites.sefaria"
-  DEFAULT_FROM_EMAIL: "Sefaria <hello@sefaria.org>"
-  SERVER_EMAIL: "dev@sefaria.org"
+  GLOBAL_WARNING_MESSAGE: "Mekoros will be in <b>Read-Only</b> mode for scheduled maintenance from 4:45pm-6:45pm Pacific time. Edits will <b>not</b> be saved during that time."
+  SITE_PACKAGE: "sites.mekoros"
+  DEFAULT_FROM_EMAIL: "Mekoros <hello@mekoros.com>"
+  SERVER_EMAIL: "dev@mekoros.com"
   MULTISERVER_ENABLED: "True"
   CRM_TYPE: "SALESFORCE"
   FAIL_GRACEFULLY: "True"

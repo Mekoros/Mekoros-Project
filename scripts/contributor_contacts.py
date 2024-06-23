@@ -5,9 +5,9 @@ import sys
 import os
 import pymongo
 
-from sefaria.model import *
-from sefaria.settings import *
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.settings import *
+from mekoros.system.database import db
 
 
 out = ""

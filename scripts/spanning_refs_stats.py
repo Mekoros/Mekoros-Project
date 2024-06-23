@@ -4,8 +4,8 @@ import django
 django.setup()
 
 from collections import defaultdict
-from sefaria.model.link import LinkSet
-from sefaria.model.text import Ref
+from mekoros.model.link import LinkSet
+from mekoros.model.text import Ref
 
 ls = LinkSet({"refs": {"$regex": "-.*:"}})
 

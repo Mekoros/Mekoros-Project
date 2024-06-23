@@ -6,12 +6,12 @@ from pymongo.errors import DuplicateKeyError
 import django
 django.setup()
 
-from sefaria.system.database import db
-from sefaria.model import *
+from mekoros.system.database import db
+from mekoros.model import *
 
 he     = VersionSet({"language": "he"}).word_count()
 trans  = VersionSet({"language": {"$ne": "he"}}).word_count()
-sct    = VersionSet({"versionTitle": "Sefaria Community Translation"}).word_count()
+sct    = VersionSet({"versionTitle": "Mekoros Community Translation"}).word_count()
 
 reference = Lexicon().load({"name": "Jastrow Dictionary"}).word_count() + Lexicon().load({"name": "Klein Dictionary"}).word_count()
 

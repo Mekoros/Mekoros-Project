@@ -9,10 +9,10 @@ from collections import defaultdict
 
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, path)
-sys.path.insert(0, path + "/sefaria")
+sys.path.insert(0, path + "/mekoros")
 
-from sefaria.utils.util import titlecase
-from sefaria.system.database import db
+from mekoros.utils.util import titlecase
+from mekoros.system.database import db
 
 
 def normalize_tags(query={}, test=True):

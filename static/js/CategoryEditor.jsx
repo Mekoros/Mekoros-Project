@@ -1,16 +1,16 @@
 import {CategoryChooser, InterfaceText, ToggleSet} from "./Misc";
-import Sefaria from "./sefaria/sefaria";
-import $ from "./sefaria/sefariaJquery";
+import Mekoros from "./mekoros/mekoros";
+import $ from "./mekoros/mekorosJquery";
 import {AdminEditor} from "./AdminEditor";
 import {requestWithCallBack, AdminToolHeader} from "./Misc";
 import React, {useState, useRef} from "react";
 
 const displayOptionForSources = (child) => {
-    if (Sefaria.interfaceLang === 'english') {
+    if (Mekoros.interfaceLang === 'english') {
         return child?.descriptions?.en ? `${child?.descriptions?.en?.title} - ${child.ref}` : child.ref;
     }
     else {
-        const refInCache = Sefaria.getRefFromCache(child.ref);
+        const refInCache = Mekoros.getRefFromCache(child.ref);
         const displayRef = refInCache ? refInCache.heRef : child.ref;
         return child?.descriptions?.he ? `${child?.descriptions?.he?.title} - ${displayRef}` : displayRef;
     }
@@ -89,7 +89,7 @@ const ReorderEditor = ({close, type="", postURL="", redirect="", origItems = []}
     return <div className="editTextInfo">
             <div className="static">
                 <div className="inner">
-                    {savingStatus ?  <div className="collectionsWidget">{Sefaria._("Saving...")}</div> : null}
+                    {savingStatus ?  <div className="collectionsWidget">{Mekoros._("Saving...")}</div> : null}
                     <div id="newIndex">
                         <AdminToolHeader title={"Reorder Editor"} close={close} validate={() => validate()}/>
                         <Reorder subcategoriesAndBooks={tocItems} updateOrder={update} displayType={type}/>
@@ -110,7 +110,7 @@ const CategoryEditor = ({origData={}, close, origPath=[]}) => {
     const [changed, setChanged] = useState(false);
     const [savingStatus, setSavingStatus] = useState(false);
     const [isPrimary, setIsPrimary] = useState(origData.isPrimary ? 'true' : 'false');
-    const origSubcategoriesAndBooks = useRef((Sefaria.tocItemsByCategories([...origPath, origData.origEn]) || []));
+    const origSubcategoriesAndBooks = useRef((Mekoros.tocItemsByCategories([...origPath, origData.origEn]) || []));
     const [subcategoriesAndBooks, setSubcategoriesAndBooks] = useState([...origSubcategoriesAndBooks.current]);
 
     const handlePrimaryClick = function(type, status) {
@@ -146,7 +146,7 @@ const CategoryEditor = ({origData={}, close, origPath=[]}) => {
         }
 
         if (data.enTitle.length === 0) {
-          alert(Sefaria._("Title must be provided."));
+          alert(Mekoros._("Title must be provided."));
           return false;
         }
         await save();
@@ -167,7 +167,7 @@ const CategoryEditor = ({origData={}, close, origPath=[]}) => {
             "path": fullPath
         };
 
-        if (!Sefaria._siteSettings.TORAH_SPECIFIC) {
+        if (!Mekoros._siteSettings.TORAH_SPECIFIC) {
             postCategoryData["heSharedTitle"] = data.enTitle.slice(0, -1);  // there needs to be a hebrew title for the category's term
         }
 
@@ -200,8 +200,8 @@ const CategoryEditor = ({origData={}, close, origPath=[]}) => {
         requestWithCallBack({url, type: "DELETE", redirect: () => window.location.href = `/texts`});
     }
     const primaryOptions = [
-                          {name: "true",   content: Sefaria._("True"), role: "radio", ariaLabel: Sefaria._("Set Primary Status to True") },
-                          {name: "false", content: Sefaria._("False"), role: "radio", ariaLabel: Sefaria._("Set Primary Status to False") },
+                          {name: "true",   content: Mekoros._("True"), role: "radio", ariaLabel: Mekoros._("Set Primary Status to True") },
+                          {name: "false", content: Mekoros._("False"), role: "radio", ariaLabel: Mekoros._("Set Primary Status to False") },
                         ];
     const items = ["Title", "Hebrew Title", "English Description", "Hebrew Description",
                     "Category Menu", "English Short Description", "Hebrew Short Description"];
@@ -215,7 +215,7 @@ const CategoryEditor = ({origData={}, close, origPath=[]}) => {
                          <div className="section">
                              <br/>
                             <label>
-                            <InterfaceText>{Sefaria._("Primary Status (If true, this category will display its contents on its own category page.)")}</InterfaceText>
+                            <InterfaceText>{Mekoros._("Primary Status (If true, this category will display its contents on its own category page.)")}</InterfaceText>
                             </label>
                             <ToggleSet
                               blueStyle={true}

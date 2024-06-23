@@ -3,14 +3,14 @@ django.setup()
 
 import re
 from tqdm import tqdm
-from sefaria.model import *
-from sefaria.system.exceptions import InputError
+from mekoros.model import *
+from mekoros.system.exceptions import InputError
 from collections import defaultdict
-from sefaria.utils.hebrew import has_hebrew
-from sefaria.model.linker.match_template import MatchTemplate
-from sefaria.model.schema import TitleGroup
-from sefaria.utils.hebrew import encode_hebrew_numeral
-from sefaria.helper.linker_index_converter import DiburHamatchilAdder, LinkerCategoryConverter, LinkerIndexConverter, ReusableTermManager
+from mekoros.utils.hebrew import has_hebrew
+from mekoros.model.linker.match_template import MatchTemplate
+from mekoros.model.schema import TitleGroup
+from mekoros.utils.hebrew import encode_hebrew_numeral
+from mekoros.helper.linker_index_converter import DiburHamatchilAdder, LinkerCategoryConverter, LinkerIndexConverter, ReusableTermManager
 
 
 def get_ref_by_book_oref_and_sections(book_oref, sections, toSections=None):

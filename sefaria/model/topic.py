@@ -3,13 +3,13 @@ from . import abstract as abst
 from .schema import AbstractTitledObject, TitleGroup
 from .text import Ref, IndexSet, AbstractTextRecord
 from .category import Category
-from sefaria.system.exceptions import InputError, DuplicateRecordError
-from sefaria.model.timeperiod import TimePeriod, LifePeriod
-from sefaria.system.validators import validate_url
-from sefaria.model.portal import Portal
-from sefaria.system.database import db
+from mekoros.system.exceptions import InputError, DuplicateRecordError
+from mekoros.model.timeperiod import TimePeriod, LifePeriod
+from mekoros.system.validators import validate_url
+from mekoros.model.portal import Portal
+from mekoros.system.database import db
 import structlog, bleach
-from sefaria.model.place import Place
+from mekoros.model.place import Place
 import regex as re
 from typing import Type
 logger = structlog.get_logger(__name__)
@@ -56,7 +56,7 @@ class Topic(abst.SluggedAbstractMongoRecord, AbstractTitledObject):
                 "image_uri": {
                     "type": "string",
                     "required": True,
-                    "regex": "^https://storage\.googleapis\.com/img\.sefaria\.org/topics/.*?"
+                    "regex": "^https://storage\.googleapis\.com/img\.mekoros\.org/topics/.*?"
                 },
                 "image_caption": {
                     "type": "dict",
@@ -239,7 +239,7 @@ class Topic(abst.SluggedAbstractMongoRecord, AbstractTitledObject):
         return len(search_slug_set.intersection(types)) > 0
 
     def should_display(self) -> bool:
-        return getattr(self, 'shouldDisplay', True) and (getattr(self, 'numSources', 0) > 0 or self.has_description() or getattr(self, "data_source", "") == "sefaria")
+        return getattr(self, 'shouldDisplay', True) and (getattr(self, 'numSources', 0) > 0 or self.has_description() or getattr(self, "data_source", "") == "mekoros")
 
     def has_description(self) -> bool:
         """
@@ -277,7 +277,7 @@ class Topic(abst.SluggedAbstractMongoRecord, AbstractTitledObject):
         :param other: Topic or old slug to migrate from
         :return: None
         """
-        from sefaria.system.database import db
+        from mekoros.system.database import db
         if other is None:
             return
         other_slug = other if isinstance(other, str) else other.slug
@@ -831,7 +831,7 @@ class RefTopicLink(abst.AbstractMongoRecord):
         setattr(self, "class", "refTopic")
         if self.is_sheet:
             self.expandedRefs = [self.ref]
-        else:  # Ref is a regular Sefaria Ref
+        else:  # Ref is a regular Mekoros Ref
             self.ref = Ref(self.ref).normal()
             self.expandedRefs = [r.normal() for r in Ref(self.ref).all_segment_refs()]
 
@@ -889,7 +889,7 @@ class TopicLinkSetHelper(object):
 
     @staticmethod
     def find(query=None, page=0, limit=0, sort=[("_id", 1)], proj=None, record_kwargs=None):
-        from sefaria.system.database import db
+        from mekoros.system.database import db
         record_kwargs = record_kwargs or {}
         raw_records = getattr(db, TopicLinkHelper.collection).find(query, proj).sort(sort).skip(page * limit).limit(limit)
         return [TopicLinkHelper.init_by_class(r, **record_kwargs) for r in raw_records]
@@ -974,7 +974,7 @@ class TopicDataSourceSet(abst.AbstractMongoSet):
 
 
 def process_index_title_change_in_topic_links(indx, **kwargs):
-    from sefaria.system.exceptions import InputError
+    from mekoros.system.exceptions import InputError
 
     print("Cascading Topic Links from {} to {}".format(kwargs['old'], kwargs['new']))
 
@@ -992,7 +992,7 @@ def process_index_title_change_in_topic_links(indx, **kwargs):
             logger.warning("Failed to convert ref data from: {} to {}".format(kwargs['old'], kwargs['new']))
 
 def process_index_delete_in_topic_links(indx, **kwargs):
-    from sefaria.model.text import prepare_index_regex_for_dependency_process
+    from mekoros.model.text import prepare_index_regex_for_dependency_process
     pattern = prepare_index_regex_for_dependency_process(indx)
     RefTopicLinkSet({"ref": {"$regex": pattern}}).delete()
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import django
 django.setup()
-from sefaria.model import *
+from mekoros.model import *
 
 """
 Commandeering this old script to update lengths on various texts

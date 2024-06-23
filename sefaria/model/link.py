@@ -5,9 +5,9 @@ Writes to MongoDB Collection: links
 
 import regex as re
 from bson.objectid import ObjectId
-from sefaria.model.text import AbstractTextRecord, VersionSet
-from sefaria.system.exceptions import DuplicateRecordError, InputError, BookNameError
-from sefaria.system.database import db
+from mekoros.model.text import AbstractTextRecord, VersionSet
+from mekoros.system.exceptions import DuplicateRecordError, InputError, BookNameError
+from mekoros.system.database import db
 from . import abstract as abst
 from . import text
 
@@ -218,9 +218,9 @@ class LinkSet(abst.AbstractMongoSet):
     def __init__(self, query_or_ref={}, page=0, limit=0):
         '''
         LinkSet can be initialized with a query dictionary, as any other MongoSet.
-        It can also be initialized with a :py:class: `sefaria.text.Ref` object,
-        and will use the :py:meth: `sefaria.text.Ref.regex()` method to return the set of Links that refer to that Ref or below.
-        :param query_or_ref: A query dict, or a :py:class: `sefaria.text.Ref` object
+        It can also be initialized with a :py:class: `mekoros.text.Ref` object,
+        and will use the :py:meth: `mekoros.text.Ref.regex()` method to return the set of Links that refer to that Ref or below.
+        :param query_or_ref: A query dict, or a :py:class: `mekoros.text.Ref` object
         '''
         try:
             regex_list = query_or_ref.regex(as_list=True)
@@ -358,7 +358,7 @@ def process_index_title_change_in_links(indx, **kwargs):
 
 
 def process_index_delete_in_links(indx, **kwargs):
-    from sefaria.model.text import prepare_index_regex_for_dependency_process
+    from mekoros.model.text import prepare_index_regex_for_dependency_process
     pattern = prepare_index_regex_for_dependency_process(indx)
     LinkSet({"refs": {"$regex": pattern}}).delete()
 
@@ -390,7 +390,7 @@ def update_link_language_availabiliy(oref, lang=None, available=None):
 
 
 #get_link_counts() and get_book_link_collection() are used in Link Explorer.
-#They have some client formatting code in them; it may make sense to move them up to sefaria.client or sefaria.helper
+#They have some client formatting code in them; it may make sense to move them up to mekoros.client or mekoros.helper
 def get_link_counts(cat1, cat2):
     """
     Returns a list of book to book link counts for books within `cat1` and `cat2`

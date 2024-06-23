@@ -4,13 +4,13 @@ import {
 } from './Misc';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from './sefaria/sefariaJquery';
-import Sefaria from './sefaria/sefaria';
+import $ from './mekoros/mekorosJquery';
+import Mekoros from './mekoros/mekoros';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Component from 'react-class';
 import sanitizeHtml  from 'sanitize-html';
-import { SignUpModalKind } from './sefaria/signupModalContent';
+import { SignUpModalKind } from './mekoros/signupModalContent';
 import { GDocAdvertBox } from './Promotions';
 
 
@@ -40,10 +40,10 @@ class AddToSourceSheetBox extends Component {
     }
   }
   loadSheets() {
-    if (!Sefaria._uid) {
+    if (!Mekoros._uid) {
       this.onSheetsLoad();
     } else {
-      Sefaria.sheets.userSheets(Sefaria._uid, this.onSheetsLoad);
+      Mekoros.sheets.userSheets(Mekoros._uid, this.onSheetsLoad);
     }
   }
   onSheetsLoad() {
@@ -52,10 +52,10 @@ class AddToSourceSheetBox extends Component {
   }
   setDefaultSheet() {
     if (this.state.selectedSheet) { return; }
-    if (!Sefaria._uid) {
+    if (!Mekoros._uid) {
         this.setState({selectedSheet: {title: "Your Sheet"}});
     } else {
-      var sheets = Sefaria.sheets.userSheets(Sefaria._uid);
+      var sheets = Mekoros.sheets.userSheets(Mekoros._uid);
       if (!sheets.length) {
         this.setState({selectedSheet: {title: "Create a New Sheet"}});
       } else {
@@ -65,7 +65,7 @@ class AddToSourceSheetBox extends Component {
   }
 
   toggleSheetList() {
-    if (!Sefaria._uid) {
+    if (!Mekoros._uid) {
       this.props.toggleSignUpModal(SignUpModalKind.AddToSheet);
     } else {
       this.setState({sheetListOpen: !this.state.sheetListOpen});
@@ -75,7 +75,7 @@ class AddToSourceSheetBox extends Component {
     this.setState({selectedSheet: sheet, sheetListOpen: false});
   }
   copyNodeToSourceSheet() {
-    if (!Sefaria._uid) {
+    if (!Mekoros._uid) {
       this.props.toggleSignUpModal(SignUpModalKind.AddToSheet);
     }
     if (!this.state.selectedSheet || !this.state.selectedSheet.id) { return; }
@@ -90,7 +90,7 @@ class AddToSourceSheetBox extends Component {
     }
   }
   addToSourceSheet() {
-    if (!Sefaria._uid) {
+    if (!Mekoros._uid) {
       this.props.toggleSignUpModal(SignUpModalKind.AddToSheet);
     }
     if (!this.state.selectedSheet || !this.state.selectedSheet.id) { return; }
@@ -133,8 +133,8 @@ class AddToSourceSheetBox extends Component {
   checkContentForImages(refs) {
     // validate texts corresponding to refs have no images before posting them to sheet
     for (let i = 0; i < refs.length; i++) {
-      let ref = Sefaria.getRefFromCache(refs[i]);
-      if (ref && (Sefaria.isFullSegmentImage(ref.he) || Sefaria.isFullSegmentImage(ref.text))) {
+      let ref = Mekoros.getRefFromCache(refs[i]);
+      if (ref && (Mekoros.isFullSegmentImage(ref.he) || Mekoros.isFullSegmentImage(ref.text))) {
         alert("We do not currently support adding images to source sheets.");
         return false;
       }
@@ -151,30 +151,30 @@ class AddToSourceSheetBox extends Component {
     };
     let postJSON = JSON.stringify(sheet);
     $.post("/api/sheets/", {"json": postJSON}, function(data) {
-      Sefaria.sheets.updateUserSheets(data, Sefaria._uid, false);
+      Mekoros.sheets.updateUserSheets(data, Mekoros._uid, false);
       this.selectSheet(data);
     }.bind(this));
   }
   confirmAdd() {
     if (this.props.srefs) {
-      Sefaria.track.event("Tools", "Add to Source Sheet Save", this.props.srefs.join("/"));
+      Mekoros.track.event("Tools", "Add to Source Sheet Save", this.props.srefs.join("/"));
     } else {
-      Sefaria.track.event("Tools", "Add to Source Sheet Save", "Outside Source");
+      Mekoros.track.event("Tools", "Add to Source Sheet Save", "Outside Source");
     }
-    Sefaria.sheets.updateUserSheets(this.state.selectedSheet, Sefaria._uid, true);
+    Mekoros.sheets.updateUserSheets(this.state.selectedSheet, Mekoros._uid, true);
     this.setState({showConfirm: true});
     const channel = new BroadcastChannel('refresh-editor');
     channel.postMessage("refresh");
   }
   makeTitleRef(){
     const refTitles = (this.props.srefs.length > 0 && (!this.props.srefs[0].startsWith("Sheet"))) ? {
-      "en" : Sefaria.joinRefList(this.props.srefs, "en"),
-      "he" : Sefaria.joinRefList(this.props.srefs, "he"),
+      "en" : Mekoros.joinRefList(this.props.srefs, "en"),
+      "he" : Mekoros.joinRefList(this.props.srefs, "he"),
     } : null;
     if(this.props.nodeRef){ //this whole if clause is ust to make sure that when a sheet is in the main panel, a human readable citation regarding the sheet is shown in the sheet box.
       const sheetID = parseInt(this.props.nodeRef.split(".")[0]);
       const nodeID = this.props.nodeRef.split(".")[1];
-      const sheet = Sefaria.sheets.loadSheetByID(sheetID);
+      const sheet = Mekoros.sheets.loadSheetByID(sheetID);
       const sheetTitle = sanitizeHtml(sheet.title, {
         allowedTags: [],
         disallowedTagsMode: 'discard',
@@ -201,13 +201,13 @@ class AddToSourceSheetBox extends Component {
               </div>);
     }
     const titleRef = this.makeTitleRef();
-    const sheets     = Sefaria._uid ? Sefaria.sheets.userSheets(Sefaria._uid) : null;
-    let sheetsList = Sefaria._uid && sheets ? sheets.map((sheet) => {
+    const sheets     = Mekoros._uid ? Mekoros.sheets.userSheets(Mekoros._uid) : null;
+    let sheetsList = Mekoros._uid && sheets ? sheets.map((sheet) => {
       let classes     = classNames({dropdownOption: 1, noselect: 1, selected: this.state.selectedSheet && this.state.selectedSheet.id == sheet.id});
-      let title = sheet.title ? sheet.title.stripHtml() : Sefaria._("Untitled Source Sheet");
+      let title = sheet.title ? sheet.title.stripHtml() : Mekoros._("Untitled Source Sheet");
       let selectSheet = this.selectSheet.bind(this, sheet);
       return (<div className={classes} onClick={selectSheet} key={sheet.id}>{title}</div>);
-    }) : (Sefaria._uid ? <LoadingMessage /> : null);
+    }) : (Mekoros._uid ? <LoadingMessage /> : null);
 
     // Uses
     return (
@@ -226,14 +226,14 @@ class AddToSourceSheetBox extends Component {
         </div>
         <div className="dropdown">
           <div className={`dropdownMain noselect ${this.state.sheetListOpen ? "open" : ""}`} onClick={this.toggleSheetList}>
-            {this.state.sheetsLoaded ? (this.state.selectedSheet.title === null ? Sefaria._("Untitled Source Sheet") : this.state.selectedSheet.title.stripHtml()) : <LoadingMessage messsage="Loading your sheets..." heMessage="טוען את דפי המקורות שלך"/>}          </div>
+            {this.state.sheetsLoaded ? (this.state.selectedSheet.title === null ? Mekoros._("Untitled Source Sheet") : this.state.selectedSheet.title.stripHtml()) : <LoadingMessage messsage="Loading your sheets..." heMessage="טוען את דפי המקורות שלך"/>}          </div>
           {this.state.sheetListOpen ?
           <div className="dropdownListBox noselect">
             <div className="dropdownList noselect">
               {sheetsList}
             </div>
             <div className="newSheet noselect">
-              <input className="newSheetInput noselect" placeholder={Sefaria._("Name New Sheet")}/>
+              <input className="newSheetInput noselect" placeholder={Mekoros._("Name New Sheet")}/>
               <div className="button small noselect" onClick={this.createSheet} >
                 <span className="int-en">Create</span>
                 <span className="int-he">יצירה</span>
@@ -264,14 +264,14 @@ class ConfirmAddToSheet extends Component {
     let sref = null;
     let srefTitles = {};
     if(!this.props.nodeRef){
-      sref = `/${Sefaria.normRefList(this.props.srefs)}`;
+      sref = `/${Mekoros.normRefList(this.props.srefs)}`;
       srefTitles = {
-        "en": Sefaria.joinRefList(this.props.srefs, "en"),
-        "he": Sefaria.joinRefList(this.props.srefs, "he"),
+        "en": Mekoros.joinRefList(this.props.srefs, "en"),
+        "he": Mekoros.joinRefList(this.props.srefs, "he"),
       };
     }else{
       sref = `/sheets/${this.props.nodeRef}`;
-      let sheetTitle = sanitizeHtml(Sefaria.sheets.loadSheetByID(this.props.nodeRef.split(".")[0]).title, {
+      let sheetTitle = sanitizeHtml(Mekoros.sheets.loadSheetByID(this.props.nodeRef.split(".")[0]).title, {
         allowedTags: [],
         disallowedTagsMode: 'discard',
       });
@@ -310,17 +310,17 @@ class AddToSourceSheetWindow extends Component {
     }
   }
   render () {
-    var nextParam = "?next=" + encodeURIComponent(Sefaria.util.currentPath());
+    var nextParam = "?next=" + encodeURIComponent(Mekoros.util.currentPath());
 
     return (<div className="addToSourceSheetModal">
       <div className="sourceSheetBoxTitle">
         <img src="/static/icons/circled-x.svg" className="closeButton" aria-hidden="true" alt="Close" onClick={this.close}/>
-        {Sefaria._uid ? null : <span>
+        {Mekoros._uid ? null : <span>
             In order to add this source to a sheet, please <a href={"/login" + nextParam}>log in.</a>
         </span>}
         <div className="clearFix"></div>
       </div>
-      {Sefaria._uid ?
+      {Mekoros._uid ?
         <AddToSourceSheetBox
           srefs = {this.props.srefs}
           en = {this.props.en}
@@ -342,4 +342,4 @@ export {
   AddToSourceSheetBox,
   AddToSourceSheetWindow,
 };
-Sefaria.AddToSourceSheetWindow = AddToSourceSheetWindow;
+Mekoros.AddToSourceSheetWindow = AddToSourceSheetWindow;

@@ -11,9 +11,9 @@ import os
 
 p = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, p)
-sys.path.insert(0, p + "/sefaria")
+sys.path.insert(0, p + "/mekoros")
 
-from sefaria.texts import *
+from mekoros.texts import *
 
 
 old = "Hanetziv on Genesis"

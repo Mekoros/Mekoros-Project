@@ -4,7 +4,7 @@
 """
 import json
 import pprint
-from sefaria.model import *
+from mekoros.model import *
 #TODO: before running again, make sure this works
 base_titles = library.get_indexes_in_category("Tanakh")
 

@@ -1,10 +1,10 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
-import $ from './sefaria/sefariaJquery';
+import $ from './mekoros/mekorosJquery';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DjangoCSRF from './lib/django-csrf';
-const SefariaReact = require('./ReaderApp');
+const MekorosReact = require('./ReaderApp');
 import * as Sentry from "@sentry/react";
 
 
@@ -36,8 +36,8 @@ $(function() {
   }
   if (DJANGO_VARS.inReaderApp) {
     // Rendering a full ReaderApp experience
-    Sefaria.unpackDataFromProps(DJANGO_VARS.props);
-    component = React.createElement(SefariaReact.ReaderApp, DJANGO_VARS.props);
+    Mekoros.unpackDataFromProps(DJANGO_VARS.props);
+    component = React.createElement(MekorosReact.ReaderApp, DJANGO_VARS.props);
 
     renderFunc(component, container);
 
@@ -49,18 +49,18 @@ $(function() {
     };
 
     let mergedStaticProps = { ...DJANGO_VARS.props, ...staticProps };
-    Sefaria.unpackDataFromProps(mergedStaticProps);
-    component = React.createElement(SefariaReact.ReaderApp, mergedStaticProps);
+    Mekoros.unpackDataFromProps(mergedStaticProps);
+    component = React.createElement(MekorosReact.ReaderApp, mergedStaticProps);
     renderFunc(component, container);
     if (footerContainer){
-      renderFunc(React.createElement(SefariaReact.Footer), footerContainer);
+      renderFunc(React.createElement(MekorosReact.Footer), footerContainer);
     }
   }
 
   if (DJANGO_VARS.containerId && DJANGO_VARS.reactComponentName) {
     // Render a specifc component to a container
     container = document.getElementById(DJANGO_VARS.containerId);
-    component = React.createElement(SefariaReact[DJANGO_VARS.reactComponentName], DJANGO_VARS.props);
+    component = React.createElement(MekorosReact[DJANGO_VARS.reactComponentName], DJANGO_VARS.props);
     renderFunc(component, container);
   }
 

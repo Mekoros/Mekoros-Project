@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}{% trans "Donate to Mekoros" %}{% endblock %}
+
+{% block description %}{% trans "Support Mekoros by making a tax-deductible donation online or by check or wire transfer." %}{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+
+{% block js %}
+<script>
+    {% autoescape off %}
+    DJANGO_VARS.containerId = 'DonateInner';
+    DJANGO_VARS.reactComponentName = 'DonatePage';
+    {% endautoescape %}
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="DonateOuter" class="staticPageFrame">
+  <div id="DonateInner" class="staticPageInner">
+    <h1 id="appLoading">Loading...</h1>
+  </div>
+</div>
+{% endblock %}
+
+

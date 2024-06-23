@@ -4,12 +4,12 @@ import re
 import structlog
 logger = structlog.get_logger(__name__)
 
-from sefaria.model import *
-from sefaria.datatype.jagged_array import JaggedTextArray
-from sefaria.system.exceptions import InputError, NoVersionFoundError
-from sefaria.model.user_profile import user_link, public_user_data
-from sefaria.sheets import get_sheets_for_ref
-from sefaria.utils.hebrew import hebrew_term
+from mekoros.model import *
+from mekoros.datatype.jagged_array import JaggedTextArray
+from mekoros.system.exceptions import InputError, NoVersionFoundError
+from mekoros.model.user_profile import user_link, public_user_data
+from mekoros.sheets import get_sheets_for_ref
+from mekoros.utils.hebrew import hebrew_term
 
 
 def format_link_object_for_client(link, with_text, ref, pos=None):

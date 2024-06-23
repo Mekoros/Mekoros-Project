@@ -24,7 +24,7 @@ from diff_match_patch import diff_match_patch
 dmp = diff_match_patch()
 
 from . import abstract as abst
-from sefaria.system.database import db
+from mekoros.system.database import db
 
 
 def log_text(user, action, oref, lang, vtitle, old_text, new_text, **kwargs):
@@ -168,7 +168,7 @@ def process_index_title_change_in_history(indx, **kwargs):
     """
     Update all history entries which reference 'old' to 'new'.
     """
-    from sefaria.model.text import prepare_index_regex_for_dependency_process
+    from mekoros.model.text import prepare_index_regex_for_dependency_process
     queries = prepare_index_regex_for_dependency_process(indx, as_list=True)
     queries = [query.replace(re.escape(indx.title), re.escape(kwargs["old"])) for query in queries]
     title_pattern = r'(^{}$)'.format(re.escape(kwargs["old"]))

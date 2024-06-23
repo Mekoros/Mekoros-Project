@@ -6,8 +6,8 @@ django.setup()
 
 import csv
 import re
-from sefaria.model import *
-from sefaria.model.schema import AddressTalmud
+from mekoros.model import *
+from mekoros.model.schema import AddressTalmud
 
 
 # The goal of this script is to identify broken links in the connections between

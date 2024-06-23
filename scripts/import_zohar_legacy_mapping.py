@@ -1,9 +1,9 @@
 import django
 import re
 django.setup()
-from sefaria.model import *
+from mekoros.model import *
 import json
-from sefaria.helper.legacy_ref import LegacyRefParsingData
+from mekoros.helper.legacy_ref import LegacyRefParsingData
 
 
 def get_raw_mapping():

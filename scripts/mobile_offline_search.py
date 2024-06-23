@@ -3,12 +3,12 @@
 import django
 django.setup()
 
-from sefaria.model import library
-from sefaria.model import Ref
+from mekoros.model import library
+from mekoros.model import Ref
 
-from sefaria.model.text import TextChunk
-from sefaria.search import TextIndexer
-from sefaria.system.exceptions import InputError
+from mekoros.model.text import TextChunk
+from mekoros.search import TextIndexer
+from mekoros.system.exceptions import InputError
 from pprint import pprint
 import json
 from collections import defaultdict

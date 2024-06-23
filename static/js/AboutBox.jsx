@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Sefaria from './sefaria/sefaria';
+import Mekoros from './mekoros/mekoros';
 import VersionBlock, {VersionsBlocksList} from './VersionBlock/VersionBlock';
 import Component             from 'react-class';
 import {InterfaceText} from "./Misc";
@@ -14,48 +14,48 @@ class AboutBox extends Component {
     this._includeOtherVersionsLangs = ["he"];
     this.state = {
       versionLangMap: null,
-      currentVersionsByActualLangs: Sefaria.transformVersionObjectsToByActualLanguageKeys(this.props.currObjectVersions),
-      details: Sefaria.getIndexDetailsFromCache(props.title),
+      currentVersionsByActualLangs: Mekoros.transformVersionObjectsToByActualLanguageKeys(this.props.currObjectVersions),
+      details: Mekoros.getIndexDetailsFromCache(props.title),
     }
   }
   setTextMetaData() {
     if (this.props.title == "Sheet") {
-      const sheetID = (Sefaria.sheets.extractIdFromSheetRef(this.props.srefs));
-      if (!Sefaria.sheets.loadSheetByID(sheetID)) {
-          Sefaria.sheets.loadSheetByID(sheetID, function (data) {
+      const sheetID = (Mekoros.sheets.extractIdFromSheetRef(this.props.srefs));
+      if (!Mekoros.sheets.loadSheetByID(sheetID)) {
+          Mekoros.sheets.loadSheetByID(sheetID, function (data) {
               this.setState({ details: data });
           }.bind(this));
       }
       else {
           this.setState({
-            details: Sefaria.sheets.loadSheetByID(sheetID),
+            details: Mekoros.sheets.loadSheetByID(sheetID),
           });
       }
     }else {
-      Sefaria.getIndexDetails(this.props.title).then(data => {
+      Mekoros.getIndexDetails(this.props.title).then(data => {
         this.setState({details: data});
       });
     }
   }
   componentDidMount() {
       this.setTextMetaData();
-      Sefaria.getSourceVersions(this.props.sectionRef).then(this.onVersionsLoad);
+      Mekoros.getSourceVersions(this.props.sectionRef).then(this.onVersionsLoad);
   }
   componentDidUpdate(prevProps, prevState) {
       if (prevProps.title !== this.props.title ||
           prevProps.masterPanelLanguage !== this.props.masterPanelLanguage ||
-          !Sefaria.util.object_equals(prevProps.currObjectVersions, this.props.currObjectVersions)
+          !Mekoros.util.object_equals(prevProps.currObjectVersions, this.props.currObjectVersions)
       ) {
           this.setState({details: null});
           this.setTextMetaData();
-          Sefaria.getSourceVersions(this.props.sectionRef).then(this.onVersionsLoad);
+          Mekoros.getSourceVersions(this.props.sectionRef).then(this.onVersionsLoad);
       }
   }
   onVersionsLoad(versions) {
     //rearrange the current selected versions to be mapped by their real language,
     // then sort the current version to the top of its language list
     let versionsByLang = versions;
-    let currentVersionsByActualLangs = Sefaria.transformVersionObjectsToByActualLanguageKeys(this.props.currObjectVersions);
+    let currentVersionsByActualLangs = Mekoros.transformVersionObjectsToByActualLanguageKeys(this.props.currObjectVersions);
     for(let [lang,ver] of Object.entries(currentVersionsByActualLangs)){
       if (this._includeOtherVersionsLangs.includes(lang)){ //remove current version if its "he"
         versionsByLang[lang] = versionsByLang[lang].filter((v) => v.versionTitle != ver.versionTitle);
@@ -65,7 +65,7 @@ class AboutBox extends Component {
   }
   openVersionInSidebar(versionTitle, versionLanguage) {
     this.props.setConnectionsMode("Translation Open", {previousMode: "About"});
-    this.props.setFilter(Sefaria.getTranslateVersionsKey(versionTitle, versionLanguage));
+    this.props.setFilter(Mekoros.getTranslateVersionsKey(versionTitle, versionLanguage));
   }
   isSheet(){
     return this.props.srefs[0].startsWith("Sheet");
@@ -95,7 +95,7 @@ class AboutBox extends Component {
       return <section className="aboutBox">{detailSection}</section>;
     }
 
-    const category = Sefaria.index(this.state?.details?.title)?.primary_category;
+    const category = Mekoros.index(this.state?.details?.title)?.primary_category;
     const isDictionary = d?.lexiconName;
     const sourceVersion = this.state.currentVersionsByActualLangs?.he;
     const translationVersions = Object.entries(this.state.currentVersionsByActualLangs).filter(([lang, version]) => lang != "he").map(([lang, version])=> version);
@@ -134,7 +134,7 @@ class AboutBox extends Component {
         dateTextEn = d.pubDateString.en;
         dateTextHe = d.pubDateString.he;
       }
-      const bookPageUrl = "/" + Sefaria.normRef(d.title);  //comment for the sake of commit
+      const bookPageUrl = "/" + Mekoros.normRef(d.title);  //comment for the sake of commit
       detailSection = (
         <div className="detailsSection sans-serif">
           <h2 className="aboutHeader">
@@ -144,7 +144,7 @@ class AboutBox extends Component {
             <ContentText text={{en: d.title, he:d.heTitle}}/>
           </a>
           <span className="tocCategory">
-              <ContentText text={{en:category, he:Sefaria.hebrewTerm(category)}}/>
+              <ContentText text={{en:category, he:Mekoros.hebrewTerm(category)}}/>
           </span>
           { authorsElems?.en?.length ?
             <div className="aboutAuthor">

@@ -160,7 +160,7 @@ var exploreConfig = config({
     mode: 'development',  // can be overriden via cli
     externals: {
         d3: 'd3',
-        sefaria: 'Sefaria',
+        mekoros: 'Mekoros',
     },
     output: {
         path: path.resolve(buildDir + 'explore'),
@@ -169,16 +169,16 @@ var exploreConfig = config({
 });
 
 
-var sefariajsConfig = config({
+var mekorosjsConfig = config({
     context: path.resolve('./static/js'),
-    entry: './sefaria/sefaria',
+    entry: './mekoros/mekoros',
     mode: 'development',  // can be overriden via cli
     output: {
-        path: path.resolve(buildDir + 'sefaria'),
-        filename: 'sefaria.js'
+        path: path.resolve(buildDir + 'mekoros'),
+        filename: 'mekoros.js'
     },
     plugins: [
-        new BundleTracker({filename: './node/webpack-stats.sefaria.json'}),
+        new BundleTracker({filename: './node/webpack-stats.mekoros.json'}),
     ]
 });
 
@@ -202,7 +202,7 @@ var timelineConfig = config({
     mode: 'development',  // can be overriden via cli
     externals: {
         d3: 'd3',
-        sefaria: 'Sefaria',
+        mekoros: 'Mekoros',
     },
     output: {
         path: path.resolve(buildDir + 'timeline'),
@@ -216,7 +216,7 @@ var categorizeSheetsConfig = config({
     mode: 'development', // can be overriden via cli
     externals: {
         d3: 'd3',
-        sefaria: 'Sefaria',
+        mekoros: 'Mekoros',
     },
     output: {
         path: path.resolve(buildDir + 'categorize_sheets'),
@@ -238,4 +238,4 @@ var linkerV3Config = config({
     ]
 })
 
-module.exports = [clientConfig, serverConfig, diffConfig, exploreConfig, sefariajsConfig, jsonEditorConfig, timelineConfig, categorizeSheetsConfig, linkerV3Config];
+module.exports = [clientConfig, serverConfig, diffConfig, exploreConfig, mekorosjsConfig, jsonEditorConfig, timelineConfig, categorizeSheetsConfig, linkerV3Config];

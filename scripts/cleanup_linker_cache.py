@@ -3,8 +3,8 @@ import argparse
 django.setup()
 from pymongo import DeleteOne
 from datetime import timedelta, datetime
-from sefaria.model import *
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.system.database import db
 
 
 def get_webpages_since_last_updated(days_since_last_updated: int) -> WebPageSet:

@@ -1,5 +1,5 @@
 """
-lock.py - Edit Locks for Sefaria texts.
+lock.py - Edit Locks for Mekoros texts.
 
 Writes to MongoDB Collection: locks
 

@@ -3,12 +3,12 @@ import re
 import unicodedata
 from pymongo import InsertOne
 from tqdm import tqdm
-from sefaria.model.text import library, Index, IndexSet, Ref, VersionSet
-from sefaria.model.schema import Term, NonUniqueTerm, TitleGroup
-from sefaria.system.exceptions import InputError
-from sefaria.model.version_state import StateNode
-from sefaria.system.database import db
-from sefaria.utils.hebrew import strip_cantillation, has_hebrew
+from mekoros.model.text import library, Index, IndexSet, Ref, VersionSet
+from mekoros.model.schema import Term, NonUniqueTerm, TitleGroup
+from mekoros.system.exceptions import InputError
+from mekoros.model.version_state import StateNode
+from mekoros.system.database import db
+from mekoros.utils.hebrew import strip_cantillation, has_hebrew
 
 """
 Utility classes for converting Indexes so they are discoverable by Linker.v3

@@ -1,4 +1,4 @@
-from sefaria.utils.util import find_all_html_elements_indices, truncate_string
+from mekoros.utils.util import find_all_html_elements_indices, truncate_string
 
 class TestFindAllHtmlElementsIndices:
 
@@ -18,7 +18,7 @@ class TestFindAllHtmlElementsIndices:
         assert find_all_html_elements_indices(input_string) == expected_output
 
     def test_multiple_html_elements(self):
-        input_string = '<a href="sefaria data-ref="sefaria">This is a <b>test</b> string with <i>HTML</i> elements.</a>'
+        input_string = '<a href="mekoros data-ref="mekoros">This is a <b>test</b> string with <i>HTML</i> elements.</a>'
         expected_output = {35: 0, 48: 46, 56: 53, 72: 70, 80: 77, 94: 91}
         assert find_all_html_elements_indices(input_string) == expected_output
 

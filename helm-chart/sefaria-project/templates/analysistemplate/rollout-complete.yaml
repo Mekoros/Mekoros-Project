@@ -45,11 +45,11 @@ spec:
                       - name: SLACK_URL
                         valueFrom:
                           secretKeyRef:
-                            name: {{ template "sefaria.secrets.slackWebhook" . }}
+                            name: {{ template "mekoros.secrets.slackWebhook" . }}
                             key: slack-webhook
                       - name: CHANNEL
                         valueFrom:
                           secretKeyRef:
-                            name: {{ template "sefaria.secrets.slackWebhook" . }}
+                            name: {{ template "mekoros.secrets.slackWebhook" . }}
                             key: channel
                 restartPolicy: Never

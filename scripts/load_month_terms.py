@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from sefaria import model
+from mekoros import model
 
 
 months = ['Tishrei', 'Cheshvan', 'Kislev', 'Tevet', 'Shevat', 'Adar', 'Nisan', 'Iyar',

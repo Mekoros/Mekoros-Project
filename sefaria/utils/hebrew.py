@@ -13,7 +13,7 @@ import regex
 import math
 from typing import List
 import itertools
-from sefaria.system.decorators import memoized
+from mekoros.system.decorators import memoized
 import structlog
 logger = structlog.get_logger(__name__)
 
@@ -502,8 +502,8 @@ def hebrew_plural(s):
 
 
 def hebrew_term(s):
-	from sefaria.model import library
-	from sefaria.system.exceptions import BookNameError
+	from mekoros.model import library
+	from mekoros.system.exceptions import BookNameError
 
 	if has_hebrew(s):
 		return s
@@ -524,7 +524,7 @@ def hebrew_parasha_name(value):
 	"""
 	Returns a Hebrew ref for the english ref passed in.
 	"""
-	from sefaria.model import Term, library
+	from mekoros.model import Term, library
 	if not value:
 		return ""
 	if "-" in value:

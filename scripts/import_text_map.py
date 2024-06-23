@@ -4,16 +4,16 @@ import sys
 import os
 import csv
 
-from sefaria import texts, summaries
-from sefaria.system.database import db
-import sefaria.tracker as tracker
-from sefaria.model import library
+from mekoros import texts, summaries
+from mekoros.system.database import db
+import mekoros.tracker as tracker
+from mekoros.model import library
 
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, path)
-sys.path.insert(0, path + "/sefaria")
+sys.path.insert(0, path + "/mekoros")
 
-filename = '../tmp/Sefaria Text Map - Talmud.csv'
+filename = '../tmp/Mekoros Text Map - Talmud.csv'
 action   = sys.argv[1] if len(sys.argv) > 1 else None
 category = sys.argv[2] if len(sys.argv) > 2 else None
 
@@ -72,7 +72,7 @@ def import_from_csv(filename, action="status", category="all"):
 						# before updating - don't overwrite with nothing
 						new_index.update(existing)
 
-					tracker.add(1, sefaria.model.index.Index, new_index)
+					tracker.add(1, mekoros.model.index.Index, new_index)
 			
 
 			if action == "hebrew" and existing:

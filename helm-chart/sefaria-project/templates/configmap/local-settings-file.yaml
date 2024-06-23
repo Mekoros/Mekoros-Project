@@ -4,7 +4,7 @@ metadata:
   name: local-settings-file-{{ .Values.deployEnv }}
   labels:
     deployEnv: {{ .Values.deployEnv | quote }}
-    {{- include "sefaria.labels" . | nindent 4 }}
+    {{- include "mekoros.labels" . | nindent 4 }}
 data:
   local_settings.py: |-
     from socket import gethostname, gethostbyname
@@ -13,7 +13,7 @@ data:
         import structlog
     except ImportError:
         structlog = None
-    import sefaria.system.logging as sefaria_logging
+    import mekoros.system.logging as mekoros_logging
     import os
     import sys
     import re
@@ -45,7 +45,7 @@ data:
 
     DOMAIN_LANGUAGES = json.loads(os.getenv("DOMAIN_LANGUAGE"))
     ADMINS = (
-        ('Sefaria Developers', 'dev@sefaria.org'),
+        ('Mekoros Developers', 'dev@mekoros.com'),
     )
 
     MANAGERS = ADMINS
@@ -65,7 +65,7 @@ data:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'sefaria_auth',
+            'NAME': 'mekoros_auth',
             'USER': os.getenv("DATABASES_USER"),
             'PASSWORD': os.getenv("DATABASES_PASSWORD"),
             'HOST': os.getenv("DATABASES_HOST"),
@@ -79,7 +79,7 @@ data:
             "LOCATION": "redis://{}:6379/1".format(redisHost),
             "OPTIONS": {
                 "CLIENT_CLASS": "django_redis.client.DefaultClient",
-                "SERIALIZER": "sefaria.system.serializers.JSONSerializer",
+                "SERIALIZER": "mekoros.system.serializers.JSONSerializer",
             },
             "TIMEOUT": None,
         },
@@ -92,7 +92,7 @@ data:
             "TIMEOUT": 60 * 60 * 24 * 30,
         },
         "persistent": {
-            'BACKEND': 'sefaria.system.caches.SimpleMongoDBCache',
+            'BACKEND': 'mekoros.system.caches.SimpleMongoDBCache',
             "OPTIONS": {
                 "DATABASE": SEFARIA_DB,
                 "COLLECTION": "django_cache", # default: django_cache
@@ -143,7 +143,7 @@ data:
     SEARCH_INDEX_NAME_TEXT = 'text'  # name of the ElasticSearch index to use
     SEARCH_INDEX_NAME_SHEET = 'sheet'
 
-    TURN_SERVER = os.getenv("TURN_SERVER") #coturn.cauldron.sefaria.org
+    TURN_SERVER = os.getenv("TURN_SERVER") #coturn.cauldron.mekoros.com
     TURN_SECRET= os.getenv("TURN_SECRET")
     TURN_USER = os.getenv("TURN_USER")
 
@@ -171,7 +171,7 @@ data:
     CRM_TYPE =  os.getenv("CRM_TYPE")
 
     NATIONBUILDER = True
-    NATIONBUILDER_SLUG = "sefaria"
+    NATIONBUILDER_SLUG = "mekoros"
     NATIONBUILDER_TOKEN = os.getenv("NATIONBUILDER_TOKEN")
     NATIONBUILDER_CLIENT_ID = os.getenv("NATIONBUILDER_CLIENT_ID")
     NATIONBUILDER_CLIENT_SECRET = os.getenv("NATIONBUILDER_CLIENT_SECRET")
@@ -271,7 +271,7 @@ data:
     SENTRY_ENVIRONMENT = os.getenv("SENTRY_ENVIRONMENT", "unknown")
 
     if SENTRY_DSN:
-        from sefaria.settings_utils import init_sentry
+        from mekoros.settings_utils import init_sentry
         
         init_sentry(SENTRY_DSN, SENTRY_CODE_VERSION, SENTRY_ENVIRONMENT)
 
@@ -328,12 +328,12 @@ data:
             structlog.stdlib.filter_by_level,
             structlog.processors.TimeStamper(fmt="iso"),
             structlog.stdlib.add_logger_name,
-            sefaria_logging.add_severity,
+            mekoros_logging.add_severity,
             structlog.stdlib.PositionalArgumentsFormatter(),
             structlog.processors.StackInfoRenderer(),
-            sefaria_logging.log_exception_info,
+            mekoros_logging.log_exception_info,
             structlog.processors.UnicodeDecoder(),
-            sefaria_logging.decompose_request_info,
+            mekoros_logging.decompose_request_info,
             structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
         ],
         context_class=structlog.threadlocal.wrap_dict(dict),

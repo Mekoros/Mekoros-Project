@@ -1,18 +1,18 @@
 import React, {useState, useContext, useEffect, useRef} from "react";
 import { AdContext, StrapiDataProvider, StrapiDataContext } from "./context";
 import classNames from "classnames";
-import Sefaria from "./sefaria/sefaria";
+import Mekoros from "./mekoros/mekoros";
 import {EnglishText, HebrewText, InterfaceText, OnInView} from "./Misc";
-import $ from "./sefaria/sefariaJquery";
+import $ from "./mekoros/mekorosJquery";
 
 const Promotions = () => {
-  const [inAppAds, setInAppAds] = useState(Sefaria._inAppAds); // local cache
+  const [inAppAds, setInAppAds] = useState(Mekoros._inAppAds); // local cache
   const [matchingAds, setMatchingAds] = useState(null); // match the ads to what comes from Strapi
   const context = useContext(AdContext);
   const strapi = useContext(StrapiDataContext);
   useEffect(() => {
     if (strapi.dataFromStrapiHasBeenReceived) {
-      Sefaria._inAppAds = [];
+      Mekoros._inAppAds = [];
 
       const sidebarAds = strapi.strapiData?.sidebarAds?.data;
 
@@ -27,7 +27,7 @@ const Promotions = () => {
             .filter((x) => x[0] === "!")
             .map((x) => x.slice(1));
           keywordTargetsArray = keywordTargetsArray.filter((x) => x[0] !== "!");
-          Sefaria._inAppAds.push({
+          Mekoros._inAppAds.push({
             campaignId: sidebarAd.internalCampaignId,
             title: sidebarAd.title,
             bodyText: sidebarAd.bodyText,
@@ -55,7 +55,7 @@ const Promotions = () => {
               hebrewAttributes.buttonURL,
               hebrewAttributes.title,
             ];
-            Sefaria._inAppAds.push({
+            Mekoros._inAppAds.push({
               campaignId: sidebarAd.internalCampaignId,
               title: title,
               bodyText: bodyText,
@@ -76,7 +76,7 @@ const Promotions = () => {
             });
           }
         });
-        setInAppAds(Sefaria._inAppAds);
+        setInAppAds(Mekoros._inAppAds);
       }
     }
   }, [strapi.dataFromStrapiHasBeenReceived]);
@@ -152,9 +152,9 @@ function trackSidebarAdClick(ad) {
     adType: "sidebar",
   });
 }
-const cookie = Sefaria._inBrowser ? $.cookie : Sefaria.util.cookie;
+const cookie = Mekoros._inBrowser ? $.cookie : Mekoros.util.cookie;
 const GDocAdvertText = () => {
-    const learnMoreLink = "https://sefaria.org/sheets/529099?origin=AddToSheetsPromo"
+    const learnMoreLink = "https://mekoros.com/sheets/529099?origin=AddToSheetsPromo"
     return    <InterfaceText>
                 <EnglishText> Add texts directly to your Google Docs with our <span id="newExtension">new extension</span>! <a href={learnMoreLink}>Learn more</a></EnglishText>
                 <HebrewText> הוסיפו טקסטים מספריא ישירות לקובץ גוגל עם <span id="newExtension">התוסף החדש</span> שלנו! <a href={learnMoreLink}>למדו עוד</a></HebrewText>
@@ -162,7 +162,7 @@ const GDocAdvertText = () => {
 }
 const GDocAdvertBox = React.memo(() => {
     const gdocsCampaignId = "GDocs_Promo_AddToSheet";
-    const installNowLink = 'https://workspace.google.com/marketplace/app/sefaria/849562338091?utm_source=SefariaOrg&utm_medium=SidebarAdButton&utm_campaign=AddToSheetPromotion&utm_content=InstallFromAddToSheet';
+    const installNowLink = 'https://workspace.google.com/marketplace/app/mekoros/849562338091?utm_source=MekorosOrg&utm_medium=SidebarAdButton&utm_campaign=AddToSheetPromotion&utm_content=InstallFromAddToSheet';
     const gdocsCampaignAd = {campaignId: gdocsCampaignId};
     const gdocInstalled = 'gdoc_installed';
     const handleInstall = () => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes  from 'prop-types';
 import classNames  from 'classnames';
 import Component from 'react-class';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 import { useScrollToLoad } from "./Hooks";
 import { NavSidebar } from './NavSidebar';
 import Footer  from './Footer';
@@ -22,7 +22,7 @@ import {
 
 
 const UserHistoryPanel = ({menuOpen, toggleLanguage, openDisplaySettings, openNav, compare, toggleSignUpModal}) => {
-  const store = menuOpen === "saved" ? Sefaria.saved : Sefaria.userHistory;
+  const store = menuOpen === "saved" ? Mekoros.saved : Mekoros.userHistory;
   const contentRef = useRef();
 
   const title = (
@@ -41,7 +41,7 @@ const UserHistoryPanel = ({menuOpen, toggleLanguage, openDisplaySettings, openNa
   const sidebarModules = [
     {type: "Promo"},
     {type: "GetTheApp"},
-    {type: "SupportSefaria"},
+    {type: "SupportMekoros"},
   ];
 
   const footer = compare ? null : <Footer />;
@@ -54,7 +54,7 @@ const UserHistoryPanel = ({menuOpen, toggleLanguage, openDisplaySettings, openNa
           <div className="contentInner">
             <div className="navTitle sans-serif-in-hebrew">
               <h1>{ title }</h1>
-              {Sefaria.interfaceLang !== "hebrew" && Sefaria._siteSettings.TORAH_SPECIFIC ?
+              {Mekoros.interfaceLang !== "hebrew" && Mekoros._siteSettings.TORAH_SPECIFIC ?
               <LanguageToggleButton toggleLanguage={toggleLanguage} /> : null}
             </div>
             <UserHistoryList
@@ -102,7 +102,7 @@ const UserHistoryList = ({store, scrollableRef, menuOpen, toggleSignUpModal}) =>
     itemsPreLoaded: items ? items.length : 0,
   });
 
-  if (menuOpen === 'history' && !Sefaria.is_history_enabled) {
+  if (menuOpen === 'history' && !Mekoros.is_history_enabled) {
     return (
       <div className="savedHistoryMessage">
         <span className="int-en">Reading history is currently disabled. You can re-enable this feature in your <a href="/settings/account">account settings</a>.</span>
@@ -141,7 +141,7 @@ const UserHistoryList = ({store, scrollableRef, menuOpen, toggleSignUpModal}) =>
         
         const timeStamp = menuOpen === "saved" ? null : (
           <div className="timeStamp sans-serif">
-            { Sefaria.util.naturalTime(item.time_stamp, {short: true}) }
+            { Mekoros.util.naturalTime(item.time_stamp, {short: true}) }
           </div>
         );
 
@@ -154,7 +154,7 @@ const UserHistoryList = ({store, scrollableRef, menuOpen, toggleSignUpModal}) =>
               publisher_image: item.ownerImageUrl,
               publisher_url: item.ownerProfileUrl,
               publisher_organization: item.ownerOrganization,
-              publisher_followed: Sefaria.following.includes(item.owner),
+              publisher_followed: Mekoros.following.includes(item.owner),
             }}
             afterSave={timeStamp}
             smallfonts={true}

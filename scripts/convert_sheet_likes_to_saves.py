@@ -3,9 +3,9 @@ from datetime import datetime
 import time
 from pymongo.errors import AutoReconnect
 django.setup()
-from sefaria.model import *
-from sefaria.system.database import db
-from sefaria.utils.util import epoch_time
+from mekoros.model import *
+from mekoros.system.database import db
+from mekoros.utils.util import epoch_time
 
 
 def get_all_sheets(tries=0, page=0):
@@ -28,7 +28,7 @@ def get_all_sheets(tries=0, page=0):
         page += 1
 
 now = epoch_time()
-default_epoch_time = epoch_time(datetime(2017, 12, 1))  # the Sefaria epoch. approx time since we added time stamps to recent items
+default_epoch_time = epoch_time(datetime(2017, 12, 1))  # the Mekoros epoch. approx time since we added time stamps to recent items
 for sheet in get_all_sheets():
     likes = sheet.get("likes", [])
     if "id" not in sheet:

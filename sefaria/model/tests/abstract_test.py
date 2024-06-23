@@ -2,10 +2,10 @@
 
 import pytest
 
-from sefaria.system.database import db
-from sefaria.system.exceptions import InputError
-import sefaria.model as model
-import sefaria.model.abstract as abstract
+from mekoros.system.database import db
+from mekoros.system.exceptions import InputError
+import mekoros.model as model
+import mekoros.model.abstract as abstract
 
 # cascade functions are tested in person_test.py
 

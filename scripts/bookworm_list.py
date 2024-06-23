@@ -1,8 +1,8 @@
 import json
 
-from sefaria.model import *
-from sefaria.summaries import *
-from sefaria.local_settings import SEFARIA_DATA_PATH
+from mekoros.model import *
+from mekoros.summaries import *
+from mekoros.local_settings import SEFARIA_DATA_PATH
 
 toc = library.get_toc()
 flat_toc = flatten_toc(toc)

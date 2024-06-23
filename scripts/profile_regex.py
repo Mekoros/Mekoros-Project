@@ -4,8 +4,8 @@ import timeit
 prep = """import regex
 import re
 import re2
-import sefaria.model as model
-import sefaria.texts as texts
+import mekoros.model as model
+import mekoros.texts as texts
 titles = model.get_text_titles()
 titles = titles + titles + titles + titles + titles 
 text = ",".join(texts.get_text("Bereishit Rabbah 1")["text"])

@@ -5,9 +5,9 @@ Writes to MongoDB Collection: word_form, lexicon_entry
 import re
 import unicodedata
 from . import abstract as abst
-from sefaria.datatype.jagged_array import JaggedTextArray
-from sefaria.system.exceptions import InputError
-from sefaria.utils.hebrew import has_hebrew, strip_cantillation, has_cantillation
+from mekoros.datatype.jagged_array import JaggedTextArray
+from mekoros.system.exceptions import InputError
+from mekoros.utils.hebrew import has_hebrew, strip_cantillation, has_cantillation
 
 
 class WordForm(abst.AbstractMongoRecord):
@@ -422,7 +422,7 @@ class LexiconLookupAggregator(object):
 
     @classmethod
     def get_word_form_objects(cls, input_word, lookup_key='form', **kwargs):
-        from sefaria.model import Ref
+        from mekoros.model import Ref
 
         lookup_ref = kwargs.get("lookup_ref", None)
         wform_pkey = lookup_key

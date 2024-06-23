@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from sefaria.model import *
-from sefaria.utils.hebrew import has_hebrew
+from mekoros.model import *
+from mekoros.utils.hebrew import has_hebrew
 
 import csv
 

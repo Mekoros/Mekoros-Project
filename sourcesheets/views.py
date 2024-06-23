@@ -24,27 +24,27 @@ from rest_framework.decorators import api_view
 
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
-from sefaria.google_storage_manager import GoogleStorageManager
+from mekoros.google_storage_manager import GoogleStorageManager
 
-from sefaria.client.util import jsonResponse, HttpResponse
-from sefaria.model import *
-from sefaria.sheets import *
-from sefaria.model.user_profile import *
-from sefaria.model.notification import process_sheet_deletion_in_notifications
-from sefaria.model.collection import Collection, CollectionSet, process_sheet_deletion_in_collections
-from sefaria.system.decorators import catch_error_as_json
-from sefaria.utils.util import strip_tags
+from mekoros.client.util import jsonResponse, HttpResponse
+from mekoros.model import *
+from mekoros.sheets import *
+from mekoros.model.user_profile import *
+from mekoros.model.notification import process_sheet_deletion_in_notifications
+from mekoros.model.collection import Collection, CollectionSet, process_sheet_deletion_in_collections
+from mekoros.system.decorators import catch_error_as_json
+from mekoros.utils.util import strip_tags
 
 from reader.views import render_template, catchall
-from sefaria.sheets import clean_source, bleach_text
+from mekoros.sheets import clean_source, bleach_text
 from bs4 import BeautifulSoup
 
-# sefaria.model.dependencies makes sure that model listeners are loaded.
+# mekoros.model.dependencies makes sure that model listeners are loaded.
 # noinspection PyUnresolvedReferences
-import sefaria.model.dependencies
+import mekoros.model.dependencies
 
 
-from sefaria.gauth.decorators import gauth_required
+from mekoros.gauth.decorators import gauth_required
 
 def annotate_user_links(sources):
     """
@@ -344,7 +344,7 @@ def delete_sheet_api(request, sheet_id):
     """
     Deletes sheet with id, only if the requester is the sheet owner.
     """
-    import sefaria.search as search
+    import mekoros.search as search
     id = int(sheet_id)
     sheet = db.sheets.find_one({"id": id})
     if not sheet:
@@ -465,7 +465,7 @@ def collections_post_api(request, user_id, slug=None):
 
 @csrf_exempt
 def user_collections_api(request, user_id):
-    from sefaria.system.database import db
+    from mekoros.system.database import db
     if request.method == "GET":
         is_me = request.user.id == int(user_id)
         collections_serialized = get_user_collections(int(user_id), is_me)
@@ -589,7 +589,7 @@ def collections_invite_api(request, slug, uid_or_email, uninvite=False):
 
         if is_new_member:
             collection.add_member(user.id)
-            from sefaria.model.notification import Notification
+            from mekoros.model.notification import Notification
             notification = Notification({"uid": user.id})
             notification.make_collection_add(adder_id=request.user.id, collection_slug=collection.slug)
             notification.save()
@@ -835,7 +835,7 @@ def copy_source_to_sheet_api(request, sheet_id):
     """
     API to copy a source from one sheet to another.
     """
-    from sefaria.system.database import db
+    from mekoros.system.database import db
     copy_sheet = request.POST.get("sheetID")
     copy_source = request.POST.get("nodeID")
     if not copy_sheet and copy_source:
@@ -967,7 +967,7 @@ def all_sheets_api(request, limiter, offset=0):
 
 
 def sheet_to_story_dict(request, sid):
-    from sefaria.model.story import Story
+    from mekoros.model.story import Story
     d = Story.sheet_metadata(sid, return_id=True)
     d.update(Story.publisher_metadata(d["publisher_id"]))
 
@@ -984,7 +984,7 @@ def sheet_list_to_story_list(request, sid_list, public=True):
     :param public: if True, return only public sheets
     :return:
     """
-    from sefaria.model.story import Story
+    from mekoros.model.story import Story
     dict_list = Story.sheet_metadata_bulk(sid_list, return_id=True, public=public)
     followees_set = following.FolloweesSet(request.user.id).uids
     for d in dict_list:
@@ -1169,7 +1169,7 @@ def upload_sheet_media(request):
 @staff_member_required
 @api_view(["PUT"])
 def next_untagged(request):
-    from sefaria.sheets import update_sheet_tags_categories, get_sheet_categorization_info
+    from mekoros.sheets import update_sheet_tags_categories, get_sheet_categorization_info
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
     if("sheetId" in body):
@@ -1180,7 +1180,7 @@ def next_untagged(request):
 @staff_member_required
 @api_view(["PUT"])
 def next_uncategorized(request):
-    from sefaria.sheets import update_sheet_tags_categories, get_sheet_categorization_info
+    from mekoros.sheets import update_sheet_tags_categories, get_sheet_categorization_info
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
     if("sheetId" in body):

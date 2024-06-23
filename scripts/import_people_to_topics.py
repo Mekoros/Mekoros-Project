@@ -1,12 +1,12 @@
 from typing import Optional
 import django, re, csv, json
 from tqdm import tqdm
-from sefaria.model import *
-from sefaria.system.exceptions import InputError
-from sefaria.model.person import Person, PersonSet, PersonRelationship, PersonRelationshipSet
+from mekoros.model import *
+from mekoros.system.exceptions import InputError
+from mekoros.model.person import Person, PersonSet, PersonRelationship, PersonRelationshipSet
 from collections import defaultdict
-from sefaria.system.database import db
-from sefaria.helper.topic import calculate_popular_writings_for_authors
+from mekoros.system.database import db
+from mekoros.helper.topic import calculate_popular_writings_for_authors
 import time
 import requests
 
@@ -241,7 +241,7 @@ def import_and_merge_authors():
                 "toTopic": era_slug_map[era],
                 "fromTopic": main_author.slug,
                 "linkType": "is-a",
-                "dataSource": "sefaria",
+                "dataSource": "mekoros",
                 "generatedBy": "import_people_to_topics"
             })
             try:
@@ -311,7 +311,7 @@ def import_people_links():
         "toTopic": "group-of-people",
         "fromTopic": "group-of-rishon-people",
         "linkType": "is-a",
-        "dataSource": "sefaria",        
+        "dataSource": "mekoros",        
     }).save()
     tos_link = IntraTopicLink().load({"linkType": "is-a", "fromTopic": "tosafot1"})
     tos_link.toTopic = "group-of-rishon-people"
@@ -353,7 +353,7 @@ def import_people_links():
                     "toTopic": to_topic,
                     "fromTopic": from_topic,
                     "linkType": rel_to_link_type[rel.type],
-                    "dataSource": "sefaria",
+                    "dataSource": "mekoros",
                     "generatedBy" : "update_authors_data",  # preempting ability to delete relation links safely in update_authors_data.py
                 }).save()
             except AssertionError as e:
@@ -399,7 +399,7 @@ def create_topic_tocs():
         "toTopic": "vocations",
         "fromTopic": "authors",
         "linkType": "is-a",
-        "dataSource": "sefaria",        
+        "dataSource": "mekoros",        
     }).save()
     for p in PersonSet():
         t = PersonTopic.get_person_by_key(p.key)
@@ -411,7 +411,7 @@ def create_topic_tocs():
                 "toTopic": to_topic,
                 "fromTopic": t.slug,
                 "generatedBy": "import_people_to_topics",
-                "dataSource": "sefaria",
+                "dataSource": "mekoros",
                 "linkType": "displays-under"
             }).save()
         except InputError as e:
@@ -423,7 +423,7 @@ def create_topic_tocs():
                     "toTopic": "authors",
                     "fromTopic": t.slug,
                     "linkType": "has-role",
-                    "dataSource": "sefaria",        
+                    "dataSource": "mekoros",        
                 }).save()
             except InputError as e:
                 print(e)
@@ -607,5 +607,5 @@ if __name__ == "__main__":
 POD=authors-web-67cb54bf45-csc9n
 kubectl cp "/home/nss/Downloads/Person Topic Matching - Talmud.csv" $POD:/app/data
 kubectl cp "/home/nss/Downloads/Person Topic Matching - Authors.csv" $POD:/app/data
-kubectl cp "/home/nss/sefaria/project/scripts/import_people_to_topics.py" $POD:/app/scripts
+kubectl cp "/home/nss/mekoros/project/scripts/import_people_to_topics.py" $POD:/app/scripts
 """

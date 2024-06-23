@@ -1,8 +1,8 @@
-from sefaria.settings import USE_VARNISH
+from mekoros.settings import USE_VARNISH
 
 if USE_VARNISH:
-    import sefaria.system.varnish.wrapper as v
-    from sefaria.model import Ref
+    import mekoros.system.varnish.wrapper as v
+    from mekoros.model import Ref
 
     class Test_Varnish(object):
 

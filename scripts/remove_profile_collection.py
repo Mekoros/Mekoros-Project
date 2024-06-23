@@ -1,4 +1,4 @@
-from sefaria.system.database import db
+from mekoros.system.database import db
 
 def update_empty(copy_into, copy_from):
     for k, v in list(copy_from.items()):

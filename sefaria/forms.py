@@ -17,30 +17,30 @@ from emailusernames.utils import get_user, user_exists
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Checkbox
 
-from sefaria.helper.crm.crm_mediator import CrmMediator
-from sefaria.settings import DEBUG
-from sefaria.settings import MOBILE_APP_KEY
+from mekoros.helper.crm.crm_mediator import CrmMediator
+from mekoros.settings import DEBUG
+from mekoros.settings import MOBILE_APP_KEY
 from django.utils.translation import get_language
 logger = structlog.get_logger(__name__)
 
 SEED_GROUP = "User Seeds"
 
 
-class SefariaDeleteUserForm(EmailAuthenticationForm):
+class MekorosDeleteUserForm(EmailAuthenticationForm):
     email = forms.EmailField(max_length=75, widget=forms.EmailInput(attrs={'placeholder': _("Email Address to delete")}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': _("Admin Password")}))
 
-class SefariaDeleteSheet(forms.Form):
+class MekorosDeleteSheet(forms.Form):
     sid = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'placeholder': _("Sheet ID to delete")}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': _("Admin Password")}))
 
 
-class SefariaLoginForm(EmailAuthenticationForm):
+class MekorosLoginForm(EmailAuthenticationForm):
     email = forms.EmailField(max_length=75, widget=forms.EmailInput(attrs={'placeholder': _("Email Address")}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': _("Password")}))
 
 
-class SefariaNewUserForm(EmailUserCreationForm):
+class MekorosNewUserForm(EmailUserCreationForm):
     email = forms.EmailField(max_length=75,
                              widget=forms.EmailInput(attrs={'placeholder': _("Email Address"), 'autocomplete': 'off'}))
     first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': _("First Name"), 'autocomplete': 'off'}))
@@ -87,7 +87,7 @@ class SefariaNewUserForm(EmailUserCreationForm):
             seed_group = Group.objects.get(name=SEED_GROUP)
             user.groups.remove(seed_group)
         else:
-            user = super(SefariaNewUserForm, self).save(commit=False)
+            user = super(MekorosNewUserForm, self).save(commit=False)
 
         user.first_name = self.cleaned_data["first_name"]
         user.last_name = self.cleaned_data["last_name"]
@@ -106,11 +106,11 @@ class SefariaNewUserForm(EmailUserCreationForm):
         return user
 
 
-class SefariaNewUserFormAPI(SefariaNewUserForm):
+class MekorosNewUserFormAPI(MekorosNewUserForm):
     mobile_app_key = forms.CharField(widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
-        super(SefariaNewUserForm, self).__init__(*args, **kwargs)
+        super(MekorosNewUserForm, self).__init__(*args, **kwargs)
         # don't require captcha on API form
         # instead, require that the correct app_key is sent
         self.fields.pop('captcha')
@@ -125,12 +125,12 @@ class SefariaNewUserFormAPI(SefariaNewUserForm):
 # This class doesn't seem to be getting called at all -- it's referenced in urls.py,
 # but I'm not 100% convinced anything coded here actually sends the email template outside of the django defaults (rmn)
 #
-class SefariaPasswordResetForm(PasswordResetForm):
+class MekorosPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(max_length=75,
                              widget=forms.TextInput(attrs={'placeholder': _("Email Address"), 'autocomplete': 'off'}))
 
 
-class SefariaSetPasswordForm(SetPasswordForm):
+class MekorosSetPasswordForm(SetPasswordForm):
     new_password1 = forms.CharField(
         label=_("New password"),
         widget=forms.PasswordInput(attrs={'placeholder': _("Enter New Password")}),

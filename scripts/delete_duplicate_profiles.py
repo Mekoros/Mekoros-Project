@@ -1,4 +1,4 @@
-from sefaria.system.database import db
+from mekoros.system.database import db
 from collections import defaultdict
 import csv
 import sys

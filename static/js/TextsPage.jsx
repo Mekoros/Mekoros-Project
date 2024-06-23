@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes  from 'prop-types';
 import classNames  from 'classnames';
-import Sefaria  from './sefaria/sefaria';
-import $  from './sefaria/sefariaJquery';
+import Mekoros  from './mekoros/mekoros';
+import $  from './mekoros/mekorosJquery';
 import { NavSidebar, Modules, RecentlyViewed } from './NavSidebar';
 import TextCategoryPage  from './TextCategoryPage';
 import Footer  from './Footer';
@@ -40,8 +40,8 @@ const TextsPage = ({categories, settings, setCategories, onCompareBack, openSear
   }
 
   // Root Library Menu
-  let categoryListings = Sefaria.toc.map(cat => {
-    const style = {"borderColor": Sefaria.palette.categoryColor(cat.category)};
+  let categoryListings = Mekoros.toc.map(cat => {
+    const style = {"borderColor": Mekoros.palette.categoryColor(cat.category)};
     const openCat = e => {e.preventDefault(); setCategories([cat.category])};
 
     return (
@@ -74,21 +74,21 @@ const TextsPage = ({categories, settings, setCategories, onCompareBack, openSear
         <CategoryHeader type="cats" toggleButtonIDs={["subcategory", "reorder"]}>
             <h1><InterfaceText>Browse the Library</InterfaceText></h1>
         </CategoryHeader>
-      { multiPanel && Sefaria.interfaceLang !== "hebrew" && Sefaria._siteSettings.TORAH_SPECIFIC ?
+      { multiPanel && Mekoros.interfaceLang !== "hebrew" && Mekoros._siteSettings.TORAH_SPECIFIC ?
       <LanguageToggleButton toggleLanguage={toggleLanguage} /> : null }
     </div>
 
   const about = compare || multiPanel ? null :
-    <Modules type={"AboutSefaria"} props={{hideTitle: true}}/>;
+    <Modules type={"AboutMekoros"} props={{hideTitle: true}}/>;
 
-  const dedication = Sefaria._siteSettings.TORAH_SPECIFIC && !compare ? <Dedication /> : null;
+  const dedication = Mekoros._siteSettings.TORAH_SPECIFIC && !compare ? <Dedication /> : null;
 
-  const libraryMessage = Sefaria._siteSettings.LIBRARY_MESSAGE && !compare ?
-    <div className="libraryMessage" dangerouslySetInnerHTML={ {__html: Sefaria._siteSettings.LIBRARY_MESSAGE} }></div>
+  const libraryMessage = Mekoros._siteSettings.LIBRARY_MESSAGE && !compare ?
+    <div className="libraryMessage" dangerouslySetInnerHTML={ {__html: Mekoros._siteSettings.LIBRARY_MESSAGE} }></div>
     : null;
 
   const sidebarModules = [
-    multiPanel ? {type: "AboutSefaria"} : {type: null},
+    multiPanel ? {type: "AboutMekoros"} : {type: null},
     {type: "Promo"},
     multiPanel ? {type: "RecentlyViewed", props: {toggleSignUpModal}} : {type: null},
     {type: "Translations"},
@@ -138,7 +138,7 @@ const Dedication = () => {
     const tzoffset = (new Date()).getTimezoneOffset() * 60000;
     const date = new Date(dedDate - tzoffset).toISOString().substring(0, 10);
 
-    const [dedicationData, setDedicationData] = useState(Sefaria._tableOfContentsDedications[date]);
+    const [dedicationData, setDedicationData] = useState(Mekoros._tableOfContentsDedications[date]);
 
     function get_google_sheet_data() {
       const url =
@@ -157,9 +157,9 @@ const Dedication = () => {
         for (let c = 0; c < columns; c++) {
           row.push(data.getFormattedValue(r, c));
         }
-        Sefaria._tableOfContentsDedications[row[0]] = {"en": row[1], "he": row[2]};
+        Mekoros._tableOfContentsDedications[row[0]] = {"en": row[1], "he": row[2]};
       }
-      setDedicationData(Sefaria._tableOfContentsDedications[date]);
+      setDedicationData(Mekoros._tableOfContentsDedications[date]);
     }
 
     useEffect( () => {

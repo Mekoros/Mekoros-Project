@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM  from 'react-dom';
-import $  from './sefaria/sefariaJquery';
-import Sefaria  from './sefaria/sefaria';
+import $  from './mekoros/mekorosJquery';
+import Mekoros  from './mekoros/mekoros';
 import classNames  from 'classnames';
 import PropTypes  from 'prop-types';
 import Component from 'react-class';
@@ -12,7 +12,7 @@ import {
 
 class MediaList extends Component {
 	render() {
-		let audios = Sefaria.mediaByRef(this.props.srefs)
+		let audios = Mekoros.mediaByRef(this.props.srefs)
 		let content = [];
 		  content = audios.map(audio => {
 			return <Audio

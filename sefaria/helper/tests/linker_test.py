@@ -2,19 +2,19 @@ from typing import Callable
 import json
 import pytest
 from unittest.mock import patch, Mock
-from sefaria.google_storage_manager import GoogleStorageManager
+from mekoros.google_storage_manager import GoogleStorageManager
 from django.test import RequestFactory
 from django.core.handlers.wsgi import WSGIRequest
 import tarfile
 import io
-from sefaria.model.text import Ref, TextChunk
-from sefaria.model.webpage import WebPage
-from sefaria.settings import ENABLE_LINKER
+from mekoros.model.text import Ref, TextChunk
+from mekoros.model.webpage import WebPage
+from mekoros.settings import ENABLE_LINKER
 
 if not ENABLE_LINKER:
     pytest.skip("Linker not enabled", allow_module_level=True)
 
-from sefaria.helper import linker
+from mekoros.helper import linker
 import spacy
 
 
@@ -113,7 +113,7 @@ def mock_request_without_meta_data(mock_request_post_data_without_meta_data: dic
 def mock_webpage() -> WebPage:
     # Note, the path of WebPage matches the path of the import we want to patch
     # NOT the location of the WebPage class
-    with patch('sefaria.helper.linker.WebPage') as MockWebPage:
+    with patch('mekoros.helper.linker.WebPage') as MockWebPage:
         mock_webpage = MockWebPage.return_value
         loaded_webpage = Mock()
         mock_webpage.load.return_value = loaded_webpage
@@ -124,7 +124,7 @@ def mock_webpage() -> WebPage:
 
 class TestFindRefsHelperClasses:
 
-    @patch('sefaria.utils.hebrew.is_hebrew', return_value=False)
+    @patch('mekoros.utils.hebrew.is_hebrew', return_value=False)
     def test_find_refs_text(self, mock_is_hebrew: Mock):
         find_refs_text = linker._FindRefsText('title', 'body')
         mock_is_hebrew.assert_called_once_with('body')
@@ -195,7 +195,7 @@ class TestFindRefsResponseLinkerV3:
 
     @pytest.fixture
     def mock_get_ref_resolver(self, spacy_model: spacy.Language):
-        from sefaria.model.text import library
+        from mekoros.model.text import library
         with patch.object(library, 'get_ref_resolver') as mock_get_ref_resolver:
             mock_ref_resolver = Mock()
             mock_ref_resolver._raw_ref_model_by_lang = {"en": spacy_model}
@@ -252,7 +252,7 @@ class TestRefTextByLangForLinker:
 
     @pytest.fixture
     def mock_text_chunk(self, mock_ja: Mock):
-        with patch('sefaria.model.text.TextChunk') as MockTC:
+        with patch('mekoros.model.text.TextChunk') as MockTC:
             mock_tc = MockTC.return_value
             mock_tc.ja.return_value = mock_ja
             mock_tc.strip_itags.side_effect = lambda x: x

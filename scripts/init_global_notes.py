@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from sefaria.model import *
+from mekoros.model import *
 from datetime import datetime
 
 NotificationSet().update({"is_global": False})

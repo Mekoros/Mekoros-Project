@@ -3,7 +3,7 @@ import django
 django.setup()
 import re
 import collections
-from sefaria.model import *
+from mekoros.model import *
 
 from pprint import pprint
 

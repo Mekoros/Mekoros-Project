@@ -7,7 +7,7 @@ Refs pointing to virtual schemas, etc
 
 """
 
-from sefaria.model import *
+from mekoros.model import *
 
 
 class Test_VirtualRefs(object):

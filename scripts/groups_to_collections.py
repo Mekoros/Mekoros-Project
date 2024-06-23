@@ -2,8 +2,8 @@
 import django
 django.setup()
 
-from sefaria.model import Collection, CollectionSet
-from sefaria.system.database import db
+from mekoros.model import Collection, CollectionSet
+from mekoros.system.database import db
 
 
 db.sheets.create_index("displayedCollection")

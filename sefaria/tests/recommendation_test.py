@@ -1,5 +1,5 @@
-from sefaria.model import *
-from sefaria.recommendation_engine import RecommendationEngine
+from mekoros.model import *
+from mekoros.recommendation_engine import RecommendationEngine
 
 class TestClustering:
 

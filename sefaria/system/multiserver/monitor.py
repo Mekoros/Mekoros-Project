@@ -1,13 +1,13 @@
 import json
 import time
 
-from sefaria.settings import MULTISERVER_REDIS_EVENT_CHANNEL, MULTISERVER_REDIS_CONFIRM_CHANNEL
+from mekoros.settings import MULTISERVER_REDIS_EVENT_CHANNEL, MULTISERVER_REDIS_CONFIRM_CHANNEL
 
 import structlog
 logger = structlog.get_logger(__name__)
 
 from .messaging import MessagingNode
-from sefaria.system.varnish.thin_wrapper import invalidate_title
+from mekoros.system.varnish.thin_wrapper import invalidate_title
 
 
 class MultiServerMonitor(MessagingNode):

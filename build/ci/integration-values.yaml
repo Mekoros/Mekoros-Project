@@ -8,7 +8,7 @@ restore:
   dynamicName: false
 web:
   containerImage: 
-    imageRegistry: us-east1-docker.pkg.dev/development-205018/containers/sefaria-web-${BRANCH}
+    imageRegistry: us-east1-docker.pkg.dev/development-205018/containers/mekoros-web-${BRANCH}
     tag: 
   secrets:
     googleClient:
@@ -23,7 +23,7 @@ redis:
     tag: latest
 nodejs:
   containerImage: 
-    imageRegistry: us-east1-docker.pkg.dev/development-205018/containers/sefaria-node-${BRANCH}
+    imageRegistry: us-east1-docker.pkg.dev/development-205018/containers/mekoros-node-${BRANCH}
     tag: 
 varnish:
   secrets:
@@ -31,7 +31,7 @@ varnish:
       ref: varnish-secret-helm
 ingress:
   hosts: 
-    - host: "{{ .Values.deployEnv }}.integration.sefaria.org"
+    - host: "{{ .Values.deployEnv }}.integration.mekoros.com"
       path: /*
       serviceName: nginx
       port: 80
@@ -40,11 +40,11 @@ ingress:
       ref: integration-wildcard-letsencrypt
 nginx:
   containerImage: 
-    imageRegistry: us-east1-docker.pkg.dev/development-205018/containers/sefaria-asset-${BRANCH}
+    imageRegistry: us-east1-docker.pkg.dev/development-205018/containers/mekoros-asset-${BRANCH}
     tag: 
 monitor:
   containerImage: 
-    imageRegistry: us-east1-docker.pkg.dev/development-205018/containers/sefaria-web-${BRANCH}
+    imageRegistry: us-east1-docker.pkg.dev/development-205018/containers/mekoros-web-${BRANCH}
     tag: 
 secrets:
   localSettings: 
@@ -59,11 +59,11 @@ localSettings:
   APSCHEDULER_NAME: "apscheduler-{{ .Values.deployEnv }}"
   TURN_SERVER: ''
   USE_CLOUDFLARE: false
-  FRONT_END_URL:  "http://${NAME}.integration.sefaria.org"
+  FRONT_END_URL:  "http://${NAME}.integration.mekoros.com"
   OFFLINE: false
   DOWN_FOR_MAINTENANCE: false
-  MAINTENANCE_MESSAGE: "Sefaria is down for scheduled maintenance. We expect to be back online within 15 minutes. Thank you for your patience."
+  MAINTENANCE_MESSAGE: "Mekoros is down for scheduled maintenance. We expect to be back online within 15 minutes. Thank you for your patience."
   GLOBAL_WARNING: false
-  GLOBAL_WARNING_MESSAGE: "Sefaria will be in <b>Read-Only</b> mode for scheduled maintenance from 4:45pm-6:45pm Pacific time. Edits will <b>not</b> be saved during that time."
+  GLOBAL_WARNING_MESSAGE: "Mekoros will be in <b>Read-Only</b> mode for scheduled maintenance from 4:45pm-6:45pm Pacific time. Edits will <b>not</b> be saved during that time."
   CRM_TYPE: "NONE"
   FAIL_GRACEFULLY: "False"

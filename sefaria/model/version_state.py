@@ -12,11 +12,11 @@ from . import abstract as abst
 from . import text
 from . import link
 from .text import VersionSet, AbstractIndex, AbstractSchemaContent, IndexSet, library, Ref
-from sefaria.datatype.jagged_array import JaggedTextArray, JaggedIntArray
-from sefaria.system.exceptions import InputError, BookNameError
-from sefaria.system.cache import delete_template_cache
+from mekoros.datatype.jagged_array import JaggedTextArray, JaggedIntArray
+from mekoros.system.exceptions import InputError, BookNameError
+from mekoros.system.cache import delete_template_cache
 try:
-    from sefaria.settings import USE_VARNISH
+    from mekoros.settings import USE_VARNISH
 except ImportError:
     USE_VARNISH = False
 '''
@@ -158,7 +158,7 @@ class VersionState(abst.AbstractMongoRecord, AbstractSchemaContent):
         self.save()
 
         if USE_VARNISH:
-            from sefaria.system.varnish.wrapper import invalidate_counts
+            from mekoros.system.varnish.wrapper import invalidate_counts
             invalidate_counts(self.index)
 
     def get_flag(self, flag):
@@ -460,7 +460,7 @@ def refresh_all_states():
 
 
 def process_index_delete_in_version_state(indx, **kwargs):
-    from sefaria.system.database import db
+    from mekoros.system.database import db
     db.vstate.delete_one({"title": indx.title})
 
 def process_index_title_change_in_version_state(indx, **kwargs):

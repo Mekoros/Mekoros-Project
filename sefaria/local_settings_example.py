@@ -1,9 +1,9 @@
 # An example of settings needed in a local_settings.py file.
-# copy this file to sefaria/local_settings.py and provide local info to run.
+# copy this file to mekoros/local_settings.py and provide local info to run.
 from datetime import timedelta
 import sys
 import structlog
-import sefaria.system.logging as sefaria_logging
+import mekoros.system.logging as mekoros_logging
 import os
 
 # These are things you need to change!
@@ -11,13 +11,13 @@ import os
 ################
 # YOU ONLY NEED TO CHANGE "NAME" TO THE PATH OF YOUR SQLITE DATA FILE
 # If the db.sqlite file does not exist, simply list a path where it can be created.
-# You can set the path to /path/to/Sefaria-Project/db.sqlite, since we git-ignore all sqlite files
+# You can set the path to /path/to/Mekoros-Project/db.sqlite, since we git-ignore all sqlite files
 # (you do not need to create the empty db.sqlite file, as Django will handle that later)
 # ########################################
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/path/to/Sefaria-Project/db.sqlite', # Path to where you would like the database to be created including a file name, or path to an existing database file if using sqlite3.
+        'NAME': '/path/to/Mekoros-Project/db.sqlite', # Path to where you would like the database to be created including a file name, or path to an existing database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -60,7 +60,7 @@ MONGO_REPLICASET_NAME = None # If the below is a list, this should be set to som
 MONGO_HOST = "localhost"
 MONGO_PORT = 27017 # Not used if the above is a list
 # Name of the MongoDB database to use.
-SEFARIA_DB = 'sefaria' # Change if you named your db something else
+SEFARIA_DB = 'mekoros' # Change if you named your db something else
 SEFARIA_DB_USER = '' # Leave user and password blank if not using Mongo Auth
 SEFARIA_DB_PASSWORD = ''
 APSCHEDULER_NAME = "apscheduler"
@@ -79,11 +79,11 @@ CACHES = {
 CACHES = {
     'shared': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': '/home/ephraim/www/sefaria/django_cache/',
+        'LOCATION': '/home/ephraim/www/mekoros/django_cache/',
     },
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': '/home/ephraim/www/sefaria/django_cache/',
+        'LOCATION': '/home/ephraim/www/mekoros/django_cache/',
     }
 }
 """
@@ -101,7 +101,7 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             #"SERIALIZER": "django_redis.serializers.json.JSONSerializer", #this is the default, we override it to ensure_ascii=False
-            "SERIALIZER": "sefaria.system.serializers.JSONSerializer",
+            "SERIALIZER": "mekoros.system.serializers.JSONSerializer",
         },
         "TIMEOUT": None,
     },
@@ -117,7 +117,7 @@ CACHES = {
 }
 """
 
-SITE_PACKAGE = "sites.sefaria"
+SITE_PACKAGE = "sites.mekoros"
 
 
 
@@ -149,7 +149,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Example using anymail, replaces block above
 # EMAIL_BACKEND = 'anymail.backends.mandrill.EmailBackend'
-# DEFAULT_FROM_EMAIL = "Sefaria <hello@sefaria.org>"
+# DEFAULT_FROM_EMAIL = "Mekoros <hello@mekoros.com>"
 # ANYMAIL = {
 #    "MANDRILL_API_KEY": "your api key",
 # }
@@ -157,7 +157,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # ElasticSearch server
 # URL to connect to ES server.
-# Set this to https://sefaria.org/api/search to connect to production search.
+# Set this to https://mekoros.com/api/search to connect to production search.
 # If ElasticSearch server has a password use the following format: http(s)://{username}:{password}@{base_url}
 SEARCH_URL = "http://localhost:9200"
 
@@ -170,8 +170,8 @@ USE_NODE = False
 NODE_HOST = "http://localhost:4040"
 NODE_TIMEOUT = 10
 
-SEFARIA_DATA_PATH = '/path/to/your/Sefaria-Data' # used for Data
-SEFARIA_EXPORT_PATH = '/path/to/your/Sefaria-Data/export' # used for exporting texts
+SEFARIA_DATA_PATH = '/path/to/your/Mekoros-Data' # used for Data
+SEFARIA_EXPORT_PATH = '/path/to/your/Mekoros-Data/export' # used for exporting texts
 
 
 GOOGLE_GTAG = 'your gtag id here'
@@ -270,7 +270,7 @@ CELERY_REDIS_RESULT_BACKEND_DB_NUM = 3
 CELERY_QUEUES = {}
 # END Celery
 
-# Key which identifies the Sefaria app as opposed to a user
+# Key which identifies the Mekoros app as opposed to a user
 # using our API outside of the app. Mainly for registration
 MOBILE_APP_KEY = "MOBILE_APP_KEY"
 
@@ -310,12 +310,12 @@ structlog.configure(
         structlog.stdlib.filter_by_level,
         structlog.processors.TimeStamper(fmt="iso"),
         structlog.stdlib.add_logger_name,
-        sefaria_logging.add_severity,
+        mekoros_logging.add_severity,
         structlog.stdlib.PositionalArgumentsFormatter(),
         structlog.processors.StackInfoRenderer(),
-        sefaria_logging.log_exception_info,
+        mekoros_logging.log_exception_info,
         structlog.processors.UnicodeDecoder(),
-        sefaria_logging.decompose_request_info,
+        mekoros_logging.decompose_request_info,
         structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
     ],
     context_class=structlog.threadlocal.wrap_dict(dict),

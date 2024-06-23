@@ -1,4 +1,4 @@
-#Sefaria
+#Mekoros
 #coding: utf-8
 import requests
 import json
@@ -62,7 +62,7 @@ class Queue(object):
 
         return ans
 
-    # Loops through the 5 books of Torah on Sefaria's text api and counts the number of pessukim in
+    # Loops through the 5 books of Torah on Mekoros's text api and counts the number of pessukim in
     # each passuk. The information is stored in a queue and each value is a tuple of (passuk, # of words)
     def passuk_counter(self):
         sefarim = ["Genesis 1", "Exodus 1", "Leviticus 1", "Numbers 1", "Deuteronomy 1"]
@@ -71,7 +71,7 @@ class Queue(object):
             while reference != None:
                 print(reference)
                 try:
-                    data = requests.get("https://www.sefaria.org/api/texts/"+reference+"?context=0")
+                    data = requests.get("https://www.mekoros.com/api/texts/"+reference+"?context=0")
                 except:
                     continue
                 resp = data.json()
@@ -166,7 +166,7 @@ def json_maker(title, time_stamps):
     for passuk in time_stamps:
         #refs[count]
         refs[count] = {
-            'sefaria_ref' : passuk,
+            'mekoros_ref' : passuk,
             'start_time': time_stamps[passuk][0],
             'end_time': time_stamps[passuk][1]
         }

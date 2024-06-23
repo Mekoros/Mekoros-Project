@@ -2,9 +2,9 @@
 
 import argparse
 import re
-from sefaria.model import *
-from sefaria.datatype.jagged_array import JaggedTextArray, JaggedArray
-from sefaria.system.exceptions import BookNameError
+from mekoros.model import *
+from mekoros.datatype.jagged_array import JaggedTextArray, JaggedArray
+from mekoros.system.exceptions import BookNameError
 
 
 all_versions = VersionSet()

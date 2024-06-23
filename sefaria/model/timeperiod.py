@@ -11,7 +11,7 @@ logger = structlog.get_logger(__name__)
 
 
 """ This data, from Joshua Parker - http://www.joshua-parker.net/sages/
-Loaded from MySQL DB with Sefaria-Data/sources/Sages_DB/parse_eras_from_sages.py
+Loaded from MySQL DB with Mekoros-Data/sources/Sages_DB/parse_eras_from_sages.py
 +---------------+------------+-----------------+-------------------------------+-----------------------+
 | period_symbol | period_seq | period_era      | period_generation             | period_dates          |
 +---------------+------------+-----------------+-------------------------------+-----------------------+

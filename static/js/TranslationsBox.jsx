@@ -1,6 +1,6 @@
 import React  from 'react';
 import PropTypes  from 'prop-types';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 import {VersionsBlocksList}  from './VersionBlock/VersionBlock';
 import Component             from 'react-class';
 import {EnglishText, HebrewText, InterfaceText, LoadingMessage} from "./Misc";
@@ -14,24 +14,24 @@ class TranslationsBox extends Component {
     this._excludedLangs = ["he"];
     this.state = {
       versionLangMap: null,  // object with version languages as keys and array of versions in that lang as values
-      currentVersionsByActualLangs: Sefaria.transformVersionObjectsToByActualLanguageKeys(this.props.currObjectVersions),
+      currentVersionsByActualLangs: Mekoros.transformVersionObjectsToByActualLanguageKeys(this.props.currObjectVersions),
     };
   }
   componentDidMount() {
     if(!this.isSheet()) {
-      Sefaria.getAllTranslationsWithText(this.props.srefs[0]).then(this.onVersionsLoad);
+      Mekoros.getAllTranslationsWithText(this.props.srefs[0]).then(this.onVersionsLoad);
     }
   }
   componentDidUpdate(prevProps, prevState) {
     if (!this.isSheet() && prevProps.srefs[0] !== this.props.srefs[0]) {
-      Sefaria.getAllTranslationsWithText(this.props.srefs[0]).then(this.onVersionsLoad);
+      Mekoros.getAllTranslationsWithText(this.props.srefs[0]).then(this.onVersionsLoad);
     }
   }
   onVersionsLoad(versions) {
     //rearrange the current selected versions to be mapped by their real language,
     // then sort the current version to the top of its language list
     let versionsByLang = versions;
-    let currentVersionsByActualLangs = Sefaria.transformVersionObjectsToByActualLanguageKeys(this.props.currObjectVersions);
+    let currentVersionsByActualLangs = Mekoros.transformVersionObjectsToByActualLanguageKeys(this.props.currObjectVersions);
     for(let [lang,ver] of Object.entries(currentVersionsByActualLangs)){
       if (!this._excludedLangs.includes(lang)) {
         versionsByLang[lang]?.sort((a, b) => {
@@ -43,7 +43,7 @@ class TranslationsBox extends Component {
   }
   openVersionInSidebar(versionTitle, versionLanguage) {
     this.props.setConnectionsMode("Translation Open");
-    this.props.setFilter(Sefaria.getTranslateVersionsKey(versionTitle, versionLanguage));
+    this.props.setFilter(Mekoros.getTranslateVersionsKey(versionTitle, versionLanguage));
   }
   isSheet(){
     return this.props.srefs[0].startsWith("Sheet");
@@ -122,7 +122,7 @@ const TranslationsHeader = () => (
     </h3>
     <div className="translationsDesc sans-serif">
       <InterfaceText>
-        <EnglishText>Sefaria acquires translations to enrich your learning experience. Preview or choose a different translation below.</EnglishText>
+        <EnglishText>Mekoros acquires translations to enrich your learning experience. Preview or choose a different translation below.</EnglishText>
         <HebrewText>ספריא עושה מאמצים להוסיף תרגומים שונים לספרים כדי להעשיר את חווית הלמידה שלכם. כאן ניתן להחליף לתרגום אחר או לראות תצוגה מקדימה שלו לצד הטקסט הנוכחי.</HebrewText>
       </InterfaceText>
       <a href="/sheets/511573" target="_blank" className="inTextLink">
@@ -153,20 +153,20 @@ class VersionsTextList extends Component {
     if (filter.length) {
       this.setState({loaded: false});
       const sectionRef = this.getSectionRef();
-      const [vTitle, language] = Sefaria.deconstructVersionsKey(filter[0]);
+      const [vTitle, language] = Mekoros.deconstructVersionsKey(filter[0]);
       let enVersion = null, heVersion = null;
       if (language === "en") { enVersion = vTitle; }
       else                   { heVersion = vTitle; }
-      Sefaria.getText(sectionRef, {enVersion, heVersion}).then(() => {this.setState({loaded: true})});
+      Mekoros.getText(sectionRef, {enVersion, heVersion}).then(() => {this.setState({loaded: true})});
     }
   }
   getSectionRef() {
     const ref = this.props.srefs[0]; // TODO account for selections spanning sections
-    const sectionRef = Sefaria.sectionRef(ref) || ref;
+    const sectionRef = Mekoros.sectionRef(ref) || ref;
     return sectionRef;
   }
   render() {
-    const [vTitle, language] = Sefaria.deconstructVersionsKey(this.props.vFilter[0]);
+    const [vTitle, language] = Mekoros.deconstructVersionsKey(this.props.vFilter[0]);
     const currSelectedVersions = {[language]: vTitle};
     const onRangeClick = (sref) => {this.props.onRangeClick(sref, false, currSelectedVersions)};
     return !this.state.loaded || !this.props.vFilter.length ?
@@ -179,7 +179,7 @@ class VersionsTextList extends Component {
           recentFilters={this.props.recentVFilters}
           setFilter={this.props.setFilter}/>
         <TextRange
-          sref={Sefaria.humanRef(this.props.srefs)}
+          sref={Mekoros.humanRef(this.props.srefs)}
           currVersions={currSelectedVersions}
           useVersionLanguage={true}
           hideTitle={true}

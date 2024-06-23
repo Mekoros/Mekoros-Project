@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {
 	InterfaceText,
 } from "./Misc"
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 
 
 const CollectionsModal = (props) => {
@@ -31,8 +31,8 @@ const CollectionsWidget = ({sheetID, close, handleCollectionsChange}) => {
       else { return aSel ? -1 : 1; }
     });
   };
-  const [collectionsSelected, setCollectionsSelected] = useState(Sefaria.getUserCollectionsForSheetFromCache(sheetID));
-  let initialCollections = Sefaria.getUserCollectionsFromCache(Sefaria._uid);
+  const [collectionsSelected, setCollectionsSelected] = useState(Mekoros.getUserCollectionsForSheetFromCache(sheetID));
+  let initialCollections = Mekoros.getUserCollectionsFromCache(Mekoros._uid);
   initialCollections = initialCollections ? initialCollectionsSort(initialCollections.slice(), collectionsSelected) : null;
   const [collections, setCollections] = useState(initialCollections);
   const [dataLoaded, setDataLoaded] = useState(!!collections && !!collectionsSelected);
@@ -44,12 +44,12 @@ const CollectionsWidget = ({sheetID, close, handleCollectionsChange}) => {
   useEffect(() => {
     if (!dataLoaded) {
       Promise.all([
-         Sefaria.getUserCollections(Sefaria._uid),
-         Sefaria.getUserCollectionsForSheet(sheetID)
+         Mekoros.getUserCollections(Mekoros._uid),
+         Mekoros.getUserCollectionsForSheet(sheetID)
       ])
      .then(() => {
-        const initialCollectionsSelected = Sefaria.getUserCollectionsForSheetFromCache(sheetID);
-        const initialSortedCollections = initialCollectionsSort(Sefaria.getUserCollectionsFromCache(Sefaria._uid), initialCollectionsSelected);
+        const initialCollectionsSelected = Mekoros.getUserCollectionsForSheetFromCache(sheetID);
+        const initialSortedCollections = initialCollectionsSort(Mekoros.getUserCollectionsFromCache(Mekoros._uid), initialCollectionsSelected);
         setCollections(initialSortedCollections);
         setCollectionsSelected(initialCollectionsSelected);
         setDataLoaded(true);
@@ -69,23 +69,23 @@ const CollectionsWidget = ({sheetID, close, handleCollectionsChange}) => {
     }
 
     $.post(url, data => handleCollectionInclusionChange(data));
-    Sefaria._userCollectionsForSheet[sheetID] = newCollectionsSelected;
+    Mekoros._userCollectionsForSheet[sheetID] = newCollectionsSelected;
     setCollectionsSelected(newCollectionsSelected);
   };
 
   const handleCollectionInclusionChange = (data) => {
     // When a sheet has been added or removed, update collections list data in cache
-    let newCollections = Sefaria.getUserCollectionsFromCache(Sefaria._uid).filter(c => c.slug != data.collection.slug);
+    let newCollections = Mekoros.getUserCollectionsFromCache(Mekoros._uid).filter(c => c.slug != data.collection.slug);
     // Put the new collection first since it's just been modified
     newCollections = [data.collectionListing, ...newCollections];
     // Update in cache, but not in Component state -- prevents the list from jumping around
     // while you're looking at it, but show this collection first next time you see the list.
-    Sefaria._userCollections[Sefaria._uid] = newCollections;
+    Mekoros._userCollections[Mekoros._uid] = newCollections;
     // Update cache for this collection's full listing, which has now changed
-    Sefaria._collections[data.collection.slug] = data.collection;
+    Mekoros._collections[data.collection.slug] = data.collection;
     // Update sheet cache
-    Sefaria.sheets._loadSheetByID[sheetID] = data.sheet;
-    Sefaria.sheets.updateUserSheets(data.sheetListing, Sefaria._uid, true, true);
+    Mekoros.sheets._loadSheetByID[sheetID] = data.sheet;
+    Mekoros.sheets.updateUserSheets(data.sheetListing, Mekoros._uid, true, true);
     setChanged(true);
   };
 
@@ -100,7 +100,7 @@ const CollectionsWidget = ({sheetID, close, handleCollectionsChange}) => {
       }
       setNewName("");
       const newCollections = [data.collection, ...collections];
-      Sefaria._userCollections[Sefaria._uid] = newCollections;
+      Mekoros._userCollections[Mekoros._uid] = newCollections;
       setCollections(newCollections);
       onCheckChange(data.collection, true);
       handleCollectionsChange && handleCollectionsChange();
@@ -136,14 +136,14 @@ const CollectionsWidget = ({sheetID, close, handleCollectionsChange}) => {
       {dataLoaded && collections.length == 0 ?
         <span className={"emptyMessage"}>
           <InterfaceText>
-            You can use collections to organize your sheets or public sheets you like. Collections can shared privately or made public on Sefaria.
+            You can use collections to organize your sheets or public sheets you like. Collections can shared privately or made public on Mekoros.
           </InterfaceText>
         </span> : null }
     </div>
     <div className="collectionsWidgetCreate">
       <span className="collectionsWidgetPlus">+</span>
       <div className="collectionsWidgetCreateInputBox">
-        <input className="collectionsWidgetCreateInput" placeholder={Sefaria._("Create new collection")} value={newName} onChange={onNameChange} />
+        <input className="collectionsWidgetCreateInput" placeholder={Mekoros._("Create new collection")} value={newName} onChange={onNameChange} />
       </div>
       {newName.length ?
       <div className="button extraSmall white collectionsWidgetCreateButton" onClick={onCreateClick}>

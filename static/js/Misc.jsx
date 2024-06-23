@@ -1,9 +1,9 @@
 //const React      = require('react');
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import ReactDOM from 'react-dom';
-import $ from './sefaria/sefariaJquery';
+import $ from './mekoros/mekorosJquery';
 import {CollectionsModal} from "./CollectionsWidget";
-import Sefaria from './sefaria/sefaria';
+import Mekoros from './mekoros/mekoros';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Component from 'react-class';
@@ -17,12 +17,12 @@ import {AdminEditorButton, useEditToggle} from "./AdminEditor";
 import {CategoryEditor, ReorderEditor} from "./CategoryEditor";
 import {refSort} from "./TopicPage";
 import {TopicEditor} from "./TopicEditor";
-import {generateContentForModal, SignUpModalKind} from './sefaria/signupModalContent';
+import {generateContentForModal, SignUpModalKind} from './mekoros/signupModalContent';
 import {SourceEditor} from "./SourceEditor";
 import Cookies from "js-cookie";
 import {EditTextInfo} from "./BookPage";
 import ReactMarkdown from 'react-markdown';
-import TrackG4 from "./sefaria/trackG4";
+import TrackG4 from "./mekoros/trackG4";
 
 /**
  * Component meant to simply denote a language specific string to go inside an InterfaceText element
@@ -64,18 +64,18 @@ const __filterChildrenByLanguage = (children, language) => {
 
 const InterfaceText = ({text, html, markdown, children, context, disallowedMarkdownElements=[]}) => {
   /**
-   * Renders a single span for interface string with either class `int-en`` or `int-he` depending on Sefaria.interfaceLang.
+   * Renders a single span for interface string with either class `int-en`` or `int-he` depending on Mekoros.interfaceLang.
    *  If passed explicit text or html objects as props with "en" and/or "he", will only use those to determine correct text or fallback text to display.
    *  Otherwise:
-   * `children` can be the English string, which will be translated with Sefaria._ if needed.
+   * `children` can be the English string, which will be translated with Mekoros._ if needed.
    * `children` can also take the form of <LangText> components above, so they can be used for longer paragrpahs or paragraphs containing html, if needed.
-   * `context` is passed to Sefaria._ for additional translation context
+   * `context` is passed to Mekoros._ for additional translation context
    */
   const contentVariable = html || markdown || text;  // assumption is `markdown` or `html` are preferred over `text` if they are present
-  const isHebrew = Sefaria.interfaceLang === "hebrew";
+  const isHebrew = Mekoros.interfaceLang === "hebrew";
   let elemclasses = classNames({"int-en": !isHebrew, "int-he": isHebrew});
   let textResponse = null;
-  if (contentVariable) {// Prioritize explicit props passed in for text of the element, does not attempt to use Sefaria._() for this case.
+  if (contentVariable) {// Prioritize explicit props passed in for text of the element, does not attempt to use Mekoros._() for this case.
     let {he, en} = contentVariable;
     textResponse = isHebrew ? (he || en) : (en || he);
     let fallbackCls = (isHebrew && !he) ? " enInHe" : ((!isHebrew && !en) ? " heInEn" : "" );
@@ -83,9 +83,9 @@ const InterfaceText = ({text, html, markdown, children, context, disallowedMarkd
   } else { // Also handle composition with children
     const chlCount = React.Children.count(children);
     if (chlCount === 1) { // Same as passing in a `en` key but with children syntax
-      textResponse = Sefaria._(children, context);
+      textResponse = Mekoros._(children, context);
     } else if (chlCount <= Object.keys(AvailableLanguages()).length){ // When multiple languages are passed in via children
-      let newChildren = __filterChildrenByLanguage(children, Sefaria.interfaceLang);
+      let newChildren = __filterChildrenByLanguage(children, Mekoros.interfaceLang);
       textResponse = newChildren[0]; //assumes one language element per InterfaceText, may be too naive
     } else {
       console.log("Error too many children")
@@ -119,19 +119,19 @@ const DonateLink = ({children, classes, source, link}) => {
   source = source || "undefined";
   const linkOptions = {
     default: {
-      en: "https://donate.sefaria.org/give/451346/#!/donation/checkout",
-      he: "https://donate.sefaria.org/give/468442/#!/donation/checkout"
+      en: "https://donate.mekoros.com/give/451346/#!/donation/checkout",
+      he: "https://donate.mekoros.com/give/468442/#!/donation/checkout"
     },
     sustainer: {
-      en: "https://donate.sefaria.org/give/457760/#!/donation/checkout",
-      he: "https://donate.sefaria.org/give/478929/#!/donation/checkout"
+      en: "https://donate.mekoros.com/give/457760/#!/donation/checkout",
+      he: "https://donate.mekoros.com/give/478929/#!/donation/checkout"
     },
     dayOfLearning: {
-      en: "https://donate.sefaria.org/sponsor",
-      he: "https://donate.sefaria.org/sponsorhe",
+      en: "https://donate.mekoros.com/sponsor",
+      he: "https://donate.mekoros.com/sponsorhe",
     }
   };
-  const url = `${Sefaria._v(linkOptions[link])}?c_src=${source}`;
+  const url = `${Mekoros._v(linkOptions[link])}?c_src=${source}`;
 
   return (
     <a href={url} className={classes} target="_blank">
@@ -260,12 +260,12 @@ class ProfilePic extends Component {
     this.setState({ uploading: true });
     let errored = false;
     try {
-      const response = await Sefaria.uploadProfilePhoto(formData);
+      const response = await Mekoros.uploadProfilePhoto(formData);
       if (response.error) {
         throw new Error(response.error);
       } else {
         this.closePopup({ cb: () => {
-          window.location = "/profile/" + Sefaria.slug; // reload to get update
+          window.location = "/profile/" + Mekoros.slug; // reload to get update
           return;
         }});
       }
@@ -310,10 +310,10 @@ class ProfilePic extends Component {
             </div>) : null
           }
           { (src || !!error) && (
-            <div id="interruptingMessageBox" className="sefariaModalBox">
+            <div id="interruptingMessageBox" className="mekorosModalBox">
               <div id="interruptingMessageOverlay" onClick={this.closePopup}></div>
               <div id="interruptingMessage" className="profile-pic-cropper-modal">
-                <div className="sefariaModalContent profile-pic-cropper-modal-inner">
+                <div className="mekorosModalContent profile-pic-cropper-modal-inner">
                   { src ?
                     (<ReactCrop
                       src={src}
@@ -463,7 +463,7 @@ const FilterableList = ({
           <SearchButton />
           <input
             type="text"
-            placeholder={Sefaria._("Search")}
+            placeholder={Mekoros._("Search")}
             name="filterableListInput"
             value={filter}
             onChange={e => setFilter(e.target.value)}
@@ -480,7 +480,7 @@ const FilterableList = ({
               />
               <DropdownOptionList
                 isOpen={displaySort}
-                options={sortOptions.map(option => ({type: option, name: option, heName: Sefaria._(option, "FilterableList")}))}
+                options={sortOptions.map(option => ({type: option, name: option, heName: Mekoros._(option, "FilterableList")}))}
                 currOptionSelected={sortOption}
                 handleClick={setSort}
               />
@@ -495,7 +495,7 @@ const FilterableList = ({
             <SearchButton />
             <input
               type="text"
-              placeholder={Sefaria._("Search")}
+              placeholder={Mekoros._("Search")}
               name="filterableListInput"
               value={filter}
               onChange={e => setFilter(e.target.value)}
@@ -729,14 +729,14 @@ Link.propTypes = {
 
 class GlobalWarningMessage extends Component {
   close() {
-    Sefaria.globalWarningMessage = null;
+    Mekoros.globalWarningMessage = null;
     this.forceUpdate();
   }
   render() {
-    return Sefaria.globalWarningMessage ?
+    return Mekoros.globalWarningMessage ?
       <div id="globalWarningMessage">
         <i className='close fa fa-times' onClick={this.close}></i>
-        <div dangerouslySetInnerHTML={ {__html: Sefaria.globalWarningMessage} }></div>
+        <div dangerouslySetInnerHTML={ {__html: Mekoros.globalWarningMessage} }></div>
       </div>
       : null;
   }
@@ -749,9 +749,9 @@ class TextBlockLink extends Component {
 
   render() {
     let { book, category, title, heTitle, showSections, sref, heRef, displayValue, heDisplayValue, position, url_string, recentItem, currVersions, sideColor, saved, sheetTitle, sheetOwner, timeStamp, intlang } = this.props;
-    const index    = Sefaria.index(book);
+    const index    = Mekoros.index(book);
     category = category || (index ? index.primary_category : "Other");
-    const style    = {"borderColor": Sefaria.palette.categoryColor(category)};
+    const style    = {"borderColor": Mekoros.palette.categoryColor(category)};
     title    = title   || (showSections ? sref : book);
     heTitle  = heTitle || (showSections ? heRef : index.heTitle);
     const hlang = intlang ? "int-he": "he";
@@ -775,16 +775,16 @@ class TextBlockLink extends Component {
     url_string = url_string ? url_string : sref;
     let url;
     if (isSheet) {
-      url = `/sheets/${Sefaria.normRef(url_string).replace('Sheet.','')}`
+      url = `/sheets/${Mekoros.normRef(url_string).replace('Sheet.','')}`
     } else {
-      url = "/" + Sefaria.normRef(url_string) + Sefaria.util.getUrlVersionsParams(currVersions).replace("&","?");
+      url = "/" + Mekoros.normRef(url_string) + Mekoros.util.getUrlVersionsParams(currVersions).replace("&","?");
     }
 
     if (sideColor) {
       return (
         <a href={url} className={classes} data-ref={sref} data-ven={currVersions.en} data-vhe={currVersions.he} data-position={position}>
           <div className="sideColorLeft" data-ref-child={true}>
-            <div className="sideColor" data-ref-child={true} style={{backgroundColor: Sefaria.palette.categoryColor(category)}} />
+            <div className="sideColor" data-ref-child={true} style={{backgroundColor: Mekoros.palette.categoryColor(category)}} />
             <div className="sideColorInner" data-ref-child={true}>
               <span className={elang} data-ref-child={true}>{title}{!!sheetOwner ? (<i className="byLine" data-ref-child={true}>{byLine}</i>) : null}</span>
               <span className={hlang} data-ref-child={true}>{heTitle}{!!sheetOwner ? (<i className="byLine" data-ref-child={true}>{byLine}</i>) : null}</span>
@@ -794,7 +794,7 @@ class TextBlockLink extends Component {
             { saved ? <SaveButton historyObject={{ ref: sref, versions: currVersions }} /> : null }
             { !saved && timeStamp ?
               <span className="sans-serif">
-                { Sefaria.util.naturalTime(timeStamp) }
+                { Mekoros.util.naturalTime(timeStamp) }
               </span>: null
             }
           </div>
@@ -855,7 +855,7 @@ LanguageToggleButton.propTypes = {
 
 
 const ColorBarBox = ({tref, children}) =>  (
-  <div className="colorBarBox" style={{"borderColor": Sefaria.palette.refColor(tref)}}>{children}</div>
+  <div className="colorBarBox" style={{"borderColor": Mekoros.palette.refColor(tref)}}>{children}</div>
 );
 
 
@@ -984,7 +984,7 @@ class ToggleOption extends Component {
 
   handleClick() {
     this.props.setOption(this.props.set, this.props.name);
-    if (Sefaria.site) { Sefaria.track.event("Reader", "Display Option Click", this.props.set + " - " + this.props.name); }
+    if (Mekoros.site) { Mekoros.track.event("Reader", "Display Option Click", this.props.set + " - " + this.props.name); }
   }
   checkKeyPress(e){
     if (e.keyCode === 39  || e.keyCode === 40) { //39 is right arrow -- 40 is down
@@ -1065,14 +1065,14 @@ const requestWithCallBack = ({url, setSavingStatus, redirect, type="POST", data=
         }
       }
     }).fail(function() {
-      alert(Sefaria._("Something went wrong. Sorry!"));
+      alert(Mekoros._("Something went wrong. Sorry!"));
     });
 }
 
  const TopicToCategorySlug = function(topic, category=null) {
    //helper function for AdminEditor
    if (!category) {
-     category = Sefaria.topicTocCategory(topic.slug);
+     category = Mekoros.topicTocCategory(topic.slug);
    }
    let initCatSlug = category ? category.slug : "Main Menu";    //category topics won't be found using topicTocCategory,
    // so all category topics initialized to "Main Menu"
@@ -1141,7 +1141,7 @@ const CategoryHeader =  ({children, type, data = [], toggleButtonIDs = ["subcate
 
   let wrapper = "";
   let adminButtonsSpan = null;
-  if (Sefaria.is_moderator) {
+  if (Mekoros.is_moderator) {
     if (editCategory) {
       adminButtonsSpan = <CategoryEditorWrapper toggle={toggleEditCategory} data={data} type={type}/>;
     }
@@ -1184,7 +1184,7 @@ const ReorderEditorWrapper = ({toggle, type, data}) => {
     const _createURLs = (type, data) => {
       if (reorderingSources) {
         return {
-          url: `/api/source/reorder?topic=${data.slug}&lang=${Sefaria.interfaceLang}`,
+          url: `/api/source/reorder?topic=${data.slug}&lang=${Mekoros.interfaceLang}`,
           redirect: `/topics/${data.slug}`,
           origItems: _filterAndSortRefs(data.tabs?.sources?.refs) || [],
         }
@@ -1194,13 +1194,13 @@ const ReorderEditorWrapper = ({toggle, type, data}) => {
             return {
               url: '/api/topic/reorder',
               redirect: '/topics',
-              origItems: Sefaria.topic_toc
+              origItems: Mekoros.topic_toc
             };
         case 'cats':
           return {
             url: '/api/category?reorder=1',
             redirect: '/texts',
-            origItems: Sefaria.toc
+            origItems: Mekoros.toc
           };
       }
     }
@@ -1255,7 +1255,7 @@ const EditorForExistingTopic = ({ toggle, data }) => {
 
 
 const EditorForExistingCategory = ({ toggle, data }) => {
-  let tocObject = Sefaria.tocObjectByCategories(data);
+  let tocObject = Mekoros.tocObjectByCategories(data);
   const origDesc = {en: tocObject.enDesc, he: tocObject.heDesc};
   const origCategoryDesc = {en: tocObject.enShortDesc, he: tocObject.heShortDesc};
   const origData = {
@@ -1312,7 +1312,7 @@ class SearchButton extends Component {
 
 class MenuButton extends Component {
   render() {
-    var isheb = Sefaria.interfaceLang == "hebrew";
+    var isheb = Mekoros.interfaceLang == "hebrew";
     var icon = this.props.compare ? (isheb ?
       <i className="fa fa-chevron-right"></i> : <i className="fa fa-chevron-left"></i>) :
         (<i className="fa fa-bars"></i>);
@@ -1349,10 +1349,10 @@ class DisplaySettingsButton extends Component {
   render() {
     let style = this.props.placeholder ? {visibility: "hidden"} : {};
     let icon;
-    const altText = Sefaria._('Text display options')
+    const altText = Mekoros._('Text display options')
     const classes = "readerOptionsTooltip tooltip-toggle";
 
-    if (Sefaria._siteSettings.TORAH_SPECIFIC) {
+    if (Mekoros._siteSettings.TORAH_SPECIFIC) {
       icon =
         <InterfaceText>
         <EnglishText> <img src="/static/img/lang_icon_english.svg" alt="Toggle Reader Menu Display Settings"/></EnglishText>
@@ -1389,7 +1389,7 @@ function InterfaceLanguageMenu({currentLang, translationLanguagePreference, setT
   const wrapperRef = useRef(null);
 
   const getCurrentPage = () => {
-    return isOpen ? (encodeURIComponent(Sefaria.util.currentPath())) : "/";
+    return isOpen ? (encodeURIComponent(Mekoros.util.currentPath())) : "/";
   }
   const handleClick = (e) => {
     e.stopPropagation();
@@ -1424,7 +1424,7 @@ function InterfaceLanguageMenu({currentLang, translationLanguagePreference, setT
 
   return (
       <div className="interfaceLinks" ref={wrapperRef}>
-        <a className="interfaceLinks-button" onClick={handleClick}><img src="/static/icons/globe-wire.svg" alt={Sefaria._('Toggle Interface Language Menu')}/></a>
+        <a className="interfaceLinks-button" onClick={handleClick}><img src="/static/icons/globe-wire.svg" alt={Mekoros._('Toggle Interface Language Menu')}/></a>
         <div className={`interfaceLinks-menu ${ isOpen ? "open" : "closed"}`}>
           <div className="interfaceLinks-header">
             <InterfaceText>Site Language</InterfaceText>
@@ -1439,7 +1439,7 @@ function InterfaceLanguageMenu({currentLang, translationLanguagePreference, setT
                 <InterfaceText>Preferred Translation</InterfaceText>
               </div>
               <div className="interfaceLinks-options trans-pref-header-container">
-                <InterfaceText>{Sefaria.translateISOLanguageCode(translationLanguagePreference, true)}</InterfaceText>
+                <InterfaceText>{Mekoros.translateISOLanguageCode(translationLanguagePreference, true)}</InterfaceText>
                 <a className="trans-pref-reset" onClick={handleTransPrefResetClick}>
                   <img src="/static/img/circled-x.svg" className="reset-btn" />
                   <span className="smallText">
@@ -1461,7 +1461,7 @@ InterfaceLanguageMenu.propTypes = {
 
 function SaveButton({historyObject, placeholder, tooltip, toggleSignUpModal}) {
   if (!historyObject) { placeholder = true; }
-  const isSelected = () => !!Sefaria.getSavedItem(historyObject);
+  const isSelected = () => !!Mekoros.getSavedItem(historyObject);
   const [selected, setSelected] = useState(placeholder || isSelected());
   useEffect(() => {
     if (placeholder) { return; }
@@ -1473,15 +1473,15 @@ function SaveButton({historyObject, placeholder, tooltip, toggleSignUpModal}) {
   const style = placeholder ? {visibility: 'hidden'} : {};
   const classes = classNames({saveButton: 1, "tooltip-toggle": tooltip});
   const altText = placeholder ? '' :
-      `${Sefaria._(selected ? "Remove" : "Save")} "${historyObject.sheet_title ?
-          historyObject.sheet_title.stripHtml() : Sefaria._r(historyObject.ref)}"`;
+      `${Mekoros._(selected ? "Remove" : "Save")} "${historyObject.sheet_title ?
+          historyObject.sheet_title.stripHtml() : Mekoros._r(historyObject.ref)}"`;
 
   function onClick(event) {
     if (isPosting) { return; }
     event.preventDefault();
     setPosting(true);
-    Sefaria.track.event("Saved", "saving", historyObject.ref);
-    Sefaria.toggleSavedItem(historyObject)
+    Mekoros.track.event("Saved", "saving", historyObject.ref);
+    Mekoros.toggleSavedItem(historyObject)
         .then(() => { setSelected(isSelected()); }) // since request is async, check if it's selected from data
         .catch(e => { if (e == 'notSignedIn') { toggleSignUpModal(SignUpModalKind.Save); }})
         .finally(() => { setPosting(false); });
@@ -1533,8 +1533,8 @@ const AiInfoTooltip = () => {
           </div>
           <hr className="ai-info-messages-hr" />
           <div className="ai-info-last-message">
-              <InterfaceText><EnglishText><a href={"https://sefaria.formstack.com/forms/ai_feedback_form"}>Feedback</a></EnglishText>
-              <HebrewText><a href={"https://sefaria.formstack.com/forms/ai_feedback_form"}>כתבו לנו</a></HebrewText>
+              <InterfaceText><EnglishText><a href={"https://mekoros.formstack.com/forms/ai_feedback_form"}>Feedback</a></EnglishText>
+              <HebrewText><a href={"https://mekoros.formstack.com/forms/ai_feedback_form"}>כתבו לנו</a></HebrewText>
               </InterfaceText>
           </div>
         </div>
@@ -1560,14 +1560,14 @@ class FollowButton extends Component {
   }
   _postFollow() {
     $.post("/api/follow/" + this.props.uid, {}, data => {
-      Sefaria.following.push(this.props.uid);  // keep local following list up-to-date
-      Sefaria.track.event("Following", "New Follow", this.props.uid);
+      Mekoros.following.push(this.props.uid);  // keep local following list up-to-date
+      Mekoros.track.event("Following", "New Follow", this.props.uid);
     });
   }
   _postUnfollow() {
     $.post("/api/unfollow/" + this.props.uid, {}, data => {
-      Sefaria.following = Sefaria.following.filter(i => i !== this.props.uid);  // keep local following list up-to-date
-      Sefaria.track.event("Following", "Unfollow", this.props.uid);
+      Mekoros.following = Mekoros.following.filter(i => i !== this.props.uid);  // keep local following list up-to-date
+      Mekoros.track.event("Following", "Unfollow", this.props.uid);
     });
   }
   onMouseEnter() {
@@ -1579,7 +1579,7 @@ class FollowButton extends Component {
   }
   onClick(e) {
     e.stopPropagation();
-    if (!Sefaria._uid) {
+    if (!Mekoros._uid) {
       this.props.toggleSignUpModal(SignUpModalKind.Follow);
       return;
     }
@@ -1632,7 +1632,7 @@ const TopicPictureUploader = ({slug, callback, old_filename, caption}) => {
         formData.append('old_filename', old_filename);
       }
       const request = new Request(
-        `${Sefaria.apiHost}/api/topics/images/${slug}`,
+        `${Mekoros.apiHost}/api/topics/images/${slug}`,
         {headers: {'X-CSRFToken': Cookies.get('csrftoken')}}
       );
       fetch(request, {
@@ -1675,7 +1675,7 @@ const TopicPictureUploader = ({slug, callback, old_filename, caption}) => {
     }
     const deleteImage = () => {
         const old_filename_wout_url = old_filename.split("/").slice(-1);
-        const url = `${Sefaria.apiHost}/api/topics/images/${slug}?old_filename=${old_filename_wout_url}`;
+        const url = `${Mekoros.apiHost}/api/topics/images/${slug}?old_filename=${old_filename_wout_url}`;
         requestWithCallBack({url, type: "DELETE", redirect: () => alert("Deleted image.")});
         callback("");
         fileInput.current.value = "";
@@ -1685,7 +1685,7 @@ const TopicPictureUploader = ({slug, callback, old_filename, caption}) => {
             <label>
               <span className="optional"><InterfaceText>Please use horizontal, square, or only-slightly-vertical images for best results.</InterfaceText></span>
             </label>
-            <div role="button" title={Sefaria._("Add an image")} aria-label="Add an image" contentEditable={false} onClick={(e) => e.stopPropagation()} id="addImageButton">
+            <div role="button" title={Mekoros._("Add an image")} aria-label="Add an image" contentEditable={false} onClick={(e) => e.stopPropagation()} id="addImageButton">
               <label htmlFor="addImageFileSelector">
                 <div className="button extraSmall blue control-elem" tabIndex="0" role="button">
                       <InterfaceText>Upload Picture</InterfaceText>
@@ -1702,7 +1702,7 @@ const TopicPictureUploader = ({slug, callback, old_filename, caption}) => {
     }
 
 const CategoryColorLine = ({category}) =>
-  <div className="categoryColorLine" style={{background: Sefaria.palette.categoryColor(category)}}/>;
+  <div className="categoryColorLine" style={{background: Mekoros.palette.categoryColor(category)}}/>;
 
 
 class ProfileListing extends Component {
@@ -1765,34 +1765,34 @@ const SheetListing = ({
   const handleSheetClickLocal = (e) => {
     //console.log("Sheet Click Handled");
     // TODO: There more contexts to distinguish / track. Profile, collections, search
-    if (Sefaria._uid == sheet.owner) {
-      Sefaria.track.event("Tools", "My Sheet Click", sheet.sheetUrl);
+    if (Mekoros._uid == sheet.owner) {
+      Mekoros.track.event("Tools", "My Sheet Click", sheet.sheetUrl);
     } else {
-      Sefaria.track.event("Tools", "Sheet Click", sheet.sheetUrl);
+      Mekoros.track.event("Tools", "Sheet Click", sheet.sheetUrl);
     }
     if (handleSheetClick) {
-      Sefaria.track.sheets("Opened via Connections Panel", connectedRefs.toString());
+      Mekoros.track.sheets("Opened via Connections Panel", connectedRefs.toString());
       handleSheetClick(e, sheet, null, connectedRefs);
       e.preventDefault();
     }
   };
 
   const handleSheetOwnerClick = (e) => {
-    Sefaria.track.event("Tools", "Sheet Owner Click", sheet.ownerProfileUrl);
+    Mekoros.track.event("Tools", "Sheet Owner Click", sheet.ownerProfileUrl);
   };
 
   const handleTopicClick = (topic) => {
-    Sefaria.track.event("Tools", "Topic Click", topic);
+    Mekoros.track.event("Tools", "Topic Click", topic);
   };
 
   const handleSheetDeleteClick = () => {
-    if (confirm(Sefaria._("Are you sure you want to delete this sheet? There is no way to undo this action."))) {
-      Sefaria.sheets.deleteSheetById(sheet.id).then(handleSheetDelete);
+    if (confirm(Mekoros._("Are you sure you want to delete this sheet? There is no way to undo this action."))) {
+      Mekoros.sheets.deleteSheetById(sheet.id).then(handleSheetDelete);
     }
   };
 
   const toggleCollectionsModal = () => {
-    if (Sefaria._uid) {
+    if (Mekoros._uid) {
       setShowCollectionsModal(!showCollectionsModal);
     } else {
       toggleSignUpModal(SignUpModalKind.AddToSheet);
@@ -1862,9 +1862,9 @@ const SheetListing = ({
       </a>
     );
   });
-  const created = Sefaria.util.localeDate(sheet.created);
+  const created = Mekoros.util.localeDate(sheet.created);
   const underInfo = infoUnderneath ? [
-      sheet.status !== 'public' ? (<span className="unlisted"><img src="/static/img/eye-slash.svg"/><span>{Sefaria._("Not Published")}</span></span>) : undefined,
+      sheet.status !== 'public' ? (<span className="unlisted"><img src="/static/img/eye-slash.svg"/><span>{Mekoros._("Not Published")}</span></span>) : undefined,
       showAuthorUnderneath ? (<a href={sheet.ownerProfileUrl} target={openInNewTab ? "_blank" : "_self"}>{sheet.ownerName}</a>) : undefined,
       views,
       created,
@@ -1874,8 +1874,8 @@ const SheetListing = ({
 
 
   const pinButtonClasses = classNames({sheetListingPinButton: 1, pinned: pinned, active: pinnable});
-  const pinMessage = pinned && pinnable ? Sefaria._("Pinned Sheet - click to unpin") :
-                    pinned ? Sefaria._("Pinned Sheet") : Sefaria._("Pin Sheet");
+  const pinMessage = pinned && pinnable ? Mekoros._("Pinned Sheet - click to unpin") :
+                    pinned ? Mekoros._("Pinned Sheet") : Mekoros._("Pin Sheet");
   const pinButton = <img src="/static/img/pin.svg" className={pinButtonClasses} title={pinMessage} onClick={pinnable ? pinSheet : null} />
 
   return (
@@ -1900,18 +1900,18 @@ const SheetListing = ({
       </div>
       <div className="sheetRight">
         {
-          editable && !Sefaria._uses_new_editor ?
-            <a target="_blank" href={`/sheets/${sheet.id}?editor=1`}><img src="/static/icons/tools-write-note.svg" title={Sefaria._("Edit")}/></a>
+          editable && !Mekoros._uses_new_editor ?
+            <a target="_blank" href={`/sheets/${sheet.id}?editor=1`}><img src="/static/icons/tools-write-note.svg" title={Mekoros._("Edit")}/></a>
             : null
         }
         {
           collectable ?
-            <img src="/static/icons/collection.svg" onClick={toggleCollectionsModal} title={Sefaria._("Add to Collection")} />
+            <img src="/static/icons/collection.svg" onClick={toggleCollectionsModal} title={Mekoros._("Add to Collection")} />
             : null
         }
         {
           deletable ?
-            <img src="/static/icons/circled-x.svg" onClick={handleSheetDeleteClick} title={Sefaria._("Delete")} />
+            <img src="/static/icons/circled-x.svg" onClick={handleSheetDeleteClick} title={Mekoros._("Delete")} />
             : null
         }
         {
@@ -1996,7 +1996,7 @@ class Note extends Component {
                       <i className="editNoteButton fa fa-pencil" title="Edit Note" onClick={this.props.editNote} ></i>
                     </div>) : null;
 
-      var text = Sefaria.util.linkify(this.props.text);
+      var text = Mekoros.util.linkify(this.props.text);
       text = text.replace(/\n/g, "<br />");
 
       return (<div className="note">
@@ -2021,7 +2021,7 @@ Note.propTypes = {
 
 class LoginPrompt extends Component {
   render() {
-    var nextParam = "?next=" + Sefaria.util.currentPath();
+    var nextParam = "?next=" + Mekoros.util.currentPath();
     return (
       <div className="loginPrompt">
         <div className="loginPromptMessage">
@@ -2053,27 +2053,27 @@ class SignUpModal extends Component {
         <InterfaceText text={bullet.bulletContent} />
       </div>
     ));
-    const nextParam = "?next=" + encodeURIComponent(Sefaria.util.currentPath());
+    const nextParam = "?next=" + encodeURIComponent(Mekoros.util.currentPath());
 
     return (
-      this.props.show ? <div id="interruptingMessageBox" className="sefariaModalBox">
+      this.props.show ? <div id="interruptingMessageBox" className="mekorosModalBox">
         <div id="interruptingMessageOverlay" onClick={this.props.onClose}></div>
-        <div id="interruptingMessage" className="sefariaModalContentBox">
-          <div id="interruptingMessageClose" className="sefariaModalClose" onClick={this.props.onClose}>×</div>
-          <div className="sefariaModalContent">
+        <div id="interruptingMessage" className="mekorosModalContentBox">
+          <div id="interruptingMessageClose" className="mekorosModalClose" onClick={this.props.onClose}>×</div>
+          <div className="mekorosModalContent">
             <h2 className="serif sans-serif-in-hebrew">
               <InterfaceText text={modalContent.h2} />
             </h2>
             <h3>
               <InterfaceText text={modalContent.h3} />
             </h3>
-            <div className="sefariaModalInnerContent">
+            <div className="mekorosModalInnerContent">
               { innerContent }
             </div>
             <a className="button white control-elem" href={"/register" + nextParam}>
               <InterfaceText>Sign Up</InterfaceText>
             </a>
-            <div className="sefariaModalBottomContent">
+            <div className="mekorosModalBottomContent">
               <InterfaceText>Already have an account?</InterfaceText>&nbsp;
               <a href={"/login" + nextParam}><InterfaceText>Sign in</InterfaceText></a>
             </div>
@@ -2179,7 +2179,7 @@ const InterruptingMessage = ({
 
   const shouldShow = () => {
     if (!strapi.modal) return false;
-    if (Sefaria.interfaceLang === 'hebrew' && !strapi.modal.locales.includes('he')) return false;
+    if (Mekoros.interfaceLang === 'hebrew' && !strapi.modal.locales.includes('he')) return false;
     if (
       hasModalBeenInteractedWith(
         strapi.modal.internalModalName
@@ -2196,17 +2196,17 @@ const InterruptingMessage = ({
       strapi.modal.showToNonSustainers,
     ].some((p) => p);
     if (
-      Sefaria._uid &&
-      ((Sefaria.is_sustainer &&
+      Mekoros._uid &&
+      ((Mekoros.is_sustainer &&
         strapi.modal.showToSustainers) ||
-        (!Sefaria.is_sustainer &&
+        (!Mekoros.is_sustainer &&
           strapi.modal.showToNonSustainers))
     )
       shouldShowModal = true;
     else if (
-      (Sefaria.isReturningVisitor() &&
+      (Mekoros.isReturningVisitor() &&
         strapi.modal.showToReturningVisitors) ||
-      (Sefaria.isNewVisitor() && strapi.modal.showToNewVisitors)
+      (Mekoros.isNewVisitor() && strapi.modal.showToNewVisitors)
     )
       shouldShowModal = true;
     else if (noUserKindIsSet) shouldShowModal = true;
@@ -2349,7 +2349,7 @@ const Banner = ({ onClose }) => {
   const shouldShow = () => {
     if (!strapi.banner) return false;
     if (
-      Sefaria.interfaceLang === "hebrew" &&
+      Mekoros.interfaceLang === "hebrew" &&
       !strapi.banner.locales.includes("he")
     )
       return false;
@@ -2365,14 +2365,14 @@ const Banner = ({ onClose }) => {
       strapi.banner.showToNonSustainers,
     ].some((p) => p);
     if (
-      Sefaria._uid &&
-      ((Sefaria.is_sustainer && strapi.banner.showToSustainers) ||
-        (!Sefaria.is_sustainer && strapi.banner.showToNonSustainers))
+      Mekoros._uid &&
+      ((Mekoros.is_sustainer && strapi.banner.showToSustainers) ||
+        (!Mekoros.is_sustainer && strapi.banner.showToNonSustainers))
     )
       shouldShowBanner = true;
     else if (
-      (Sefaria.isReturningVisitor() && strapi.banner.showToReturningVisitors) ||
-      (Sefaria.isNewVisitor() && strapi.banner.showToNewVisitors)
+      (Mekoros.isReturningVisitor() && strapi.banner.showToReturningVisitors) ||
+      (Mekoros.isNewVisitor() && strapi.banner.showToNewVisitors)
     )
       shouldShowBanner = true;
     else if (noUserKindIsSet) shouldShowBanner = true;
@@ -2618,7 +2618,7 @@ LoadingMessage.propTypes = {
 
 
 const CategoryAttribution = ({categories, linked = true, asEdition}) => {
-  const attribution = Sefaria.categoryAttribution(categories);
+  const attribution = Mekoros.categoryAttribution(categories);
   if (!attribution) { return null; }
 
   const en = asEdition ? attribution.englishAsEdition : attribution.english;
@@ -2680,12 +2680,12 @@ class FeedbackBox extends Component {
   }
   sendFeedback() {
     if (!this.state.type) {
-      this.setState({alertmsg: Sefaria._("Please select a feedback type")});
+      this.setState({alertmsg: Mekoros._("Please select a feedback type")});
       return
     }
 
-    if (!Sefaria._uid && !this.validateEmail($("#feedbackEmail").val())) {
-      this.setState({alertmsg: Sefaria._("Please enter a valid email address")});
+    if (!Mekoros._uid && !this.validateEmail($("#feedbackEmail").val())) {
+      this.setState({alertmsg: Mekoros._("Please enter a valid email address")});
       return
     }
 
@@ -2696,7 +2696,7 @@ class FeedbackBox extends Component {
         currVersions: this.props.currVersions,
         email: $("#feedbackEmail").val() || null,
         msg: $("#feedbackText").val(),
-        uid: Sefaria._uid || null
+        uid: Mekoros._uid || null
     };
     let postData = {json: JSON.stringify(feedback)};
     const url = "/api/send_feedback";
@@ -2708,10 +2708,10 @@ class FeedbackBox extends Component {
             alert(data.error);
         } else {
             console.log(data);
-            Sefaria.track.event("Tools", "Send Feedback", this.props.url);
+            Mekoros.track.event("Tools", "Send Feedback", this.props.url);
         }
     }.bind(this)).fail(function (xhr, textStatus, errorThrown) {
-        alert(Sefaria._("Unfortunately, there was an error sending this feedback. Please try again or try reloading this page."));
+        alert(Mekoros._("Unfortunately, there was an error sending this feedback. Please try again or try reloading this page."));
         this.setState({feedbackSent: true});
     });
   }
@@ -2747,22 +2747,22 @@ class FeedbackBox extends Component {
             <Dropdown
               name="feedbackType"
               options={[
-                        {value: "content_issue",   label: Sefaria._("Report an issue with the text")},
-                        {value: "translation_request",   label: Sefaria._("Request translation")},
-                        {value: "bug_report",      label: Sefaria._("Report a bug")},
-                        {value: "help_request",    label: Sefaria._("Get help")},
-                        {value: "feature_request", label: Sefaria._("Request a feature")},
-                        {value: "good_vibes",      label: Sefaria._("Give thanks")},
-                        {value: "other",           label: Sefaria._("Other")},
+                        {value: "content_issue",   label: Mekoros._("Report an issue with the text")},
+                        {value: "translation_request",   label: Mekoros._("Request translation")},
+                        {value: "bug_report",      label: Mekoros._("Report a bug")},
+                        {value: "help_request",    label: Mekoros._("Get help")},
+                        {value: "feature_request", label: Mekoros._("Request a feature")},
+                        {value: "good_vibes",      label: Mekoros._("Give thanks")},
+                        {value: "other",           label: Mekoros._("Other")},
                       ]}
-              placeholder={Sefaria._("Select Type")}
+              placeholder={Mekoros._("Select Type")}
               onChange={this.setType}
             />
 
-            <textarea className="feedbackText" placeholder={Sefaria._("Describe the issue...")} id="feedbackText"></textarea>
+            <textarea className="feedbackText" placeholder={Mekoros._("Describe the issue...")} id="feedbackText"></textarea>
 
-            {!Sefaria._uid ?
-                <div><input className="sidebarInput noselect" placeholder={Sefaria._("Email Address")} id="feedbackEmail" /></div>
+            {!Mekoros._uid ?
+                <div><input className="sidebarInput noselect" placeholder={Mekoros._("Email Address")} id="feedbackEmail" /></div>
                 : null }
 
              <div className="button" role="button" onClick={() => this.sendFeedback()}>
@@ -2779,11 +2779,11 @@ class ReaderMessage extends Component {
   // Component for determining user feedback on new element
   constructor(props) {
     super(props)
-    var showNotification = Sefaria._inBrowser && !document.cookie.includes(this.props.messageName+"Accepted");
+    var showNotification = Mekoros._inBrowser && !document.cookie.includes(this.props.messageName+"Accepted");
     this.state = {showNotification: showNotification};
   }
   setFeedback(status) {
-    Sefaria.track.uiFeedback(this.props.messageName+"Accepted", status);
+    Mekoros.track.uiFeedback(this.props.messageName+"Accepted", status);
     $.cookie((this.props.messageName+"Accepted"), 1, {path: "/"});
     this.setState({showNotification: false});
   }
@@ -2810,7 +2810,7 @@ ReaderMessage.propTypes = {
 class CookiesNotification extends Component {
   constructor(props) {
     super(props);
-    const showNotification = /*!Sefaria._debug && */Sefaria._inBrowser && !document.cookie.includes("cookiesNotificationAccepted");
+    const showNotification = /*!Mekoros._debug && */Mekoros._inBrowser && !document.cookie.includes("cookiesNotificationAccepted");
 
     this.state = {showNotification: showNotification};
   }
@@ -2824,7 +2824,7 @@ class CookiesNotification extends Component {
       <div className="cookiesNotification">
 
           <span className="int-en">
-            <span>We use cookies to give you the best experience possible on our site. Click OK to continue using Sefaria. <a href="/privacy-policy">Learn More</a>.</span>
+            <span>We use cookies to give you the best experience possible on our site. Click OK to continue using Mekoros. <a href="/privacy-policy">Learn More</a>.</span>
             <span className='int-en button small white' onClick={this.setCookie}>OK</span>
           </span>
           <span className="int-he">
@@ -2887,7 +2887,7 @@ const SheetTitle = (props) => (
     contentEditable={props.editable}
     suppressContentEditableWarning={true}
     onBlur={props.editable ? props.blurCallback : null}
-    style={{"direction": Sefaria.hebrew.isHebrew(props.title.stripHtml()) ? "rtl" :"ltr"}}
+    style={{"direction": Mekoros.hebrew.isHebrew(props.title.stripHtml()) ? "rtl" :"ltr"}}
   >
   {props.title ? props.title.stripHtmlConvertLineBreaks() : ""}
   </span>
@@ -2958,7 +2958,7 @@ const CategoryChooser = function({categories, update}) {
       let el = categoryMenu.current.children[i].children[0];
       let elValue = el.options[el.selectedIndex].value;
       let possCategories = newCategories.concat([elValue]);
-      if (!Sefaria.tocObjectByCategories(possCategories)) {
+      if (!Mekoros.tocObjectByCategories(possCategories)) {
         // if possCategories are ["Talmud", "Prophets"], break out and leave newCategories as ["Talmud"]
         break;
       }
@@ -2970,7 +2970,7 @@ const CategoryChooser = function({categories, update}) {
   let menus = [];
 
   //create a menu of first level categories
-  let options = Sefaria.toc.map(function(child, key) {
+  let options = Mekoros.toc.map(function(child, key) {
     if (categories.length > 0 && categories[0] === child.category) {
       return <option key={key+1} value={categories[0]} selected>{categories[0]}</option>;
     }
@@ -2983,7 +2983,7 @@ const CategoryChooser = function({categories, update}) {
   //now add to menu second and/or third level categories found in categories
   for (let i=0; i<categories.length; i++) {
     let options = [];
-    const tocObject = Sefaria.tocObjectByCategories(categories.slice(0, i+1));
+    const tocObject = Mekoros.tocObjectByCategories(categories.slice(0, i+1));
     const subcats = !tocObject?.contents ? [] : tocObject.contents.filter(x => x.hasOwnProperty("category")); //Indices have 'categories' field and Categories have 'category' field which is their lastPath
     for (let j=0; j<subcats.length; j++) {
       const selected = categories.length >= i && categories[i+1] === subcats[j].category;
@@ -3037,7 +3037,7 @@ const TitleVariants = function({titles, update, options}) {
                     allowNew={true}
                     tags={titles}
                     onDelete={options?.onTitleDelete ? options.onTitleDelete : onTitleDelete}
-                    placeholderText={Sefaria._("Add a title and press 'enter' or 'tab'.")}
+                    placeholderText={Mekoros._("Add a title and press 'enter' or 'tab'.")}
                     delimiters={["Enter", "Tab"]}
                     onAddition={options?.onTitleAddition ? options.onTitleAddition : onTitleAddition}
                     onValidate={options?.onTitleValidate ? options.onTitleValidate : onTitleValidate}
@@ -3059,12 +3059,12 @@ const DivineNameReplacer = ({setDivineNameReplacement, divineNameReplacement}) =
             <Dropdown
               name="divinename"
               options={[
-                        {value: "noSub",   label: Sefaria._("No Substitution")},
+                        {value: "noSub",   label: Mekoros._("No Substitution")},
                         {value: "yy",   label: 'יי'},
                         {value: "h",      label:'ה׳'},
                         {value: "ykvk",    label: 'יקוק'},
                       ]}
-              placeholder={Sefaria._("Select Type")}
+              placeholder={Mekoros._("Select Type")}
               onChange={(e) => setDivineNameReplacement((e.target.value))}
               preselected={divineNameReplacement}
             />
@@ -3215,9 +3215,9 @@ const Autocompleter = ({getSuggestions, showSuggestionsOnSelect, inputPlaceholde
 
 
   const generatePreviewText = (ref) => {
-        Sefaria.getText(ref, {context:1, stripItags: 1}).then(text => {
-           let segments = Sefaria.makeSegments(text, true);
-           segments = Sefaria.stripImagesFromSegments(segments);
+        Mekoros.getText(ref, {context:1, stripItags: 1}).then(text => {
+           let segments = Mekoros.makeSegments(text, true);
+           segments = Mekoros.stripImagesFromSegments(segments);
            const previewHTML =  segments.map((segment, i) => {
             {
               const heOnly = !segment.en;
@@ -3229,7 +3229,7 @@ const Autocompleter = ({getSuggestions, showSuggestionsOnSelect, inputPlaceholde
                       className={classNames({'textPreviewSegment': 1, highlight: segment.highlight, heOnly: heOnly, enOnly: enOnly})}
                       key={segment.ref}>
                     <sup><ContentText
-                        text={{"en": segment.number, "he": Sefaria.hebrew.encodeHebrewNumeral(segment.number)}}
+                        text={{"en": segment.number, "he": Mekoros.hebrew.encodeHebrewNumeral(segment.number)}}
                         defaultToInterfaceOnBilingual={true}
                     /></sup> <ContentText html={{"he": segment.he+ " ", "en": segment.en+ " " }} defaultToInterfaceOnBilingual={!overrideLanguage} overrideLanguage={overrideLanguage} bilingualOrder={["en", "he"]}/>
                   </div>
@@ -3247,10 +3247,10 @@ const Autocompleter = ({getSuggestions, showSuggestionsOnSelect, inputPlaceholde
     }
 
   return(
-    <div className={autocompleteClassNames} onClick={(e) => {e.stopPropagation()}} title={Sefaria._(buttonTitle)}>
+    <div className={autocompleteClassNames} onClick={(e) => {e.stopPropagation()}} title={Mekoros._(buttonTitle)}>
       <input
           type="text"
-          placeholder={Sefaria._(inputPlaceholder)}
+          placeholder={Mekoros._(inputPlaceholder)}
           onKeyDown={(e) => onKeyDown(e)}
           onClick={(e) => {e.stopPropagation()}}
           onChange={(e) => onChange(e.target.value)}
@@ -3295,7 +3295,7 @@ const Autocompleter = ({getSuggestions, showSuggestionsOnSelect, inputPlaceholde
 }
 
 const getImgAltText = (caption) => {
-return Sefaria._v(caption) || Sefaria._('Illustrative image');
+return Mekoros._v(caption) || Mekoros._('Illustrative image');
 }
 const ImageWithCaption = ({photoLink, caption }) => {
   return (

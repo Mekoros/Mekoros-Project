@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from sefaria.system.exceptions import BookNameError
-from sefaria.utils.testing_utils import *
+from mekoros.system.exceptions import BookNameError
+from mekoros.utils.testing_utils import *
 
 #create, update, delete, change categories
 # test that old title goes away on index title change (regular + commentary)

@@ -7,7 +7,7 @@ import pymongo
 import urllib.parse
 from pymongo.errors import OperationFailure
 
-from sefaria.settings import *
+from mekoros.settings import *
 
 def check_db_exists(db_name):
     dbnames = client.list_database_names()
@@ -49,7 +49,7 @@ else:
 
 
 
-    # Now set the db variable to point to the Sefaria database in the server
+    # Now set the db variable to point to the Mekoros database in the server
     if not hasattr(sys, '_called_from_test'):
         db = connect_to_db(SEFARIA_DB)
     else:
@@ -111,7 +111,7 @@ def ensure_indices(active_db=None):
         ('links', ["is_first_comment"],{}),
         ('links', ["inline_citation"],{}),
         ('metrics', ["timestamp"], {'unique': True}),
-        ('media', ["ref.sefaria_ref"], {}),
+        ('media', ["ref.mekoros_ref"], {}),
         ('notes', [[("owner", pymongo.ASCENDING), ("ref", pymongo.ASCENDING), ("public", pymongo.ASCENDING)]],{}),
         ('notifications', [[("uid", pymongo.ASCENDING), ("read", pymongo.ASCENDING)]],{}),
         ('notifications', ["uid"],{}),

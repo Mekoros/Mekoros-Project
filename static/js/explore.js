@@ -1,9 +1,9 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 import d3  from 'd3';
-import Sefaria  from 'sefaria';
-import SefariaD3  from "./sefaria-d3/sefaria-d3";
-import $  from "./sefaria/sefariaJquery";
+import Mekoros  from 'mekoros';
+import MekorosD3  from "./mekoros-d3/mekoros-d3";
+import $  from "./mekoros/mekorosJquery";
 
 /*****          Layout              *****/
 const margin = [30, 40, 20, 40];
@@ -78,8 +78,8 @@ let bottomBooks = [];
 const topCat = GLOBALS.topCat;
 const bottomCat = GLOBALS.bottomCat;
 
-const t = Sefaria.getShape(categories[topCat].shapeParam).then(d => topBooks = d);
-const b = Sefaria.getShape(categories[bottomCat].shapeParam).then(d => bottomBooks = d);
+const t = Mekoros.getShape(categories[topCat].shapeParam).then(d => topBooks = d);
+const b = Mekoros.getShape(categories[bottomCat].shapeParam).then(d => bottomBooks = d);
 
 $.when(b, t).then(function() {
     buildScreen(GLOBALS.books, "Top");
@@ -486,7 +486,7 @@ function buildBookLabelsBySection(bks, klass, position) {
             .append("text")
                 .attr("class", function(d) { return "title " + toId(d["section"])} )
                 .text(function(d) {
-                        return isEnglish() ? d["section"] : Sefaria.terms[d["section"]].he;
+                        return isEnglish() ? d["section"] : Mekoros.terms[d["section"]].he;
                     })
                 .style("text-anchor", anchor)
                 .attr("fill", function(d) { return colors(toId(d["section"])); })
@@ -515,14 +515,14 @@ function addAxis(d) {
     var y = orient == "top" ? topOffsetY + 5 : bottomOffsetY + 5;
 
     if(categories[d.collection].talmudAddressed) {
-        ticks = SefariaD3.talmudRefTicks(d);
-        d.scale = SefariaD3.textScale(isEnglish()?"ltr":"rtl", d.base_x, d.base_x + d.base_width, d, "talmud");
+        ticks = MekorosD3.talmudRefTicks(d);
+        d.scale = MekorosD3.textScale(isEnglish()?"ltr":"rtl", d.base_x, d.base_x + d.base_width, d, "talmud");
     } else {
-        ticks = SefariaD3.integerRefTicks(d);
-        d.scale = SefariaD3.textScale(isEnglish()?"ltr":"rtl", d.base_x, d.base_x + d.base_width, d, "integer");
+        ticks = MekorosD3.integerRefTicks(d);
+        d.scale = MekorosD3.textScale(isEnglish()?"ltr":"rtl", d.base_x, d.base_x + d.base_width, d, "integer");
     }
 
-    d.s = SefariaD3.scaleNormalizationFunction(d.scale);
+    d.s = MekorosD3.scaleNormalizationFunction(d.scale);
 
     d.axis = d3.svg.axis()
         .orient(orient)
@@ -579,7 +579,7 @@ function removeBrush(d) {
 function brushstart() {
   d3.event.target["b_active"] = true
   svg.classed("selecting", true);
-  Sefaria.track.exploreBrush(d3.event.target.book)
+  Mekoros.track.exploreBrush(d3.event.target.book)
 }
 
 function brushmove() {
@@ -918,8 +918,8 @@ function processPreciseLinks(dBook) {
             json.map(d => {
                 // Annotate data with book name,
                 // which may be different than title for complex texts
-                d["r1"]["book"] = Sefaria.parseRef(d["r1"]["title"]).index;
-                d["r2"]["book"] = Sefaria.parseRef(d["r2"]["title"]).index;
+                d["r1"]["book"] = Mekoros.parseRef(d["r1"]["title"]).index;
+                d["r2"]["book"] = Mekoros.parseRef(d["r2"]["title"]).index;
                 d["topRef"] = isBookOnTop(d["r1"]["book"]) ? d["r1"] : d["r2"];
                 d["bottomRef"] = isBookOnTop(d["r1"]["book"]) ? d["r2"] : d["r1"];
             });
@@ -1110,7 +1110,7 @@ function replaceHistory() {
 
     changePageTitle(args.object.title);
     history.replaceState(args.object, args.argtitle, args.url);
-    args.books.forEach(function (e,a,i) { Sefaria.track.exploreBook(e) });
+    args.books.forEach(function (e,a,i) { Mekoros.track.exploreBook(e) });
 
 }
 
@@ -1118,10 +1118,10 @@ function pushHistory() {
     var args = _getHistory();
 
     //console.log("pushHistory",args.object, args.title, args.url);
-    Sefaria.track.exploreUrl(args.url);
+    Mekoros.track.exploreUrl(args.url);
     changePageTitle(args.object.title);
     history.pushState(args.object, args.argtitle, args.url);
-    args.books.forEach(function (e,a,i) { Sefaria.track.exploreBook(e) });
+    args.books.forEach(function (e,a,i) { Mekoros.track.exploreBook(e) });
 }
 
 function _getHistory() {

@@ -3,8 +3,8 @@ django.setup()
 import re
 import sys
 
-from sefaria.system.database import db
-from sefaria.helper.text import merge_text_versions
+from mekoros.system.database import db
+from mekoros.helper.text import merge_text_versions
 
 i = 1
 test_run = False

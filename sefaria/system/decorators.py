@@ -5,16 +5,16 @@ from django.http import HttpResponse, Http404
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 
-from sefaria.client.util import jsonResponse
-import sefaria.system.exceptions as exps
-import sefaria.settings
+from mekoros.client.util import jsonResponse
+import mekoros.system.exceptions as exps
+import mekoros.settings
 
 import collections
 import bleach
 import structlog
 logger = structlog.get_logger(__name__)
 
-from sefaria.settings import FAIL_GRACEFULLY
+from mekoros.settings import FAIL_GRACEFULLY
 
 
 # TODO: we really need to fix the way we are using json responses. Django 1.7 introduced a baked in JsonResponse.

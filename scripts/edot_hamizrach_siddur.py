@@ -1,5 +1,5 @@
-from sefaria.model import *
-from sefaria.helper.schema import *
+from mekoros.model import *
+from mekoros.helper.schema import *
 if __name__ == "__main__":
     print("Removing duplicate Incense OFfering")
     index = library.get_index("Siddur Edot HaMizrach")
@@ -23,7 +23,7 @@ if __name__ == "__main__":
     combined_he = kaveh_he_text + incense_he_text
     combined_en = kaveh_en_text + incense_en_text
     he_tc = TextChunk(kaveh_ref, lang='he', vtitle="Torat Emet 357")
-    en_tc = TextChunk(kaveh_ref, lang='en', vtitle="Sefaria Community Translation")
+    en_tc = TextChunk(kaveh_ref, lang='en', vtitle="Mekoros Community Translation")
     he_tc.text = combined_he
     en_tc.text = combined_en
     he_tc.save()

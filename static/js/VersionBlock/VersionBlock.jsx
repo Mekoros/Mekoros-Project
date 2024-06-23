@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Sefaria from '../sefaria/sefaria';
-import Util from '../sefaria/util';
-import $ from '../sefaria/sefariaJquery';
+import Mekoros from '../mekoros/mekoros';
+import Util from '../mekoros/util';
+import $ from '../mekoros/mekorosJquery';
 import Component from 'react-class';
 import {LoadingMessage} from "../Misc";
 import VersionBlockHeader from "./VersionBlockHeader";
@@ -15,8 +15,8 @@ import VersionBlockWithPreview from "./VersionBlockWithPreview";
 class VersionBlockUtils {
     static makeVersionTitle(version){
       if (version.merged) {
-        return {"className" : "", "text": Sefaria._("Merged from") + " " + Array.from(new Set(version.sources)).join(", ")};
-      } else if (Sefaria.interfaceLang === "english" || !version.versionTitleInHebrew) {
+        return {"className" : "", "text": Mekoros._("Merged from") + " " + Array.from(new Set(version.sources)).join(", ")};
+      } else if (Mekoros.interfaceLang === "english" || !version.versionTitleInHebrew) {
         return {"className" : "", "text" : version.versionTitle};
       } else {
         return {"className": "he", "text": version.versionTitleInHebrew};
@@ -32,12 +32,12 @@ class VersionBlockUtils {
                                         .filter(([vlang, ver]) => !!ver && !!ver?.versionTitle && !version?.merged && (withParam || vlang === version.language))  // in 'side' case, keep all version params
                                         .map(([vlang, ver]) => `&v${vlang}=${ver.versionTitle.replace(/\s/g,'_')}`)
                                         .join("");
-      const versionLink = nonSelectedVersionParams === "" ? null : `/${Sefaria.normRef(currRef)}${nonSelectedVersionParams}&v${versionParam}=${version.versionTitle.replace(/\s/g,'_')}${withParam}`.replace("&","?");
+      const versionLink = nonSelectedVersionParams === "" ? null : `/${Mekoros.normRef(currRef)}${nonSelectedVersionParams}&v${versionParam}=${version.versionTitle.replace(/\s/g,'_')}${withParam}`.replace("&","?");
       return versionLink;
     }
     static makeAttrClassNames(version, extraClassNames, attrToExist = null, attrIsMultilingual = false){
-      if(attrIsMultilingual && Sefaria.interfaceLang != "english"){
-        attrToExist = attrToExist+"In"+Sefaria.interfaceLang.toFirstCapital();
+      if(attrIsMultilingual && Mekoros.interfaceLang != "english"){
+        attrToExist = attrToExist+"In"+Mekoros.interfaceLang.toFirstCapital();
       }
       return {...extraClassNames, "n-a": (attrToExist ? !version[attrToExist] : 0)};
     }
@@ -46,7 +46,7 @@ class VersionBlockUtils {
       try {
         gtag("event", "onClick_version_title", {element_name: `version_title`,
             change_to: `${version.versionTitle}`, change_from: `${currObjectVersions[version.language]['versionTitle']}`,
-            categories: `${Sefaria.refCategories(currRef)}`, book: `${Sefaria.parseRef(currRef).index}` })
+            categories: `${Mekoros.refCategories(currRef)}`, book: `${Mekoros.parseRef(currRef).index}` })
       }
       catch(err) {
         console.log(err);
@@ -58,7 +58,7 @@ class VersionBlockUtils {
       try {
         gtag("event", "onClick_select_version", {element_name: `select_version`,
         change_to: `${version.versionTitle}`, change_from: `${currObjectVersions[version.language]['versionTitle']}`,
-        categories: `${Sefaria.refCategories(currRef)}`, book: `${Sefaria.parseRef(currRef).index}` })
+        categories: `${Mekoros.refCategories(currRef)}`, book: `${Mekoros.parseRef(currRef).index}` })
       }
       catch(err) {
         console.log(err);
@@ -68,7 +68,7 @@ class VersionBlockUtils {
       } else {
           openVersionInReader(version.versionTitle, version.language);
       }
-      Sefaria.setVersionPreference(currRef, version.versionTitle, version.language);
+      Mekoros.setVersionPreference(currRef, version.versionTitle, version.language);
   }
 }
 
@@ -81,7 +81,7 @@ class VersionBlock extends Component {
       "versionNotes",
       "license",
       "priority",
-      "digitizedBySefaria",
+      "digitizedByMekoros",
       "status",
       "versionTitleInHebrew",
       "shortVersionTitle",
@@ -153,7 +153,7 @@ class VersionBlock extends Component {
           alert(data.error)
         } else {
           alert("Text Version Deleted.");
-          window.location = "/" + Sefaria.normRef(this.props.version.title);
+          window.location = "/" + Mekoros.normRef(this.props.version.title);
         }
       }
     }).fail(function() {
@@ -161,7 +161,7 @@ class VersionBlock extends Component {
     });
   }
   openEditor() {
-    if(Sefaria.is_moderator){
+    if(Mekoros.is_moderator){
       this.setState({editing:true});
     }else{
       return;
@@ -178,9 +178,9 @@ class VersionBlock extends Component {
     if (!this.props.showNotes) {
       return null;
     }
-    if(Sefaria.interfaceLang=="english" && !!this.props.version.versionNotes){
+    if(Mekoros.interfaceLang=="english" && !!this.props.version.versionNotes){
       return this.props.version.versionNotes;
-    }else if(Sefaria.interfaceLang=="hebrew" && !!this.props.version.versionNotesInHebrew){
+    }else if(Mekoros.interfaceLang=="hebrew" && !!this.props.version.versionNotesInHebrew){
       return this.props.version.versionNotesInHebrew;
     }else{
       return null;
@@ -188,7 +188,7 @@ class VersionBlock extends Component {
   }
   makeSelectVersionLanguage(){
     let voc = this.props.version.isSource ? 'Version' : "Translation";
-    return this.props.isCurrent ? Sefaria._("Current " + voc) : Sefaria._("Select "+ voc);
+    return this.props.isCurrent ? Mekoros._("Current " + voc) : Mekoros._("Select "+ voc);
   }
 
   hasExtendedNotes(){
@@ -206,11 +206,11 @@ class VersionBlock extends Component {
     const openVersionInMainPanel = VersionBlockUtils.openVersionInMainPanel.bind(null, this.props.currentRef,
         this.props.version, this.props.currObjectVersions, this.props.rendermode, this.props.firstSectionRef, this.props.openVersionInReader);
 
-    if (this.state.editing && Sefaria.is_moderator) {
+    if (this.state.editing && Mekoros.is_moderator) {
       // Editing View
-      let close_icon = (Sefaria.is_moderator)?<i className="fa fa-times-circle" aria-hidden="true" onClick={this.closeEditor}/>:"";
+      let close_icon = (Mekoros.is_moderator)?<i className="fa fa-times-circle" aria-hidden="true" onClick={this.closeEditor}/>:"";
 
-      let licenses = Object.keys(Sefaria.getLicenseMap());
+      let licenses = Object.keys(Mekoros.getLicenseMap());
       licenses = licenses.includes(v.license) ? licenses : [v.license].concat(licenses);
 
       return (
@@ -239,8 +239,8 @@ class VersionBlock extends Component {
               {licenses.map(v => <option key={v} value={v}>{v?v:"(None Listed)"}</option>)}
             </select>
 
-            <label id="digitzedBySefaria_label" htmlFor="digitzedBySefaria">Digitized by Sefaria</label>
-            <input type="checkbox" id="digitzedBySefaria" name="digitizedBySefaria" checked={this.state.digitizedBySefaria} onChange={this.handleInputChange}/>
+            <label id="digitzedByMekoros_label" htmlFor="digitzedByMekoros">Digitized by Mekoros</label>
+            <input type="checkbox" id="digitzedByMekoros" name="digitizedByMekoros" checked={this.state.digitizedByMekoros} onChange={this.handleInputChange}/>
 
             <label id="priority_label" htmlFor="priority">Priority</label>
             <input id="priority" name="priority" className="" type="text" value={this.state.priority} onChange={this.handleInputChange} />
@@ -282,8 +282,8 @@ class VersionBlock extends Component {
                       this.props.currObjectVersions, this.props.rendermode === 'book-page')}
                  />
               </div>
-              <i className={`fa fa-pencil versionEditIcon ${(Sefaria.is_moderator && this.props.rendermode == "book-page") ? "enabled" : ""}`} aria-hidden="true" onClick={this.openEditor}/>
-              <div className="versionLanguage sans-serif">{showLanguagLabel ? Sefaria._(Sefaria.translateISOLanguageCode(v.actualLanguage)) : ""}</div>
+              <i className={`fa fa-pencil versionEditIcon ${(Mekoros.is_moderator && this.props.rendermode == "book-page") ? "enabled" : ""}`} aria-hidden="true" onClick={this.openEditor}/>
+              <div className="versionLanguage sans-serif">{showLanguagLabel ? Mekoros._(Mekoros.translateISOLanguageCode(v.actualLanguage)) : ""}</div>
             </div>
             <div className="versionSelect sans-serif">
               <VersionBlockSelectButton
@@ -298,7 +298,7 @@ class VersionBlock extends Component {
               <span className="" dangerouslySetInnerHTML={ {__html: vnotes} } />
               <span className={`versionExtendedNotesLinks ${this.hasExtendedNotes() ? "": "n-a"}`}>
                 <a onClick={this.openExtendedNotes} href={`/${this.props.version.title}/${this.props.version.language}/${this.props.version.versionTitle}/notes`}>
-                  {Sefaria._("Read More")}
+                  {Mekoros._("Read More")}
                 </a>
               </span>
             </div>
@@ -363,7 +363,7 @@ class VersionsBlocksList extends Component{
     this.updateCurrentVersionKeys();
   }
   componentDidUpdate(prevProps, prevState) {
-    if (!Sefaria.util.object_equals(this.props.currObjectVersions, prevProps.currObjectVersions)) {
+    if (!Mekoros.util.object_equals(this.props.currObjectVersions, prevProps.currObjectVersions)) {
       this.updateCurrentVersionKeys();
     }
   }
@@ -395,7 +395,7 @@ class VersionsBlocksList extends Component{
               <div className="language-block" key={lang}>
                 { this.props.showLanguageHeaders ?
                   <div className="versionLanguage sans-serif">
-                    {Sefaria._(Sefaria.translateISOLanguageCode(lang))}<span className="enInHe connectionsCount">{` (${this.props.versionsByLanguages[lang].length})`}</span>
+                    {Mekoros._(Mekoros.translateISOLanguageCode(lang))}<span className="enInHe connectionsCount">{` (${this.props.versionsByLanguages[lang].length})`}</span>
                   </div>
                     :
                     null

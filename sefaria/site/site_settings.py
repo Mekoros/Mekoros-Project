@@ -1,4 +1,4 @@
-from sefaria.settings import SITE_PACKAGE
+from mekoros.settings import SITE_PACKAGE
 
 temp = __import__(SITE_PACKAGE + ".site_settings", fromlist=["SITE_SETTINGS"])
 

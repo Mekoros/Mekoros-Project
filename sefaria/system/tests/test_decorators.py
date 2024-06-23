@@ -1,8 +1,8 @@
 import pytest
 import json
 
-import sefaria.system.decorators as d
-import sefaria.system.exceptions as e
+import mekoros.system.decorators as d
+import mekoros.system.exceptions as e
 
 
 @d.catch_error_as_json

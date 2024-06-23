@@ -1,6 +1,6 @@
 import django
 django.setup()
-from sefaria.model import *
+from mekoros.model import *
 from typing import List
 from enum import Enum
 

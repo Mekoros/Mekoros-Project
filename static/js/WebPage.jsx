@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import {InterfaceText} from "./Misc";
-import Sefaria from "./sefaria/sefaria";
+import Mekoros from "./mekoros/mekoros";
 import React from "react";
 
 
@@ -46,7 +46,7 @@ const WebPage = ({authors, isHebrew, favicon, url, domain, title, description, a
         <InterfaceText>Source</InterfaceText>: {articleSource.title}{articleSource.related_parts ? ` ${articleSource.related_parts}`: ''}
       </div> : null}
       <div className="citing">
-        <InterfaceText>Citing</InterfaceText>: {Sefaria._r(anchorRef)}
+        <InterfaceText>Citing</InterfaceText>: {Mekoros._r(anchorRef)}
       </div>
     </div>
   </div>);

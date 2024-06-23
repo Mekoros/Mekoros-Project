@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-abstract.py - abstract classes for Sefaria models
+abstract.py - abstract classes for Mekoros models
 """
 from cerberus import Validator
 import collections
@@ -15,8 +15,8 @@ import re
 
 from bson.objectid import ObjectId
 
-from sefaria.system.database import db
-from sefaria.system.exceptions import InputError, SluggedMongoRecordMissingError
+from mekoros.system.database import db
+from mekoros.system.exceptions import InputError, SluggedMongoRecordMissingError
 
 logger = structlog.get_logger(__name__)
 
@@ -479,7 +479,7 @@ def get_record_classes(concrete=True, dynamic_classes=False):
     if concrete:
         sc = [s for s in sc if s.collection is not None]
     if not dynamic_classes:
-        from sefaria.model.lexicon import DictionaryEntry
+        from mekoros.model.lexicon import DictionaryEntry
         sc = [s for s in sc if not issubclass(s, DictionaryEntry)]
     return sc
 
@@ -545,7 +545,7 @@ todo: currently doesn't respect any inheritance
 todo: find a way to test that dependencies have been regsitered correctly
 
 
->>> from sefaria.model import *
+>>> from mekoros.model import *
 >>> def handle(old, new):
 ...     print "Old : " + old
 ...     print "New : " + new

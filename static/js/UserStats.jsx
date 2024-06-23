@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useRef} from 'react';
-import $  from './sefaria/sefariaJquery';
+import $  from './mekoros/mekorosJquery';
 import * as d3 from './lib/d3.v5.min';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 import {StorySheetList} from './Story';
 import { useDebounce } from './Hooks';
 import {
@@ -34,7 +34,7 @@ const UserStats = () => {
     }, []);
 
     useEffect(() => {
-        const uid = debouncedUID || Sefaria._uid;
+        const uid = debouncedUID || Mekoros._uid;
         setUserData({});
         $.getJSON("/api/user_stats/" + uid)
             .then(d => setUserData(d));
@@ -56,7 +56,7 @@ const UserStats = () => {
               <h1 style={{textAlign: "center"}}>
                   {all_ready? user_data.name : <LoadingRing />}
               </h1>
-              {Sefaria.is_moderator && <UserChooser setter={setUid}/>}
+              {Mekoros.is_moderator && <UserChooser setter={setUid}/>}
               <UserStatModeChooser modes={modes} activeMode={active_mode} setMode={setMode}/>
               {all_ready && user_active &&  <UserDataBlock user_data={mode_user_data} site_data={site_data[modekeys[active_mode]]}/>}
               {all_ready && (!user_active) && <SiteDataBlock site_data={site_data[modekeys[active_mode]]}/>}
@@ -75,7 +75,7 @@ const UserStatModeChooser = ({modes, activeMode, setMode}) => (
 const UserStatModeButton = ({thisMode, activeMode, setMode}) => (
     <div className={"userStatModeButton" + (thisMode === activeMode?" active":"")}
          onClick  ={()=>setMode(thisMode)}>
-        <span>{Sefaria._(thisMode)}</span>
+        <span>{Mekoros._(thisMode)}</span>
     </div>
 );
 
@@ -100,7 +100,7 @@ const SiteDataBlock = ({site_data}) => (
                 </span>
                 <span className="int-en">
                     Looks like we haven’t seen you in a while!<br/>
-                    Discover what other people are doing on Sefaria...
+                    Discover what other people are doing on Mekoros...
                 </span>
             </div>
         </div>
@@ -111,7 +111,7 @@ const SiteDataBlock = ({site_data}) => (
                 <span className="int-he">מה אנשים קוראים</span>
             </h2>
             <div className="chartRow centered">
-                <CategoriesDonut title="Average Sefaria User" heTitle="משתמש ממוצע בספריא" cats={site_data.categoriesRead}/>
+                <CategoriesDonut title="Average Mekoros User" heTitle="משתמש ממוצע בספריא" cats={site_data.categoriesRead}/>
             </div>
         </div>
         <div>
@@ -154,7 +154,7 @@ const StatCard = ({icon_file, name, number}) => (
     <div className="statcard">
         <img src={"static/img/" + icon_file}/>
         <div className="statcardValue">{number}</div>
-        <div className="statcardLabel">{Sefaria._(name)}</div>
+        <div className="statcardLabel">{Mekoros._(name)}</div>
     </div>
 );
 
@@ -166,7 +166,7 @@ const UserDonutsBlock = ({user_data, site_data}) => (
             </h2>
             <div className="chartRow">
                 <CategoriesDonut title="Your Reading" heTitle="הלימוד שלך" cats={user_data.categoriesRead}/>
-                <CategoriesDonut title="Average Sefaria User" heTitle="משתמש ממוצע בספריא" cats={site_data.categoriesRead}/>
+                <CategoriesDonut title="Average Mekoros User" heTitle="משתמש ממוצע בספריא" cats={site_data.categoriesRead}/>
             </div>
         </div>
 );
@@ -271,7 +271,7 @@ const CategoryBars = ({user_cats, site_cats}) => {
 
         const x = d3.scaleLinear()
             .domain([0, d3.max(data.map(d => [d.site, d.user]).flat()) + .10]).nice();
-        if (Sefaria.interfaceLang === "english") {
+        if (Mekoros.interfaceLang === "english") {
             x.rangeRound([0,width - margin.right]);
         } else {
             x.rangeRound([0,width - margin.right]);
@@ -284,22 +284,22 @@ const CategoryBars = ({user_cats, site_cats}) => {
             .attr("transform", d => `translate(${margin.left}, ${y(d.cat)})`);
 
         groups.append("text")
-            .attr("font-family", (Sefaria.interfaceLang === "english" ? '"Taamey Frank", "adobe-garamond-pro", "Crimson Text", Georgia, serif' : '"Heebo", sans-serif'))
+            .attr("font-family", (Mekoros.interfaceLang === "english" ? '"Taamey Frank", "adobe-garamond-pro", "Crimson Text", Georgia, serif' : '"Heebo", sans-serif'))
             .attr("text-anchor", "start")
-            .attr("x", d => Sefaria.interfaceLang === "hebrew" ? width - margin.right : null)
-            .attr("letter-spacing", Sefaria.interfaceLang === "english" ? 1.5 : null)
+            .attr("x", d => Mekoros.interfaceLang === "hebrew" ? width - margin.right : null)
+            .attr("letter-spacing", Mekoros.interfaceLang === "english" ? 1.5 : null)
             .attr("font-size", 16)
-            .text(d => Sefaria._(d.cat).toUpperCase());
+            .text(d => Mekoros._(d.cat).toUpperCase());
 
         groups.selectAll("rect")
             .data(d => keys.map(key => ({key, cat:d.cat, value: d[key]})))
             .join("rect")
             .attr("class", d => d.key)
-            .attr("x", d => Sefaria.interfaceLang === "english" ? 0 : width - margin.right - x(d.value))
+            .attr("x", d => Mekoros.interfaceLang === "english" ? 0 : width - margin.right - x(d.value))
             .attr("y", d => d.key === "user" ? below_text_padding : below_text_padding + userbar + inter_bar_padding)
             .attr("width", d => x(d.value))
             .attr("height", d => d.key === "user" ? userbar : sitebar)
-            .attr("fill", d => d.key === "user" ? Sefaria.palette.categoryColor(d.cat) : "#ededec");
+            .attr("fill", d => d.key === "user" ? Mekoros.palette.categoryColor(d.cat) : "#ededec");
 
         d3.select("svg g g:first-child")
             .append("text")
@@ -308,7 +308,7 @@ const CategoryBars = ({user_cats, site_cats}) => {
             .attr("font-size", 16)
             .attr("fill", "#999")
             .attr("text-anchor", d => x(d.site) > 250 ? "end" : "start")
-            .text(Sefaria._("Average Sefaria User"));
+            .text(Mekoros._("Average Mekoros User"));
 
         return () => {svg.selectAll("*").remove();}
     }, [user_cats, site_cats]);
@@ -351,7 +351,7 @@ const CategoriesDonut = ({cats, title, heTitle}) => {
         g.selectAll("path")
           .data(arcs)
           .enter().append("path")
-            .attr("fill", d => Sefaria.palette.categoryColor(d.data.name))
+            .attr("fill", d => Mekoros.palette.categoryColor(d.data.name))
             .attr("stroke", "white")
             .attr("d", arc)
           .append("title")
@@ -366,7 +366,7 @@ const CategoriesDonut = ({cats, title, heTitle}) => {
       text.append("tspan")
           .attr("x", 0)
           .attr("y", "-0.7em")
-          .text(d => Sefaria._(d.data.name));
+          .text(d => Mekoros._(d.data.name));
 
       text.filter(d => (d.endAngle - d.startAngle) > 0.25).append("tspan")
           .attr("x", 0)

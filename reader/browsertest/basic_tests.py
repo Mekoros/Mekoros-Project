@@ -7,17 +7,17 @@ from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support.expected_conditions import title_contains, staleness_of, element_to_be_clickable, visibility_of_element_located, invisibility_of_element_located, text_to_be_present_in_element
 from selenium.common.exceptions import WebDriverException
 
-from sefaria.model import *
-from sefaria.utils.hebrew import strip_cantillation, strip_nikkud
-from sefaria.utils.hebrew import has_cantillation
-from .framework import SefariaTest, one_of_these_texts_present_in_element
+from mekoros.model import *
+from mekoros.utils.hebrew import strip_cantillation, strip_nikkud
+from mekoros.utils.hebrew import has_cantillation
+from .framework import MekorosTest, one_of_these_texts_present_in_element
 
-import time  # import stand library below name collision in sefaria.model
+import time  # import stand library below name collision in mekoros.model
 
 TEMPER = 30
 
 
-class PagesLoad(SefariaTest):
+class PagesLoad(MekorosTest):
     
     every_build = True
     initial_url = "/texts"
@@ -31,7 +31,7 @@ class PagesLoad(SefariaTest):
         self.load_gardens()
         self.load_people()
 
-class PagesLoadLoggedIn(SefariaTest):
+class PagesLoadLoggedIn(MekorosTest):
     
     every_build  = True
     single_panel = False   # todo write or rewrite this to account for logged in state on mobile
@@ -44,7 +44,7 @@ class PagesLoadLoggedIn(SefariaTest):
         self.load_notifications()
 
 
-class SinglePanelOnMobile(SefariaTest):
+class SinglePanelOnMobile(MekorosTest):
     
     every_build = True
     multi_panel = False
@@ -60,7 +60,7 @@ class SinglePanelOnMobile(SefariaTest):
         assert len(elems) == 1
 
 
-class ChangeTextLanguage(SefariaTest):
+class ChangeTextLanguage(MekorosTest):
     
     every_build = True
     initial_url = "/Job.1"
@@ -102,7 +102,7 @@ class ChangeTextLanguage(SefariaTest):
         self.get_content_language()
 
 
-class FontSizeTest(SefariaTest):
+class FontSizeTest(MekorosTest):
     
     every_build = True
     initial_url = "/Tosefta_Peah.3"
@@ -119,7 +119,7 @@ class FontSizeTest(SefariaTest):
         assert font_size_larger > font_size_smaller
 
 
-class LayoutSettings(SefariaTest):
+class LayoutSettings(MekorosTest):
     # 2] Layout: left/right/stacked
 
     initial_url = "/Tosefta_Peah.3"
@@ -139,7 +139,7 @@ class LayoutSettings(SefariaTest):
             assert self.get_content_layout_direction() == 'stacked'
 
 
-class TextVocalizationSettings(SefariaTest):
+class TextVocalizationSettings(MekorosTest):
     
     every_build = True
     initial_url = "/Job.1"
@@ -162,7 +162,7 @@ class TextVocalizationSettings(SefariaTest):
         assert self.get_nth_section_hebrew(1).text.strip() == just_text, "'{}' does not equal '{}'".format(self.get_nth_section_hebrew(1).text.strip(), just_text)
 
 '''
-class TanakhCantillationAndVowels(SefariaTest):
+class TanakhCantillationAndVowels(MekorosTest):
     
     every_build = False
 
@@ -188,7 +188,7 @@ class TanakhCantillationAndVowels(SefariaTest):
         # assert not has_cantillation(self.get_nth_section_hebrew(1).text, False)
 '''
 
-class AliyotAndCantillationToggles(SefariaTest):
+class AliyotAndCantillationToggles(MekorosTest):
     
     every_build = True
     initial_url = "/Derashot_HaRan.1"
@@ -216,7 +216,7 @@ class AliyotAndCantillationToggles(SefariaTest):
         assert self.is_vocalization_toggleSet_displayed()
 
 
-class SidebarOpens(SefariaTest):
+class SidebarOpens(MekorosTest):
     
     every_build = True
     single_panel = False
@@ -269,7 +269,7 @@ class SidebarOpens(SefariaTest):
         self.click_sidebar_button("Add Connection")
 
 
-class ChangeSiteLanguage(SefariaTest):
+class ChangeSiteLanguage(MekorosTest):
     # Switch between Hebrew and English and sample a few of the objects to make sure 
     # the language has actually changed.
     
@@ -286,7 +286,7 @@ class ChangeSiteLanguage(SefariaTest):
         assert self.driver.find_element_by_css_selector('.interface-english') != None
 
 '''
-class LinkExplorer(SefariaTest):
+class LinkExplorer(MekorosTest):
     # Make sure all Tanach books and Mashechtot are displayed, and sample some entries to check 
     # that torah>nevi'im>ketuvim and the Sedarim are in the correct order
     
@@ -386,7 +386,7 @@ class LinkExplorer(SefariaTest):
 '''
 
 
-class ReadingHistory(SefariaTest):
+class ReadingHistory(MekorosTest):
     
     single_panel = False
     every_build = True
@@ -407,7 +407,7 @@ class ReadingHistory(SefariaTest):
         self.load_toc().nav_to_history().click_history_item("Tosefta Peah 3")
 
 
-class LoadRefAndClickSegment(SefariaTest):
+class LoadRefAndClickSegment(MekorosTest):
     
     every_build = True
     initial_url = "/Job.3"
@@ -424,7 +424,7 @@ class LoadRefAndClickSegment(SefariaTest):
         assert "with=Ibn%20Ezra" in self.driver.current_url or "with=Ibn Ezra" in self.driver.current_url, self.driver.current_url
 
 
-class LoadRefWithCommentaryAndClickOnCommentator(SefariaTest):
+class LoadRefWithCommentaryAndClickOnCommentator(MekorosTest):
     
     every_build = True
     initial_url = "/Job.3.4?with=all"
@@ -435,7 +435,7 @@ class LoadRefWithCommentaryAndClickOnCommentator(SefariaTest):
         assert "with=Rashi" in self.driver.current_url, self.driver.current_url
 
 
-class NavToBookPages(SefariaTest):
+class NavToBookPages(MekorosTest):
     
     every_build = True
     initial_url = "/texts"
@@ -454,7 +454,7 @@ class NavToBookPages(SefariaTest):
             self.nav_to_book_page(cats, text_title)
 
 
-class LoadBookPages(SefariaTest):
+class LoadBookPages(MekorosTest):
     
     every_build = True
     initial_url = "/texts"
@@ -472,7 +472,7 @@ class LoadBookPages(SefariaTest):
             self.load_book_page(title)
 
 
-class LoadSpanningRefAndOpenConnections(SefariaTest):
+class LoadSpanningRefAndOpenConnections(MekorosTest):
     
     every_build = True
     initial_url = "/Shabbat.2a-2b"
@@ -481,7 +481,7 @@ class LoadSpanningRefAndOpenConnections(SefariaTest):
         self.click_segment("Shabbat 2a:1")
 
 
-class NavToSpanningRefAndOpenConnections(SefariaTest):
+class NavToSpanningRefAndOpenConnections(MekorosTest):
     
     every_build = True
     single_panel = False
@@ -492,7 +492,7 @@ class NavToSpanningRefAndOpenConnections(SefariaTest):
         self.click_segment("Shabbat 2a:1")
 
 
-class PermanenceOfRangedRefs(SefariaTest):
+class PermanenceOfRangedRefs(MekorosTest):
     """
     There have been bugs around Links with ranged references.
     This test checks that they are present, and that they survive to a second click (they had previously been ephemeral.)
@@ -514,7 +514,7 @@ class PermanenceOfRangedRefs(SefariaTest):
         assert self.find_text_filter("Mishnah Shabbat")
 
 
-class ClickVersionedSearchResultDesktop(SefariaTest):
+class ClickVersionedSearchResultDesktop(MekorosTest):
     weekly = True
     single_panel = False
     initial_url = "/texts"
@@ -527,7 +527,7 @@ class ClickVersionedSearchResultDesktop(SefariaTest):
         assert "Psalms.59.7/en/The_Rashi_Ketuvim_by_Rabbi_Shraga_Silverstein" in self.driver.current_url, self.driver.current_url
 
 
-class ClickVersionedSearchResultMobile(SefariaTest):
+class ClickVersionedSearchResultMobile(MekorosTest):
     weekly = True
     multi_panel = False
     initial_url = "/texts"
@@ -540,7 +540,7 @@ class ClickVersionedSearchResultMobile(SefariaTest):
         assert "Psalms.59.7/en/The_Rashi_Ketuvim_by_Rabbi_Shraga_Silverstein" in self.driver.current_url, self.driver.current_url
 
 
-class CollectionsPagesLoad(SefariaTest):
+class CollectionsPagesLoad(MekorosTest):
     every_build = True
     initial_url = "/texts"
 
@@ -551,7 +551,7 @@ class CollectionsPagesLoad(SefariaTest):
         self.load_url("/collections/new", "#editCollectionPage .field")
 
 
-class BrowserBackAndForward(SefariaTest):
+class BrowserBackAndForward(MekorosTest):
     
     every_build = True
     exclude = ['FF/x12', 'FF/x13', 'Sf/x11', 'Sf/x12', 'Sf/x13'] # Buggy handling of Back button
@@ -577,7 +577,7 @@ class BrowserBackAndForward(SefariaTest):
         # Todo - infinite scroll, nav pages, display options, ref normalization
 
 
-class SaveNewSourceSheet(SefariaTest):
+class SaveNewSourceSheet(MekorosTest):
     every_build = True
     single_panel = False  # No source sheets on mobile
     initial_url = "/texts"
@@ -616,7 +616,7 @@ class SaveNewSourceSheet(SefariaTest):
         WebDriverWait(self.driver, TEMPER).until(visibility_of_element_located((By.CSS_SELECTOR, '.header .home')))
 
 
-class SearchNavigation(SefariaTest):
+class SearchNavigation(MekorosTest):
     every_build = True
     single_panel = False  # This hasn't yet been implemented on mobile
     initial_url = "/texts"
@@ -647,7 +647,7 @@ class SearchNavigation(SefariaTest):
         self.wait_until_visible(".readerNavCategoryMenu")
 
 
-class EditTextPagesLoad(SefariaTest):
+class EditTextPagesLoad(MekorosTest):
     #todo: build a no-load reader test to match this
     every_build = True
     single_panel = False
@@ -655,11 +655,11 @@ class EditTextPagesLoad(SefariaTest):
 
     def body(self):
         self.login_user()
-        self.load_edit("Genesis 1", "en", "Sefaria Community Translation") # threw a 500 on travis, works local
+        self.load_edit("Genesis 1", "en", "Mekoros Community Translation") # threw a 500 on travis, works local
         self.load_add("Mishnah Peah 4")
 
 
-class ScrollToHighlight(SefariaTest):
+class ScrollToHighlight(MekorosTest):
     every_build = True
     single_panel = False        # is_element_visible_in_viewport fails for mobile.
     initial_url = "/texts"
@@ -685,7 +685,7 @@ class ScrollToHighlight(SefariaTest):
         self.test_in_app("Kol Bo 3:14")
 
 
-class InfiniteScrollUp(SefariaTest):
+class InfiniteScrollUp(MekorosTest):
     every_build = True
     initial_url = "/texts"
 
@@ -706,7 +706,7 @@ class InfiniteScrollUp(SefariaTest):
         self.test_up("Pesach Haggadah, Magid, The Four Sons", "Pesach Haggadah, Magid, Story of the Five Rabbis 2")
 
 
-class InfiniteScrollDown(SefariaTest):
+class InfiniteScrollDown(MekorosTest):
     every_build = True
     initial_url = "/texts"
 
@@ -724,7 +724,7 @@ class InfiniteScrollDown(SefariaTest):
 ##############
 # Editor Tests
 
-class EditorTest(SefariaTest):
+class EditorTest(MekorosTest):
     """
     Tests that do editor things
     """
@@ -797,7 +797,7 @@ class AddSheetContent(EditorTest):
 
 '''
 # This test is cranky.  It can pass and fail without any external changes.  Seemingly because the underlying functionality isn't dependable yet.
-class BackRestoresScrollPosition(SefariaTest):
+class BackRestoresScrollPosition(MekorosTest):
     
     every_build = True
     initial_url = "/texts"
@@ -842,7 +842,7 @@ class BackRestoresScrollPosition(SefariaTest):
 """
 # Not complete
 
-class LoadRefAndOpenLexicon(SefariaTest):
+class LoadRefAndOpenLexicon(MekorosTest):
     
     single_panel = False
 

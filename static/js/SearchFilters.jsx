@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import Sefaria from './sefaria/sefaria';
-import $ from './sefaria/sefariaJquery';
-import SearchState from './sefaria/searchState';
+import Mekoros from './mekoros/mekoros';
+import $ from './mekoros/mekorosJquery';
+import SearchState from './mekoros/searchState';
 import classNames  from 'classnames';
 import PropTypes from 'prop-types';
 import Component from 'react-class';
@@ -70,10 +70,10 @@ class SearchFilters extends Component {
       name: data.type,
       content: <InterfaceText>{data.name}</InterfaceText>,
       role: "radio",
-      ariaLabel: Sefaria._("Sort by") + " " + Sefaria._(data.name),
+      ariaLabel: Mekoros._("Sort by") + " " + Mekoros._(data.name),
     }));
 
-    return Sefaria.multiPanel && !this.props.compare ? (
+    return Mekoros.multiPanel && !this.props.compare ? (
       <div className="searchFilters navSidebarModule">
         {filters}
       </div>
@@ -175,7 +175,7 @@ const SearchFilterGroup = ({name, filters, updateSelected, expandable, paged, se
   ));
 
   if (name === 'Collections') {content.sort((a,b) => {
-    const title = Sefaria.interfaceLang==='english' ? 'title' : 'heTitle';
+    const title = Mekoros.interfaceLang==='english' ? 'title' : 'heTitle';
     return !a.props.filter[title] - !b.props.filter[title]; //first the collections with title in the interface's language
   })}
 
@@ -227,7 +227,7 @@ const SearchFilterGroup = ({name, filters, updateSelected, expandable, paged, se
   }
   // need hebrew for placeholder/title
   const clearInputButton = <button aria-label="Clear input" onClick={clearInput}><img src="/static/icons/heavy-x.svg" className="searchFilterIcon" aria-hidden="true" tabIndex="0"></img></button>;
-  const search = searchable ? <div className="searchBox"><input id={`filter${name}`} className="searchFiltersInput" placeholder={Sefaria._(`Search ${name}`)} title={`Type to Filter ${name} Shown`} onChange={e => updateFilters(e.target.value)}></input>{showClearInputButton ? clearInputButton : null}</div>  : null;
+  const search = searchable ? <div className="searchBox"><input id={`filter${name}`} className="searchFiltersInput" placeholder={Mekoros._(`Search ${name}`)} title={`Type to Filter ${name} Shown`} onChange={e => updateFilters(e.target.value)}></input>{showClearInputButton ? clearInputButton : null}</div>  : null;
 
   return (
     <div className="searchFilterGroup">

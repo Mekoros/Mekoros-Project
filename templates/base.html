@@ -1,6 +1,6 @@
 {% load render_bundle from webpack_loader %}
 {% load static %}
-{% load sefaria_tags %}
+{% load mekoros_tags %}
 {% get_static_prefix as STATIC_PREFIX %}
 
 <!DOCTYPE html>
@@ -14,11 +14,11 @@
         <meta name="robots" content="noindex, nofollow">
     {% endif %}
 
-    <link rel="search" type="application/opensearchdescription+xml" title="Sefaria Search" href="{% static 'files/opensearch.xml' %}" />
+    <link rel="search" type="application/opensearchdescription+xml" title="Mekoros Search" href="{% static 'files/opensearch.xml' %}" />
 
     {% if SITE_SETTINGS.TORAH_SPECIFIC %}
-    <link rel="alternate" href="https://www.sefaria.org{{ request.path }}" hreflang="en" />
-    <link rel="alternate" href="https://www.sefaria.org.il{{ request.path }}" hreflang="he" />
+    <link rel="alternate" href="https://www.mekoros.com{{ request.path }}" hreflang="en" />
+    <link rel="alternate" href="https://www.mekoros.com{{ request.path }}" hreflang="he" />
     {% endif %}
 
     {% if canonical_url %}
@@ -41,8 +41,8 @@
     <meta property="og:url" content="https://{{ request.get_host }}{{ request.get_full_path }}" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    {# Sefaria is stopping use of its Twitter account. However, according to Twitter dev docs, an account to reference as an attribute is still necessary for cards usage #}
-    <meta name="twitter:site" content="@sefariaproject" />
+    {# Mekoros is stopping use of its Twitter account. However, according to Twitter dev docs, an account to reference as an attribute is still necessary for cards usage #}
+    <meta name="twitter:site" content="@mekorosproject" />
     <meta name="twitter:title" content="{{title|striptags}}" />
     <meta name="twitter:description" content="{% block soc_description %}{{ desc|striptags }}{% endblock %}" />
     <meta name="twitter:image" content="https://{{ request.get_host }}/api/img-gen{{ request.path }}?lang={{request.GET.lang}}&platform=twitter&ven={{request.GET.ven}}&vhe={{request.GET.vhe}}" />
@@ -138,7 +138,7 @@
 
 
     {% if HOTJAR_ID %}
-    <!-- Hotjar Tracking Code for https://www.sefaria.org -->
+    <!-- Hotjar Tracking Code for https://www.mekoros.com -->
     <script>
         (function(h,o,t,j,a,r){
             h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};

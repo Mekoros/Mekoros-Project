@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Adds an Introduction section to the complex text Ben Ish Hai"""
-from sefaria.model import *
+from mekoros.model import *
 
 # Versions
 vs = VersionSet({"title": "Ben Ish Hai"})

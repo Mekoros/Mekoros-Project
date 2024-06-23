@@ -4,10 +4,10 @@ import traceback
 import os
 import django
 django.setup()
-from sefaria.model import *
-from sefaria.search import index_all
-from sefaria.local_settings import SEFARIA_BOT_API_KEY
-from sefaria.pagesheetrank import update_pagesheetrank
+from mekoros.model import *
+from mekoros.search import index_all
+from mekoros.local_settings import SEFARIA_BOT_API_KEY
+from mekoros.pagesheetrank import update_pagesheetrank
 
 """
 Source sheets added after last_sheet_timestamp will be missing from the index process. We want to manually index all
@@ -16,11 +16,11 @@ running against a production database, last_sheet_timestamp will be the time thi
 value will need to be set to the time at which the last mongo dump was created (assuming the database is using the most
 up-to-date mongo dump).
 """
-# last_sheet_timestamp = datetime.fromtimestamp(os.path.getmtime("/var/data/sefaria_public/dump/sefaria")).isoformat()
+# last_sheet_timestamp = datetime.fromtimestamp(os.path.getmtime("/var/data/mekoros_public/dump/mekoros")).isoformat()
 last_sheet_timestamp = datetime.now().isoformat()
 update_pagesheetrank()
 index_all()
-r = requests.post("https://www.sefaria.org/admin/index-sheets-by-timestamp", data={"timestamp": last_sheet_timestamp, "apikey": SEFARIA_BOT_API_KEY})
+r = requests.post("https://www.mekoros.com/admin/index-sheets-by-timestamp", data={"timestamp": last_sheet_timestamp, "apikey": SEFARIA_BOT_API_KEY})
 if "error" in r.text:
     raise Exception("Error when calling admin/index-sheets-by-timestamp API: " + r.text)
 else:

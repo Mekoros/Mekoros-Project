@@ -3,8 +3,8 @@ import requests
 import time
 import json
 
-from sefaria.helper.crm.crm_connection_manager import CrmConnectionManager
-from sefaria import settings as sls
+from mekoros.helper.crm.crm_connection_manager import CrmConnectionManager
+from mekoros import settings as sls
 
 class SalesforceConnectionManager(CrmConnectionManager):
     def __init__(self):
@@ -62,11 +62,11 @@ class SalesforceConnectionManager(CrmConnectionManager):
         else:
             language = "English"
 
-        res = self.post(self.create_endpoint("Sefaria_App_User__c"),
+        res = self.post(self.create_endpoint("Mekoros_App_User__c"),
                   json={
                       "First_Name__c": first_name,
                       "Last_Name__c": last_name,
-                      "Sefaria_App_Email__c": email,
+                      "Mekoros_App_Email__c": email,
                       "Hebrew_English__c": language,
                       "Educator__c": educator
                   })
@@ -84,9 +84,9 @@ class SalesforceConnectionManager(CrmConnectionManager):
         Changes user email and returns true if successful
         """
         CrmConnectionManager.change_user_email(self, uid, new_email)
-        res = self.patch(self.create_endpoint("Sefaria_App_User__c", uid),
+        res = self.patch(self.create_endpoint("Mekoros_App_User__c", uid),
                  json={
-                     "Sefaria_App_Email__c": new_email
+                     "Mekoros_App_Email__c": new_email
                  })
         try:
             return res.status_code == 204
@@ -96,7 +96,7 @@ class SalesforceConnectionManager(CrmConnectionManager):
 
     def mark_as_spam_in_crm(self, uid):
         CrmConnectionManager.mark_as_spam_in_crm(self, uid)
-        res = self.patch(self.create_endpoint("Sefaria_App_User__c", uid),
+        res = self.patch(self.create_endpoint("Mekoros_App_User__c", uid),
                          json={
                              "Manual_Review_Required__c": True
                          })
@@ -112,7 +112,7 @@ class SalesforceConnectionManager(CrmConnectionManager):
         if email:
             CrmConnectionManager.validate_email(email)
         CrmConnectionManager.find_crm_id(self, email=email)
-        res = self.get(self.create_endpoint(f"query?=SELECT+id+FROM+Sefaria_App_User__c+WHERE+Sefaria_App_Email__c='{email}'"))
+        res = self.get(self.create_endpoint(f"query?=SELECT+id+FROM+Mekoros_App_User__c+WHERE+Mekoros_App_Email__c='{email}'"))
         try:
             print(res)
             print(res.json())
@@ -132,11 +132,11 @@ class SalesforceConnectionManager(CrmConnectionManager):
                       "Action": "Newsletter",
                       "First_Name__c": first_name,
                       "Last_Name__c": last_name,
-                      "Sefaria_App_Email__c": email,
+                      "Mekoros_App_Email__c": email,
                       "Hebrew_English__c": language,
                       "Educator__c": educator
                   })
-        res = self.post(self.create_endpoint("Sefaria_App_Data__c"),
+        res = self.post(self.create_endpoint("Mekoros_App_Data__c"),
                         json={
                             "JSON_STRING__c": json_string
                         })

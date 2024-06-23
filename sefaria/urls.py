@@ -6,17 +6,17 @@ from django.conf.urls import handler404, handler500
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 import django.contrib.auth.views as django_auth_views
-from sefaria.forms import SefariaPasswordResetForm, SefariaSetPasswordForm, SefariaLoginForm
-from sefaria.settings import DOWN_FOR_MAINTENANCE, STATIC_URL
+from mekoros.forms import MekorosPasswordResetForm, MekorosSetPasswordForm, MekorosLoginForm
+from mekoros.settings import DOWN_FOR_MAINTENANCE, STATIC_URL
 
 import reader.views as reader_views
-import sefaria.views as sefaria_views
+import mekoros.views as mekoros_views
 import sourcesheets.views as sheets_views
-import sefaria.gauth.views as gauth_views
+import mekoros.gauth.views as gauth_views
 import django.contrib.auth.views as django_auth_views
 import api.views as api_views
 
-from sefaria.site.urls import site_urlpatterns
+from mekoros.site.urls import site_urlpatterns
 
 admin.autodiscover()
 handler500 = 'reader.views.custom_server_error'
@@ -42,10 +42,10 @@ urlpatterns = [
     url(r'^community/?$', reader_views.community_page),
     url(r'^notifications/?$', reader_views.notifications),
     url(r'^modtools/?$', reader_views.modtools),
-    url(r'^modtools/upload_text$', sefaria_views.modtools_upload_workflowy),
-    url(r'^modtools/links$', sefaria_views.links_upload_api),
-    url(r'^modtools/links/(?P<tref1>.+)/(?P<tref2>.+)$', sefaria_views.get_csv_links_by_refs_api),
-    url(r'^modtools/index_links/(?P<tref1>.+)/(?P<tref2>.+)$', partial(sefaria_views.get_csv_links_by_refs_api, by_segment=True)),
+    url(r'^modtools/upload_text$', mekoros_views.modtools_upload_workflowy),
+    url(r'^modtools/links$', mekoros_views.links_upload_api),
+    url(r'^modtools/links/(?P<tref1>.+)/(?P<tref2>.+)$', mekoros_views.get_csv_links_by_refs_api),
+    url(r'^modtools/index_links/(?P<tref1>.+)/(?P<tref2>.+)$', partial(mekoros_views.get_csv_links_by_refs_api, by_segment=True)),
     url(r'^torahtracker/?$', reader_views.user_stats),
 ]
 
@@ -222,13 +222,13 @@ urlpatterns += [
 
 # Unlink Google Account Subscribe
 urlpatterns += [
-    url(r'^unlink-gauth$', sefaria_views.unlink_gauth),
+    url(r'^unlink-gauth$', mekoros_views.unlink_gauth),
 ]
 
 # Collections API
 urlpatterns += [
     url(r'^api/collections/user-collections/(?P<user_id>\d+)$', sheets_views.user_collections_api),
-    url(r'^api/collections/upload$', sefaria_views.collections_image_upload),
+    url(r'^api/collections/upload$', mekoros_views.collections_image_upload),
     url(r'^api/collections/for-sheet/(?P<sheet_id>\d+)$', sheets_views.collections_for_sheet_api),
     url(r'^api/collections(/(?P<slug>[^/]+))?$', sheets_views.collections_api),
     url(r'^api/collections/(?P<slug>[^/]+)/set-role/(?P<uid>\d+)/(?P<role>[^/]+)$', sheets_views.collections_role_api),
@@ -336,14 +336,14 @@ urlpatterns += [
 
 # Registration
 urlpatterns += [
-    url(r'^login/?$', django_auth_views.LoginView.as_view(authentication_form=SefariaLoginForm), name='login'),
-    url(r'^register/?$', sefaria_views.register, name='register'),
+    url(r'^login/?$', django_auth_views.LoginView.as_view(authentication_form=MekorosLoginForm), name='login'),
+    url(r'^register/?$', mekoros_views.register, name='register'),
     url(r'^logout/?$', django_auth_views.LogoutView.as_view(), name='logout'),
-    url(r'^password/reset/?$', django_auth_views.PasswordResetView.as_view(form_class=SefariaPasswordResetForm, email_template_name='registration/password_reset_email.txt', html_email_template_name='registration/password_reset_email.html'), name='password_reset'),
-    url(r'^password/reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', django_auth_views.PasswordResetConfirmView.as_view(form_class=SefariaSetPasswordForm), name='password_reset_confirm'),
+    url(r'^password/reset/?$', django_auth_views.PasswordResetView.as_view(form_class=MekorosPasswordResetForm, email_template_name='registration/password_reset_email.txt', html_email_template_name='registration/password_reset_email.html'), name='password_reset'),
+    url(r'^password/reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', django_auth_views.PasswordResetConfirmView.as_view(form_class=MekorosSetPasswordForm), name='password_reset_confirm'),
     url(r'^password/reset/complete/$', django_auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     url(r'^password/reset/done/$', django_auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
-    url(r'^api/register/$', sefaria_views.register_api),
+    url(r'^api/register/$', mekoros_views.register_api),
     url(r'^api/login/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     url(r'^api/login/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
     url(r'^api/account/delete$', reader_views.delete_user_account_api),
@@ -351,7 +351,7 @@ urlpatterns += [
 
 # Compare Page
 urlpatterns += [
-    url(r'^compare/?((?P<comp_ref>[^/]+)/)?((?P<lang>en|he)/)?((?P<v1>[^/]+)/)?(?P<v2>[^/]+)?$', sefaria_views.compare)
+    url(r'^compare/?((?P<comp_ref>[^/]+)/)?((?P<lang>en|he)/)?((?P<v1>[^/]+)/)?(?P<v2>[^/]+)?$', mekoros_views.compare)
 ]
 
 # Gardens
@@ -363,88 +363,88 @@ urlpatterns += [
     url(r'^vgarden/custom/(?P<key>.*)$', reader_views.custom_visual_garden_page),  # legacy.  Used for "maggid" and "ecology"
 ]
 
-# Sefaria.js -- Packaged JavaScript
+# Mekoros.js -- Packaged JavaScript
 urlpatterns += [
-    url(r'^data\.(?:(?:\d+)\.)?js$', sefaria_views.data_js), # Allow for regular data.js and also data.<timestamp>.js for caching
-    url(r'^sefaria\.js$', sefaria_views.sefaria_js),
+    url(r'^data\.(?:(?:\d+)\.)?js$', mekoros_views.data_js), # Allow for regular data.js and also data.<timestamp>.js for caching
+    url(r'^mekoros\.js$', mekoros_views.mekoros_js),
 ]
 
 # Linker js, text upload & download
 urlpatterns += [
-    url(r'^linker\.?v?([0-9]+)?\.js$', sefaria_views.linker_js),
-    url(r'^api/find-refs/report/?$', sefaria_views.find_refs_report_api),
-    url(r'^api/find-refs/?$', sefaria_views.find_refs_api),
-    url(r'^api/regexs/(?P<titles>.+)$', sefaria_views.title_regex_api),
-    url(r'^api/websites/(?P<domain>.+)$', sefaria_views.websites_api),
-    url(r'^api/linker-data/(?P<titles>.+)$', sefaria_views.linker_data_api),
-    url(r'^api/bulktext/(?P<refs>.+)$', sefaria_views.bulktext_api),
-    url(r'^download/version/(?P<title>.+) - (?P<lang>[he][en]) - (?P<versionTitle>.+)\.(?P<format>plain\.txt)', sefaria_views.text_download_api),
-    url(r'^download/version/(?P<title>.+) - (?P<lang>[he][en]) - (?P<versionTitle>.+)\.(?P<format>json|csv|txt)',sefaria_views.text_download_api),
-    url(r'^download/bulk/versions/', sefaria_views.bulk_download_versions_api),
-    url(r'^api/text-upload$', sefaria_views.text_upload_api),
-    url(r'^api/linker-track$', sefaria_views.linker_tracking_api),
+    url(r'^linker\.?v?([0-9]+)?\.js$', mekoros_views.linker_js),
+    url(r'^api/find-refs/report/?$', mekoros_views.find_refs_report_api),
+    url(r'^api/find-refs/?$', mekoros_views.find_refs_api),
+    url(r'^api/regexs/(?P<titles>.+)$', mekoros_views.title_regex_api),
+    url(r'^api/websites/(?P<domain>.+)$', mekoros_views.websites_api),
+    url(r'^api/linker-data/(?P<titles>.+)$', mekoros_views.linker_data_api),
+    url(r'^api/bulktext/(?P<refs>.+)$', mekoros_views.bulktext_api),
+    url(r'^download/version/(?P<title>.+) - (?P<lang>[he][en]) - (?P<versionTitle>.+)\.(?P<format>plain\.txt)', mekoros_views.text_download_api),
+    url(r'^download/version/(?P<title>.+) - (?P<lang>[he][en]) - (?P<versionTitle>.+)\.(?P<format>json|csv|txt)',mekoros_views.text_download_api),
+    url(r'^download/bulk/versions/', mekoros_views.bulk_download_versions_api),
+    url(r'^api/text-upload$', mekoros_views.text_upload_api),
+    url(r'^api/linker-track$', mekoros_views.linker_tracking_api),
 
 ]
 
 urlpatterns += [
-    url(r'^api/passages/(?P<refs>.+)$', sefaria_views.passages_api),
+    url(r'^api/passages/(?P<refs>.+)$', mekoros_views.passages_api),
 ]
 
 # Send Feedback
 urlpatterns += [
-    url(r'^api/send_feedback$', sefaria_views.generate_feedback),
+    url(r'^api/send_feedback$', mekoros_views.generate_feedback),
 ]
 
 # Email Subscribe
 urlpatterns += [
-    url(r'^api/subscribe/(?P<org>.+)/(?P<email>.+)$', sefaria_views.generic_subscribe_to_newsletter_api),
-    url(r'^api/subscribe/(?P<email>.+)$', sefaria_views.subscribe_sefaria_newsletter_view),
+    url(r'^api/subscribe/(?P<org>.+)/(?P<email>.+)$', mekoros_views.generic_subscribe_to_newsletter_api),
+    url(r'^api/subscribe/(?P<email>.+)$', mekoros_views.subscribe_mekoros_newsletter_view),
 ]
 
 # Admin
 urlpatterns += [
-    url(r'^admin/reset/varnish/(?P<tref>.+)$', sefaria_views.reset_varnish),
-    url(r'^admin/reset/cache$', sefaria_views.reset_cache),
-    url(r'^admin/reset/cache/(?P<title>.+)$', sefaria_views.reset_index_cache_for_text),
-    url(r'^admin/reset/counts/all$', sefaria_views.reset_counts),
-    url(r'^admin/reset/counts/(?P<title>.+)$', sefaria_views.reset_counts),
-    url(r'^admin/reset/toc$', sefaria_views.rebuild_toc),
-    url(r'^admin/reset/ac$', sefaria_views.rebuild_auto_completer),
-    url(r'^admin/reset/api/(?P<apiurl>.+)$', sefaria_views.reset_cached_api),
+    url(r'^admin/reset/varnish/(?P<tref>.+)$', mekoros_views.reset_varnish),
+    url(r'^admin/reset/cache$', mekoros_views.reset_cache),
+    url(r'^admin/reset/cache/(?P<title>.+)$', mekoros_views.reset_index_cache_for_text),
+    url(r'^admin/reset/counts/all$', mekoros_views.reset_counts),
+    url(r'^admin/reset/counts/(?P<title>.+)$', mekoros_views.reset_counts),
+    url(r'^admin/reset/toc$', mekoros_views.rebuild_toc),
+    url(r'^admin/reset/ac$', mekoros_views.rebuild_auto_completer),
+    url(r'^admin/reset/api/(?P<apiurl>.+)$', mekoros_views.reset_cached_api),
     url(r'^admin/reset/community$', reader_views.community_reset),
-    url(r'^admin/reset/(?P<tref>.+)$', sefaria_views.reset_ref),
-    url(r'^admin/reset-websites-data', sefaria_views.reset_websites_data),
-    url(r'^admin/delete/orphaned-counts', sefaria_views.delete_orphaned_counts),
-    url(r'^admin/delete/user-account', sefaria_views.delete_user_by_email, name="delete/user-account"),
-    url(r'^admin/delete/sheet$', sefaria_views.delete_sheet_by_id, name="delete/sheet"),
-    url(r'^admin/rebuild/auto-links/(?P<title>.+)$', sefaria_views.rebuild_auto_links),
-    url(r'^admin/rebuild/citation-links/(?P<title>.+)$', sefaria_views.rebuild_citation_links),
-    url(r'^admin/delete/citation-links/(?P<title>.+)$', sefaria_views.delete_citation_links),
-    url(r'^admin/cache/stats', sefaria_views.cache_stats),
-    url(r'^admin/cache/dump', sefaria_views.cache_dump),
-    url(r'^admin/run/tests', sefaria_views.run_tests),
-    url(r'^admin/export/all', sefaria_views.export_all),
-    url(r'^admin/error', sefaria_views.cause_error),
-    url(r'^admin/account-stats', sefaria_views.account_stats),
-    url(r'^admin/categorize-sheets', sefaria_views.categorize_sheets),
-    url(r'^admin/sheet-stats', sefaria_views.sheet_stats),
-    url(r'^admin/untagged-sheets', sefaria_views.untagged_sheets),
-    url(r'^admin/spam$', sefaria_views.spam_dashboard),
-    url(r'^admin/spam/sheets', sefaria_views.sheet_spam_dashboard),
-    url(r'^admin/spam/profiles', sefaria_views.profile_spam_dashboard),
-    url(r'^admin/versions-csv', sefaria_views.versions_csv),
-    url(r'^admin/index-sheets-by-timestamp', sefaria_views.index_sheets_by_timestamp),
+    url(r'^admin/reset/(?P<tref>.+)$', mekoros_views.reset_ref),
+    url(r'^admin/reset-websites-data', mekoros_views.reset_websites_data),
+    url(r'^admin/delete/orphaned-counts', mekoros_views.delete_orphaned_counts),
+    url(r'^admin/delete/user-account', mekoros_views.delete_user_by_email, name="delete/user-account"),
+    url(r'^admin/delete/sheet$', mekoros_views.delete_sheet_by_id, name="delete/sheet"),
+    url(r'^admin/rebuild/auto-links/(?P<title>.+)$', mekoros_views.rebuild_auto_links),
+    url(r'^admin/rebuild/citation-links/(?P<title>.+)$', mekoros_views.rebuild_citation_links),
+    url(r'^admin/delete/citation-links/(?P<title>.+)$', mekoros_views.delete_citation_links),
+    url(r'^admin/cache/stats', mekoros_views.cache_stats),
+    url(r'^admin/cache/dump', mekoros_views.cache_dump),
+    url(r'^admin/run/tests', mekoros_views.run_tests),
+    url(r'^admin/export/all', mekoros_views.export_all),
+    url(r'^admin/error', mekoros_views.cause_error),
+    url(r'^admin/account-stats', mekoros_views.account_stats),
+    url(r'^admin/categorize-sheets', mekoros_views.categorize_sheets),
+    url(r'^admin/sheet-stats', mekoros_views.sheet_stats),
+    url(r'^admin/untagged-sheets', mekoros_views.untagged_sheets),
+    url(r'^admin/spam$', mekoros_views.spam_dashboard),
+    url(r'^admin/spam/sheets', mekoros_views.sheet_spam_dashboard),
+    url(r'^admin/spam/profiles', mekoros_views.profile_spam_dashboard),
+    url(r'^admin/versions-csv', mekoros_views.versions_csv),
+    url(r'^admin/index-sheets-by-timestamp', mekoros_views.index_sheets_by_timestamp),
     url(r'^admin/community-preview', reader_views.community_preview),
-    url(r'^admin/descriptions/authors/update', sefaria_views.update_authors_from_sheet),
-    url(r'^admin/descriptions/categories/update', sefaria_views.update_categories_from_sheet),
-    url(r'^admin/descriptions/texts/update', sefaria_views.update_texts_from_sheet),
+    url(r'^admin/descriptions/authors/update', mekoros_views.update_authors_from_sheet),
+    url(r'^admin/descriptions/categories/update', mekoros_views.update_categories_from_sheet),
+    url(r'^admin/descriptions/texts/update', mekoros_views.update_texts_from_sheet),
     url(r'^admin/?', include(admin.site.urls)),
 ]
 
 # Stats API - return CSV
 urlpatterns += [
-    url(r'^api/stats/library-stats', sefaria_views.library_stats),
-    url(r'^api/stats/core-link-stats', sefaria_views.core_link_stats),
+    url(r'^api/stats/library-stats', mekoros_views.library_stats),
+    url(r'^api/stats/core-link-stats', mekoros_views.core_link_stats),
 ]
 
 # Google API OAuth 2.0
@@ -474,7 +474,7 @@ urlpatterns += [
 if DOWN_FOR_MAINTENANCE:
     # Keep admin accessible
     urlpatterns = [
-        url(r'^admin/reset/cache', sefaria_views.reset_cache),
+        url(r'^admin/reset/cache', mekoros_views.reset_cache),
         url(r'^admin/?', include(admin.site.urls)),
         url(r'^healthz/?$', reader_views.application_health_api),  # this oddly is returning 'alive' when it's not.  is k8s jumping in the way?
         url(r'^health-check/?$', reader_views.application_health_api),
@@ -482,5 +482,5 @@ if DOWN_FOR_MAINTENANCE:
     ]
     # Everything else gets maintenance message
     urlpatterns += [
-        url(r'.*', sefaria_views.maintenance_message)
+        url(r'.*', mekoros_views.maintenance_message)
     ]

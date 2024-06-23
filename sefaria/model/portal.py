@@ -1,5 +1,5 @@
 from . import abstract as abst
-from sefaria.system.validators import validate_url, validate_http_method
+from mekoros.system.validators import validate_url, validate_http_method
 import structlog
 
 logger = structlog.get_logger(__name__)

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Miscellaneous functions for Sefaria.
+Miscellaneous functions for Mekoros.
 """
 from datetime import datetime
 from html.parser import HTMLParser
 import re
 from functools import wraps
 from itertools import zip_longest
-from sefaria.constants.model import ALLOWED_TAGS_IN_ABSTRACT_TEXT_RECORD
+from mekoros.constants.model import ALLOWED_TAGS_IN_ABSTRACT_TEXT_RECORD
 
 """
 Time utils

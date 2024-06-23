@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from sefaria.model import *
-from sefaria.model.schema import *
+from mekoros.model import *
+from mekoros.model.schema import *
 from convert_to_complex_text import *
 from completely_delete_index_and_related import *
 

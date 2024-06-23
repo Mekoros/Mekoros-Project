@@ -5,8 +5,8 @@ import {
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes  from 'prop-types';
 import classNames  from 'classnames';
-import Sefaria  from './sefaria/sefaria';
-import $  from './sefaria/sefariaJquery';
+import Mekoros  from './mekoros/mekoros';
+import $  from './mekoros/mekorosJquery';
 import { NavSidebar, Modules } from './NavSidebar';
 import Footer  from './Footer';
 import {CategoryHeader} from "./Misc";
@@ -14,7 +14,7 @@ import Component from 'react-class';
 
 // The root topics page listing topic categories to browse
 const TopicsPage = ({setNavTopic, multiPanel, initialWidth}) => {
-  let categoryListings = Sefaria.topic_toc.map(cat => {
+  let categoryListings = Mekoros.topic_toc.map(cat => {
     const openCat = e => {e.preventDefault(); setNavTopic(cat.slug, {en: cat.en, he: cat.he})};
     return (
       <div className="navBlock">
@@ -27,7 +27,7 @@ const TopicsPage = ({setNavTopic, multiPanel, initialWidth}) => {
       </div>
     );
   });
-  const letter = Sefaria.interfaceLang === "hebrew" ? "א" : "a";
+  const letter = Mekoros.interfaceLang === "hebrew" ? "א" : "a";
   categoryListings.push(
     <div className="navBlock">
       <a href={"/topics/all/" + letter} className="navBlockTitle">
@@ -52,7 +52,7 @@ const TopicsPage = ({setNavTopic, multiPanel, initialWidth}) => {
     {type: "TrendingTopics"},
     {type: "JoinTheConversation"},
     {type: "GetTheApp"},
-    {type: "SupportSefaria"},
+    {type: "SupportMekoros"},
   ];
 
 

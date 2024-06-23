@@ -1,9 +1,9 @@
 import django, os, json
 from functools import reduce
 django.setup()
-from sefaria.model import *
-from sefaria.utils.hebrew import strip_cantillation
-from sefaria.helper.linker import make_html
+from mekoros.model import *
+from mekoros.utils.hebrew import strip_cantillation
+from mekoros.helper.linker import make_html
 
 
 def get_text(dicta_obj):

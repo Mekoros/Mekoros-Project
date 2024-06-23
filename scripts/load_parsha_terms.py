@@ -2,7 +2,7 @@
 
 import csv
 
-import sefaria.model as model
+import mekoros.model as model
 
 
 cfile = "../tmp/parsha.csv"

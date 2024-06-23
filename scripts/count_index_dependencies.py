@@ -10,8 +10,8 @@ import regex as re
 import pprint
 import sys
 
-from sefaria.model import *
-import sefaria.model.dependencies
+from mekoros.model import *
+import mekoros.model.dependencies
 pp = pprint.PrettyPrinter(indent=4)
 
 

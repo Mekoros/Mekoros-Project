@@ -1,7 +1,7 @@
 import django
 django.setup()
-from sefaria.model import *
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.system.database import db
 import csv
 if __name__ == "__main__":
     f = open("./data/yad_ramah.csv")

@@ -1,10 +1,10 @@
 import csv
 import difflib
-from sefaria.system.database import db
+from mekoros.system.database import db
 import django
 django.setup()
-from sefaria.model import *
-from sefaria.system.exceptions import InputError
+from mekoros.model import *
+from mekoros.system.exceptions import InputError
 
 def create_ref_map(refs_map, file):
     with open(file) as f:
@@ -128,7 +128,7 @@ if __name__ == "__main__":
     # load_csv(prod_ref_to_text, "production.csv")
     # load_csv(draft_ref_to_text, "draft.csv")
     # matches = get_text_for_source_refs(ref_map, draft_ref_to_text, prod_ref_to_text)
-    #draft_ref_to_text[row[1]] = get_text(row[1], text_info["lang"], text_info["versionTitle"], "http://draft.sefaria.org")["text"]
+    #draft_ref_to_text[row[1]] = get_text(row[1], text_info["lang"], text_info["versionTitle"], "http://draft.mekoros.com")["text"]
     with open("scripts/shney_luchot_habrit_source_sheet_refs.csv") as file:
         reader = csv.reader(file)
         for row in reader:

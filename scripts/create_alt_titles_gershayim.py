@@ -1,6 +1,6 @@
 import django
 django.setup()
-from sefaria.model import *
+from mekoros.model import *
 count = 0
 changed = []
 i = library.get_index("Rashi on Bereshit Rabbah")

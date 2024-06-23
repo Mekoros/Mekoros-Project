@@ -1,8 +1,8 @@
 import django
 django.setup()
-from sefaria.model import *
+from mekoros.model import *
 from tqdm import tqdm
-from sefaria.system.exceptions import DuplicateRecordError, InputError
+from mekoros.system.exceptions import DuplicateRecordError, InputError
 import regex as re
 import json
 

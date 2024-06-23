@@ -3,8 +3,8 @@ import unicodecsv as csv
 import re
 from itertools import groupby
 
-from sefaria.model import *
-from sefaria.helper.splice import SegmentSplicer
+from mekoros.model import *
+from mekoros.helper.splice import SegmentSplicer
 
 
 

@@ -13,7 +13,7 @@ import os
 import csv
 import django
 django.setup()
-from sefaria.model import *
+from mekoros.model import *
 
 SOURCE_SLUG = "learning-team"
 
@@ -21,7 +21,7 @@ def set_topic_datasource():
     tds_json = {
         "slug": SOURCE_SLUG,
         "displayName": {
-            "en": "Curation of the Sefaria Learning Team",
+            "en": "Curation of the Mekoros Learning Team",
             "he": "איסוף ועריכה של צוות החינוך בספריא"
         }
     }

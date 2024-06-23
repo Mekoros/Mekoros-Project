@@ -6,7 +6,7 @@ metadata:
   name: local-settings-web-{{ .Values.deployEnv }}
   labels:
     deployEnv: {{ .Values.deployEnv | quote }}
-    {{- include "sefaria.labels" . | nindent 4 }}
+    {{- include "mekoros.labels" . | nindent 4 }}
 data:
     {{ .Values.web.localsettings | toYaml | nindent 2 }}
 {{- end }}

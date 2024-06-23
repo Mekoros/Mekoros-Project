@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from sefaria.model import *
+from mekoros.model import *
 
 titles = library.get_indexes_in_category("Bavli")
 for title in titles:

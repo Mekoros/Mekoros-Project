@@ -4,10 +4,10 @@ metadata:
   name: gunicorn-config-{{ .Values.deployEnv }}
   labels:
     deployEnv: "{{ .Values.deployEnv }}"
-    {{- include "sefaria.labels" . | nindent 4 }}
+    {{- include "mekoros.labels" . | nindent 4 }}
 data:
   gunicorn.conf.py: |-
-    # args: [ "python manage.py migrate && gunicorn sefaria.wsgi --access-logfile - --error-logfile /log/gunicorn-error.log --timeout 300 --worker-class=gevent --worker-connection 2000 --worker-tmp-dir /dev/shm -b 0.0.0.0:80" ]
+    # args: [ "python manage.py migrate && gunicorn mekoros.wsgi --access-logfile - --error-logfile /log/gunicorn-error.log --timeout 300 --worker-class=gevent --worker-connection 2000 --worker-tmp-dir /dev/shm -b 0.0.0.0:80" ]
     # Todo:
     # - Add commandline arguments here
     # - configure logging
@@ -79,7 +79,7 @@ data:
         return event_dict
 
 
-    # this is duplicated from sefaria.system.logging
+    # this is duplicated from mekoros.system.logging
     def add_severity(logger, method_name, event_dict):
         """
 

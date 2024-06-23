@@ -9,12 +9,12 @@ import argparse
 
 
 
-from sefaria.model import *
-from sefaria.helper.file import scrape_image, thumbnail_image_file
-from sefaria.google_storage_manager import GoogleStorageManager
-from sefaria.system.cache import cache_get_key
+from mekoros.model import *
+from mekoros.helper.file import scrape_image, thumbnail_image_file
+from mekoros.google_storage_manager import GoogleStorageManager
+from mekoros.system.cache import cache_get_key
 
-VERSION_IMAGE_BUCKET = "sefaria-physical-editions"
+VERSION_IMAGE_BUCKET = "mekoros-physical-editions"
 
 
 def process_versions_sheet(incremental=False, process_images=True):

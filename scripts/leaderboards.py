@@ -2,8 +2,8 @@
 from datetime import datetime, timedelta
 from collections import defaultdict
 
-from sefaria.history import make_leaderboard
-from sefaria.system.database import db
+from mekoros.history import make_leaderboard
+from mekoros.system.database import db
 
 def update_top_contributors(days=None):
     """

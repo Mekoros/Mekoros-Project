@@ -8,8 +8,8 @@ import os
 import sys
 import re
 
-from sefaria.model import *
-from sefaria.helper.text import *
+from mekoros.model import *
+from mekoros.helper.text import *
 import csv
 import argparse
 import pdb

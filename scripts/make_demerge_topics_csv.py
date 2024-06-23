@@ -1,8 +1,8 @@
 import django
-from sefaria.model import *
+from mekoros.model import *
 import re
 import sys, getopt, csv
-from sefaria.system.database import db
+from mekoros.system.database import db
 from bson.objectid import ObjectId
 
 django.setup()
@@ -26,7 +26,7 @@ def make_demerge_csv_sources(slug_to_demerge, out_file):
             "He": prettify_text(he),
             "Ref": l.ref,
             "Datasource": l.dataSource,
-            "URL": f'https://www.sefaria.org/{oref.url()}'
+            "URL": f'https://www.mekoros.com/{oref.url()}'
         }]
     with open(out_file, 'w') as fout:
         c = csv.DictWriter(fout, ['Id', 'En', 'He', 'Ref', 'Datasource', 'URL'])
@@ -43,7 +43,7 @@ def make_demerge_csv_sheets(slug_to_demerge, out_file):
         rows += [{
             "Id": str(sheet['id']),
             "Title": prettify_text(sheet['title']),
-            "URL": f'https://www.sefaria.org/sheets/{sheet["id"]}',
+            "URL": f'https://www.mekoros.com/sheets/{sheet["id"]}',
             "Topic Typed": " | ".join(topics)
         }]
     with open(out_file, 'w') as fout:

@@ -2,7 +2,7 @@ import math
 
 from . import abstract as abst
 from . import text
-from sefaria.system.exceptions import InputError
+from mekoros.system.exceptions import InputError
 
 import structlog
 logger = structlog.get_logger(__name__)
@@ -64,6 +64,6 @@ def process_index_title_change_in_ref_data(indx, **kwargs):
 
 
 def process_index_delete_in_ref_data(indx, **kwargs):
-    from sefaria.model.text import prepare_index_regex_for_dependency_process
+    from mekoros.model.text import prepare_index_regex_for_dependency_process
     pattern = prepare_index_regex_for_dependency_process(indx)
     RefDataSet({"ref": {"$regex": pattern}}).delete()

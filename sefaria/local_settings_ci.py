@@ -7,8 +7,8 @@ import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sefaria_auth',
-        'USER': 'sefaria',
+        'NAME': 'mekoros_auth',
+        'USER': 'mekoros',
         'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '',
@@ -39,7 +39,7 @@ CACHES = {
     }
 }
 
-SITE_PACKAGE = "sites.sefaria"
+SITE_PACKAGE = "sites.mekoros"
 
 DEBUG = True
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', "0.0.0.0", '[::1]']
@@ -80,8 +80,8 @@ NODE_HOST = "http://localhost:4040"
 NODE_TIMEOUT = 10
 # NODE_TIMEOUT_MONITOR = relative_to_abs_path("../log/forever/timeouts")
 
-SEFARIA_DATA_PATH = '/path/to/your/Sefaria-Data' # used for Data
-SEFARIA_EXPORT_PATH = '/path/to/your/Sefaria-Data/export' # used for exporting texts
+SEFARIA_DATA_PATH = '/path/to/your/Mekoros-Data' # used for Data
+SEFARIA_EXPORT_PATH = '/path/to/your/Mekoros-Data/export' # used for exporting texts
 
 
 GOOGLE_TAG_MANAGER_CODE = 'you tag manager code here'
@@ -159,7 +159,7 @@ SENTINEL_TRANSPORT_OPTS = {}
 SENTINEL_PASSWORD = None
 REDIS_URL = "redis://127.0.0.1"
 
-# Key which identifies the Sefaria app as opposed to a user
+# Key which identifies the Mekoros app as opposed to a user
 # using our API outside of the app. Mainly for registration
 MOBILE_APP_KEY = "MOBILE_APP_KEY"
 

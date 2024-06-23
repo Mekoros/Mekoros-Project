@@ -2,11 +2,11 @@
 import re
 import django
 django.setup()
-from sefaria.model import *
-from sefaria.helper import schema
-from sefaria.sheets import save_sheet
-from sefaria.system.database import db
-from sefaria.system.exceptions import BookNameError
+from mekoros.model import *
+from mekoros.helper import schema
+from mekoros.sheets import save_sheet
+from mekoros.system.database import db
+from mekoros.system.exceptions import BookNameError
 import pytest
 
 

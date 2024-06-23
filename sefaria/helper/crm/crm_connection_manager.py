@@ -14,7 +14,7 @@ class CrmConnectionManager(object):
 
     def add_user_to_crm(self, email, first_name, last_name, lang="en", educator=False):
         """
-        Add a new Sefaria app user to the CRM.
+        Add a new Mekoros app user to the CRM.
         Returns user id if successful
         Returns false if no user added
         """

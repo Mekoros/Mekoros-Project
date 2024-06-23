@@ -4,12 +4,12 @@ import sys
 import os
 p = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, p)
-sys.path.insert(0, p + "/sefaria")
+sys.path.insert(0, p + "/mekoros")
 
 import pymongo
 
-from sefaria.texts import get_text, generate_refs_list
-from sefaria.settings import *
+from mekoros.texts import get_text, generate_refs_list
+from mekoros.settings import *
 
 connection = pymongo.Connection()
 db = connection[SEFARIA_DB]

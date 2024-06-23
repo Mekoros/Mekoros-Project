@@ -1,4 +1,4 @@
-import Sefaria from "./sefaria/sefaria";
+import Mekoros from "./mekoros/mekoros";
 import React, {useEffect, useState} from "react";
 import classNames from "classnames";
 import {EnglishText, HebrewText, InterfaceText, SearchButton} from "./Misc";
@@ -100,13 +100,13 @@ const getURLForObject = function(type, key) {
 };
 
 const getQueryObj = (query) => {
-  return Sefaria.getName(query)
+  return Mekoros.getName(query)
     .then(d => {
-      const repairedCaseVariant = Sefaria.repairCaseVariant(query, d);
+      const repairedCaseVariant = Mekoros.repairCaseVariant(query, d);
       if (repairedCaseVariant !== query) {
         return getQueryObj(repairedCaseVariant);
       }
-      const repairedQuery = Sefaria.repairGershayimVariant(query, d);
+      const repairedQuery = Mekoros.repairGershayimVariant(query, d);
       if (repairedQuery !== query) {
         return getQueryObj(repairedQuery);
       }
@@ -124,7 +124,7 @@ const getQueryObj = (query) => {
 };
 
 const TextualSearchSuggestion = ({label, onClick, ...props}) => {
-    const searchOverridePre = Sefaria._('Search for') +':';
+    const searchOverridePre = Mekoros._('Search for') +':';
     const displayedLabel = (
         <>
             <span className={"search-override-text"}>
@@ -146,7 +146,7 @@ const TextualSearchSuggestion = ({label, onClick, ...props}) => {
 const SearchSuggestionInner = ({ value, type, displayedLabel, label, url, pic,
                                 wrapperClasses,
                               universalIndex, highlightedIndex, getItemProps, onClick}) => {
-  const isHebrew = Sefaria.hebrew.isHebrew(label);
+  const isHebrew = Mekoros.hebrew.isHebrew(label);
   return (
       <a href={url} onClick={onClick} className={`search-suggestion-link-wrapper ${wrapperClasses}`}>
           <div
@@ -210,7 +210,7 @@ const SearchInputBox = ({getInputProps, suggestions, highlightedIndex, hideHebre
       if (document.getElementById('keyboardInputMaster')) {
         return; // if keyboard is open, ignore
       }
-      if (Sefaria.interfaceLang === 'english' && !hideHebrewKeyboard) {
+      if (Mekoros.interfaceLang === 'english' && !hideHebrewKeyboard) {
         const keyboardInitiator = document.querySelector(".keyboardInputInitiator");
         if (keyboardInitiator) {
           keyboardInitiator.style.display = show ? "inline" : "none";
@@ -235,8 +235,8 @@ const SearchInputBox = ({getInputProps, suggestions, highlightedIndex, hideHebre
     const inputClasses = classNames({
       search: 1,
       serif: 1,
-      keyboardInput: Sefaria.interfaceLang === "english",
-      hebrewSearch: Sefaria.interfaceLang === "hebrew"
+      keyboardInput: Mekoros.interfaceLang === "english",
+      hebrewSearch: Mekoros.interfaceLang === "hebrew"
     });
 
     const searchBoxClasses = classNames({ searchBox: 1, searchFocused });
@@ -248,12 +248,12 @@ const SearchInputBox = ({getInputProps, suggestions, highlightedIndex, hideHebre
         <input
           className={inputClasses}
           id="searchInput"
-          placeholder={Sefaria._("Search")}
+          placeholder={Mekoros._("Search")}
           onKeyDown={handleSearchKeyDown}
           onFocus={focusSearch}
           onBlur={blurSearch}
           maxLength={75}
-          title={Sefaria._("Search for Texts or Keywords Here")}
+          title={Mekoros._("Search for Texts or Keywords Here")}
           {...otherDownShiftProps}
         />
       </div>
@@ -368,7 +368,7 @@ const SuggestionsGroup = ({ suggestions, initialIndexForGroup, getItemProps, hig
       return;
     }
   try {
-    const d = await Sefaria.getName(inputValue);
+    const d = await Mekoros.getName(inputValue);
 
     let comps = d["completion_objects"].map(o => {
       const c = {...o};
@@ -411,13 +411,13 @@ const SuggestionsGroup = ({ suggestions, initialIndexForGroup, getItemProps, hig
 
           if (queryType === 'Ref') {
               let action = queryIsBook ? "Search Box Navigation - Book" : "Search Box Navigation - Citation";
-              Sefaria.track.event("Search", action, queryId);
+              Mekoros.track.event("Search", action, queryId);
               clearSearchBox();
               onRefClick(queryId);
               onNavigate && onNavigate();
           }
           else if (queryType === 'Topic') {
-              Sefaria.track.event("Search", "Search Box Navigation - Topic", query);
+              Mekoros.track.event("Search", "Search Box Navigation - Topic", query);
               clearSearchBox();
               openTopic(queryId);
               onNavigate && onNavigate();
@@ -426,7 +426,7 @@ const SuggestionsGroup = ({ suggestions, initialIndexForGroup, getItemProps, hig
               redirectToObject(queryType, queryId);
           }
           else {
-              Sefaria.track.event("Search", "Search Box Search", queryId);
+              Mekoros.track.event("Search", "Search Box Search", queryId);
               showSearchWrapper(queryId);
               clearSearchBox();
           }
@@ -447,7 +447,7 @@ const SuggestionsGroup = ({ suggestions, initialIndexForGroup, getItemProps, hig
   };
 
   const redirectToObject = (item) => {
-    Sefaria.track.event("Search", `Search Box Navigation - ${item.type}`, item.key);
+    Mekoros.track.event("Search", `Search Box Navigation - ${item.type}`, item.key);
     clearSearchBox();
     const url = item.url
     const handled = openURL(url);

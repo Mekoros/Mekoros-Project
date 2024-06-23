@@ -4,7 +4,7 @@ django.setup()
 
 import csv
 from optparse import OptionParser
-from sefaria.model import *
+from mekoros.model import *
 
 
 class SugyaDeriver(object):

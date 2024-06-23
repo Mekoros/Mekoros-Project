@@ -9,13 +9,13 @@ from functools import wraps
 
 from django.template.loader import render_to_string
 
-from sefaria.settings import *
-from sefaria.site.site_settings import SITE_SETTINGS
-from sefaria.model import library
-from sefaria.model.user_profile import UserProfile, UserHistorySet, UserWrapper
-from sefaria.utils import calendars
-from sefaria.utils.util import short_to_long_lang_code
-from sefaria.utils.hebrew import hebrew_parasha_name
+from mekoros.settings import *
+from mekoros.site.site_settings import SITE_SETTINGS
+from mekoros.model import library
+from mekoros.model.user_profile import UserProfile, UserHistorySet, UserWrapper
+from mekoros.utils import calendars
+from mekoros.utils.util import short_to_long_lang_code
+from mekoros.utils.hebrew import hebrew_parasha_name
 from reader.views import render_react_component, _get_user_calendar_params
 
 import structlog
@@ -42,7 +42,7 @@ def data_only(view):
     """
     @wraps(view)
     def wrapper(request):
-        if request.path == "/sefaria.js" or request.path.startswith("/data.") or request.path.startswith("/sheets/"):
+        if request.path == "/mekoros.js" or request.path.startswith("/data.") or request.path.startswith("/sheets/"):
             return view(request)
         else:
             return {}

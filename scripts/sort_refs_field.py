@@ -1,6 +1,6 @@
 import django
 django.setup()
-from sefaria.model import *
+from mekoros.model import *
 print("Sorting refs on each link...")
 i = 0
 start = 0

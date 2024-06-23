@@ -1,7 +1,7 @@
-from sefaria.model import *
+from mekoros.model import *
 from helper.link import add_links_from_text
-from sefaria.system.database import db
-from sefaria.utils.talmud import section_to_daf
+from mekoros.system.database import db
+from mekoros.utils.talmud import section_to_daf
 
 # Find links that were generated from a Berakhot text
 oids = db.texts.find({"title": "Berakhot"}).distinct("_id")

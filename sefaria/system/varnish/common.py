@@ -1,9 +1,9 @@
 import subprocess
 from urllib.parse import urlparse
 from http.client import HTTPConnection
-from sefaria.settings import VARNISH_ADM_ADDR, VARNISH_HOST, VARNISH_FRNT_PORT, VARNISH_SECRET, FRONT_END_URL
+from mekoros.settings import VARNISH_ADM_ADDR, VARNISH_HOST, VARNISH_FRNT_PORT, VARNISH_SECRET, FRONT_END_URL
 
-from sefaria.utils.util import graceful_exception
+from mekoros.utils.util import graceful_exception
 
 import structlog
 logger = structlog.get_logger(__name__)

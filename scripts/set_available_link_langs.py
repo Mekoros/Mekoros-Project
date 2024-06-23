@@ -3,7 +3,7 @@
 import django
 django.setup()
 
-from sefaria.model.link import LinkSet
+from mekoros.model.link import LinkSet
 
 links = LinkSet()
 print("Saving {} links...".format(links.count()))

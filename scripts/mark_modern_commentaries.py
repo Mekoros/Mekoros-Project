@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from sefaria.model import Index, Term
+from mekoros.model import Index, Term
 
 titles = {
 

@@ -31,9 +31,9 @@ steps:
   # Build artifacts
   - name: gcr.io/kaniko-project/executor:v1.6.0
     args:
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-web-${_ENV_NAME}:$SHORT_SHA
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-web-${_ENV_NAME}:$TAG_NAME
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-web-${_ENV_NAME}:latest
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-web-${_ENV_NAME}:$SHORT_SHA
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-web-${_ENV_NAME}:$TAG_NAME
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-web-${_ENV_NAME}:latest
       - --cache=true
       - --dockerfile=build/web/Dockerfile
       - --context=dir://.
@@ -42,9 +42,9 @@ steps:
 
   - name: gcr.io/kaniko-project/executor:v1.6.0
     args:
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-node-${_ENV_NAME}:$SHORT_SHA
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-node-${_ENV_NAME}:$TAG_NAME
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-node-${_ENV_NAME}:latest
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-node-${_ENV_NAME}:$SHORT_SHA
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-node-${_ENV_NAME}:$TAG_NAME
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-node-${_ENV_NAME}:latest
       - --cache=true
       - --dockerfile=build/node/Dockerfile
       - --context=dir://.
@@ -53,12 +53,12 @@ steps:
   
   - name: gcr.io/kaniko-project/executor:v1.6.0
     args:
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-asset-${_ENV_NAME}:$SHORT_SHA
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-asset-${_ENV_NAME}:$TAG_NAME
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-asset-${_ENV_NAME}:latest
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-asset-${_ENV_NAME}:$SHORT_SHA
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-asset-${_ENV_NAME}:$TAG_NAME
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-asset-${_ENV_NAME}:latest
       - --cache=false
       - --dockerfile=build/nginx/Dockerfile
-      - --build-arg=SRC_IMG=gcr.io/${PROJECT_ID}/sefaria-web-${_ENV_NAME}:$SHORT_SHA
+      - --build-arg=SRC_IMG=gcr.io/${PROJECT_ID}/mekoros-web-${_ENV_NAME}:$SHORT_SHA
       - --context=dir://.
     id: nginx_container
     wait_for: [ web_container ]
@@ -87,7 +87,7 @@ steps:
       - 'IS_SANDBOX=${_IS_SANDBOX}'
       - 'MONGO_HOST=${_MONGO_HOST}' # Should this be parmeterized here or read in the repo
       - 'POSTGRES_HOST=${_POSTGRES_HOST}' # Should this be parmeterized here or read in the repo
-      - 'SEFARIA_DB=sefaria-${_ENV_NAME}'
+      - 'SEFARIA_DB=mekoros-${_ENV_NAME}'
     wait_for: [ "k8s-admin_clone" ]
   
   # Copy localsettings into file
@@ -96,7 +96,7 @@ steps:
     dir: k8s-admin/v2
     id: copy_localsettings_file
     entrypoint: cp
-    args: ["-f", "./app_settings/local_settings/_local_settings.py", "./charts/sefaria/local_settings.py"]
+    args: ["-f", "./app_settings/local_settings/_local_settings.py", "./charts/mekoros/local_settings.py"]
     wait_for:
       - generate_localsettings_file
       - k8s-admin_clone
@@ -116,14 +116,14 @@ steps:
     dir: k8s-admin/v2
     id: copy_robots_file
     entrypoint: cp
-    args: ["-f", "./app_settings/nginx/_robots.txt", "./charts/sefaria/robots.txt"]
+    args: ["-f", "./app_settings/nginx/_robots.txt", "./charts/mekoros/robots.txt"]
     wait_for:
       - generate_robots_file
 
   - name: "gcr.io/${PROJECT_ID}/cloudbuild-helm:v3.5.4"
     id: deploy_sandbox
     dir: k8s-admin/v2
-    args: ["upgrade", "-i", "sefaria-${_ENV_NAME}", "./charts/sefaria", "--namespace", "${_GKE_NAMESPACE}", "--set-string", "releaseImageTag=$SHORT_SHA", "-f", "app_settings/helm/_envValues.yaml", "-f", "app_settings/helm/_resourceValues.yaml", "--debug"]
+    args: ["upgrade", "-i", "mekoros-${_ENV_NAME}", "./charts/mekoros", "--namespace", "${_GKE_NAMESPACE}", "--set-string", "releaseImageTag=$SHORT_SHA", "-f", "app_settings/helm/_envValues.yaml", "-f", "app_settings/helm/_resourceValues.yaml", "--debug"]
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=${_GKE_REGION}'
       - 'CLOUDSDK_CONTAINER_CLUSTER=${_GKE_CLUSTER}'

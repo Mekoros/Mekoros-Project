@@ -6,8 +6,8 @@ import re
 import django
 django.setup()
 
-from sefaria.system.database import db
-from sefaria.model import *
+from mekoros.system.database import db
+from mekoros.model import *
 
 
 def write_sheet_makers_csv(query={}):

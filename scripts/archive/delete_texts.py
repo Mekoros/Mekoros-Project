@@ -8,11 +8,11 @@ import os
 
 p = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, p)
-sys.path.insert(0, p + "/sefaria")
+sys.path.insert(0, p + "/mekoros")
 os.environ['DJANGO_SETTINGS_MODULE'] = "settings"
 
-from sefaria.texts import delete_text
-from sefaria.system.database import db
+from mekoros.texts import delete_text
+from mekoros.system.database import db
 
 
 texts = (

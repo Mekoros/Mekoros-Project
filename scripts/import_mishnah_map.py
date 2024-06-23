@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from sefaria.model import *
-import sefaria.tracker as tracker
-from sefaria.system.exceptions import DuplicateRecordError
+from mekoros.model import *
+import mekoros.tracker as tracker
+from mekoros.system.exceptions import DuplicateRecordError
 
 import unicodecsv as csv
 import re

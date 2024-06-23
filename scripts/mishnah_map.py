@@ -1,7 +1,7 @@
 # encoding=utf-8
 
 import csv
-from sefaria.model import *
+from mekoros.model import *
 
 
 def compile_refs(row):

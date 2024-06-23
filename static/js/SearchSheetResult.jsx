@@ -1,6 +1,6 @@
 import React  from 'react';
-import $  from './sefaria/sefariaJquery';
-import Sefaria  from './sefaria/sefaria';
+import $  from './mekoros/mekorosJquery';
+import Mekoros  from './mekoros/mekoros';
 import classNames  from 'classnames';
 import PropTypes  from 'prop-types';
 import Component      from 'react-class';
@@ -17,16 +17,16 @@ class SearchSheetResult extends Component {
         e.preventDefault()
         this.props.onResultClick("Sheet " + s.sheetId);
       }
-      Sefaria.track.event("Search", "Search Result Sheet Click", `${this.props.query} - ${s.sheetId}`);
+      Mekoros.track.event("Search", "Search Result Sheet Click", `${this.props.query} - ${s.sheetId}`);
     }
     handleProfileClick(e) {
       const s = this.props.data._source;
-      Sefaria.track.event("Search", "Search Result Sheet Owner Click", `${this.props.query} - ${s.sheetId} - ${s.owner_name}`);
+      Mekoros.track.event("Search", "Search Result Sheet Owner Click", `${this.props.query} - ${s.sheetId} - ${s.owner_name}`);
     }
     get_snippet_markup(data) {
       let snippet = data.highlight.content.join("..."); // data.highlight ? data.highlight.content.join("...") : s.content;
       snippet = snippet.replace(/^[ .,;:!-)\]]+/, "");
-      const lang = Sefaria.hebrew.isHebrew(snippet) ? "he" : "en";
+      const lang = Mekoros.hebrew.isHebrew(snippet) ? "he" : "en";
       return { markup: {__html: snippet}, lang };
     }
     render() {
@@ -36,9 +36,9 @@ class SearchSheetResult extends Component {
         var href = "/sheets/" + s.sheetId;
         const snippetMarkup = this.get_snippet_markup(data);
         const snippetClasses = classNames({snippet: 1, en: snippetMarkup.lang == "en", he: snippetMarkup.lang == "he"});
-        const ownerIsHe = Sefaria.hebrew.isHebrew(s.owner_name);
-        const titleIsHe = Sefaria.hebrew.isHebrew(clean_title);
-        const tags = s.tags && s.tags.length ? Sefaria.util.zip(s.tags, s.topic_slugs, s.topics_he) : [];
+        const ownerIsHe = Mekoros.hebrew.isHebrew(s.owner_name);
+        const titleIsHe = Mekoros.hebrew.isHebrew(clean_title);
+        const tags = s.tags && s.tags.length ? Mekoros.util.zip(s.tags, s.topic_slugs, s.topics_he) : [];
         return (
             <div className='result sheetResult'>
                 <a href={href} onClick={this.handleSheetClick}>

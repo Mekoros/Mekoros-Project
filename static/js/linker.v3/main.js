@@ -70,8 +70,8 @@ import {LinkExcluder} from "./excluder";
         parent.normalize();
     }
 
-    function removeExistingSefariaLinks() {
-        for (let el of document.querySelectorAll('a.sefaria-ref, span.sefaria-ref-wrapper')) {
+    function removeExistingMekorosLinks() {
+        for (let el of document.querySelectorAll('a.mekoros-ref, span.mekoros-ref-wrapper')) {
             unwrap(el);
         }
     }
@@ -153,11 +153,11 @@ import {LinkExcluder} from "./excluder";
         const atag = document.createElement("a");
         atag.target = "_blank";
         atag.textContent = text;
-        atag.className = "sefaria-ref";
+        atag.className = "mekoros-ref";
         if (ns.debug) {
-            atag.className += " sefaria-ref-debug";
-            if (linkFailed) { atag.className += " sefaria-link-failed"; }
-            if (isAmbiguous) { atag.className += " sefaria-link-ambiguous"; }
+            atag.className += " mekoros-ref-debug";
+            if (linkFailed) { atag.className += " mekoros-link-failed"; }
+            if (isAmbiguous) { atag.className += " mekoros-link-ambiguous"; }
         }
 
         atag.setAttribute('data-result-index', iLinkObj);
@@ -165,9 +165,9 @@ import {LinkExcluder} from "./excluder";
 
         if (linkFailed) { return atag; }  // debug and linkFailed
 
-        atag.href = `${ns.sefariaUrl}/${url}`;
+        atag.href = `${ns.mekorosUrl}/${url}`;
         atag.setAttribute('data-ref', ref);
-        atag.setAttribute('aria-controls', 'sefaria-popup');
+        atag.setAttribute('aria-controls', 'mekoros-popup');
         return atag;
     }
 
@@ -184,7 +184,7 @@ import {LinkExcluder} from "./excluder";
         } else {
             // debug and more than 1 url
             const node = document.createElement("span");
-            node.className="sefaria-ref-wrapper";
+            node.className="mekoros-ref-wrapper";
             for (let i = 0; i < urls.length; i++) {
                 const tempText = i === 0 ? text : `[${i}]`;
                 const atag = createATag(linkObj.linkFailed, linkObj.refs[i], tempText, urls[i], true, iLinkObj, resultsKey);
@@ -282,7 +282,7 @@ import {LinkExcluder} from "./excluder";
             url: window.location.href,
         };
         console.log("Report citation debug info:", postData);
-        fetch(`${ns.sefariaUrl}/api/find-refs/report`, {
+        fetch(`${ns.mekorosUrl}/api/find-refs/report`, {
             method: 'POST',
             body: JSON.stringify(postData)
         })
@@ -291,12 +291,12 @@ import {LinkExcluder} from "./excluder";
 
     function bindRefClickHandlers(refData, resultsKey) {
         // Bind a click event and a mouseover event to each link
-        [].forEach.call(document.querySelectorAll(`.sefaria-ref[data-result-key="${resultsKey}"]`),(elem) => {
+        [].forEach.call(document.querySelectorAll(`.mekoros-ref[data-result-key="${resultsKey}"]`),(elem) => {
             const ref = elem.getAttribute('data-ref');
             if (!ref && !ns.debug) { /* failed link */ return; }
             const source = refData[ref] || {};
             source.ref = ref;
-            ns.popupManager.bindEventHandler(elem, ns.sefariaUrl, source);
+            ns.popupManager.bindEventHandler(elem, ns.mekorosUrl, source);
         });
     }
 
@@ -333,13 +333,13 @@ import {LinkExcluder} from "./excluder";
         const queryString = Object.entries(params)
             .map(([key, value]) => `${key}=${value}`)
             .join('&')
-        return `${ns.sefariaUrl}/api/find-refs?${queryString}`;
+        return `${ns.mekorosUrl}/api/find-refs?${queryString}`;
     }
 
     function getWebsiteApiUrl() {
         const domain = new URL(getPageUrl()).host;
         if (!domain) { return null; }
-        return `${ns.sefariaUrl}/api/websites/${encodeURIComponent(domain)}`;
+        return `${ns.mekorosUrl}/api/websites/${encodeURIComponent(domain)}`;
     }
 
     function getFindRefsRequest() {
@@ -397,7 +397,7 @@ import {LinkExcluder} from "./excluder";
         if (selector || excludeFromTracking || parenthesesOnly || quotationOnly) {
             console.warn("Deprecation warning: you are currently using at least one of the following deprecated options:" +
                 " `selector`, `excludeFromTracking`, `parenthesesOnly`, `quotationOnly`. These options no longer are" +
-                " used and you can safely remove them. See here for documentation: https://github.com/Sefaria/Sefaria-Project/wiki/Sefaria-Auto-Linker-v3")
+                " used and you can safely remove them. See here for documentation: https://github.com/Mekoros/Mekoros-Project/wiki/Mekoros-Auto-Linker-v3")
         }
     }
 
@@ -410,7 +410,7 @@ import {LinkExcluder} from "./excluder";
 
     function applyDefaultOptions(options) {
         const defaultOptions = {
-            sefariaUrl: "https://www.sefaria.org",  // for configuring which backend linker communicates with
+            mekorosUrl: "https://www.mekoros.com",  // for configuring which backend linker communicates with
             mode: "popup-click",
             whitelistSelector: null,
             excludeFromLinking: null,    // CSS Selector
@@ -436,14 +436,14 @@ import {LinkExcluder} from "./excluder";
     ns.link = function(inputOptions) {
         deprecatedOptionsWarning(inputOptions);
         const options = applyDefaultOptions(inputOptions);
-        ns.sefariaUrl = options.sefariaUrl;
+        ns.mekorosUrl = options.mekorosUrl;
         ns.excludeFromLinking = options.excludeFromLinking;
         ns.dynamic = options.dynamic;
         ns.debug = options.debug;
         ns.versionPreferencesByCorpus = options.versionPreferencesByCorpus;
         ns.maxParagraphs = 20;
-        // useful to remove sefaria links for now but I think when released we only want this to run in debug mode
-        if (options.debug || true) { removeExistingSefariaLinks(); }
+        // useful to remove mekoros links for now but I think when released we only want this to run in debug mode
+        if (options.debug || true) { removeExistingMekorosLinks(); }
         const mode = getMode(options);
         ns.popupManager = new PopupManager({ mode, reportCitation, ...options });
         ns.popupManager.setupPopup();
@@ -452,4 +452,4 @@ import {LinkExcluder} from "./excluder";
             .then(whitelistSelectors => ns.whitelistSelectors = whitelistSelectors)
             .then(findRefs);
     }
-}(window.sefaria = window.sefaria || {}));
+}(window.mekoros = window.mekoros || {}));

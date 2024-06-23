@@ -1,6 +1,6 @@
-from sefaria.model import *
-from sefaria.model.text_reuqest_adapter import TextRequestAdapter
-from sefaria.client.util import jsonResponse
+from mekoros.model import *
+from mekoros.model.text_reuqest_adapter import TextRequestAdapter
+from mekoros.client.util import jsonResponse
 from django.views import View
 from .api_warnings import *
 

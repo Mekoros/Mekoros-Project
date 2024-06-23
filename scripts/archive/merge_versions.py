@@ -1,5 +1,5 @@
-from sefaria.texts import *
-from sefaria.model import *
+from mekoros.texts import *
+from mekoros.model import *
 
 """
 merge_text_versions_by_language("Aruch HaShulchan", "he", warn=True)

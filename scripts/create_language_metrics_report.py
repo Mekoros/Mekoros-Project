@@ -1,7 +1,7 @@
 import django
 django.setup()
 
-from sefaria.system.database import db
+from mekoros.system.database import db
 import csv
 
 distinctLanguages = db.texts.distinct("actualLanguage")

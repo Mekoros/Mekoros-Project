@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-from sefaria.model import *
+from mekoros.model import *
 
 
 word_forms = WordFormSet({'lookups.lexicon': {'$exists': True}})

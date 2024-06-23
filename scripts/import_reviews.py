@@ -8,11 +8,11 @@ from datetime import datetime, date, timedelta
 
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, path)
-sys.path.insert(0, path + "/sefaria")
+sys.path.insert(0, path + "/mekoros")
 
-from sefaria.system.database import db
-from sefaria.reviews import validate_review
-from sefaria.model import *
+from mekoros.system.database import db
+from mekoros.reviews import validate_review
+from mekoros.model import *
 
 filename = sys.argv[1]
 
@@ -33,7 +33,7 @@ reviewers = {
 
 version_langs = {
 	"Wikisource Mishna": "he",
-	"Sefaria Community Translation": "en",
+	"Mekoros Community Translation": "en",
 	"Wikisource Tanach with Trope": "he",
 	'Open Mishna': "en",
 	'Eighteen Treatises from the Mishna': "en",
@@ -41,7 +41,7 @@ version_langs = {
 	'Mishna Sheviit: Chapter 8': "he",
 	'Mishna Yomit': "en",
 	'Hyman Goldin 1913 Translation': "en",
-	'Sefaria Translation': 'en',
+	'Mekoros Translation': 'en',
 }
 
 

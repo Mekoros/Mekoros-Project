@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes  from 'prop-types';
 import classNames  from 'classnames';
 import Component from 'react-class';
-import Sefaria  from './sefaria/sefaria';
-import $  from './sefaria/sefariaJquery';
+import Mekoros  from './mekoros/mekoros';
+import $  from './mekoros/mekorosJquery';
 import Footer  from './Footer';
 import { NavSidebar } from './NavSidebar';
 import {
@@ -27,7 +27,7 @@ class TopicPageAll extends Component {
     };
   }
   componentDidMount() {
-    Sefaria.topicList().then(topicList => {
+    Mekoros.topicList().then(topicList => {
       this.setState({ loading: false, topicList });
     });
   }
@@ -47,11 +47,11 @@ class TopicPageAll extends Component {
       {type: "TrendingTopics"},
       {type: "JoinTheConversation"},
       {type: "GetTheApp"},
-      {type: "SupportSefaria"},
+      {type: "SupportMekoros"},
     ];
 
     const hasFilter = this.state.filter.length > 1;  // dont filter by one letter. not useful
-    const isHeInt = Sefaria.interfaceLang == "hebrew";
+    const isHeInt = Mekoros.interfaceLang == "hebrew";
 
     const topicList = this.state.topicList ? this.state.topicList.filter(item => {
       if (item.shouldDisplay === false || item.numSources == 0) { return false; }
@@ -67,7 +67,7 @@ class TopicPageAll extends Component {
       return false;
     
     }).sort((a, b) => {
-      const lang = Sefaria.interfaceLang.slice(0,2);
+      const lang = Mekoros.interfaceLang.slice(0,2);
       if (!hasFilter) {
         return b.primaryTitle[lang].stripNikkud() > a.primaryTitle[lang].stripNikkud() ? -1 : 1; // Alphabetical if no filter
       } else {
@@ -97,7 +97,7 @@ class TopicPageAll extends Component {
 
               <div className="topicFilterBox">
                 <img className="searchIcon" src="/static/icons/iconmonstr-magnifier-2.svg" />
-                <input className={inputClasses} placeholder={Sefaria._("Search Topics")} onChange={this.handleFilterChange} />
+                <input className={inputClasses} placeholder={Mekoros._("Search Topics")} onChange={this.handleFilterChange} />
                 { this.state.filter.length ?
                 <div className="topicsFilterReset sans-serif" onClick={this.resetFilter}>
                   <InterfaceText>Reset</InterfaceText>
@@ -152,7 +152,7 @@ const AlphabeticalTopicsNav = () => {
     return result;
   };
 
-  const letters = Sefaria.interfaceLang === "hebrew" ? letterRange("א", "ת") : letterRange("A", "Z");
+  const letters = Mekoros.interfaceLang === "hebrew" ? letterRange("א", "ת") : letterRange("A", "Z");
   return (
     <div className="alphabeticalTopicsNav sans-serif">
       {letters.map(letter => (

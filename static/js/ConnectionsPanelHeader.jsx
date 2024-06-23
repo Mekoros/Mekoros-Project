@@ -2,8 +2,8 @@ import {InterfaceText, EnglishText, HebrewText, LanguageToggleButton, CloseButto
 import {RecentFilterSet} from "./ConnectionFilters";
 import React  from 'react';
 import ReactDOM  from 'react-dom';
-import $  from './sefaria/sefariaJquery';
-import Sefaria  from './sefaria/sefaria';
+import $  from './mekoros/mekorosJquery';
+import Mekoros  from './mekoros/mekoros';
 import classNames  from 'classnames';
 import PropTypes  from 'prop-types';
 import Component      from 'react-class';
@@ -28,7 +28,7 @@ class ConnectionsPanelHeader extends Component {
   setMarginForScrollbar() {
     // Scrollbars take up spacing, causing the centering of ConnectsionPanel to be slightly off center
     // compared to the header. This functions sets appropriate margin to compensate.
-    const width      = Sefaria.util.getScrollbarWidth();
+    const width      = Mekoros.util.getScrollbarWidth();
     const $container = $(ReactDOM.findDOMNode(this));
     if (this.props.interfaceLang === "hebrew") {
       $container.css({marginRight: 0, marginLeft: width});
@@ -76,8 +76,8 @@ class ConnectionsPanelHeader extends Component {
     } else if ((this.props.previousCategory && this.props.connectionsMode === "TextList") || previousMode) {
       // In a text list, back to Previous Category
       const prev = previousMode ? previousMode.splitCamelCase() : this.props.previousCategory;
-      const prevHe = previousMode ? Sefaria._(prev) : Sefaria._(this.props.previousCategory);
-      const url = Sefaria.util.replaceUrlParam("with", prev);
+      const prevHe = previousMode ? Mekoros._(prev) : Mekoros._(this.props.previousCategory);
+      const url = Mekoros.util.replaceUrlParam("with", prev);
       title = <a href={url} className="connectionsHeaderTitle sans-serif active" onClick={this.onClick}>
                     <InterfaceText>
                         <EnglishText>
@@ -92,7 +92,7 @@ class ConnectionsPanelHeader extends Component {
                   </a>;
     } else {
       // Anywhere else, back to Top Level
-      const url = Sefaria.util.replaceUrlParam("with", "all");
+      const url = Mekoros.util.replaceUrlParam("with", "all");
       const onClick = function(e) {
         e.preventDefault();
         this.props.setConnectionsMode("Resources");
@@ -111,20 +111,20 @@ class ConnectionsPanelHeader extends Component {
                   </a>;
     }
     if (this.props.multiPanel) {
-      const toggleLang = Sefaria.util.getUrlVars()["lang2"] === "en" ? "he" : "en";
-      const langUrl = Sefaria.util.replaceUrlParam("lang2", toggleLang);
-      const closeUrl = Sefaria.util.removeUrlParam("with");
+      const toggleLang = Mekoros.util.getUrlVars()["lang2"] === "en" ? "he" : "en";
+      const langUrl = Mekoros.util.replaceUrlParam("lang2", toggleLang);
+      const closeUrl = Mekoros.util.removeUrlParam("with");
       return (<div className="connectionsPanelHeader">
                 {title}
                 <div className="rightButtons">
-                  {Sefaria.interfaceLang !== "hebrew" && Sefaria._siteSettings.TORAH_SPECIFIC ?
+                  {Mekoros.interfaceLang !== "hebrew" && Mekoros._siteSettings.TORAH_SPECIFIC ?
                     <LanguageToggleButton toggleLanguage={this.props.toggleLanguage} url={langUrl} />
                     : null }
                   <CloseButton icon="circledX" onClick={this.props.closePanel} url={closeUrl} />
                 </div>
               </div>);
     } else {
-      const style = !this.props.multiPanel && this.props.connectionsMode === "TextList" ? {"borderTopColor": Sefaria.palette.categoryColor(this.props.previousCategory)} : {}
+      const style = !this.props.multiPanel && this.props.connectionsMode === "TextList" ? {"borderTopColor": Mekoros.palette.categoryColor(this.props.previousCategory)} : {}
       const cStyle = !this.props.multiPanel && this.props.connectionsMode === "Resources" ? {"justifyContent": "center"} : style;
       // Modeling the class structure when ConnectionsPanelHeader is created inside ReaderControls in the multiPanel case
       let classes = classNames({readerControls: 1, connectionsHeader: 1, fullPanel: this.props.multiPanel});

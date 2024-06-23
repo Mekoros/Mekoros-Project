@@ -15,7 +15,7 @@ from .framework.seleniumManager import SeleniumDriverManager as sdm
 seleniumServerUrl = os.environ['SELENIUM_SERVER_URL']
 targetApplicationUrl = os.environ['APPLICATION_URL']
 
-t = Trial(platform="github", parallel=None, build=None, verbose=True, seleniumServerHostname=seleniumServerUrl, targetApplicationUrl="https://vecino.cauldron.sefaria.org")
+t = Trial(platform="github", parallel=None, build=None, verbose=True, seleniumServerHostname=seleniumServerUrl, targetApplicationUrl="https://vecino.cauldron.mekoros.com")
 t.run()
 
 print("DONE RUNNING TESTS")

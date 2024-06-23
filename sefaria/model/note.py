@@ -6,7 +6,7 @@ Writes to MongoDB Collection: notes
 import regex as re
 
 from . import abstract as abst
-from sefaria.model.text import Ref
+from mekoros.model.text import Ref
 
 import structlog
 logger = structlog.get_logger(__name__)
@@ -59,6 +59,6 @@ def process_index_title_change_in_notes(indx, **kwargs):
             n.delete()
 
 def process_index_delete_in_notes(indx, **kwargs):
-    from sefaria.model.text import prepare_index_regex_for_dependency_process
+    from mekoros.model.text import prepare_index_regex_for_dependency_process
     pattern = prepare_index_regex_for_dependency_process(indx)
     NoteSet({"ref": {"$regex": pattern}}).delete()

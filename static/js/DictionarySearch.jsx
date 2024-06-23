@@ -2,8 +2,8 @@ import React  from 'react';
 import ReactDOM  from 'react-dom';
 import PropTypes  from 'prop-types';
 import classNames  from 'classnames';
-import $  from './sefaria/sefariaJquery';
-import Sefaria  from './sefaria/sefaria';
+import $  from './mekoros/mekorosJquery';
+import Mekoros  from './mekoros/mekoros';
 import Component from 'react-class'
 
 class DictionarySearch extends Component {
@@ -101,11 +101,11 @@ class DictionarySearch extends Component {
       }.bind(this),
 
       source: function(request, response) {
-        if (Sefaria.hebrew.containsEnglish(request.term)) {
+        if (Mekoros.hebrew.containsEnglish(request.term)) {
           response([{label: "Invalid entry.  Please type a Hebrew word.", value: "__invalid"}]);
           return
         }
-        Sefaria.lexiconCompletion(
+        Mekoros.lexiconCompletion(
             request.term,
             this.props.lexiconName,
             d => {
@@ -141,7 +141,7 @@ class DictionarySearch extends Component {
       this.props.showWordList(word);
     } else if (this.props.navigatePanel || this.props.showBaseText) {
       const ref = this.props.title + ", " + word;
-      Sefaria.getText(ref).then(data => {
+      Mekoros.getText(ref).then(data => {
         // Check that this ref exists first before trying to open a panel
         if ("error" in data) {
           return;
@@ -153,7 +153,7 @@ class DictionarySearch extends Component {
   submitSearch(word, needsResolution) {
     if (needsResolution) {
       // Get the dotted form of this word, or the nearest match
-      Sefaria.lexiconCompletion(word, this.props.lexiconName,
+      Mekoros.lexiconCompletion(word, this.props.lexiconName,
         d => {
           const resolvedWord = (d.length > 0) ? d[0][1] : word;
           this.displayWord(resolvedWord)
@@ -166,25 +166,25 @@ class DictionarySearch extends Component {
       if(document.getElementById('keyboardInputMaster')) { // if keyboard is open, ignore.
         return; //this prevents the icon from flashing on every key stroke.
       }
-      if(Sefaria.interfaceLang === 'english'){
+      if(Mekoros.interfaceLang === 'english'){
           const opacity = show ? 0.4 : 0;
           $(ReactDOM.findDOMNode(this)).find(".keyboardInputInitiator").css({"opacity": opacity});
       }
   }
   render() {
-    let inputClasses = classNames({search: 1, keyboardInput: Sefaria.interfaceLang == 'english'});
+    let inputClasses = classNames({search: 1, keyboardInput: Mekoros.interfaceLang == 'english'});
 
     return (
         <div className = "searchBox dictionarySearchBox ui-front">
           <img className="dictionarySearchButton" src="/static/icons/magnifier.svg" onClick={this.handleSearchButtonClick} role="button" alt="image of maginfying glass"/>
           <input className={inputClasses}
             id="searchInput"
-            placeholder={Sefaria._("Search Dictionary")}
+            placeholder={Mekoros._("Search Dictionary")}
             onKeyUp={this.handleSearchKeyUp}
             onFocus={this.showVirtualKeyboardIcon.bind(this, true)}
             onBlur={this.showVirtualKeyboardIcon.bind(this, false)}
             maxLength={75}
-            title={Sefaria._("Search for Texts or Keywords Here")}
+            title={Mekoros._("Search for Texts or Keywords Here")}
           />
         </div>
     );

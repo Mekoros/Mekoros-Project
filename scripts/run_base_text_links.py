@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from sefaria.model import *
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.system.database import db
 
 db.links.update({}, {'$unset': {'is_first_comment': 1, 'first_comment_indexes': 1, 'first_comment_section_ref': 1}}, multi=True)
 

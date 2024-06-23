@@ -1,6 +1,6 @@
 # encoding=utf-8
 
-from sefaria.model import *
+from mekoros.model import *
 from bs4 import BeautifulSoup
 
 """

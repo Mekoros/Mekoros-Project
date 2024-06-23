@@ -2,8 +2,8 @@
 import django
 django.setup()
 
-from sefaria.model import *
-from sefaria.helper.schema import change_node_structure
+from mekoros.model import *
+from mekoros.helper.schema import change_node_structure
 
 def change_mishneh_torah():
     '''

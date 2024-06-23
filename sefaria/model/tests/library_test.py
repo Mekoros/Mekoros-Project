@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from sefaria.model import *
+from mekoros.model import *
 from functools import reduce
 
 
@@ -497,7 +497,7 @@ class TestNamedEntityWrapping:
     def make_ne_link(slug, ref, start, end, vtitle, lang, text):
         link = RefTopicLink({
             "toTopic": slug,
-            "dataSource": "sefaria",
+            "dataSource": "mekoros",
             "ref": ref,
             "linkType": "mention",
             "class": "refTopic",

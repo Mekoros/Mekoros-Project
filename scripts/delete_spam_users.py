@@ -1,12 +1,12 @@
 import django
 
 django.setup()
-from sefaria.model import UserProfile
+from mekoros.model import UserProfile
 import csv
 import json
 import sys
-from sefaria.system.database import db
-from sefaria.views import purge_spammer_account_data
+from mekoros.system.database import db
+from mekoros.views import purge_spammer_account_data
 from django.contrib.auth.models import User
 from datetime import datetime
 
@@ -45,7 +45,7 @@ def main():
     # Open spam csv & read in
     with open(filename) as spam_emails, open(outf, 'w+') as outf:
         csv_reader = csv.DictReader(spam_emails, delimiter=',')
-        fieldnames = ["id", "nationbuilder_id", "email_nb", "email_sefaria", "tag_list", "nationbuilder_id_in_mongo",
+        fieldnames = ["id", "nationbuilder_id", "email_nb", "email_mekoros", "tag_list", "nationbuilder_id_in_mongo",
                       "email_in_mongo", "deleted_status", "dry_run"]
         csv_writer = csv.DictWriter(outf, fieldnames)
         csv_writer.writeheader()
@@ -67,11 +67,11 @@ def main():
                     mongo_profile = None
 
             nb_id_mongo = mongo_profile['nationbuilder_id'] if mongo_profile else 'No Mongo Profile'
-            email_sefaria = profile.email if profile.id else 'No Sefaria Profile'
+            email_mekoros = profile.email if profile.id else 'No Mekoros Profile'
 
             csv_writer.writerow(dict(id=profile.id, nationbuilder_id=row['nationbuilder_id'], email_nb=row['email'],
-                                     email_sefaria=email_sefaria, tag_list=row['tag_list'],
-                                     nationbuilder_id_in_mongo=nb_id_mongo, email_in_mongo=email_sefaria,
+                                     email_mekoros=email_mekoros, tag_list=row['tag_list'],
+                                     nationbuilder_id_in_mongo=nb_id_mongo, email_in_mongo=email_mekoros,
                                      deleted_status=status, dry_run=dry_run))
             if not dry_run:
                 if profile.id and mongo_profile:

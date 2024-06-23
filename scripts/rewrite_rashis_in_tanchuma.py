@@ -1,9 +1,9 @@
 __author__ = 'stevenkaplan'
 
-from sefaria.model import *
-from sefaria.helper.text import *
-from sefaria.tracker import *
-from sefaria.helper.schema import *
+from mekoros.model import *
+from mekoros.helper.text import *
+from mekoros.tracker import *
+from mekoros.helper.schema import *
 import csv
 import codecs
 import io

@@ -2,14 +2,14 @@ import requests
 import json
 from django.contrib.sites.models import Site
 
-from sefaria.settings import CLOUDFLARE_ZONE, CLOUDFLARE_EMAIL, CLOUDFLARE_TOKEN, USE_CLOUDFLARE, STATICFILES_DIRS
-from sefaria.utils.util import list_chunks, in_directory, get_directory_content
+from mekoros.settings import CLOUDFLARE_ZONE, CLOUDFLARE_EMAIL, CLOUDFLARE_TOKEN, USE_CLOUDFLARE, STATICFILES_DIRS
+from mekoros.utils.util import list_chunks, in_directory, get_directory_content
 
 import structlog
 logger = structlog.get_logger(__name__)
 
 
-class SefariaCloudflareManager(object):
+class MekorosCloudflareManager(object):
 
     valid_cached_dirs = ["static"]
     max_cloudflare_payload_size = 30

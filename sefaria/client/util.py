@@ -6,8 +6,8 @@ from django.http import HttpResponse
 from django.core.mail import EmailMultiAlternatives
 from webpack_loader import utils as webpack_utils
 
-from sefaria import settings as sls
-# from sefaria.model.user_profile import UserProfile
+from mekoros import settings as sls
+# from mekoros.model.user_profile import UserProfile
 
 
 def jsonResponse(data, callback=None, status=200):
@@ -40,7 +40,7 @@ def jsonpResponse(data, callback, status=200):
 
 
 def send_email(subject, message_html, from_email, to_email):
-    msg = EmailMultiAlternatives(subject, message_html, "Sefaria <hello@sefaria.org>", [to_email], reply_to=[from_email])
+    msg = EmailMultiAlternatives(subject, message_html, "Mekoros <hello@mekoros.com>", [to_email], reply_to=[from_email])
     msg.send()
 
     return True

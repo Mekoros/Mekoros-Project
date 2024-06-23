@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from .config import TEMPER, SAUCE_CORE_CAPS, SAUCE_MAX_THREADS, LOCAL_URL, LOCAL_SELENIUM_CAPS
-from sefaria.model import *
+from mekoros.model import *
 from pathos.multiprocessing import ProcessingPool as Pool
 import os
 import inspect
@@ -24,7 +24,7 @@ from selenium.common.exceptions import NoSuchElementException, NoAlertPresentExc
 # http://selenium-python.readthedocs.io/waits.html
 # http://selenium-python.readthedocs.io/api.html#module-selenium.webdriver.support.expected_conditions
 
-import time # import stand library below name collision in sefaria.model
+import time # import stand library below name collision in mekoros.model
 
 
 class AbstractTest(object):
@@ -133,7 +133,7 @@ class AbstractTest(object):
         sys.stdout.flush()
 
 
-class SefariaTest(AbstractTest):
+class MekorosTest(AbstractTest):
     # Component methods
     # Methods that begin with "nav_to_" assume that the site is loaded, and do not reload a page.
     # Methods that begin with "load_" start with a page load.
@@ -1290,7 +1290,7 @@ class Trial(object):
             else:
                 mode = "multi_panel"  # Assuming that local isn't single panel
         else:
-            mode = cap.get("sefaria_mode")
+            mode = cap.get("mekoros_mode")
             cap['sauce:options'] = {
                 "build": self.build,
                 "name": "{} on {}".format(test_class.__name__, self.cap_to_string(cap)),
@@ -1417,7 +1417,7 @@ class Trial(object):
             return cap.__module__.split(".")[-2]
         if isinstance(cap, webdriver.Remote):
             cap = cap.capabilities
-        return cap.get("sefaria_short_name")
+        return cap.get("mekoros_short_name")
 
 
 #  This function is used to get around the limitations of multiprocessing.Pool.map - that it will not take a method as first argument

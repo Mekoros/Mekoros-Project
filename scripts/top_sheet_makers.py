@@ -4,8 +4,8 @@ django.setup()
 
 from collections import defaultdict
 
-from sefaria.system.database import db
-from sefaria.model import *
+from mekoros.system.database import db
+from mekoros.model import *
 
 authors          = defaultdict(int)
 public_authors   = defaultdict(int)
@@ -28,14 +28,14 @@ sorted_authors_by_views = sorted(iter(authors_by_views.items()), key=lambda x: -
 print("\n\nTop Public Sheet Authors")
 for author in sorted_public_authors[:10]:
     profile = UserProfile(id=author[0])
-    print("%s: %d public sheets - www.sefaria.org/profile/%s" % (profile.full_name, author[1], profile.slug))
+    print("%s: %d public sheets - www.mekoros.com/profile/%s" % (profile.full_name, author[1], profile.slug))
 
 print("\n\nTop Total Sheet Authors")
 for author in sorted_authors[:10]:
     profile = UserProfile(id=author[0])
-    print("%s: %d sheets - www.sefaria.org/profile/%s" % (profile.full_name, author[1], profile.slug))
+    print("%s: %d sheets - www.mekoros.com/profile/%s" % (profile.full_name, author[1], profile.slug))
 
 print("\n\nTop Total Sheet Authors by Views")
 for author in sorted_authors_by_views[:10]:
     profile = UserProfile(id=author[0])
-    print("%s: %d total sheet views - www.sefaria.org/profile/%s" % (profile.full_name, author[1], profile.slug))
+    print("%s: %d total sheet views - www.mekoros.com/profile/%s" % (profile.full_name, author[1], profile.slug))

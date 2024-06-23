@@ -1,8 +1,8 @@
 
-import sefaria.system.database as d
+import mekoros.system.database as d
 import pymongo
-import sefaria.model.lock as lock
-from sefaria.settings import *
+import mekoros.model.lock as lock
+from mekoros.settings import *
 import pytest
 
 #This one is purposefully circumvented on Travis, to speed up build time.
@@ -14,12 +14,12 @@ def test_db_name():
 @pytest.mark.xfail(reason="unknown")
 def test_test_db():
     """
-    Create a record using the sefaria API against the test db, and then verify it from a new db connection
+    Create a record using the mekoros API against the test db, and then verify it from a new db connection
     """
 
     ref = "Mishnah Oktzin 1:5"
     lang = "en"
-    version = "Sefaria Community Translation"
+    version = "Mekoros Community Translation"
     user = 0
 
     lock_query = {

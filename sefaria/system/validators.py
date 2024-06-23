@@ -7,7 +7,7 @@ import urllib.parse
 from urllib.parse import urlparse
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
-from sefaria.system.exceptions import SchemaValidationException, SchemaInvalidKeyException, SchemaRequiredFieldException\
+from mekoros.system.exceptions import SchemaValidationException, SchemaInvalidKeyException, SchemaRequiredFieldException\
     , InvalidHTTPMethodException, InvalidURLException
 
 

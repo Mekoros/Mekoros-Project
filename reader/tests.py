@@ -5,7 +5,7 @@ python manage.py test reader
 """
 import sys
 
-# Tells sefaria.system.database to use a test db
+# Tells mekoros.system.database to use a test db
 sys._called_from_test = True
 
 from copy import deepcopy
@@ -17,26 +17,26 @@ from django.test.client import Client
 from django.contrib.auth.models import User
 # import selenium
 
-import sefaria.utils.testing_utils as tutils
+import mekoros.utils.testing_utils as tutils
 
-from sefaria.model import library, Index, IndexSet, VersionSet, LinkSet, NoteSet, HistorySet, Ref, VersionState, \
+from mekoros.model import library, Index, IndexSet, VersionSet, LinkSet, NoteSet, HistorySet, Ref, VersionState, \
     VersionStateSet, TextChunk, Category, UserHistory, UserHistorySet
-from sefaria.system.database import db
-import sefaria.system.cache as scache
+from mekoros.system.database import db
+import mekoros.system.cache as scache
 import random as rand
 
 c = Client()
 
 
-class SefariaTestCase(TestCase):
+class MekorosTestCase(TestCase):
     def make_test_user(self):
-        user = User.objects.create_user(username="test@sefaria.org", email='test@sefaria.org', password='!!!')
+        user = User.objects.create_user(username="test@mekoros.com", email='test@mekoros.com', password='!!!')
         user.set_password('!!!')
         user.first_name = "Test"
         user.last_name = "Testerberg"
         user.is_staff = True
         user.save()
-        c.login(email="test@sefaria.org", password="!!!")
+        c.login(email="test@mekoros.com", password="!!!")
 
     def in_cache(self, title):
         self.assertTrue(title in library.full_title_list())
@@ -49,7 +49,7 @@ class SefariaTestCase(TestCase):
         self.assertFalse(any(key.startswith(title) for key, value in Ref._raw_cache().items()))
 
 
-class PagesTest(SefariaTestCase):
+class PagesTest(MekorosTestCase):
     """
     Tests that an assortment of important pages can load without error.
     """
@@ -139,7 +139,7 @@ class PagesTest(SefariaTestCase):
         self.assertEqual(200, response.status_code)
 
 
-class ApiTest(SefariaTestCase):
+class ApiTest(MekorosTestCase):
     """
     Test data returned from GET calls to various APIs.
     """
@@ -267,7 +267,7 @@ class ApiTest(SefariaTestCase):
         self.assertTrue(len(data) > 20)
 
 
-class LoginTest(SefariaTestCase):
+class LoginTest(MekorosTestCase):
     def setUp(self):
         self.make_test_user()
 
@@ -276,7 +276,7 @@ class LoginTest(SefariaTestCase):
         self.assertTrue(response.content.find("Log In") == -1)
 
 
-class PostV2IndexTest(SefariaTestCase):
+class PostV2IndexTest(MekorosTestCase):
     def setUp(self):
         self.make_test_user()
 
@@ -351,7 +351,7 @@ class PostV2IndexTest(SefariaTestCase):
         self.assertIn("Special Sections", data["alt_structs"])
 
 
-class PostIndexTest(SefariaTestCase):
+class PostIndexTest(MekorosTestCase):
     def setUp(self):
         self.make_test_user()
 
@@ -488,7 +488,7 @@ class PostIndexTest(SefariaTestCase):
     '''
 
 
-class PostTextNameChange(SefariaTestCase):
+class PostTextNameChange(MekorosTestCase):
     """
     Tests:
         Post/Delete of Note
@@ -539,7 +539,7 @@ class PostTextNameChange(SefariaTestCase):
         text = {
             "text": "Blah blah blah Genesis 5:12 blah",
             "versionTitle": "The Name Change Test Edition",
-            "versionSource": "www.sefaria.org",
+            "versionSource": "www.mekoros.com",
             "language": "en",
         }
         response = c.post("/api/texts/Name_Change_Test.1.1", {'json': json.dumps(text)})
@@ -657,7 +657,7 @@ class PostTextNameChange(SefariaTestCase):
         self.assertEqual(0, NoteSet({"ref": {"$regex": "^Name Changed"}}).count())
 
 
-"""class PostCommentatorNameChange(SefariaTestCase):
+"""class PostCommentatorNameChange(MekorosTestCase):
     def setUp(self):
         self.make_test_user()
 
@@ -698,7 +698,7 @@ class PostTextNameChange(SefariaTestCase):
         text = {
             "text": ["Comment 1", "Comment 2", "Comment 3"],
             "versionTitle": "Ploni Edition",
-            "versionSource": "www.sefaria.org",
+            "versionSource": "www.mekoros.com",
             "language": "en",
         }
         response = c.post("/api/texts/Ploni_on_Job.2.2", {'json': json.dumps(text)})
@@ -741,7 +741,7 @@ class PostTextNameChange(SefariaTestCase):
 """
 
 
-class PostTextTest(SefariaTestCase):
+class PostTextTest(MekorosTestCase):
     """
     Tests posting text content to Texts API.
     """
@@ -791,7 +791,7 @@ class PostTextTest(SefariaTestCase):
         text = {
             "text": "As it is written in Job 3:14, waste places.",
             "versionTitle": "The Test Edition",
-            "versionSource": "www.sefaria.org",
+            "versionSource": "www.mekoros.com",
             "language": "en",
         }
         response = c.post("/api/texts/Sefer_Test.99.99", {'json': json.dumps(text)})
@@ -816,7 +816,7 @@ class PostTextTest(SefariaTestCase):
         text = {
             "text": "As it is written in Job 4:10, The lions may roar and growl.",
             "versionTitle": "The Test Edition",
-            "versionSource": "www.sefaria.org",
+            "versionSource": "www.mekoros.com",
             "language": "en",
         }
         response = c.post("/api/texts/Sefer_Test.99.99", {'json': json.dumps(text)})
@@ -834,7 +834,7 @@ class PostTextTest(SefariaTestCase):
         text = {
             "text": 'כדכתיב: "לא תעשה לך פסל כל תמונה" כו (דברים ה ח)',
             "versionTitle": "The Hebrew Test Edition",
-            "versionSource": "www.sefaria.org",
+            "versionSource": "www.mekoros.com",
             "language": "he",
         }
         response = c.post("/api/texts/Sefer_Test.88.88", {'json': json.dumps(text)})
@@ -895,7 +895,7 @@ class PostTextTest(SefariaTestCase):
         text = {
             "text": ["Comment 1", "Comment 2", "Comment 3"],
             "versionTitle": "Ploni Edition",
-            "versionSource": "www.sefaria.org",
+            "versionSource": "www.mekoros.com",
             "language": "en",
         }
         response = c.post("/api/texts/Ploni_on_Job.2.2", {'json': json.dumps(text)})
@@ -909,7 +909,7 @@ class PostTextTest(SefariaTestCase):
         text = {
             "text": [["BFoo", "PBar", "Dub Blitz"], ["GGGlam", "BBBlam", "Ber Flam"]],
             "versionTitle": "test_default_node",
-            "versionSource": "www.sefaria.org",
+            "versionSource": "www.mekoros.com",
             "language": "en",
         }
         response = c.post("/api/texts/Chofetz_Chaim,_Part_One,_The_Prohibition_Against_Lashon_Hara,_Principle_1",
@@ -921,7 +921,7 @@ class PostTextTest(SefariaTestCase):
         assert TextChunk(subref, "en", "test_default_node").text == "Ber Flam"
 
 
-class PostCategory(SefariaTestCase):
+class PostCategory(MekorosTestCase):
     """
     Tests posting text content to Texts API.
     """
@@ -1066,7 +1066,7 @@ class PostCategory(SefariaTestCase):
         self.assertTrue(Category().load({"path": ["Tanakh", "New Works"]}))
 
 
-class PostLinks(SefariaTestCase):
+class PostLinks(MekorosTestCase):
     """
     Tests posting text content to Texts API.
     """
@@ -1103,7 +1103,7 @@ class PostLinks(SefariaTestCase):
         LinkSet({"refs": {"$regex": 'Meshekh Chokhmah'}, "anchorText": {"$exists": 1, "$ne": ""}}).delete()
 
 
-class SheetPostTest(SefariaTestCase):
+class SheetPostTest(MekorosTestCase):
     """
     Tests posting a Source Sheet.
     """
@@ -1186,7 +1186,7 @@ class SheetPostTest(SefariaTestCase):
         self.assertEqual(0, db.sheets.find({"id": sheet_id}).count())
 
 
-class UserSyncTest(SefariaTestCase):
+class UserSyncTest(MekorosTestCase):
     """
     Test syncing user's settings and history
     """
@@ -1293,12 +1293,12 @@ class UserSyncTest(SefariaTestCase):
 
 '''
 # Fails. Ignore
-class VersionAttrsPostTest(SefariaTestCase):
+class VersionAttrsPostTest(MekorosTestCase):
     def test_post_atts(self):
         vattrs = {
             "status" : "locked",
             "license" : "Public domain",
-            "digitizedBySefaria" : True,
+            "digitizedByMekoros" : True,
             "priority" : 1
         }
         response = c.post("api/version/flags/Genesis/he/Tanach+With+Nikkud", {'json': json.dumps(vattrs)})

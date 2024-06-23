@@ -4,7 +4,7 @@
 story.py
 """
 
-from sefaria.utils.util import strip_tags
+from mekoros.utils.util import strip_tags
 from . import user_profile
 
 import structlog
@@ -17,7 +17,7 @@ class Story(object):
 
     @staticmethod
     def sheet_metadata(sheet_id, return_id=False):
-        from sefaria.sheets import get_sheet_metadata
+        from mekoros.sheets import get_sheet_metadata
         metadata = get_sheet_metadata(sheet_id)
         if not metadata:
             return None
@@ -52,6 +52,6 @@ class Story(object):
 
     @staticmethod
     def sheet_metadata_bulk(sid_list, return_id=False, public=True):
-        from sefaria.sheets import get_sheet_metadata_bulk
+        from mekoros.sheets import get_sheet_metadata_bulk
         metadata_list = get_sheet_metadata_bulk(sid_list, public=public)
         return [Story.build_sheet_metadata_dict(metadata, metadata['id'], return_id) for metadata in metadata_list]

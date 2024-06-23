@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {InterfaceText, EnglishText, HebrewText} from "./Misc";
-import Sefaria from "./sefaria/sefaria";
-import SearchState from './sefaria/searchState';
+import Mekoros from "./mekoros/mekoros";
+import SearchState from './mekoros/searchState';
 import SearchResultList  from './SearchResultList';
 import DictionarySearch  from './DictionarySearch';
 import classNames from 'classnames';
@@ -12,7 +12,7 @@ import {
 
 
 const SidebarSearch = ({ title, updateAppliedOptionSort, navigatePanel, sidebarSearchQuery, setSidebarSearchQuery, onSidebarSearchClick }) => {
-  const [lexiconName, setLexiconName] = useState(Sefaria.getIndexDetailsFromCache(title)?.lexiconName)
+  const [lexiconName, setLexiconName] = useState(Mekoros.getIndexDetailsFromCache(title)?.lexiconName)
   const [searchFilterPathForBook, setSearchFilterPathForBook] = useState('');
   const [query, setQuery] = useState(sidebarSearchQuery || '');
   const isDictionary = !!lexiconName;
@@ -35,7 +35,7 @@ const SidebarSearch = ({ title, updateAppliedOptionSort, navigatePanel, sidebarS
   }, []);
 
   useEffect(() => {
-      Sefaria.bookSearchPathFilterAPI(title).then((path) => {
+      Mekoros.bookSearchPathFilterAPI(title).then((path) => {
         setSearchFilterPathForBook(path)
       })
       setSidebarSearchQuery(query)
@@ -65,8 +65,8 @@ const SidebarSearch = ({ title, updateAppliedOptionSort, navigatePanel, sidebarS
   const inputClasses = classNames({
     search: 1,
     serif: 1,
-    keyboardInput: Sefaria.interfaceLang === "english",
-    hebrewSearch: Sefaria.interfaceLang === "hebrew"
+    keyboardInput: Mekoros.interfaceLang === "english",
+    hebrewSearch: Mekoros.interfaceLang === "hebrew"
     });
   // const searchBoxClasses = classNames({searchBox: 1, searchFocused: this.state.searchFocused});
   const searchBoxClasses = classNames({searchBox: 1});
@@ -94,7 +94,7 @@ const SidebarSearch = ({ title, updateAppliedOptionSort, navigatePanel, sidebarS
       <>
         <SearchButton onClick={handleSearchButtonClick} />
         <input className={inputClasses}
-          placeholder={Sefaria._("Search in this text")}
+          placeholder={Mekoros._("Search in this text")}
           id="searchQueryInput"
           maxLength={75}
           onKeyUp={
@@ -104,7 +104,7 @@ const SidebarSearch = ({ title, updateAppliedOptionSort, navigatePanel, sidebarS
               }
             }
           }
-          title={Sefaria._("Search in this text")} />
+          title={Mekoros._("Search in this text")} />
       </>
       }
 

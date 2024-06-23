@@ -5,8 +5,8 @@ Writes to MongoDB Collection: blocking
 """
 from datetime import datetime
 
-from sefaria.system.database import db
-from sefaria.system.cache import django_cache
+from mekoros.system.database import db
+from mekoros.system.cache import django_cache
 
 import structlog
 

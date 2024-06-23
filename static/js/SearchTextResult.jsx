@@ -1,5 +1,5 @@
 import React  from 'react';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 import PropTypes  from 'prop-types';
 import classNames  from 'classnames';
 import Component      from 'react-class';
@@ -53,16 +53,16 @@ class SearchTextResult extends Component {
             //console.log(textHighlights);
             // in case a change to a title was made and ElasticSearch cronjob hasn't run,
             // there won't be an index, so normalize "Bereishit Rabbah 3" => "Bereshit Rabbah 3" by calling API
-            let parsedRef = Sefaria.parseRef(s.ref);
+            let parsedRef = Mekoros.parseRef(s.ref);
             if (parsedRef.index.length === 0) {
-                const d = await Sefaria.getRef(s.ref);
+                const d = await Mekoros.getRef(s.ref);
                 parsedRef.ref = d.ref;
             }
 
             if (this.props.searchInBook) {
-                Sefaria.track.event("Search", "Sidebar Search Result Click", `${this.props.query} - ${parsedRef.ref}/${s.version}/${s.lang}`);
+                Mekoros.track.event("Search", "Sidebar Search Result Click", `${this.props.query} - ${parsedRef.ref}/${s.version}/${s.lang}`);
             } else {
-                Sefaria.track.event("Search", "Search Result Text Click", `${this.props.query} - ${parsedRef.ref}/${s.version}/${s.lang}`);
+                Mekoros.track.event("Search", "Search Result Text Click", `${this.props.query} - ${parsedRef.ref}/${s.version}/${s.lang}`);
             }
             this.props.onResultClick(parsedRef.ref, {[s.lang]: s.version}, {textHighlights});
         }
@@ -82,14 +82,14 @@ class SearchTextResult extends Component {
         // } else {
         //     snippet = s[field];  // We're filtering out content, because it's *huge*, especially on Sheets
         // }
-        const lang = Sefaria.hebrew.isHebrew(snippet) ? "he" : "en";
+        const lang = Mekoros.hebrew.isHebrew(snippet) ? "he" : "en";
         snippet = snippet.replace(/^[ .,;:!-)\]]+/, "");
         return { markup:{__html:snippet}, lang };
     }
     render() {
         var data = this.props.data;
         var s = this.props.data._source;
-        const href = `/${Sefaria.normRef(s.ref)}?v${s.lang}=${Sefaria.util.encodeVtitle(s.version)}&qh=${this.props.query}`;
+        const href = `/${Mekoros.normRef(s.ref)}?v${s.lang}=${Mekoros.util.encodeVtitle(s.version)}&qh=${this.props.query}`;
 
         const more_results_caret =
             (this.state.duplicatesShown)
@@ -133,7 +133,7 @@ class SearchTextResult extends Component {
                     <div className={snippetClasses} dangerouslySetInnerHTML={snippetMarkup.markup}></div>
                 </ColorBarBox>
                 <div className="version">
-                    {Sefaria.interfaceLang === 'hebrew' && s.hebrew_version_title || s.version}
+                    {Mekoros.interfaceLang === 'hebrew' && s.hebrew_version_title || s.version}
                 </div>
 
                 {more_results_indicator}

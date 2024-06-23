@@ -2,7 +2,7 @@ from .settings import GOOGLE_APPLICATION_CREDENTIALS_FILEPATH
 from google.cloud import storage
 import re
 from io import BytesIO
-from sefaria.site.site_settings import SITE_SETTINGS
+from mekoros.site.site_settings import SITE_SETTINGS
 
 class GoogleStorageManager(object):
 

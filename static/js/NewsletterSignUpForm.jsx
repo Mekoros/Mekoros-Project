@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import Sefaria from './sefaria/sefaria';
+import Mekoros from './mekoros/mekoros';
 
 export function NewsletterSignUpForm({
                                          contextName,
                                          includeEducatorOption = true,
                                          emailPlaceholder = {en: 'Sign up for Newsletter', he: "הרשמו לניוזלטר"},
-                                         subscribe=Sefaria.subscribeSefariaNewsletter,  // function which sends form data to API to subscribe
+                                         subscribe=Mekoros.subscribeMekorosNewsletter,  // function which sends form data to API to subscribe
                                      }) {
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -26,7 +26,7 @@ export function NewsletterSignUpForm({
                 setSubscribeMessage("Subscribing...");
                 subscribe(firstName, lastName, email, educatorCheck).then(res => {
                     setSubscribeMessage("Subscribed! Welcome to our list.");
-                    Sefaria.track.event("Newsletter", "Subscribe from " + contextName, "");
+                    Mekoros.track.event("Newsletter", "Subscribe from " + contextName, "");
                 }).catch(error => {
                     setSubscribeMessage(error?.error || "Sorry, there was an error.");
                     setShowNameInputs(false);
@@ -34,7 +34,7 @@ export function NewsletterSignUpForm({
             } else {
                 setSubscribeMessage("Please enter a valid first and last name");// get he copy
             }
-        } else if (Sefaria.util.isValidEmailAddress(email)) {
+        } else if (Mekoros.util.isValidEmailAddress(email)) {
             setShowNameInputs(true);
         } else {
             setShowNameInputs(false);
@@ -101,7 +101,7 @@ export function NewsletterSignUpForm({
                 </>
                 : null}
             {subscribeMessage ?
-                <div className="subscribeMessage">{Sefaria._(subscribeMessage)}</div>
+                <div className="subscribeMessage">{Mekoros._(subscribeMessage)}</div>
                 : null}
         </div>
     );

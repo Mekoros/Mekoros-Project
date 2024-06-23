@@ -5,8 +5,8 @@ Writes to MongoDB Collection: following
 """
 from datetime import datetime
 
-from sefaria.system.database import db
-from sefaria.system.cache import django_cache
+from mekoros.system.database import db
+from mekoros.system.cache import django_cache
 
 import structlog
 
@@ -23,7 +23,7 @@ class FollowRelationship(object):
         return bool(db.following.find_one({"follower": self.follower, "followee": self.followee}))
 
     def follow(self):
-        from sefaria.model.notification import Notification
+        from mekoros.model.notification import Notification
 
         db.following.save(vars(self))
 
@@ -103,7 +103,7 @@ def general_follow_recommendations(lang="english", n=4):
     """
     from random import choices
     from django.contrib.auth.models import User
-    from sefaria.system.database import db
+    from mekoros.system.database import db
 
     global creators
     if not creators:

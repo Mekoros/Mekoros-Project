@@ -3,9 +3,9 @@ import copy
 
 import pytest
 
-from sefaria.model import *
-from sefaria.model.schema import JaggedArrayNode, SchemaNode
-from sefaria.system.exceptions import IndexSchemaError
+from mekoros.model import *
+from mekoros.model.schema import JaggedArrayNode, SchemaNode
+from mekoros.system.exceptions import IndexSchemaError
 
 
 class Test_Validate(object):

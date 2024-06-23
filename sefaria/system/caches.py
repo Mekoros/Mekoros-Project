@@ -24,7 +24,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.utils import timezone
 from django.core.cache.backends.base import BaseCache, DEFAULT_TIMEOUT
 from pymongo.errors import OperationFailure, ExecutionTimeout
-from sefaria.system.database import db
+from mekoros.system.database import db
 
 
 def get_host_and_port(location):

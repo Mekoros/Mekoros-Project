@@ -10,12 +10,12 @@ import re
 import urllib
 from django.utils import timezone
 
-import sefaria.model as model
-from sefaria.system.database import db
-from sefaria.utils.util import graceful_exception
-from sefaria.utils.hebrew import encode_hebrew_numeral, hebrew_parasha_name
-from sefaria.site.site_settings import SITE_SETTINGS
-from sefaria.model.schema import Term
+import mekoros.model as model
+from mekoros.system.database import db
+from mekoros.utils.util import graceful_exception
+from mekoros.utils.hebrew import encode_hebrew_numeral, hebrew_parasha_name
+from mekoros.site.site_settings import SITE_SETTINGS
+from mekoros.model.schema import Term
 
 import structlog
 logger = structlog.get_logger(__name__)
@@ -341,7 +341,7 @@ def parashat_hashavua_and_haftara(datetime_obj, diaspora=True, custom=None, para
     if ret_type == 'list':
         parasha_items = parasha_item + haftarah_item
     elif ret_type == 'dict':
-        from sefaria.utils.util import get_hebrew_date
+        from mekoros.utils.util import get_hebrew_date
         he_date_in_english, he_date_in_hebrew = get_hebrew_date(db_parasha.get('date', None))
         parasha_items = {
             'parasha': parasha_item[0],

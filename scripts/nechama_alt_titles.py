@@ -1,7 +1,7 @@
 #encoding=utf-8
 import django
 django.setup()
-from sefaria.model import *
+from mekoros.model import *
 if __name__ == "__main__":
     i = library.get_index("Midrash Tanchuma")
     node = i.nodes.children[2]

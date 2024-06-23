@@ -1,7 +1,7 @@
 import django
 django.setup()
-from sefaria.system.database import db
-from sefaria.model.user_profile import UserProfile
+from mekoros.system.database import db
+from mekoros.model.user_profile import UserProfile
 from datetime import date
 import csv
 

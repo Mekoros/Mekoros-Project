@@ -1,10 +1,10 @@
 import django
 django.setup()
-from sefaria.model import *
+from mekoros.model import *
 import json
 
 
-INPUT = "/Users/levisrael/sefaria/guide/data.jsonl"
+INPUT = "/Users/levisrael/mekoros/guide/data.jsonl"
 loaded_data = []
 
 # Each object should have keys: "ref", "en", "he", "response", "error", "skipped", "raw"

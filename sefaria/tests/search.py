@@ -1,8 +1,8 @@
 import pytest
 import re
-from sefaria.search import TextIndexer as TI
-from sefaria.model import *
-from sefaria.utils.hebrew import strip_cantillation
+from mekoros.search import TextIndexer as TI
+from mekoros.model import *
+from mekoros.utils.hebrew import strip_cantillation
 
 def test_make_text_index_document():
     oref = Ref('Genesis 1')

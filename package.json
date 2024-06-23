@@ -1,7 +1,7 @@
 {
-  "name": "sefaria-web",
+  "name": "mekoros-web",
   "version": "1.0.0",
-  "description": "Server for rendering React components for Sefaria, a library of Jewish texts.",
+  "description": "Server for rendering React components for Mekoros, a library of Jewish texts.",
   "config": {
     "port": "4040"
   },
@@ -20,7 +20,7 @@
     "build-server": "webpack --config ./node/webpack.server.js",
     "build-diffPage": "webpack --config ./node/webpack.diffPage.js",
     "build-explore": "webpack --config ./node/webpack.explore.js ",
-    "build-sefaria": "webpack --config ./node/webpack.sefaria.js",
+    "build-mekoros": "webpack --config ./node/webpack.mekoros.js",
     "build-timeline": "webpack --config ./node/webpack.timeline.js ",
     "build-categorizeSheets": "webpack --config ./node/webpack.categorizeSheets.js ",
     "watch": "webpack --config ./node/webpack.config.js --progress -w --watch-options-stdin",
@@ -29,7 +29,7 @@
     "watch-client-server": "webpack --config ./node/webpack.client-server.js --progress -w --watch-options-stdin",
     "watch-diffPage": "webpack --config ./node/webpack.diffPage.js --progress -w --watch-options-stdin",
     "watch-explore": "webpack --config ./node/webpack.explore.js --progress -w --watch-options-stdin",
-    "watch-sefaria": "webpack --config ./node/webpack.sefaria.js --progress -w --watch-options-stdin",
+    "watch-mekoros": "webpack --config ./node/webpack.mekoros.js --progress -w --watch-options-stdin",
     "watch-timeline": "webpack --config ./node/webpack.timeline.js --progress -w --watch-options-stdin",
     "watch-categorizeSheets": "webpack --config ./node/webpack.categorizeSheets.js --progress -w --watch-options-stdin",
     "setup": "npm install -g nodemon babel-cli forever",
@@ -136,10 +136,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Sefaria/Sefaria-Project"
+    "url": "https://github.com/Mekoros/Mekoros-Project"
   },
   "bugs": {
-    "url": "https://github.com/Sefaria/Sefaria-Project/issues"
+    "url": "https://github.com/Mekoros/Mekoros-Project/issues"
   },
   "keywords": [
     "torah",

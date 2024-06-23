@@ -6,14 +6,14 @@ Accepts change requests for model objects, passes the changes to the models, and
 import structlog
 logger = structlog.get_logger(__name__)
 
-import sefaria.model as model
-from sefaria.system.exceptions import InputError
+import mekoros.model as model
+from mekoros.system.exceptions import InputError
 try:
-    from sefaria.settings import USE_VARNISH
+    from mekoros.settings import USE_VARNISH
 except ImportError:
     USE_VARNISH = False
 if USE_VARNISH:
-    from sefaria.system.varnish.wrapper import invalidate_ref, invalidate_linked
+    from mekoros.system.varnish.wrapper import invalidate_ref, invalidate_linked
 
 
 def modify_text(user, oref, vtitle, lang, text, vsource=None, **kwargs):
@@ -100,7 +100,7 @@ def post_modify_text(user, action, oref, lang, vtitle, old_text, curr_text, vers
         if oref.prev_section_ref():
             invalidate_ref(oref.prev_section_ref(), lang=lang, version=vtitle, purge=True)
     if not kwargs.get("skip_links", None):
-        from sefaria.helper.link import add_links_from_text
+        from mekoros.helper.link import add_links_from_text
         # Some commentaries can generate links to their base text automatically
         linker = oref.autolinker(user=user)
         if linker:
@@ -115,7 +115,7 @@ def post_modify_text(user, action, oref, lang, vtitle, old_text, curr_text, vers
 
 
 def count_and_index(oref, lang, vtitle, to_count=1):
-    from sefaria.settings import SEARCH_INDEX_ON_SAVE
+    from mekoros.settings import SEARCH_INDEX_ON_SAVE
 
     # count available segments of text
     if to_count:
@@ -131,8 +131,8 @@ def count_and_index(oref, lang, vtitle, to_count=1):
 
 
 def count_segments(index):
-    from sefaria.settings import MULTISERVER_ENABLED
-    from sefaria.system.multiserver.coordinator import server_coordinator
+    from mekoros.settings import MULTISERVER_ENABLED
+    from mekoros.system.multiserver.coordinator import server_coordinator
 
     model.library.recount_index_in_toc(index)
     if MULTISERVER_ENABLED:

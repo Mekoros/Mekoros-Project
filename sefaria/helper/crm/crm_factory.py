@@ -1,7 +1,7 @@
-from sefaria import settings as sls
-from sefaria.helper.crm.nationbuilder import NationbuilderConnectionManager
-from sefaria.helper.crm.salesforce import SalesforceConnectionManager
-from sefaria.helper.crm.dummy_crm import DummyConnectionManager
+from mekoros import settings as sls
+from mekoros.helper.crm.nationbuilder import NationbuilderConnectionManager
+from mekoros.helper.crm.salesforce import SalesforceConnectionManager
+from mekoros.helper.crm.dummy_crm import DummyConnectionManager
 
 
 class CrmFactory(object):

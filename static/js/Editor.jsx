@@ -4,7 +4,7 @@ import {withHistory} from 'slate-history'
 import {Editor, createEditor, Range, Node, Transforms, Path, Text, Point, Element as SlateElement} from 'slate'
 import {Slate, Editable, ReactEditor, withReact, useSlate, useSelected, useFocused} from 'slate-react'
 import isHotkey from 'is-hotkey'
-import Sefaria from './sefaria/sefaria';
+import Mekoros from './mekoros/mekoros';
 
 import {
     SheetMetaDataBox,
@@ -17,7 +17,7 @@ import {
 } from './Misc';
 
 import classNames from 'classnames';
-import $ from "./sefaria/sefariaJquery";
+import $ from "./mekoros/mekorosJquery";
 import ReactDOM from "react-dom";
 
 // Mapping from Sheet doc format source types to Slate block element types
@@ -394,7 +394,7 @@ function renderSheetItem(source) {
             return content
         }
         case 'comment': {
-            const commentLang = Sefaria.hebrew.isHebrew(source.comment) ? 'he' : 'en';
+            const commentLang = Mekoros.hebrew.isHebrew(source.comment) ? 'he' : 'en';
             const content = (
                 {
                     type: sheet_item_els[sheetItemType],
@@ -407,7 +407,7 @@ function renderSheetItem(source) {
             return content
         }
         case 'outsideText': {
-            const lang = Sefaria.hebrew.isHebrew(source.outsideText) ? 'he' : 'en';
+            const lang = Mekoros.hebrew.isHebrew(source.outsideText) ? 'he' : 'en';
 
             const content = (
                 {
@@ -728,8 +728,8 @@ const BoxedSheetElement = ({ attributes, children, element, divineName }) => {
       const dragIcon = document.createElement('div');
       dragIcon.classList.add("dragIcon");
       dragIcon.classList.add("serif");
-      dragIcon.style.borderInlineStartColor = Sefaria.palette.refColor(element.ref);
-      dragIcon.innerHTML = Sefaria.interfaceLang === "hebrew" ? element.heRef : element.ref;
+      dragIcon.style.borderInlineStartColor = Mekoros.palette.refColor(element.ref);
+      dragIcon.innerHTML = Mekoros.interfaceLang === "hebrew" ? element.heRef : element.ref;
 
       document.body.appendChild(dragIcon);
       e.dataTransfer.setDragImage(dragIcon, 0, 15);
@@ -767,8 +767,8 @@ const BoxedSheetElement = ({ attributes, children, element, divineName }) => {
           onDrop={(e)=> {drop(e)}}
           {...attributes}
       >
-    <div className={classNames(sheetItemClasses)} data-sheet-node={element.node} data-sefaria-ref={element.ref} style={{ pointerEvents: (isActive) ? 'none' : 'auto'}}>
-    <div  contentEditable={false} onBlur={(e) => onBlur(e) } onClick={(e) => onClick(e)} className={classNames(classes)} style={{"borderInlineStartColor": Sefaria.palette.refColor(element.ref)}}>
+    <div className={classNames(sheetItemClasses)} data-sheet-node={element.node} data-mekoros-ref={element.ref} style={{ pointerEvents: (isActive) ? 'none' : 'auto'}}>
+    <div  contentEditable={false} onBlur={(e) => onBlur(e) } onClick={(e) => onClick(e)} className={classNames(classes)} style={{"borderInlineStartColor": Mekoros.palette.refColor(element.ref)}}>
       <div className={classNames(heClasses)} style={{ pointerEvents: (isActive) ? 'auto' : 'none'}}>
           {element.heRef ? <div className="ref" contentEditable={false}><a style={{ userSelect: 'none', pointerEvents: 'auto' }} href={`/${element.ref}`}>{element.heRef}</a></div> : null }
           <div className="sourceContentText">
@@ -879,7 +879,7 @@ const AddInterfaceInput = ({ inputType, resetInterface }) => {
         if (input === "") {
             return results;
         }
-        const d = await Sefaria.getName(input, true, 5);
+        const d = await Mekoros.getName(input, true, 5);
         if (d.is_section || d.is_segment) {
             results.helperPromptText = null;
             results.currentSuggestions = null;
@@ -902,7 +902,7 @@ const AddInterfaceInput = ({ inputType, resetInterface }) => {
             .map(suggestion => ({
                 name: suggestion.title,
                 key: suggestion.key,
-                border_color: Sefaria.palette.refColor(suggestion.key)
+                border_color: Mekoros.palette.refColor(suggestion.key)
             }))
         return results;
     }
@@ -917,7 +917,7 @@ const AddInterfaceInput = ({ inputType, resetInterface }) => {
             <div className="addInterfaceInput mediaInput" title="We can process YouTube and SoundCloud links, and hosted mp3's and images" onClick={(e)=> {e.stopPropagation()}}>
                 <input
                     type="text"
-                    placeholder={Sefaria._("Paste a link to an image, video, or audio")}
+                    placeholder={Mekoros._("Paste a link to an image, video, or audio")}
                     className="serif"
                     onClick={(e)=> {e.stopPropagation()}}
                     onChange={(e) => onMediaChange(e)}
@@ -1002,7 +1002,7 @@ const AddInterface = ({ attributes, children, element }) => {
         // formData.append('file', imageData);
 
         $.ajax({
-            url: Sefaria.apiHost + "/api/sheets/upload-image",
+            url: Mekoros.apiHost + "/api/sheets/upload-image",
             type: 'POST',
             data: formData,
             contentType: false,
@@ -1041,12 +1041,12 @@ const AddInterface = ({ attributes, children, element }) => {
     return (
       <div role="button" title={active ? "Close menu" : "Add a source, image, or other media"} contentEditable={!active} suppressContentEditableWarning={true} aria-label={active ? "Close menu" : "Add a source, image, or other media"} className={classNames(addInterfaceClasses)} onClick={(e) => toggleEditorAddInterface(e)}>
           {itemToAdd == null ? <>
-              <div role="button" title={Sefaria._("Add a source")} aria-label="Add a source" className="editorAddInterfaceButton" contentEditable={false} onClick={(e) => addSourceClicked(e)} id="addSourceButton"></div>
-              <div role="button" title={Sefaria._("Add an image")} aria-label="Add an image" className="editorAddInterfaceButton" contentEditable={false} onClick={(e) => addImageClicked(e)} id="addImageButton">
+              <div role="button" title={Mekoros._("Add a source")} aria-label="Add a source" className="editorAddInterfaceButton" contentEditable={false} onClick={(e) => addSourceClicked(e)} id="addSourceButton"></div>
+              <div role="button" title={Mekoros._("Add an image")} aria-label="Add an image" className="editorAddInterfaceButton" contentEditable={false} onClick={(e) => addImageClicked(e)} id="addImageButton">
                   <label htmlFor="addImageFileSelector" id="addImageFileSelectorLabel"></label>
               </div>
               <input id="addImageFileSelector" type="file" style={{ display: "none"}} onChange={onFileSelect} ref={fileInput} />
-              <div role="button" title={Sefaria._("Add media")} aria-label="Add media" className="editorAddInterfaceButton" contentEditable={false} onClick={(e) => addMediaClicked(e)} id="addMediaButton"></div>
+              <div role="button" title={Mekoros._("Add media")} aria-label="Add media" className="editorAddInterfaceButton" contentEditable={false} onClick={(e) => addMediaClicked(e)} id="addMediaButton"></div>
           </> :
 
               <AddInterfaceInput
@@ -1268,7 +1268,7 @@ async function getRefInText(editor, returnSourceIfFound) {
     for (const query of match) {
       if (query.length > 50 || query.trim() == "") {continue}
 
-      const ref = await Sefaria.getName(query.replace(/[\.:]$/, ""))
+      const ref = await Mekoros.getName(query.replace(/[\.:]$/, ""))
       .then(d => {  return d    });
 
       const selectDistance = query.replace("\n","").length;
@@ -1300,7 +1300,7 @@ async function getRefInText(editor, returnSourceIfFound) {
 }
 
 
-const withSefariaSheet = editor => {
+const withMekorosSheet = editor => {
     const {insertData, insertText, insertBreak, isVoid, normalizeNode, deleteBackward, deleteForward, setFragmentData} = editor;
 
     //Hack to override this built-in which often returns null when programmatically selecting the whole SheetSource
@@ -1440,7 +1440,7 @@ const withSefariaSheet = editor => {
             let url;
             try {
               url = new URL(data.getData('text/plain'));
-              if (url.hostname.indexOf("www.sefaria.org") === 0) {
+              if (url.hostname.indexOf("www.mekoros.com") === 0) {
                   $.ajax({
                       url: url,
                       async: true,
@@ -1552,7 +1552,7 @@ const withSefariaSheet = editor => {
         // Autoset language of an outside text for proper RTL/LTR handling
         if (node.type === "SheetOutsideText") {
             const content = Node.string(node);
-            const lang = Sefaria.hebrew.isHebrew(content) ? 'he' : 'en';
+            const lang = Mekoros.hebrew.isHebrew(content) ? 'he' : 'en';
             Transforms.setNodes(editor, {lang: lang}, {at: path});
         }
     };
@@ -1872,7 +1872,7 @@ function placed_segment_mapper(lang, segmented, includeNumbers, s) {
 
     let numStr = "";
     if (includeNumbers) {
-        const num = (lang=="he") ? Sefaria.hebrew.encodeHebrewNumeral(s.number) : s.number;
+        const num = (lang=="he") ? Mekoros.hebrew.encodeHebrewNumeral(s.number) : s.number;
         numStr = "<small>(" + num + ")</small> ";
     }
     let str = "<span class='segment'>" + numStr + s[lang] + "</span> ";
@@ -1892,9 +1892,9 @@ const insertSource = (editor, ref) => {
     const nodeAbove = getNodeAbove(path, editor)
     const nodeBelow = getNodeBelow(path, editor)
 
-    Sefaria.getText(ref, {stripItags: 1}).then(text => {
-        let segments = Sefaria.makeSegments(text, false);
-        segments = Sefaria.stripImagesFromSegments(segments);
+    Mekoros.getText(ref, {stripItags: 1}).then(text => {
+        let segments = Mekoros.makeSegments(text, false);
+        segments = Mekoros.stripImagesFromSegments(segments);
 
         let includeNumbers = $.inArray("Talmud", text.categories) == -1;
         includeNumbers = text.indexTitle === "Pesach Haggadah" ? false : includeNumbers;
@@ -2072,7 +2072,7 @@ const Link = ({ attributes, children, element }) => {
             return(url)
         }
         catch {
-            if(Sefaria.util.isValidEmailAddress(s)) {
+            if(Mekoros.util.isValidEmailAddress(s)) {
                 return(`mailto:${s}`)
             }
             return(`http://${s}`)
@@ -2111,7 +2111,7 @@ const Link = ({ attributes, children, element }) => {
           <input
               type="text"
               value={urlValue}
-              placeholder={Sefaria._("Enter link URL")}
+              placeholder={Mekoros._("Enter link URL")}
               className="sans-serif"
               onChange={(e) => urlChange(e)}
           />
@@ -2484,7 +2484,7 @@ const BlockButton = ({format, icon}) => {
     )
 }
 
-const SefariaEditor = (props) => {
+const MekorosEditor = (props) => {
     const editorContainer = useRef();
     const [sheet, setSheet] = useState(props.data);
     const initValue = [{type: "sheet", children: [{text: ""}]}];
@@ -2784,8 +2784,8 @@ const SefariaEditor = (props) => {
             // console.log("saved at: "+ res.dateModified);
             setUnsavedChanges(false);
 
-            const updatedSheet = {...Sefaria.sheets._loadSheetByID[doc[0].id], ...res};
-            Sefaria.sheets._loadSheetByID[doc[0].id] = updatedSheet
+            const updatedSheet = {...Mekoros.sheets._loadSheetByID[doc[0].id], ...res};
+            Mekoros.sheets._loadSheetByID[doc[0].id] = updatedSheet
         });
     }
 
@@ -2913,7 +2913,7 @@ const SefariaEditor = (props) => {
 
     const reloadFromDb = () => {
         console.log("Refreshing sheet from Db")
-        Sefaria.sheets.loadSheetByID(sheet.id, (data)=>{
+        Mekoros.sheets.loadSheetByID(sheet.id, (data)=>{
             setSheet(data)
         }, true)
     }
@@ -2937,14 +2937,14 @@ const SefariaEditor = (props) => {
         }
         else {
             const sheetNode = segmentToHighlight.getAttribute("data-sheet-node")
-            const sheetRef = segmentToHighlight.getAttribute("data-sefaria-ref")
+            const sheetRef = segmentToHighlight.getAttribute("data-mekoros-ref")
             updateSidebar(sheetNode, sheetRef)
         }
     };
 
 
     const editor = useMemo(
-        () => withTables(withSefariaSheet(withLinks(withHistory(withReact(createEditor()))))),
+        () => withTables(withMekorosSheet(withLinks(withHistory(withReact(createEditor()))))),
         []
     );
 
@@ -3005,4 +3005,4 @@ const SefariaEditor = (props) => {
     )
 };
 
-export default SefariaEditor;
+export default MekorosEditor;

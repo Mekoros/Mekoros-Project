@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import sefaria.datatype.jagged_array as ja
+import mekoros.datatype.jagged_array as ja
 import pytest
 
 

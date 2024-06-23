@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-sheets.py - backend core for Sefaria Source sheets
+sheets.py - backend core for Mekoros Source sheets
 
 Writes to MongoDB Collection: sheets
 """
-from sefaria.client.util import jsonResponse
+from mekoros.client.util import jsonResponse
 import sys
 import hashlib
 import urllib.request, urllib.parse, urllib.error
@@ -19,22 +19,22 @@ from collections import defaultdict
 from pymongo.errors import DuplicateKeyError
 import uuid
 
-import sefaria.model as model
-import sefaria.model.abstract as abstract
-from sefaria.system.database import db
-from sefaria.model.notification import Notification, NotificationSet
-from sefaria.model.following import FollowersSet
-from sefaria.model.user_profile import UserProfile, annotate_user_list, public_user_data, user_link
-from sefaria.model.collection import Collection, CollectionSet
-from sefaria.model.topic import TopicSet, Topic, RefTopicLink, RefTopicLinkSet
-from sefaria.utils.util import strip_tags, string_overlap, titlecase
-from sefaria.utils.hebrew import has_hebrew, is_all_hebrew
-from sefaria.system.exceptions import InputError, DuplicateRecordError
-from sefaria.system.cache import django_cache
+import mekoros.model as model
+import mekoros.model.abstract as abstract
+from mekoros.system.database import db
+from mekoros.model.notification import Notification, NotificationSet
+from mekoros.model.following import FollowersSet
+from mekoros.model.user_profile import UserProfile, annotate_user_list, public_user_data, user_link
+from mekoros.model.collection import Collection, CollectionSet
+from mekoros.model.topic import TopicSet, Topic, RefTopicLink, RefTopicLinkSet
+from mekoros.utils.util import strip_tags, string_overlap, titlecase
+from mekoros.utils.hebrew import has_hebrew, is_all_hebrew
+from mekoros.system.exceptions import InputError, DuplicateRecordError
+from mekoros.system.cache import django_cache
 from .history import record_sheet_publication, delete_sheet_publication
 from .settings import SEARCH_INDEX_ON_SAVE
 from . import search
-from sefaria.google_storage_manager import GoogleStorageManager
+from mekoros.google_storage_manager import GoogleStorageManager
 import re
 from django.http import Http404
 
@@ -654,7 +654,7 @@ def test():
 	for s in ss:
 		lang = get_sheet_language(s)
 		if lang == "some hebrew":
-			print("{}\thttps://www.sefaria.org/sheets/{}".format(strip_tags(s["title"]).replace("\n", ""), s["id"]))
+			print("{}\thttps://www.mekoros.com/sheets/{}".format(strip_tags(s["title"]).replace("\n", ""), s["id"]))
 
 
 
@@ -829,7 +829,7 @@ def get_sheets_for_ref(tref, uid=None, in_collection=None):
 	results = []
 	for sheet in sheets:
 		anchor_ref_list, anchor_ref_expanded_list = oref.get_all_anchor_refs(segment_refs, sheet.get("includedRefs", []), sheet.get("expandedRefs", []))
-		ownerData = user_profiles.get(sheet["owner"], {'first_name': 'Ploni', 'last_name': 'Almoni', 'email': 'test@sefaria.org', 'slug': 'Ploni-Almoni', 'id': None, 'profile_pic_url_small': ''})
+		ownerData = user_profiles.get(sheet["owner"], {'first_name': 'Ploni', 'last_name': 'Almoni', 'email': 'test@mekoros.com', 'slug': 'Ploni-Almoni', 'id': None, 'profile_pic_url_small': ''})
 
 		if "assigner_id" in sheet:
 			asignerData = public_user_data(sheet["assigner_id"])
@@ -971,7 +971,7 @@ def update_sheet_topic_links(sheet_id, new_topics, old_topics):
 			"expandedRefs": "Sheet {}".format(sheet_id),
 			"linkType": "about",
 			"is_sheet": True,
-			"dataSource": "sefaria-users"
+			"dataSource": "mekoros-users"
 		}, hint="expandedRefs_1").delete()
 
 	status = db.sheets.find_one({"id": sheet_id}, {"status": 1}).get("status", "unlisted")
@@ -987,7 +987,7 @@ def update_sheet_topic_links(sheet_id, new_topics, old_topics):
 			"expandedRefs": ["Sheet {}".format(sheet_id)],
 			"linkType": "about",
 			"is_sheet": True,
-			"dataSource": "sefaria-users"
+			"dataSource": "mekoros-users"
 		}
 		tl = RefTopicLink(attrs)
 		try:
@@ -1016,7 +1016,7 @@ def add_langs_to_topics(topic_list: list, use_as_typed=True, backwards_compat_la
 	:param bool use_as_typed:
 	"""
 	new_topic_list = []
-	from sefaria.model import library
+	from mekoros.model import library
 	topic_map = library.get_topic_mapping()
 	if len(topic_list) > 0:
 		for topic in topic_list:
@@ -1060,7 +1060,7 @@ def public_tag_list(sort_by="alpha"):
 	"""
 	seen_titles = set()
 	results = []
-	from sefaria.helper.topic import get_all_topics
+	from mekoros.helper.topic import get_all_topics
 	all_tags = get_all_topics()
 	lang = "he" if sort_by == "alpha-hebrew" else "en"
 	for tag in all_tags:
@@ -1085,7 +1085,7 @@ def get_sheets_by_topic(topic, public=True, proj=None, limit=0, page=0):
 	Returns all sheets tagged with 'topic'
 	"""
 	# try to normalize for backwards compatibility
-	from sefaria.model.abstract import SluggedAbstractMongoRecord
+	from mekoros.model.abstract import SluggedAbstractMongoRecord
 	topic = SluggedAbstractMongoRecord.normalize_slug(topic)
 	query = {"topics.slug": topic} if topic else {"topics": {"$exists": 0}}
 

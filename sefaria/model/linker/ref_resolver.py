@@ -3,14 +3,14 @@ from typing import List, Union, Dict, Optional, Tuple, Generator, Iterable, Set
 from enum import IntEnum, Enum
 from functools import reduce
 from tqdm import tqdm
-from sefaria.system.exceptions import InputError
-from sefaria.model import abstract as abst
-from sefaria.model import text
-from sefaria.model import schema
-from sefaria.model.linker.ref_part import RawRef, RawRefPart, SpanOrToken, span_inds, RefPartType, SectionContext, ContextPart, TermContext
-from sefaria.model.linker.referenceable_book_node import NamedReferenceableBookNode, ReferenceableBookNode
-from sefaria.model.linker.match_template import MatchTemplateTrie, LEAF_TRIE_ENTRY
-from sefaria.model.linker.resolved_ref_refiner_factory import resolved_ref_refiner_factory
+from mekoros.system.exceptions import InputError
+from mekoros.model import abstract as abst
+from mekoros.model import text
+from mekoros.model import schema
+from mekoros.model.linker.ref_part import RawRef, RawRefPart, SpanOrToken, span_inds, RefPartType, SectionContext, ContextPart, TermContext
+from mekoros.model.linker.referenceable_book_node import NamedReferenceableBookNode, ReferenceableBookNode
+from mekoros.model.linker.match_template import MatchTemplateTrie, LEAF_TRIE_ENTRY
+from mekoros.model.linker.resolved_ref_refiner_factory import resolved_ref_refiner_factory
 import structlog
 logger = structlog.get_logger(__name__)
 try:
@@ -186,7 +186,7 @@ class TermMatcher:
                 self._str2term_map[title] += [term]
 
     def match_term(self, ref_part: RawRefPart) -> List[schema.NonUniqueTerm]:
-        from sefaria.utils.hebrew import get_prefixless_inds
+        from mekoros.utils.hebrew import get_prefixless_inds
 
         matches = []
         if ref_part.type != RefPartType.NAMED: return matches
@@ -244,7 +244,7 @@ class RefResolver:
     def __init__(self, raw_ref_model_by_lang: Dict[str, Language], raw_ref_part_model_by_lang: Dict[str, Language],
                  ref_part_title_trie_by_lang: Dict[str, MatchTemplateTrie],
                  term_matcher_by_lang: Dict[str, TermMatcher]) -> None:
-        from sefaria.helper.normalization import NormalizerByLang, NormalizerComposer
+        from mekoros.helper.normalization import NormalizerByLang, NormalizerComposer
 
         self._raw_ref_model_by_lang = raw_ref_model_by_lang
         self._raw_ref_part_model_by_lang = raw_ref_part_model_by_lang

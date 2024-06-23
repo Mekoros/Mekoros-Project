@@ -5,9 +5,9 @@ from collections import defaultdict
 from tqdm import tqdm
 from itertools import product
 from functools import reduce
-from sefaria.model import *
-from sefaria.system.exceptions import InputError
-from sefaria.helper.link import add_links_from_text
+from mekoros.model import *
+from mekoros.system.exceptions import InputError
+from mekoros.helper.link import add_links_from_text
 from urllib.parse import urlparse
 
 vtitles = ['On Your Way', 'On Your Way New', 'On Your Way New', 'On Your Way New', 'On Your Way new']
@@ -371,8 +371,8 @@ if __name__ == "__main__":
 
 """
 POD=devpod-noah-846cdffc8b-8l5wl
-kubectl cp "/home/nss/sefaria/project/data/Ramban links - Modified Citations.csv" $POD:/app/data
-kubectl cp "/home/nss/sefaria/project/data/Ramban links - Links to Rashi, Ibn Ezra & Onkelos.csv" $POD:/app/data
-kubectl cp "/home/nss/sefaria/project/data/Ramban links - Halachic Midrash.csv" $POD:/app/data
-kubectl cp /home/nss/sefaria/project/scripts/add_ramban_links.py $POD:/app/scripts
+kubectl cp "/home/nss/mekoros/project/data/Ramban links - Modified Citations.csv" $POD:/app/data
+kubectl cp "/home/nss/mekoros/project/data/Ramban links - Links to Rashi, Ibn Ezra & Onkelos.csv" $POD:/app/data
+kubectl cp "/home/nss/mekoros/project/data/Ramban links - Halachic Midrash.csv" $POD:/app/data
+kubectl cp /home/nss/mekoros/project/scripts/add_ramban_links.py $POD:/app/scripts
 """

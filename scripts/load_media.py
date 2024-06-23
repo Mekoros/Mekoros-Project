@@ -2,9 +2,9 @@ import django
 django.setup()
 import os
 import json
-from sefaria.model import *
-from sefaria.system import exceptions
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.system import exceptions
+from mekoros.system.database import db
 
 
 db.media.drop()
@@ -18,4 +18,4 @@ for filename in os.listdir(directory):
         data["description_he"] = "הקלטות שמע של פרשות השבוע באמצעות \"פאקט-תורה\" בסגנון הקריאה של א. בינדר ול.אוורי."
 
         db.media.save(data) # saves a single record
-        db.media.ensure_index("ref.sefaria_ref")
+        db.media.ensure_index("ref.mekoros_ref")

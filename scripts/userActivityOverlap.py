@@ -3,7 +3,7 @@ import django
 django.setup()
 
 import itertools
-from sefaria.system.database import db
+from mekoros.system.database import db
 
 
 # get all active users

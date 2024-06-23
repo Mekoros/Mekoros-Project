@@ -9,11 +9,11 @@ import urllib.request, urllib.parse, urllib.error
 import urllib.request, urllib.error, urllib.parse
 import requests
 
-from sefaria.model import *
-from sefaria.datatype.jagged_array import JaggedTextArray, JaggedArray
+from mekoros.model import *
+from mekoros.datatype.jagged_array import JaggedTextArray, JaggedArray
 
 try:
-    from sefaria.local_settings import SEFARIA_BOT_API_KEY
+    from mekoros.local_settings import SEFARIA_BOT_API_KEY
 except ImportError:
     SEFARIA_BOT_API_KEY = None
 
@@ -203,7 +203,7 @@ if __name__ == '__main__':
     parser.add_argument("--noindex", action="store_false", help="Specify this flag when you do not wish to create a new Index record at the destination")
     parser.add_argument("-v", "--versionlist", help="pipe separated version list: lang:versionTitle. To copy all versions, simply input 'all'")
     parser.add_argument("-k", "--apikey", help="non default api key", default=SEFARIA_BOT_API_KEY)
-    parser.add_argument("-d", "--destination_server", help="override destination server", default='http://eph.sefaria.org')
+    parser.add_argument("-d", "--destination_server", help="override destination server", default='http://eph.mekoros.com')
     parser.add_argument("-l", "--links", default=0, type=int, help="Enter '1' to move manual links on this text as well, '2' to move auto links")
     parser.add_argument("-s", "--step", default=-1, type=int, help="Enter step size for link posting.  Size of 400 means links are posted 400 at a time.")
     args = parser.parse_args()

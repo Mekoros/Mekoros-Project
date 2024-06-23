@@ -1,10 +1,10 @@
 import django
 django.setup()
-from sefaria.model import *
-from sefaria.model.linker.ref_resolver import AmbiguousResolvedRef
-from sefaria.model.webpage import WebSite
-from sefaria.system.exceptions import InputError
-from sefaria.utils.hebrew import gematria
+from mekoros.model import *
+from mekoros.model.linker.ref_resolver import AmbiguousResolvedRef
+from mekoros.model.webpage import WebSite
+from mekoros.system.exceptions import InputError
+from mekoros.utils.hebrew import gematria
 from roman import fromRoman as roman_to_int
 import re
 import json

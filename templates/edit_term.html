@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load sefaria_tags %}
+{% load mekoros_tags %}
 {% load humanize %}
 {% load static %}
 
@@ -51,7 +51,7 @@
     data.isUpdate = {{ is_update }};
     {% endautoescape %}
     $(function() {
-      SefariaJsonEditor("terms", data, document.getElementById("jsonEditor"));
+      MekorosJsonEditor("terms", data, document.getElementById("jsonEditor"));
     });
   </script>
 {% endblock %}

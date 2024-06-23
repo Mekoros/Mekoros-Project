@@ -2,13 +2,13 @@ import django, csv, json, re
 from tqdm import tqdm
 from collections import defaultdict
 from pymongo.errors import AutoReconnect
-from sefaria.model import *
-from sefaria.utils.util import titlecase
-from sefaria.system.database import db
-from sefaria.helper.topic import generate_all_topic_links_from_sheets, update_ref_topic_link_orders, update_intra_topic_link_orders, add_num_sources_to_topics
-from sefaria.system.exceptions import DuplicateRecordError
-from sefaria.utils.hebrew import has_hebrew
-from sefaria.model.abstract import SluggedAbstractMongoRecord
+from mekoros.model import *
+from mekoros.utils.util import titlecase
+from mekoros.system.database import db
+from mekoros.helper.topic import generate_all_topic_links_from_sheets, update_ref_topic_link_orders, update_intra_topic_link_orders, add_num_sources_to_topics
+from mekoros.system.exceptions import DuplicateRecordError
+from mekoros.utils.hebrew import has_hebrew
+from mekoros.model.abstract import SluggedAbstractMongoRecord
 from pymongo import UpdateOne, DeleteOne
 
 django.setup()
@@ -376,16 +376,16 @@ def do_data_source():
             "displayName": "Aspaklaria"
         },
         {
-            "slug": "aspaklaria-edited-by-sefaria",
-            "displayName": "Aspaklaria-edited-by-Sefaria"
+            "slug": "aspaklaria-edited-by-mekoros",
+            "displayName": "Aspaklaria-edited-by-Mekoros"
         },
         {
-            "slug": "sefaria-users",
-            "displayName": "Sefaria Users"
+            "slug": "mekoros-users",
+            "displayName": "Mekoros Users"
         },
         {
-            "slug": "sefaria",
-            "displayName": "Sefaria"
+            "slug": "mekoros",
+            "displayName": "Mekoros"
         }
     ]
     for d in data_sources:
@@ -421,7 +421,7 @@ def do_intra_topic_link(term_to_slug_map, invalid_term_to_slug_map):
                     "fromTopic": topic.slug,
                     "toTopic": to_topic.slug,
                     "linkType": linkType.slug,
-                    "dataSource": "aspaklaria-edited-by-sefaria"
+                    "dataSource": "aspaklaria-edited-by-mekoros"
                 })
                 tl.save()
     num_invalid_links = 0
@@ -444,7 +444,7 @@ def do_intra_topic_link(term_to_slug_map, invalid_term_to_slug_map):
                     "fromTopic": topic.slug,
                     "toTopic": to_topic.slug,
                     "linkType": linkType.slug,
-                    "dataSource": "aspaklaria-edited-by-sefaria"
+                    "dataSource": "aspaklaria-edited-by-mekoros"
                 })
                 try:
                     tl.save()
@@ -483,7 +483,7 @@ def do_intra_topic_link(term_to_slug_map, invalid_term_to_slug_map):
                     "fromTopic": from_slug,
                     "toTopic": top_topic.slug,
                     "linkType": 'displays-under',
-                    "dataSource": "sefaria"
+                    "dataSource": "mekoros"
                 })
                 tl.save()
             else:
@@ -506,7 +506,7 @@ def do_intra_topic_link(term_to_slug_map, invalid_term_to_slug_map):
                 "fromTopic": from_slug,
                 "toTopic": top_topic.slug,
                 "linkType": 'displays-under',
-                "dataSource": "sefaria"
+                "dataSource": "mekoros"
             })
             tl.save()
         else:
@@ -550,7 +550,7 @@ def do_ref_topic_link(slug_to_sheet_map):
                 "expandedRefs": ["Sheet {}".format(sheet_id)],
                 "linkType": "about",
                 "is_sheet": True,
-                "dataSource": "sefaria-users"
+                "dataSource": "mekoros-users"
             }
             tl = RefTopicLink(attrs)
             try:
@@ -586,7 +586,7 @@ def do_sheet_refactor(tag_to_slug_map):
                         "toTopic": Topic.uncategorized_topic,
                         "linkType": "is-a",
                         "class": "intraTopic",
-                        "dataSource": "sefaria"
+                        "dataSource": "mekoros"
                     })
                     try:
                         itl.save()
@@ -602,7 +602,7 @@ def do_sheet_refactor(tag_to_slug_map):
                     "expandedRefs": ["Sheet {}".format(s['id'])],
                     "linkType": "about",
                     "is_sheet": True,
-                    "dataSource": "sefaria-users"
+                    "dataSource": "mekoros-users"
                 })
                 try:
                     rtl.save()
@@ -881,7 +881,7 @@ def recat_toc():
             "Slug": t.slug,
             "Description": getattr(t, 'description', {}).get('en', ''),
             "Order": getattr(t, 'displayOrder', '10000'),
-            'Link': f'topics-dev.sandbox.sefaria.org/topics/{t.slug}'
+            'Link': f'topics-dev.sandbox.mekoros.com/topics/{t.slug}'
         }
         # old_slug = getattr(t, 'alt_ids', {}).get('_old_slug', None)
         # if old_slug:
@@ -1007,7 +1007,7 @@ def fix_recat_toc():
         if not Topic().load({"slug": row["Slug"]}):
             print("No Topic for", row["Slug"])
         else:
-            row["Link"] = "topics-dev.sandbox.sefaria.org/topics/{}".format(row["Slug"])
+            row["Link"] = "topics-dev.sandbox.mekoros.com/topics/{}".format(row["Slug"])
 
     with open("data/fixed_recat_toc.csv", "w") as fout:
         c = csv.DictWriter(fout, c.fieldnames)
@@ -1018,7 +1018,7 @@ def fix_recat_toc():
 def recat_law():
     top_law = [l.fromTopic for l in IntraTopicLinkSet({"linkType": TopicLinkType.isa_type, "toTopic": "halakhah"})]
     name_map = {}
-    with open("/Users/nss/Documents/Sefaria-Data/research/knowledge_graph/bootstrapper/final_topic_names.csv", "r") as fin:
+    with open("/Users/nss/Documents/Mekoros-Data/research/knowledge_graph/bootstrapper/final_topic_names.csv", "r") as fin:
         c = csv.DictReader(fin)
         for i, row in enumerate(c):
             if i >= 4727 and i < 5039:
@@ -1040,7 +1040,7 @@ def recat_law():
                 "Num Sources": c.numSources,
                 "Order": i,
                 "Slug": c.slug,
-                "Link": "topics-dev.sandbox.sefaria.org/topics/" + c.slug,
+                "Link": "topics-dev.sandbox.mekoros.com/topics/" + c.slug,
                 "Description": getattr(c, 'description', {}).get('en', '')
             }]
     with open('data/recat_law.csv', 'w') as fout:
@@ -1168,7 +1168,7 @@ def apply_recat_toc():
                 "fromTopic": row['Slug'],
                 "toTopic": name_topic_map[row['Cat']].slug,
                 "linkType": "displays-under",
-                "dataSource": "sefaria",
+                "dataSource": "mekoros",
                 "class": "intraTopic",
             }
         except KeyError:
@@ -1187,7 +1187,7 @@ def apply_recat_toc():
     #         "fromTopic": cat['ID'],
     #         "toTopic": 'law',
     #         "linkType": "displays-under",
-    #         "dataSource": "sefaria",
+    #         "dataSource": "mekoros",
     #         "class": "intraTopic",
     #     }
     #     t = Topic().load({"slug": cat["ID"]})
@@ -1204,7 +1204,7 @@ def apply_recat_toc():
     #         "fromTopic": row['Slug'],
     #         "toTopic": row['Cat'],
     #         "linkType": "displays-under",
-    #         "dataSource": "sefaria",
+    #         "dataSource": "mekoros",
     #         "class": "intraTopic",
     #     }
     #     t = Topic().load({"slug": row["Slug"]})
@@ -1253,7 +1253,7 @@ def find_ambiguous_topics():
                 "Disambiguation En": "",
                 "Disambiguation He": "",
                 "Other Titles": " | ".join([tit['text'] for tit in t.titles if not tit.get('primary', False)]),
-                "Link": "topics-dev.sandbox.sefaria.org/topics/{}".format(t.slug)
+                "Link": "topics-dev.sandbox.mekoros.com/topics/{}".format(t.slug)
             }
             if len(t.titles) > max_titles:
                 max_titles = len(t.titles)
@@ -1286,7 +1286,7 @@ def more_title_changes():
             "En": t.get_primary_title('en'),
             "He": t.get_primary_title('he'),
             "Slug": t.slug,
-            "Link": f"topics-dev.sandbox.sefaria.org/topics/{t.slug}",
+            "Link": f"topics-dev.sandbox.mekoros.com/topics/{t.slug}",
             "New En": "",
             "New He": "",
         }]
@@ -1324,7 +1324,7 @@ def more_rabbi_matching_oh_boy():
             'Slug': t.slug,
             'En': t.get_primary_title('en'),
             'He': t.get_primary_title('he'),
-            'Link': f'topics-dev.sandbox.sefaria.org/topics/{t.slug}'
+            'Link': f'topics-dev.sandbox.mekoros.com/topics/{t.slug}'
         })
         for p in props:
             pval, _ = t.get_property(p)
@@ -1543,7 +1543,7 @@ def make_desc_csv():
             "He": t.get_primary_title('he'),
             "Desc En": t.description['en'],
             "Desc He": t.description['he'],
-            "Link": "topics-dev.sandbox.sefaria.org/topics/{}".format(t.slug)
+            "Link": "topics-dev.sandbox.mekoros.com/topics/{}".format(t.slug)
         }]
     with open("data/edit_descriptions.csv", "w") as fout:
         c = csv.DictWriter(fout, ['Slug', 'En', 'He', 'Desc En', 'Desc He', 'Link'])

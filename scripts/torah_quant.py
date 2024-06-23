@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import csv
 
-from sefaria.model import *
-from sefaria.utils.hebrew import gematria
-from sefaria.settings import STATICFILES_DIRS
+from mekoros.model import *
+from mekoros.utils.hebrew import gematria
+from mekoros.settings import STATICFILES_DIRS
 
 torah = IndexSet({"categories": "Torah"})
 parshiot = []

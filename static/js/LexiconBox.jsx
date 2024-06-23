@@ -4,7 +4,7 @@ import {
   ToolTipped,
 } from './Misc';
 import React  from 'react';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 import DictionarySearch  from './DictionarySearch';
 import classNames  from 'classnames';
 import PropTypes  from 'prop-types';
@@ -56,7 +56,7 @@ class LexiconBox extends Component {
     if(this.shouldActivate(words)) {
       let ref = oref ? oref.ref : undefined;
       // console.log('getting data: ', words, oref.ref);
-      Sefaria.getLexiconWords(words, ref).then(data => {
+      Mekoros.getLexiconWords(words, ref).then(data => {
         this.setState({
           loaded: true,
           entries: data
@@ -64,15 +64,15 @@ class LexiconBox extends Component {
 
         let action = (data.length === 0)? "Open No Result": "Open";
         action += oref ? " / " + oref.categories.join("/") + "/" + oref.book : "";
-        Sefaria.track.event("Lexicon", action, words);
+        Mekoros.track.event("Lexicon", action, words);
 
-        // console.log('gotten data from Sefaria.js, state re-set: ', this, data);
+        // console.log('gotten data from Mekoros.js, state re-set: ', this, data);
       });
     }
   }
 
   getNamedEntity(slug) {
-    Sefaria.getTopic(slug, {annotated: false}).then(data => {
+    Mekoros.getTopic(slug, {annotated: false}).then(data => {
       this.setState({
         loaded: true,
         namedEntity: data,
@@ -115,9 +115,9 @@ class LexiconBox extends Component {
           // TODO. remove hard-coding
           let dataSourceText = "";
           if (this.props.srefs[0].indexOf("Jerusalem Talmud") !== -1) {
-            dataSourceText = `${Sefaria._('This topic is connected to ')}"${Sefaria._r(this.props.srefs[0])}" ${Sefaria._('by')} ${Sefaria._('Sefaria')}.`;
+            dataSourceText = `${Mekoros._('This topic is connected to ')}"${Mekoros._r(this.props.srefs[0])}" ${Mekoros._('by')} ${Mekoros._('Mekoros')}.`;
           } else {
-            dataSourceText = `${Sefaria._('This topic is connected to ')}"${Sefaria._r(this.props.srefs[0])}" ${Sefaria._('based on')} ${Sefaria._('research of Dr. Michael Sperling')}.`;
+            dataSourceText = `${Mekoros._('This topic is connected to ')}"${Mekoros._r(this.props.srefs[0])}" ${Mekoros._('based on')} ${Mekoros._('research of Dr. Michael Sperling')}.`;
           }
           
           const neArray = this.state.namedEntity.possibilities || [this.state.namedEntity]; 
@@ -286,14 +286,14 @@ class LexiconEntry extends Component {
     if ($(event.target).hasClass("refLink")) {
         //Click of citation
         event.preventDefault();
-        let ref = Sefaria.humanRef($(event.target).attr("data-ref"));
+        let ref = Mekoros.humanRef($(event.target).attr("data-ref"));
         this.props.onCitationClick(ref, this.props.sref);
         event.stopPropagation();
-        Sefaria.track.event("Reader", "Citation Link Click", ref);
+        Mekoros.track.event("Reader", "Citation Link Click", ref);
     } else if (this.props.onEntryClick) {
       //Click on the body of the TextRange itself from TextList
       this.props.onEntryClick(this.getRef());
-      Sefaria.track.event("Reader", "Click Dictionary Entry from Lookup", this.getRef());
+      Mekoros.track.event("Reader", "Click Dictionary Entry from Lookup", this.getRef());
     }
   }
   handleKeyPress(event) {

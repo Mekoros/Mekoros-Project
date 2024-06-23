@@ -2,9 +2,9 @@
 import django
 django.setup()
 
-from sefaria.model import *
+from mekoros.model import *
 from datetime import datetime
-from sefaria.system.database import db, ensure_indices
+from mekoros.system.database import db, ensure_indices
 
 
 db.drop_collection("shared_story")

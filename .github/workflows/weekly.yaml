@@ -43,8 +43,8 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            gcr.io/${{ secrets.DEV_PROJECT }}/sefaria-mongo
-            us-east1-docker.pkg.dev/${{ secrets.DEV_PROJECT }}/containers/sefaria-${{ matrix.app }}-${{ steps.branch-name.outputs.current_branch }}
+            gcr.io/${{ secrets.DEV_PROJECT }}/mekoros-mongo
+            us-east1-docker.pkg.dev/${{ secrets.DEV_PROJECT }}/containers/mekoros-${{ matrix.app }}-${{ steps.branch-name.outputs.current_branch }}
           # generate Docker tags based on the following events/attributes
           tags: |
             type=sha,enable=true,priority=100,prefix=sha-,suffix=-${{ steps.date.outputs.date }},format=short
@@ -54,8 +54,8 @@ jobs:
       - name: build and push
         uses: docker/build-push-action@v2
         with:
-          cache-from: type=registry, ref=sefaria-mongo/cache
-          cache-to: type=registry, ref=sefaria-mongo/cache, mode=max
+          cache-from: type=registry, ref=mekoros-mongo/cache
+          cache-to: type=registry, ref=mekoros-mongo/cache, mode=max
           context: .
           push: true
           file: ./build/standalone-db/Dockerfile

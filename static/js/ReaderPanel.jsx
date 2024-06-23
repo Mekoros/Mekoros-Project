@@ -4,9 +4,9 @@ import classNames  from 'classnames';
 import ReactDOM  from 'react-dom';
 import PropTypes  from 'prop-types';
 import extend  from 'extend';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 import {ContentLanguageContext} from './context';
-import $  from './sefaria/sefariaJquery';
+import $  from './mekoros/mekorosJquery';
 import TextColumn  from './TextColumn';
 import TextsPage  from './TextsPage';
 import {
@@ -113,24 +113,24 @@ class ReaderPanel extends Component {
     let contentLangOverride = originalLanguage;
     if (["topics", "allTopics", "calendars", "community", "collection" ].includes(menuOpen)) {   //  "story_editor",
       // Always bilingual for English interface, always Hebrew for Hebrew interface
-      contentLangOverride = (Sefaria.interfaceLang === "english") ? "bilingual" : "hebrew";
+      contentLangOverride = (Mekoros.interfaceLang === "english") ? "bilingual" : "hebrew";
 
     } else if (mode === "Connections" || !!menuOpen){
       // Always Hebrew for Hebrew interface, treat bilingual as English for English interface
-      contentLangOverride = (Sefaria.interfaceLang === "hebrew") ? "hebrew" : ((originalLanguage === "bilingual") ? "english" : originalLanguage);
+      contentLangOverride = (Mekoros.interfaceLang === "hebrew") ? "hebrew" : ((originalLanguage === "bilingual") ? "english" : originalLanguage);
 
     }
     return contentLangOverride;
   }
   clonePanel(panel) {
     // Todo: Move the multiple instances of this out to a utils file
-    return Sefaria.util.clone(panel);
+    return Mekoros.util.clone(panel);
   }
   handleBaseSegmentClick(ref, showHighlight = true) {
     if (this.state.mode === "TextAndConnections") {
       this.closeConnectionsInPanel();
     } else if (this.state.mode === "Text") {
-      Sefaria.track.event("Reader", "Open Connections Panel", ref);
+      Mekoros.track.event("Reader", "Open Connections Panel", ref);
       if (this.props.multiPanel) {
         this.conditionalSetState({showHighlight: showHighlight});
         this.props.onSegmentClick(ref);
@@ -143,7 +143,7 @@ class ReaderPanel extends Component {
     if(source === 0){
       //the click may be coming from the sheet reader controls, and so we need to find
       // the first node or the node thats in the url
-      const sheet = Sefaria.sheets.loadSheetByID(this.state.sheetID); // Should already be loaded and in cache
+      const sheet = Mekoros.sheets.loadSheetByID(this.state.sheetID); // Should already be loaded and in cache
       source = this.state.highlightedNode ? sheet.sources.find(source => source.node === this.state.highlightedNode) : sheet.sources[0];
     }
     this.conditionalSetState({highlightedNode: source.node});
@@ -154,7 +154,7 @@ class ReaderPanel extends Component {
     else if (this.state.mode === "Sheet") {
       if (this.props.multiPanel) {
         if (source.ref) {
-          this.props.onSegmentClick(Sefaria.splitRangingRef(source.ref), source.node);
+          this.props.onSegmentClick(Mekoros.splitRangingRef(source.ref), source.node);
         } else {
           this.props.onSegmentClick(sheetRef, source.node)
         }
@@ -179,7 +179,7 @@ class ReaderPanel extends Component {
         enAPIResult: enVTitle,
         heAPIResult: heVTitle,
     };
-    if (Sefaria.util.object_equals(this.state.currVersions, newVersions)) { return; }
+    if (Mekoros.util.object_equals(this.state.currVersions, newVersions)) { return; }
     this.conditionalSetState({ currVersions: newVersions });
   }
   openConnectionsPanel(ref, additionalState) {
@@ -255,7 +255,7 @@ class ReaderPanel extends Component {
     }
     let refs;
     if (!Array.isArray(ref)) {
-      const oRef = Sefaria.parseRef(ref);
+      const oRef = Mekoros.parseRef(ref);
       if (oRef.book === "Sheet") {
         this.openSheet(ref);
         return;
@@ -273,7 +273,7 @@ class ReaderPanel extends Component {
   }
   openSheet(sheetRef, replaceHistory) {
     this.replaceHistory = Boolean(replaceHistory);
-    const parsedRef = Sefaria.parseRef(sheetRef);
+    const parsedRef = Mekoros.parseRef(sheetRef);
     let [sheetID, sheetNode] = parsedRef.sections;
     sheetID = parseInt(sheetID);
     sheetNode = sheetNode ? parseInt(sheetNode) : null;
@@ -297,7 +297,7 @@ class ReaderPanel extends Component {
   setTextListHighlight(refs, showHighlight) {
     refs = typeof refs === "string" ? [refs] : refs;
     this.replaceHistory = true;
-    if (!Sefaria.util.object_equals(refs, this.state.highlightedRefs)) {
+    if (!Mekoros.util.object_equals(refs, this.state.highlightedRefs)) {
       this.props.closeNamedEntityInConnectionPanel();
     }
     this.conditionalSetState({highlightedRefs: refs, showHighlight: showHighlight});
@@ -388,7 +388,7 @@ class ReaderPanel extends Component {
       this.props.setConnectionsFilter(filter, updateRecent);
     } else {
       if (updateRecent && filter) {
-        if (Sefaria.util.inArray(filter, this.state.recentFilters) !== -1) {
+        if (Mekoros.util.inArray(filter, this.state.recentFilters) !== -1) {
           this.state.recentFilters.toggle(filter);
         }
         this.state.recentFilters = [filter].concat(this.state.recentFilters);
@@ -402,7 +402,7 @@ class ReaderPanel extends Component {
     if (this.props.setVersionFilter) {
       this.props.setVersionFilter(filter);
     } else {
-      const filtInd = Sefaria.util.inArray(filter, this.state.recentVersionFilters);
+      const filtInd = Mekoros.util.inArray(filter, this.state.recentVersionFilters);
       if (filtInd === -1) {
         this.state.recentVersionFilters = [filter].concat(this.state.recentVersionFilters);
       }
@@ -435,10 +435,10 @@ class ReaderPanel extends Component {
   toggleLanguage() {
     if (this.state.settings.language === "hebrew") {
       this.setOption("language", "english");
-      if (Sefaria.site) { Sefaria.track.event("Reader", "Change Language", "english");}
+      if (Mekoros.site) { Mekoros.track.event("Reader", "Change Language", "english");}
     } else {
       this.setOption("language", "hebrew");
-      if (Sefaria.site) { Sefaria.track.event("Reader", "Change Language", "hebrew");}
+      if (Mekoros.site) { Mekoros.track.event("Reader", "Change Language", "hebrew");}
     }
   }
   openSearch(query) {
@@ -482,9 +482,9 @@ class ReaderPanel extends Component {
       this.props.openComparePanel(true);
       return;
     }
-    Sefaria.track.event("Tools", mode + " Click"); // TODO Shouldn't be tracking clicks here, this function is called programmatically
-    if (!Sefaria._uid && mode in loginRequired) {
-      Sefaria.track.event("Tools", "Prompt Login");
+    Mekoros.track.event("Tools", mode + " Click"); // TODO Shouldn't be tracking clicks here, this function is called programmatically
+    if (!Mekoros._uid && mode in loginRequired) {
+      Mekoros.track.event("Tools", "Prompt Login");
       mode = "Login";
     }
     let state = {connectionsMode: mode};
@@ -510,7 +510,7 @@ class ReaderPanel extends Component {
   }
   setCurrentlyVisibleRef(ref) {
     this.replaceHistory = true;
-    //var ref = this.state.highlightedRefs.length ? Sefaria.normRef(this.state.highlightedRefs) : ref;
+    //var ref = this.state.highlightedRefs.length ? Mekoros.normRef(this.state.highlightedRefs) : ref;
     this.conditionalSetState({
       currentlyVisibleRef: ref,
     });
@@ -544,7 +544,7 @@ class ReaderPanel extends Component {
     const ref  = this.currentRef();
     if (!ref) { return null; }
     if (typeof ref !== "string") { debugger; }
-    let data = Sefaria.ref(ref);
+    let data = Mekoros.ref(ref);
     return data;
   }
   currentBook() {
@@ -552,7 +552,7 @@ class ReaderPanel extends Component {
     if (data) {
       return data.indexTitle;
     } else {
-      let pRef = Sefaria.parseRef(this.currentRef());
+      let pRef = Mekoros.parseRef(this.currentRef());
       return "index" in pRef ? pRef.index : ("book" in pRef ? pRef.book : null);
     }
   }
@@ -562,7 +562,7 @@ class ReaderPanel extends Component {
     }
     else {
       const book = this.currentBook();
-      return (Sefaria.index(book) ? Sefaria.index(book)['primary_category'] : null);
+      return (Mekoros.index(book) ? Mekoros.index(book)['primary_category'] : null);
     }
   }
   currentLayout() {
@@ -637,9 +637,9 @@ class ReaderPanel extends Component {
     const contextContentLang = {"language": this.getContentLanguageOverride(this.state.settings.language, this.state.mode, this.state.menuOpen)};
 
     if (this.state.mode === "Text" || this.state.mode === "TextAndConnections") {
-      const oref  = Sefaria.parseRef(this.state.refs[0]);
+      const oref  = Mekoros.parseRef(this.state.refs[0]);
       const showHighlight = this.state.showHighlight || (this.state.highlightedRefs.length > 1);
-      const index = oref && oref.index ? Sefaria.index(oref.index) : null;
+      const index = oref && oref.index ? Mekoros.index(oref.index) : null;
       const [textColumnBookTitle, heTextColumnBookTitle] = index ? [index.title, index.heTitle] : [null, null];
       items.push(
         <TextColumn
@@ -657,7 +657,7 @@ class ReaderPanel extends Component {
           prefetchNextPrev={true}
           multiPanel={this.props.multiPanel}
           mode={this.state.mode}
-          settings={Sefaria.util.clone(this.state.settings)}
+          settings={Mekoros.util.clone(this.state.settings)}
           hasSidebar={this.props.hasSidebar}
           interfaceLang={this.props.interfaceLang}
           setOption={this.setOption}
@@ -712,7 +712,7 @@ class ReaderPanel extends Component {
       const canEditText = data &&
                         ((langMode === "hebrew" && data.heVersionStatus !== "locked") ||
                         (langMode === "english" && data.versionStatus !== "locked") ||
-                        (Sefaria.is_moderator && langMode !== "bilingual"));
+                        (Mekoros.is_moderator && langMode !== "bilingual"));
       items.push(
         <ConnectionsPanel
           panelPosition ={this.props.panelPosition}
@@ -851,7 +851,7 @@ class ReaderPanel extends Component {
                     currVersions={this.state.currVersions}
                     settingsLanguage={this.state.settings.language == "hebrew"?"he":"en"}
                     toggleLanguage={this.toggleLanguage}
-                    category={Sefaria.index(this.state.bookRef).primary_category}
+                    category={Mekoros.index(this.state.bookRef).primary_category}
                     currentRef={this.state.bookRef}
                     compare={this.state.compare}
                     onCompareBack={onCompareBack}
@@ -872,7 +872,7 @@ class ReaderPanel extends Component {
                     title={this.state.bookRef ? this.state.bookRef : this.currentBook()}
                     currVersions={this.state.currVersions}
                     settingsLanguage={this.state.settings.language == "hebrew"?"he":"en"}
-                    category={Sefaria.index(this.state.bookRef) ? Sefaria.index(this.state.bookRef).primary_category : this.currentCategory()}
+                    category={Mekoros.index(this.state.bookRef) ? Mekoros.index(this.state.bookRef).primary_category : this.currentCategory()}
                     currentRef={this.state.bookRef ? this.state.bookRef : this.state.currentlyVisibleRef}
                     narrowPanel={!this.props.multiPanel}
                     openDisplaySettings={this.openDisplaySettings}
@@ -890,7 +890,7 @@ class ReaderPanel extends Component {
                     tab={this.state.searchTab}
                     textSearchState={this.state.textSearchState}
                     sheetSearchState={this.state.sheetSearchState}
-                    settings={Sefaria.util.clone(this.state.settings)}
+                    settings={Mekoros.util.clone(this.state.settings)}
                     panelsOpen={this.props.panelsOpen}
                     onResultClick={this.props.onSearchResultClick}
                     openDisplaySettings={this.openDisplaySettings}
@@ -1069,7 +1069,7 @@ class ReaderPanel extends Component {
 
     const style = {"fontSize": this.state.settings.fontSize + "%"};
 
-    const sheet = Sefaria.sheets.loadSheetByID(this.state.sheetID);
+    const sheet = Mekoros.sheets.loadSheetByID(this.state.sheetID);
     const sheetTitle = !!sheet ? sheet.title.stripHtmlConvertLineBreaks() : null;
 
     const hideReaderControls = (
@@ -1213,7 +1213,7 @@ class ReaderControls extends Component {
   openTextConnectionsPanel(e) {
     e.preventDefault();
     if(!this.props.hasSidebar){ //Prevent click on title from opening connections panel if its already open
-      Sefaria.track.event("Reader", "Open Connections Panel from Header", this.props.currentRef);
+      Mekoros.track.event("Reader", "Open Connections Panel from Header", this.props.currentRef);
       this.props.onTextTitleClick(this.props.currentRef, false);
     }
   }
@@ -1240,7 +1240,7 @@ class ReaderControls extends Component {
      * Preload translation versions to get shortVersionTitle to display
      */
     if (!this.shouldShowVersion()) { return; }
-    Sefaria.getTranslations(this.props.currentRef).then(versions => {
+    Mekoros.getTranslations(this.props.currentRef).then(versions => {
       const enVTitle = this.props.currVersions.enAPIResult;
       if (!enVTitle) {
         // merged version from API
@@ -1262,12 +1262,12 @@ class ReaderControls extends Component {
     const title = this.props.currentRef;
     if (title) {
       // If we don't have this data yet, rerender when we do so we can set the Hebrew title
-      const versionPref = Sefaria.versionPreferences.getVersionPref(title);
-      const getTextPromise = Sefaria.getText(title, {context: 1, translationLanguagePreference: this.props.translationLanguagePreference, versionPref}).then(data => {
+      const versionPref = Mekoros.versionPreferences.getVersionPref(title);
+      const getTextPromise = Mekoros.getText(title, {context: 1, translationLanguagePreference: this.props.translationLanguagePreference, versionPref}).then(data => {
         if ("error" in data) { this.props.onError(data.error); }
         this.setState({runningQuery: null});   // Causes re-render
       });
-      this.setState({runningQuery: Sefaria.makeCancelable(getTextPromise)});
+      this.setState({runningQuery: Mekoros.makeCancelable(getTextPromise)});
     }
     this.loadTranslations();
   }
@@ -1293,15 +1293,15 @@ class ReaderControls extends Component {
     let sectionString = "";
     let heSectionString = "";
     let categoryAttribution = null;
-    const oref = Sefaria.getRefFromCache(this.props.currentRef);
+    const oref = Mekoros.getRefFromCache(this.props.currentRef);
 
     if (this.props.sheetID) {
       if (this.props.sheetTitle === null) {
-        title = heTitle = Sefaria._("Loading...");
+        title = heTitle = Mekoros._("Loading...");
       } else {
         title = heTitle = this.props.sheetTitle;
         if (title === "") {
-          title = heTitle = Sefaria._("Untitled")
+          title = heTitle = Mekoros._("Untitled")
         }
       }
 
@@ -1310,7 +1310,7 @@ class ReaderControls extends Component {
       heSectionString = oref.heRef.replace(oref.heIndexTitle, "");
       title = oref.indexTitle;
       heTitle = oref.heIndexTitle;
-      categoryAttribution = oref && Sefaria.categoryAttribution(oref.categories);
+      categoryAttribution = oref && Mekoros.categoryAttribution(oref.categories);
     }
 
     const mode              = this.props.currentMode();
@@ -1318,7 +1318,7 @@ class ReaderControls extends Component {
     const connectionsHeader = this.props.multiPanel && mode === "Connections";
     let displayVersionTitle = this.props.settings.language === 'hebrew' ? this.state.displayVersionTitle.he : this.state.displayVersionTitle.en;
     if (categoryAttribution && displayVersionTitle) { displayVersionTitle = `(${displayVersionTitle})`; }
-    const url = this.props.sheetID ? "/sheets/" + this.props.sheetID : oref ? "/" + Sefaria.normRef(oref.book) : Sefaria.normRef(this.props.currentRef);
+    const url = this.props.sheetID ? "/sheets/" + this.props.sheetID : oref ? "/" + Mekoros.normRef(oref.book) : Mekoros.normRef(this.props.currentRef);
     const readerTextTocClasses = classNames({readerTextToc: 1, attributed: !!categoryAttribution || this.shouldShowVersion(), connected: this.props.hasSidebar});
 
 
@@ -1346,7 +1346,7 @@ class ReaderControls extends Component {
                 { this.props.sheetID ?
                 <img src={"/static/img/sheet.svg"} className="sheetTocIcon" alt="" /> : null}
                 { this.props.sheetID ?
-                <h1 style={{direction: Sefaria.hebrew.isHebrew(title) ? "rtl" : "ltr"}}>
+                <h1 style={{direction: Mekoros.hebrew.isHebrew(title) ? "rtl" : "ltr"}}>
                   {title}
                 </h1>
                 :
@@ -1388,7 +1388,7 @@ class ReaderControls extends Component {
           />
           <DisplaySettingsButton onClick={this.props.openDisplaySettings} />
         </div>);
-    const openTransBannerApplies = () => Sefaria.openTransBannerApplies(this.props.currentBook(), this.props.settings.language);
+    const openTransBannerApplies = () => Mekoros.openTransBannerApplies(this.props.currentBook(), this.props.settings.language);
     let banner = (hideHeader || connectionsHeader) ? null : (
         <TextColumnBannerChooser
             setTranslationLanguagePreference={this.props.setTranslationLanguagePreference}
@@ -1477,7 +1477,7 @@ class ReaderDisplayOptionsMenu extends Component {
     }
   }
   showLangaugeToggle() {
-    if (Sefaria._siteSettings.TORAH_SPECIFIC) return true;
+    if (Mekoros._siteSettings.TORAH_SPECIFIC) return true;
 
     let data = this.props.currentData();
     if (!data) return true // Sheets don't have currentData, also show for now (4x todo)
@@ -1500,7 +1500,7 @@ class ReaderDisplayOptionsMenu extends Component {
     let languageToggle = this.showLangaugeToggle() ? (
         <ToggleSet
           ariaLabel="Language toggle"
-          label={Sefaria._("Language")}
+          label={Mekoros._("Language")}
           name="language"
           options={languageOptions}
           setOption={this.props.setOption}
@@ -1519,7 +1519,7 @@ class ReaderDisplayOptionsMenu extends Component {
       this.props.parentPanel === "Sheet" ? null :
       (<ToggleSet
           ariaLabel="text layout toggle"
-          label={Sefaria._("Layout")}
+          label={Mekoros._("Layout")}
           name="layout"
           options={layoutOptions}
           setOption={this.props.setOption}
@@ -1527,7 +1527,7 @@ class ReaderDisplayOptionsMenu extends Component {
       (this.props.width > 500 ?
         <ToggleSet
           ariaLabel="bidirectional text layout toggle"
-          label={Sefaria._("Bilingual Layout")}
+          label={Mekoros._("Bilingual Layout")}
           name="biLayout"
           options={biLayoutOptions}
           setOption={this.props.setOption}
@@ -1541,7 +1541,7 @@ class ReaderDisplayOptionsMenu extends Component {
     let colorToggle = (
         <ToggleSet
           ariaLabel="Color toggle"
-          label={Sefaria._("Color")}
+          label={Mekoros._("Color")}
           name="color"
           separated={true}
           options={colorOptions}
@@ -1550,41 +1550,41 @@ class ReaderDisplayOptionsMenu extends Component {
     colorToggle = this.props.multiPanel ? null : colorToggle;
 
     let sizeOptions = [
-      {name: "smaller", content: Sefaria._("Aa"), role: "button", ariaLabel: Sefaria._("Decrease font size") },
-      {name: "larger", content: Sefaria._("Aa"), role: "button", ariaLabel: Sefaria._("Increase font size")  }
+      {name: "smaller", content: Mekoros._("Aa"), role: "button", ariaLabel: Mekoros._("Decrease font size") },
+      {name: "larger", content: Mekoros._("Aa"), role: "button", ariaLabel: Mekoros._("Increase font size")  }
     ];
     let sizeToggle = (
         <ToggleSet
           ariaLabel="Increase/Decrease Font Size Buttons"
-          label={Sefaria._("Font Size")}
+          label={Mekoros._("Font Size")}
           name="fontSize"
           options={sizeOptions}
           setOption={this.props.setOption}
           currentValue={null} />);
 
     let aliyahOptions = [
-      {name: "aliyotOn",   content: Sefaria._("On"), role: "radio", ariaLabel: Sefaria._("Show Parasha Aliyot") },
-      {name: "aliyotOff", content: Sefaria._("Off"), role: "radio", ariaLabel: Sefaria._("Hide Parasha Aliyot") },
+      {name: "aliyotOn",   content: Mekoros._("On"), role: "radio", ariaLabel: Mekoros._("Show Parasha Aliyot") },
+      {name: "aliyotOff", content: Mekoros._("Off"), role: "radio", ariaLabel: Mekoros._("Hide Parasha Aliyot") },
     ];
     let aliyahToggle = this.renderAliyotToggle() ? (
       this.props.parentPanel == "Sheet" ? null :
         <ToggleSet
           ariaLabel="Toggle Aliyot"
-          label={Sefaria._("Aliyot")}
+          label={Mekoros._("Aliyot")}
           name="aliyotTorah"
           options={aliyahOptions}
           setOption={this.props.setOption}
           currentValue={this.props.settings.aliyotTorah} />) : null;
 
     let vowelsOptions = [
-      {name: "all", content: "<span class='he'>אָ֑</span>", role: "radio", ariaLabel: Sefaria._("Show Vowels and Cantillation")},
-      {name: "partial", content: "<span class='he'>אָ</span>", role: "radio", ariaLabel: Sefaria._("Show only vowel points")},
-      {name: "none", content: "<span class='he'>א</span>", role: "radio", ariaLabel: Sefaria._("Show only consonantal text")}
+      {name: "all", content: "<span class='he'>אָ֑</span>", role: "radio", ariaLabel: Mekoros._("Show Vowels and Cantillation")},
+      {name: "partial", content: "<span class='he'>אָ</span>", role: "radio", ariaLabel: Mekoros._("Show only vowel points")},
+      {name: "none", content: "<span class='he'>א</span>", role: "radio", ariaLabel: Mekoros._("Show only consonantal text")}
     ];
     let vowelToggle = null;
     if(!this.props.menuOpen){
       let vowelOptionsSlice = this.vowelToggleAvailability();
-      let vowelOptionsTitle = (vowelOptionsSlice == 0) ? Sefaria._("Vocalization") : Sefaria._("Vowels");
+      let vowelOptionsTitle = (vowelOptionsSlice == 0) ? Mekoros._("Vocalization") : Mekoros._("Vowels");
       vowelsOptions = vowelsOptions.slice(vowelOptionsSlice);
       vowelToggle = (this.props.settings.language !== "english" && vowelsOptions.length > 1) ?
         this.props.parentPanel == "Sheet" ? null :
@@ -1598,13 +1598,13 @@ class ReaderDisplayOptionsMenu extends Component {
     }
 
     let punctuationOptions = [
-      {name: "punctuationOn", content: Sefaria._("On"), role: "radio", ariaLabel: Sefaria._("Show Punctuation")},
-      {name: "punctuationOff", content: Sefaria._("Off"), role: "radio", ariaLabel: Sefaria._("Hide Punctuation")}
+      {name: "punctuationOn", content: Mekoros._("On"), role: "radio", ariaLabel: Mekoros._("Show Punctuation")},
+      {name: "punctuationOff", content: Mekoros._("Off"), role: "radio", ariaLabel: Mekoros._("Hide Punctuation")}
     ]
     let punctuationToggle = this.shouldPunctuationToggleRender() ? (
         <ToggleSet
           ariaLabel="Punctuation Toggle"
-          label={Sefaria._("Punctuation")}
+          label={Mekoros._("Punctuation")}
           name="punctuationTalmud"
           options={punctuationOptions}
           setOption={this.props.setOption}

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
-import sefaria.model as m
-from sefaria.system.exceptions import InputError
+import mekoros.model as m
+from mekoros.system.exceptions import InputError
 
 
 class Test_Collection(object):

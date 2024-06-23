@@ -6,18 +6,18 @@ from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 from . import abstract as abst
 from . import text
-from sefaria.system.database import db
-from sefaria.system.cache import in_memory_cache
+from mekoros.system.database import db
+from mekoros.system.cache import in_memory_cache
 import bleach
 import structlog
 logger = structlog.get_logger(__name__)
 from collections import Counter
-from sefaria.utils.calendars import daf_yomi, parashat_hashavua_and_haftara
-from sefaria.utils.util import truncate_string
+from mekoros.utils.calendars import daf_yomi, parashat_hashavua_and_haftara
+from mekoros.utils.util import truncate_string
 from datetime import datetime, timedelta
-from sefaria.system.exceptions import InputError
+from mekoros.system.exceptions import InputError
 from tqdm import tqdm
-from sefaria.model import *
+from mekoros.model import *
 
 
 class WebPage(abst.AbstractMongoRecord):
@@ -141,7 +141,7 @@ class WebPage(abst.AbstractMongoRecord):
         bleached_url = bleach.clean(self.url.encode('utf-8'), tags=self.ALLOWED_TAGS, attributes=self.ALLOWED_ATTRS)
         if len(bleached_url) > 1000:
             # url field is indexed. Mongo doesn't allow indexing a field over 1000 bytes
-            from sefaria.system.database import db
+            from mekoros.system.database import db
             db.webpages_long_urls.insert_one(self.contents())
             return True
         url_regex = WebPage.excluded_pages_url_regex(self.domain)
@@ -490,7 +490,7 @@ def clean_webpages(test=True):
 
     for page in WebPageSet({"$expr": {"$gt": [{"$strLenCP": "$url"}, 1000]}}):
         # url field is indexed. Mongo doesn't allow indexing a field over 1000 bytes
-        from sefaria.system.database import db
+        from mekoros.system.database import db
         db.webpages_long_urls.insert_one(page.contents())
         print(f"Moving {page.url} to long urls DB...")
         page.delete()

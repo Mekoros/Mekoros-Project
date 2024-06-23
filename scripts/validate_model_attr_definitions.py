@@ -1,6 +1,6 @@
-from sefaria.system.database import db
+from mekoros.system.database import db
 
-from sefaria.model import *
+from mekoros.model import *
 
 
 record_classes = abstract.get_record_classes()

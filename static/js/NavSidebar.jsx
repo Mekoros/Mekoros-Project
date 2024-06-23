@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import classNames  from 'classnames';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 import {AppStoreButton, DonateLink, EnglishText, HebrewText, ImageWithCaption} from './Misc'
 import {NewsletterSignUpForm} from "./NewsletterSignUpForm";
 import {InterfaceText, ProfileListing, Dropdown} from './Misc';
 import { Promotions } from './Promotions'
-import {SignUpModalKind} from "./sefaria/signupModalContent";
+import {SignUpModalKind} from "./mekoros/signupModalContent";
 
 const NavSidebar = ({modules}) => {
   return <div className="navSidebar sans-serif">
@@ -22,13 +22,13 @@ const NavSidebar = ({modules}) => {
 const Modules = ({type, props}) => {
   // Choose the appropriate module component to render by `type`
   const moduleTypes = {
-    "AboutSefaria":           AboutSefaria,
+    "AboutMekoros":           AboutMekoros,
     "Promo":                  Promo,
     "Resources":              Resources,
     "TheJewishLibrary":       TheJewishLibrary,
     "AboutTextCategory":      AboutTextCategory,
     "AboutText":              AboutText,
-    "SupportSefaria":         SupportSefaria,
+    "SupportMekoros":         SupportMekoros,
     "SponsorADay":            SponsorADay,
     "LearningSchedules":      LearningSchedules,
     "Translations":           Translations,
@@ -92,7 +92,7 @@ const RecentlyViewedItem = ({oref}) => {
      gtag('event', 'recently_viewed', {link_text: oref.ref, link_type: 'ref'})
    }
    return <li>
-            <a href={oref.ref} onClick={() => trackItem()}>{Sefaria._v({"he": oref.he_ref, "en": oref.ref})}</a>
+            <a href={oref.ref} onClick={() => trackItem()}>{Mekoros._v({"he": oref.he_ref, "en": oref.ref})}</a>
          </li>;
 }
 const RecentlyViewedList = ({items}) => {
@@ -102,17 +102,17 @@ const RecentlyViewedList = ({items}) => {
 const RecentlyViewed = ({toggleSignUpModal, mobile}) => {
    const [recentlyViewedItems, setRecentlyViewedItems] = useState([]);
    const handleAllHistory = (e) => {
-    if (!Sefaria._uid) {
+    if (!Mekoros._uid) {
       e.preventDefault();
       toggleSignUpModal(SignUpModalKind.ViewHistory);
     }
-    gtag('event', 'recently_viewed', {link_type: 'all_history', logged_in: !!Sefaria._uid});
+    gtag('event', 'recently_viewed', {link_type: 'all_history', logged_in: !!Mekoros._uid});
    }
 
    const filterRecentlyViewedItems = () => {
         let itemsToShow = [];
         let booksFound = [];
-        Sefaria.userHistory.items.forEach(x => {
+        Mekoros.userHistory.items.forEach(x => {
         if (!booksFound.includes(x.book) && x.book !== "Sheet") {
            booksFound.push(x.book);
            itemsToShow.push(x);
@@ -123,14 +123,14 @@ const RecentlyViewed = ({toggleSignUpModal, mobile}) => {
    }
 
    useEffect( () => {
-       if (!Sefaria.userHistory.loaded) {
-           Sefaria.loadUserHistory(20, filterRecentlyViewedItems);
+       if (!Mekoros.userHistory.loaded) {
+           Mekoros.loadUserHistory(20, filterRecentlyViewedItems);
        } else {
            filterRecentlyViewedItems();
        }
    }, []);
 
-   if (!Sefaria.userHistory.items || Sefaria.userHistory.items.length === 0) {
+   if (!Mekoros.userHistory.items || Mekoros.userHistory.items.length === 0) {
      return null;
    }
    const allHistoryPhrase = mobile ? "All History" : "All history ";
@@ -153,13 +153,13 @@ const Promo = () =>
     </Module>
 ;
 
-const AboutSefaria = ({hideTitle}) => (
+const AboutMekoros = ({hideTitle}) => (
   <Module>
     {!hideTitle ?
     <ModuleTitle h1={true}>A Living Library of Torah</ModuleTitle> : null }
     <InterfaceText>
       <EnglishText>
-          Sefaria is home to 3,000 years of Jewish texts. We are a nonprofit organization offering free access to texts, translations,
+          Mekoros is home to 3,000 years of Jewish texts. We are a nonprofit organization offering free access to texts, translations,
           and commentaries so that everyone can participate in the ongoing process of studying, interpreting, and creating Torah.
         </EnglishText>
         <HebrewText>
@@ -201,15 +201,15 @@ const AboutTranslatedText = ({translationsSlug}) => {
 
   const translationLookup = {
     "ar": {title: "نصوص يهودية بالعربية", body: "سفاريا هي موطن 3000 سنة من النصوص اليهودية. نحن منظمة غير ربحية تقدم وصولاً مجانيًا إلى النصوص والترجمات والتعليقات حتى يتمكن الجميع من المشاركة في العملية المستمرة لدراسة التوراة وتفسيرها وخلقها."},
-    "de": {title: "Eine lebendige Bibliothek der Tora", body: "Sefaria ist eine Bibliothek für jüdische Texte aus 3.000 Jahren. Wir sind eine gemeinnützige Organisation, die freien Zugang zu Texten, Übersetzungen und Kommentaren bietet, damit jede und jeder am fortlaufenden Prozess des Studierens, Interpretierens und der Entwicklung der Tora teilnehmen kann."},
-    "eo": {title: "Vivanta Biblioteko de Torao", body: "Sefaria estas hejmo de 3,000 jaroj da judaj tekstoj. Ni estas neprofitcela organizo ofertanta senpagan aliron al tekstoj, tradukoj kaj komentaĵoj por ke ĉiuj povu partopreni en la daŭra procezo de studado, interpretado kaj kreado de Torao."},
-    "es": {title: "Una biblioteca viva de la Torá", body: "Sefaria alberga 3.000 años de textos judíos. Somos una organización sin fines de lucro que ofrece acceso gratuito a textos, traducciones y comentarios para que todos puedan participar en el proceso continuo de estudio, interpretación y creación de la Torá."},
+    "de": {title: "Eine lebendige Bibliothek der Tora", body: "Mekoros ist eine Bibliothek für jüdische Texte aus 3.000 Jahren. Wir sind eine gemeinnützige Organisation, die freien Zugang zu Texten, Übersetzungen und Kommentaren bietet, damit jede und jeder am fortlaufenden Prozess des Studierens, Interpretierens und der Entwicklung der Tora teilnehmen kann."},
+    "eo": {title: "Vivanta Biblioteko de Torao", body: "Mekoros estas hejmo de 3,000 jaroj da judaj tekstoj. Ni estas neprofitcela organizo ofertanta senpagan aliron al tekstoj, tradukoj kaj komentaĵoj por ke ĉiuj povu partopreni en la daŭra procezo de studado, interpretado kaj kreado de Torao."},
+    "es": {title: "Una biblioteca viva de la Torá", body: "Mekoros alberga 3.000 años de textos judíos. Somos una organización sin fines de lucro que ofrece acceso gratuito a textos, traducciones y comentarios para que todos puedan participar en el proceso continuo de estudio, interpretación y creación de la Torá."},
     "fa": {title:"کتابخانه زنده تورات", body: "سفاریا خانه 3000 سال متون یهودی است. ما یک سازمان غیرانتفاعی هستیم که دسترسی رایگان به متون، ترجمه ها و تفسیرها را ارائه می دهیم تا همه بتوانند در روند مداوم مطالعه، تفسیر و ایجاد تورات شرکت کنند."},
-    "fi": {title: "Tooran elävä kirjasto", body: "Sefaria on koti 3000 vuoden juutalaisille teksteille. Olemme voittoa tavoittelematon organisaatio, joka tarjoaa ilmaisen pääsyn teksteihin, käännöksiin ja kommentteihin, jotta kaikki voivat osallistua jatkuvaan Tooran opiskelu-, tulkkaus- ja luomisprosessiin."},
-    "fr": {title: "Une bibliothèque vivante de la Torah", body: "Une bibliothèque de Torah vivante. Sefaria abrite 3 000 ans de textes juifs. Nous sommes une organisation à but non lucratif offrant un accès gratuit aux textes de la Torah, aux commentaires et aux traductions, afin que chacun puisse participer au processus infini de l'étude, de l'interprétation et de la création de la Torah."},
-    "it": {title: "Una biblioteca vivente della Torah", body: "Sefaria ospita 3.000 anni di testi ebraici. Siamo un'organizzazione senza scopo di lucro che offre libero accesso a testi, traduzioni e commenti in modo che tutti possano partecipare al processo in corso di studio, interpretazione e creazione della Torah."},
-    "pl": {title: "Żywa Biblioteka Tory", body: "Sefaria jest domem dla 3000 lat żydowskich tekstów. Jesteśmy organizacją nonprofit oferującą bezpłatny dostęp do tekstów, tłumaczeń i komentarzy, dzięki czemu każdy może uczestniczyć w bieżącym procesie studiowania, tłumaczenia i tworzenia Tory."},
-    "pt": {title: "Uma Biblioteca Viva da Torá", body: "Sefaria é o lar de 3.000 anos de textos judaicos. Somos uma organização sem fins lucrativos que oferece acesso gratuito a textos, traduções e comentários para que todos possam participar do processo contínuo de estudo, interpretação e criação da Torá."},
+    "fi": {title: "Tooran elävä kirjasto", body: "Mekoros on koti 3000 vuoden juutalaisille teksteille. Olemme voittoa tavoittelematon organisaatio, joka tarjoaa ilmaisen pääsyn teksteihin, käännöksiin ja kommentteihin, jotta kaikki voivat osallistua jatkuvaan Tooran opiskelu-, tulkkaus- ja luomisprosessiin."},
+    "fr": {title: "Une bibliothèque vivante de la Torah", body: "Une bibliothèque de Torah vivante. Mekoros abrite 3 000 ans de textes juifs. Nous sommes une organisation à but non lucratif offrant un accès gratuit aux textes de la Torah, aux commentaires et aux traductions, afin que chacun puisse participer au processus infini de l'étude, de l'interprétation et de la création de la Torah."},
+    "it": {title: "Una biblioteca vivente della Torah", body: "Mekoros ospita 3.000 anni di testi ebraici. Siamo un'organizzazione senza scopo di lucro che offre libero accesso a testi, traduzioni e commenti in modo che tutti possano partecipare al processo in corso di studio, interpretazione e creazione della Torah."},
+    "pl": {title: "Żywa Biblioteka Tory", body: "Mekoros jest domem dla 3000 lat żydowskich tekstów. Jesteśmy organizacją nonprofit oferującą bezpłatny dostęp do tekstów, tłumaczeń i komentarzy, dzięki czemu każdy może uczestniczyć w bieżącym procesie studiowania, tłumaczenia i tworzenia Tory."},
+    "pt": {title: "Uma Biblioteca Viva da Torá", body: "Mekoros é o lar de 3.000 anos de textos judaicos. Somos uma organização sem fins lucrativos que oferece acesso gratuito a textos, traduções e comentários para que todos possam participar do processo contínuo de estudo, interpretação e criação da Torá."},
     "ru": {title: "Живая библиотека Торы", body: "Сефария является домом для еврейских текстов 3000-летней давности. Мы — некоммерческая организация, предлагающая бесплатный доступ к текстам, переводам и комментариям, чтобы каждый мог участвовать в продолжающемся процессе изучения, толкования и создания Торы."},
     "yi": {title: "א לעבעדיקע ביבליאטעק פון תורה", body: "אין ספֿריאַ איז אַ היים פֿון 3,000 יאָר ייִדישע טעקסטן. מיר זענען אַ נאַן-נוץ אָרגאַניזאַציע וואָס אָפפערס פריי אַקסעס צו טעקסטן, איבערזעצונגען און קאָמענטאַרן אַזוי אַז אַלעמען קענען אָנטייל נעמען אין די אָנגאָינג פּראָצעס פון לערנען, ינטערפּריטיישאַן און שאפן תורה."}
   }
@@ -221,7 +221,7 @@ const AboutTranslatedText = ({translationsSlug}) => {
           translationLookup[translationsSlug]["body"] :
           <InterfaceText>
           <EnglishText>
-          Sefaria is home to 3,000 years of Jewish texts. We are a nonprofit organization offering free access to texts, translations,
+          Mekoros is home to 3,000 years of Jewish texts. We are a nonprofit organization offering free access to texts, translations,
           and commentaries so that everyone can participate in the ongoing process of studying, interpreting, and creating Torah.
         </EnglishText>
         <HebrewText>
@@ -241,9 +241,9 @@ const Resources = () => (
     <h3><InterfaceText context="ResourcesModule">Resources</InterfaceText></h3>
     <div className="linkList">
       <IconLink text="Mobile Apps" url="/mobile" icon="mobile.svg" />
-      <IconLink text="Create with Sefaria" url="/sheets" icon="sheet.svg" />
+      <IconLink text="Create with Mekoros" url="/sheets" icon="sheet.svg" />
       <IconLink text="Collections" url="/collections" icon="collection.svg" />
-      <IconLink text="Teach with Sefaria" url="/educators" icon="educators.svg" />
+      <IconLink text="Teach with Mekoros" url="/educators" icon="educators.svg" />
       <IconLink text="Visualizations" url="/visualizations" icon="visualizations.svg" />
       <IconLink text="Torah Tab" url="/torah-tab" icon="torah-tab.svg" />
       <IconLink text="Help" url="/help" icon="help.svg" />
@@ -261,12 +261,12 @@ const TheJewishLibrary = ({hideTitle}) => (
 );
 
 
-const SupportSefaria = ({blue}) => (
+const SupportMekoros = ({blue}) => (
   <Module blue={blue}>
-    <ModuleTitle>Support Sefaria</ModuleTitle>
-    <InterfaceText>Sefaria is an open source, nonprofit project. Support us by making a tax-deductible donation.</InterfaceText>
+    <ModuleTitle>Support Mekoros</ModuleTitle>
+    <InterfaceText>Mekoros is an open source, nonprofit project. Support us by making a tax-deductible donation.</InterfaceText>
     <br />
-    <DonateLink classes={"button small" + (blue ? " white" : "")} source={"NavSidebar-SupportSefaria"}>
+    <DonateLink classes={"button small" + (blue ? " white" : "")} source={"NavSidebar-SupportMekoros"}>
       <img src="/static/img/heart.png" alt="donation icon" />
       <InterfaceText>Make a Donation</InterfaceText>
     </DonateLink>
@@ -277,7 +277,7 @@ const SupportSefaria = ({blue}) => (
 const SponsorADay = () => (
   <Module>
     <ModuleTitle>Sponsor A Day of Learning</ModuleTitle>
-    <InterfaceText>With your help, we can add more texts and translations to the library, develop new tools for learning, and keep Sefaria accessible for Torah study anytime, anywhere.</InterfaceText>
+    <InterfaceText>With your help, we can add more texts and translations to the library, develop new tools for learning, and keep Mekoros accessible for Torah study anytime, anywhere.</InterfaceText>
     <br />
     <DonateLink classes={"button small"} link={"dayOfLearning"} source={"NavSidebar-SponsorADay"}>
       <img src="/static/img/heart.png" alt="donation icon" />
@@ -288,12 +288,12 @@ const SponsorADay = () => (
 
 
 const AboutTextCategory = ({cats}) => {
-  const tocObject = Sefaria.tocObjectByCategories(cats);
+  const tocObject = Mekoros.tocObjectByCategories(cats);
   const enTitle = "About " + tocObject.category;
   const heTitle = "אודות " + tocObject.heCategory;
 
-  if ((Sefaria.interfaceLang === "hebrew" && !tocObject.heDesc) ||
-      (Sefaria.interfaceLang === "english" && !tocObject.enDesc)) {
+  if ((Mekoros.interfaceLang === "hebrew" && !tocObject.heDesc) ||
+      (Mekoros.interfaceLang === "english" && !tocObject.enDesc)) {
     return null;
   }
 
@@ -307,7 +307,7 @@ const AboutTextCategory = ({cats}) => {
 
 
 const AboutText = ({index, hideTitle}) => {
-  const lang = Sefaria.interfaceLang === "hebrew" ? "he" : "en"
+  const lang = Mekoros.interfaceLang === "hebrew" ? "he" : "en"
 
   let composed = [index.compPlaceString?.[lang], index.compDateString?.[lang]].filter(x=>!!x).join(", ");
   composed = composed.replace(/[()]/g, "");
@@ -363,8 +363,8 @@ const AboutText = ({index, hideTitle}) => {
 const TranslationLinks = () => {
   return (
     <div className="navSidebarLink serif language">
-      {<ul>{Object.keys(Sefaria.ISOMap).map(key => Sefaria.ISOMap[key]["showTranslations"] ? <li key={key}><a href={`/translations/${key}`}>
-          {Sefaria.ISOMap[key]["nativeName"]}
+      {<ul>{Object.keys(Mekoros.ISOMap).map(key => Mekoros.ISOMap[key]["showTranslations"] ? <li key={key}><a href={`/translations/${key}`}>
+          {Mekoros.ISOMap[key]["nativeName"]}
           </a></li> : null)} </ul>}
       </div>
   );
@@ -372,7 +372,7 @@ const TranslationLinks = () => {
 
 
 const ParashahLink = () => {
-  const parashah = Sefaria.calendars.filter(c => c.title.en === "Parashat Hashavua")[0];
+  const parashah = Mekoros.calendars.filter(c => c.title.en === "Parashat Hashavua")[0];
   return (
     <div className="navSidebarLink ref serif">
       <img src="/static/icons/book.svg" className="navSidebarIcon" alt="book icon" />
@@ -383,13 +383,13 @@ const ParashahLink = () => {
 
 
 const ParashahName = () => {
-  const parashah = Sefaria.calendars.filter(c => c.title.en === "Parashat Hashavua")[0];
+  const parashah = Mekoros.calendars.filter(c => c.title.en === "Parashat Hashavua")[0];
   return <InterfaceText text={parashah.displayValue} />
 };
 
 
 const HaftarotLinks = () => {
-  const haftarot = Sefaria.calendars.filter(c => c.title.en.startsWith("Haftarah"))
+  const haftarot = Mekoros.calendars.filter(c => c.title.en.startsWith("Haftarah"))
   return (
     <>
       {haftarot.map(h =>
@@ -403,10 +403,10 @@ const HaftarotLinks = () => {
 
 
 const DafLink = () => {
-  const daf = Sefaria.calendars.filter(c => c.title.en === "Daf Yomi")[0];
+  const daf = Mekoros.calendars.filter(c => c.title.en === "Daf Yomi")[0];
   return (
     <div className="navSidebarLink ref serif">
-      <img src="/static/icons/book.svg" className="navSidebarIcon" alt={Sefaria._("book icon")} />
+      <img src="/static/icons/book.svg" className="navSidebarIcon" alt={Mekoros._("book icon")} />
       <a href={"/" + daf.url}>
         <InterfaceText text={daf.displayValue} />
       </a>
@@ -541,7 +541,7 @@ const Visualizations = ({categories}) => {
       <div className="linkList">
         {links.map((link, i) =>
           <div className="navSidebarLink gray" key={i}>
-            <img src="/static/icons/visualization.svg" className="navSidebarIcon" alt={Sefaria._("visualization icon")} />
+            <img src="/static/icons/visualization.svg" className="navSidebarIcon" alt={Mekoros._("visualization icon")} />
             <a href={link.url}><InterfaceText text={{en: link.en, he: link.he}} /></a>
           </div>
         )}
@@ -576,7 +576,7 @@ const AboutTopics = ({hideTitle}) => (
 const TrendingTopics = () => (
   <Module>
     <ModuleTitle>Trending Topics</ModuleTitle>
-    {Sefaria.trendingTopics.map((topic, i) =>
+    {Mekoros.trendingTopics.map((topic, i) =>
       <div className="navSidebarLink ref serif" key={i}>
         <a href={"/topics/" + topic.slug}><InterfaceText text={{en: topic.en, he: topic.he}}/></a>
       </div>
@@ -586,12 +586,12 @@ const TrendingTopics = () => (
 
 
 const RelatedTopics = ({title}) => {
-  const [topics, setTopics] = useState(Sefaria.getIndexDetailsFromCache(title)?.relatedTopics || []);
+  const [topics, setTopics] = useState(Mekoros.getIndexDetailsFromCache(title)?.relatedTopics || []);
   const [showMore, setShowMore] = useState(false);
   const showMoreLink = !showMore && topics.length > 5;
   const shownTopics = showMore ? topics : topics.slice(0,5);
   useEffect(() => {
-        Sefaria.getIndexDetails(title).then(data => setTopics(data.relatedTopics));
+        Mekoros.getIndexDetails(title).then(data => setTopics(data.relatedTopics));
   },[title]);
   return (topics.length ?
     <Module>
@@ -611,7 +611,7 @@ const RelatedTopics = ({title}) => {
 
 
 const JoinTheConversation = ({wide}) => {
-  if (!Sefaria.multiPanel) { return null; } // Don't advertise create sheets on mobile (yet)
+  if (!Mekoros.multiPanel) { return null; } // Don't advertise create sheets on mobile (yet)
 
   return (
     <Module wide={wide}>
@@ -635,7 +635,7 @@ const JoinTheCommunity = ({wide}) => {
     <Module wide={wide}>
       <div>
         <ModuleTitle>Join the Conversation</ModuleTitle>
-        <InterfaceText>People around the world use Sefaria to create and share Torah resources. You're invited to add your voice.</InterfaceText>
+        <InterfaceText>People around the world use Mekoros to create and share Torah resources. You're invited to add your voice.</InterfaceText>
       </div>
       <div>
         <a className="button small" href="/community">
@@ -651,24 +651,24 @@ const JoinTheCommunity = ({wide}) => {
 const GetTheApp = () => (
   <Module>
     <ModuleTitle>Get the Mobile App</ModuleTitle>
-    <InterfaceText>Access the Jewish library anywhere and anytime with the</InterfaceText> <a href="/mobile" className="inTextLink"><InterfaceText>Sefaria mobile app.</InterfaceText></a>
+    <InterfaceText>Access the Jewish library anywhere and anytime with the</InterfaceText> <a href="/mobile" className="inTextLink"><InterfaceText>Mekoros mobile app.</InterfaceText></a>
     <br />
     <AppStoreButton
-        href="https://itunes.apple.com/us/app/sefaria/id1163273965?ls=1&mt=8"
+        href="https://itunes.apple.com/us/app/mekoros/id1163273965?ls=1&mt=8"
         platform='ios'
-        altText={Sefaria._("Sefaria app on IOS")}
+        altText={Mekoros._("Mekoros app on IOS")}
     />
     <AppStoreButton
-        href="https://play.google.com/store/apps/details?id=org.sefaria.sefaria"
+        href="https://play.google.com/store/apps/details?id=org.mekoros.mekoros"
         platform='android'
-        altText={Sefaria._("Sefaria app on Android")}
+        altText={Mekoros._("Mekoros app on Android")}
     />
   </Module>
 );
 
 
 const StayConnected = () => { // TODO: remove? looks like we are not using this
-  const fbURL = Sefaria.interfaceLang == "hebrew" ? "https://www.facebook.com/sefaria.org.il" : "https://www.facebook.com/sefaria.org";
+  const fbURL = Mekoros.interfaceLang == "hebrew" ? "https://www.facebook.com/mekoros.com" : "https://www.facebook.com/mekoros.com";
 
   return (
     <Module>
@@ -678,13 +678,13 @@ const StayConnected = () => { // TODO: remove? looks like we are not using this
       <NewsletterSignUpForm context="sidebar" />
 
       <a target="_blank" className="button small white appButton iconOnly" href={fbURL}>
-        <img src="/static/icons/facebook.svg" alt={Sefaria._("Sefaria on Facebook")} />
+        <img src="/static/icons/facebook.svg" alt={Mekoros._("Mekoros on Facebook")} />
       </a>
-      <a target="_blank" className="button small white appButton iconOnly" href="https://www.instagram.com/sefariaproject">
-        <img src="/static/icons/instagram.svg" alt={Sefaria._("Sefaria on Instagram")} />
+      <a target="_blank" className="button small white appButton iconOnly" href="https://www.instagram.com/mekorosproject">
+        <img src="/static/icons/instagram.svg" alt={Mekoros._("Mekoros on Instagram")} />
       </a>
-      <a target="_blank" className="button small white appButton iconOnly" href="https://www.youtube.com/user/SefariaProject">
-        <img src="/static/icons/youtube.svg" alt={Sefaria._("Sefaria on YouTube")} />
+      <a target="_blank" className="button small white appButton iconOnly" href="https://www.youtube.com/user/MekorosProject">
+        <img src="/static/icons/youtube.svg" alt={Mekoros._("Mekoros on YouTube")} />
       </a>
 
     </Module>
@@ -714,7 +714,7 @@ const AboutCollections = ({hideTitle}) => (
     {hideTitle ? null :
     <ModuleTitle h1={true}>About Collections</ModuleTitle>}
     <InterfaceText>
-        <EnglishText>Collections are user generated bundles of sheets which can be used privately, shared with friends, or made public on Sefaria.</EnglishText>
+        <EnglishText>Collections are user generated bundles of sheets which can be used privately, shared with friends, or made public on Mekoros.</EnglishText>
         <HebrewText>אסופות הן מקבצים של דפי מקורות שנוצרו על ידי משתמשי האתר. הן ניתנות לשימוש פרטי, לצורך שיתוף עם אחרים או לשימוש ציבורי באתר ספריא.</HebrewText>
     </InterfaceText>
     {hideTitle ? null :
@@ -745,7 +745,7 @@ const ExploreCollections = () => (
 const WhoToFollow = ({toggleSignUpModal}) => (
   <Module>
     <ModuleTitle>Who to Follow</ModuleTitle>
-    {Sefaria.followRecommendations.map(user =>
+    {Mekoros.followRecommendations.map(user =>
     <ProfileListing {...user} key={user.uid} toggleSignUpModal={toggleSignUpModal} />)}
   </Module>
 );
@@ -768,7 +768,7 @@ const Wrapper = ({title, content}) => (
 
 const IconLink = ({text, url, icon}) => (
   <div className="navSidebarLink gray">
-    <img src={"/static/icons/" + icon} className="navSidebarIcon" alt={`${Sefaria._(text)} ${Sefaria._("icon")}`} />
+    <img src={"/static/icons/" + icon} className="navSidebarIcon" alt={`${Mekoros._(text)} ${Mekoros._("icon")}`} />
     <a href={url}><InterfaceText>{text}</InterfaceText></a>
   </div>
 );
@@ -818,10 +818,10 @@ const DownloadVersions = ({sref}) => {
         return true;
     }
     const recordDownload = () => {
-        Sefaria.track.event("Reader", "Version Download", `${sref} / ${downloadSelected.dlVersionTitle} / ${downloadSelected.dlVersionLanguage} / ${downloadSelected.dlVersionFormat}`);
+        Mekoros.track.event("Reader", "Version Download", `${sref} / ${downloadSelected.dlVersionTitle} / ${downloadSelected.dlVersionLanguage} / ${downloadSelected.dlVersionFormat}`);
     }
     useEffect(() => {
-        Sefaria.getVersions(sref).then(data => {
+        Mekoros.getVersions(sref).then(data => {
             data = Object.values(data).flat();
             data = data.filter(isVersionPublicDomain);
             data.sort((a, b) => a.versionTitle.localeCompare(b.versionTitle));
@@ -838,29 +838,29 @@ const DownloadVersions = ({sref}) => {
               options={
                 versions.map(v => ({
                     value: `${v.versionTitle}/${v.language}`,
-                    label: `${Sefaria._v({he: v.versionTitleInHebrew ? v.versionTitleInHebrew : v.versionTitle, en: v.versionTitle})} (${Sefaria._(Sefaria.translateISOLanguageCode(v.actualLanguage))})`
+                    label: `${Mekoros._v({he: v.versionTitleInHebrew ? v.versionTitleInHebrew : v.versionTitle, en: v.versionTitle})} (${Mekoros._(Mekoros.translateISOLanguageCode(v.actualLanguage))})`
                 })).concat( // add merged versions for both primary langs "en" and "he" where applicable. (not yet possible for individual actual languages)
                     versions.map(v => v.language).unique().map(lang => ({
                         value: `merged/${lang}`,
-                        label: `${Sefaria._("Merged Version", "DownloadVersions")} (${Sefaria._(Sefaria.translateISOLanguageCode(lang))})`,
+                        label: `${Mekoros._("Merged Version", "DownloadVersions")} (${Mekoros._(Mekoros.translateISOLanguageCode(lang))})`,
                     }))
                 )
               }
-              placeholder={Sefaria._( "Select Version", "DownloadVersions")}
+              placeholder={Mekoros._( "Select Version", "DownloadVersions")}
               onChange={handleInputChange}
           />
           <Dropdown
               name="dlVersionFormat"
               options={[
-                {value: "txt",       label: Sefaria._( "Text (with Tags)", "DownloadVersions")},
-                {value: "plain.txt", label: Sefaria._( "Text (without Tags)", "DownloadVersions")},
+                {value: "txt",       label: Mekoros._( "Text (with Tags)", "DownloadVersions")},
+                {value: "plain.txt", label: Mekoros._( "Text (without Tags)", "DownloadVersions")},
                 {value: "csv",       label: "CSV"},
                 {value: "json",      label: "JSON"},
               ]}
-              placeholder={Sefaria._("Select Format", "DownloadVersions")}
+              placeholder={Mekoros._("Select Format", "DownloadVersions")}
               onChange={handleInputChange}
           />
-          <a className={`button fillWidth${isReady ? "" : " disabled"}`} onClick={handleClick} href={versionDlLink()} download>{Sefaria._("Download")}</a>
+          <a className={`button fillWidth${isReady ? "" : " disabled"}`} onClick={handleClick} href={versionDlLink()} download>{Mekoros._("Download")}</a>
         </div>
         </Module>
     );
@@ -912,7 +912,7 @@ const PortalNewsletter = ({title, description}) => {
             <NewsletterSignUpForm
                 includeEducatorOption={false}
                 emailPlaceholder={{en: "Email Address", he: "כתובת מייל"}}
-                subscribe={Sefaria.subscribeSefariaAndSteinsaltzNewsletter}
+                subscribe={Mekoros.subscribeMekorosAndSteinsaltzNewsletter}
             />
         </Module>
     )

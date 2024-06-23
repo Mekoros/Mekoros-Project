@@ -1,4 +1,4 @@
-{% load sefaria_tags %}
+{% load mekoros_tags %}
 {% load i18n %}
 
 <table cellpadding="0px" cellspacing="0" border="0" align="center" style="width:100%;font-size:16px">
@@ -17,13 +17,13 @@
 		{% blocktrans %}
             You're receiving this message because you have an account on
         {% endblocktrans %}
-            <a href="http://www.sefaria.org">www.sefaria.org</a>.
+            <a href="http://www.mekoros.com">www.mekoros.com</a>.
             <br>
         {% blocktrans with settings_url="/settings/account"|absolute_url %}
             To change your email settings, click <a href="{{ settings_url }}">here</a>
         {% endblocktrans %}
             <br>
-        {% blocktrans with hello_email="mailto:hello@sefaria.org" %}
+        {% blocktrans with hello_email="mailto:hello@mekoros.com" %}
             Your feedback is welcome. Feel free to send us an <a href="{{ hello_email }}">email</a>.
         {% endblocktrans %}
 		</div>

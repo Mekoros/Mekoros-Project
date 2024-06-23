@@ -1,4 +1,4 @@
-from sefaria.helper.crm.crm_connection_manager import CrmConnectionManager
+from mekoros.helper.crm.crm_connection_manager import CrmConnectionManager
 
 
 class DummyConnectionManager(CrmConnectionManager):

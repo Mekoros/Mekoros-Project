@@ -3,7 +3,7 @@ import "regenerator-runtime/runtime";
 import $  from 'jquery';
 import React  from 'react';
 import ReactDOM  from 'react-dom';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 import extend  from 'extend';
 import PropTypes  from 'prop-types';
 import DjangoCSRF  from './lib/django-csrf';
@@ -98,8 +98,8 @@ class PageLoader extends Component {
   }
 
   componentWillMount() {
-    if (Sefaria.isRef(this.props.secRef)) {
-      Sefaria.getRef(this.props.secRef).then(data=>{this.setState({nextChapter: data.next})});
+    if (Mekoros.isRef(this.props.secRef)) {
+      Mekoros.getRef(this.props.secRef).then(data=>{this.setState({nextChapter: data.next})});
     }
   }
 
@@ -130,7 +130,7 @@ class PageLoader extends Component {
 }
 
   render() {
-    Sefaria.unpackDataFromProps(DJANGO_VARS.props);
+    Mekoros.unpackDataFromProps(DJANGO_VARS.props);
     return (
       <div>
       <DataForm
@@ -205,8 +205,8 @@ class DataForm extends Component {
   }
 
   componentWillMount() {
-    if (Sefaria.isRef(this.state.secRef)) {
-      Sefaria.getVersions(this.state.secRef).then(this.loadPossibleVersions);
+    if (Mekoros.isRef(this.state.secRef)) {
+      Mekoros.getVersions(this.state.secRef).then(this.loadPossibleVersions);
     }
   }
 
@@ -238,8 +238,8 @@ class DataForm extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (Sefaria.isRef(this.state.secRef) && this.state.lang) {
-      Sefaria.getVersions(this.state.secRef).then(this.loadPossibleVersions);
+    if (Mekoros.isRef(this.state.secRef) && this.state.lang) {
+      Mekoros.getVersions(this.state.secRef).then(this.loadPossibleVersions);
     } else {
       this.setState({possibleVersions: null});
     }
@@ -315,7 +315,7 @@ class DiffTable extends Component {
     let enVersion = null, heVersion = null;
     if (props.lang === "en") { enVersion = props.v1; }
     else                     { heVersion = props.v1; }
-    Sefaria.text(props.secRef,
+    Mekoros.text(props.secRef,
       {enVersion, heVersion, wrapLinks: 0},
       data => this.setState({
         v1Length: props.lang === 'he' ? data['he'].length : data.text.length
@@ -324,7 +324,7 @@ class DiffTable extends Component {
     enVersion = null; heVersion = null;
     if (props.lang === "en") { enVersion = props.v2; }
     else                     { heVersion = props.v2; }
-    Sefaria.text(props.secRef,
+    Mekoros.text(props.secRef,
       {enVersion, heVersion, wrapLinks: 0},
       data => this.setState({
         v2Length: props.lang === 'he' ? data['he'].length : data.text.length
@@ -470,10 +470,10 @@ class DiffRow extends Component {
       }
     }
     else if (this.state.v1 === null) {
-      Sefaria.text(this.props.segRef, {enVersion: enVersion1, heVersion: heVersion1, 'wrapLinks': 0}, this.LoadV1);
+      Mekoros.text(this.props.segRef, {enVersion: enVersion1, heVersion: heVersion1, 'wrapLinks': 0}, this.LoadV1);
     }
     else if (this.state.v2 === null) {
-      Sefaria.text(this.props.segRef, {enVersion: enVersion2, heVersion: heVersion2, 'wrapLinks': 0}, this.LoadV2);
+      Mekoros.text(this.props.segRef, {enVersion: enVersion2, heVersion: heVersion2, 'wrapLinks': 0}, this.LoadV2);
     }
   }
 
@@ -484,8 +484,8 @@ class DiffRow extends Component {
     let enVersion1 = null, heVersion1 = null, enVersion2 = null, heVersion2 = null;
     if (this.props.lang === "en") { enVersion1 = this.props.v1; enVersion2 = this.props.v2; }
     else                          { heVersion1 = this.props.v1; heVersion2 = this.props.v2; }
-    Sefaria.text(this.props.segRef, {enVersion: enVersion1, heVersion: heVersion1, 'wrapLinks': 0}, this.LoadV1);
-    Sefaria.text(this.props.segRef, {enVersion: enVersion2, heVersion: heVersion2, 'wrapLinks': 0}, this.LoadV2);
+    Mekoros.text(this.props.segRef, {enVersion: enVersion1, heVersion: heVersion1, 'wrapLinks': 0}, this.LoadV1);
+    Mekoros.text(this.props.segRef, {enVersion: enVersion2, heVersion: heVersion2, 'wrapLinks': 0}, this.LoadV2);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -493,8 +493,8 @@ class DiffRow extends Component {
       let enVersion1 = null, heVersion1 = null, enVersion2 = null, heVersion2 = null;
       if (this.props.lang === "en") { enVersion1 = this.props.v1; enVersion2 = this.props.v2; }
       else                          { heVersion1 = this.props.v1; heVersion2 = this.props.v2; }
-      Sefaria.text(this.props.segRef, {enVersion: enVersion1, heVersion: heVersion1, 'wrapLinks': 0}, this.loadV1);
-      Sefaria.text(this.props.segRef, {enVersion: enVersion2, heVersion: heVersion2, 'wrapLinks': 0}, this.loadV2);
+      Mekoros.text(this.props.segRef, {enVersion: enVersion1, heVersion: heVersion1, 'wrapLinks': 0}, this.loadV1);
+      Mekoros.text(this.props.segRef, {enVersion: enVersion2, heVersion: heVersion2, 'wrapLinks': 0}, this.loadV2);
     }
   }
 
@@ -511,14 +511,14 @@ class DiffRow extends Component {
   }
 
   acceptChange(segRef, vtitle, lang, text) {
-    if (!Sefaria._uid) {
+    if (!Mekoros._uid) {
       alert("Please sign in before making a change");
       return;
     }
     // block all posting untill this has successfully returned. Gets set back to `true` in `generateDiff`
     if (this.state.allowPost) {
       this.setState({allowPost: false});
-      Sefaria.postSegment(segRef, vtitle, lang, text, this.onChangeMade, this.onChangeFailed);
+      Mekoros.postSegment(segRef, vtitle, lang, text, this.onChangeMade, this.onChangeFailed);
     } else {
       alert("Another Change in Progress, Please Wait");
     }
@@ -641,12 +641,12 @@ class DiffElement extends Component {
     this.setState({mouseover: false});
   }
   openConfirm() {
-    if (Sefaria._uid && (Sefaria.is_moderator || Sefaria.is_editor)) {
+    if (Mekoros._uid && (Mekoros.is_moderator || Mekoros.is_editor)) {
       this.setState({confirmOpen: true, mouseover: false});
-    } else if (Sefaria._uid) {
-      alert("Only Sefaria Moderators Can Edit Texts");
+    } else if (Mekoros._uid) {
+      alert("Only Mekoros Moderators Can Edit Texts");
     } else {
-      alert("Not signed in. You must be signed in as a Sefaria Moderator to use this feature.");
+      alert("Not signed in. You must be signed in as a Mekoros Moderator to use this feature.");
     }
   }
   closeConfirm(event) {

@@ -7,9 +7,9 @@
 import django
 django.setup()
 
-from sefaria.model import *
-from sefaria.system.database import db
-from sefaria.sheets import bleach_text
+from mekoros.model import *
+from mekoros.system.database import db
+from mekoros.sheets import bleach_text
 
 sheets = db.sheets.find()
 

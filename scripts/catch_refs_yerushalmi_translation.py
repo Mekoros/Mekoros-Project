@@ -5,12 +5,12 @@ from io import StringIO
 from lxml.etree import XMLSyntaxError
 from tqdm import tqdm
 from collections import defaultdict
-from sefaria.model import *
-from sefaria.system.exceptions import InputError, DuplicateRecordError
-from sefaria.model.linker import ResolvedRef, RefPartType
-from sefaria.helper.normalization import NormalizerComposer
+from mekoros.model import *
+from mekoros.system.exceptions import InputError, DuplicateRecordError
+from mekoros.model.linker import ResolvedRef, RefPartType
+from mekoros.helper.normalization import NormalizerComposer
 from bs4 import BeautifulSoup
-from sefaria.tracker import modify_bulk_text
+from mekoros.tracker import modify_bulk_text
 
 django.setup()
 
@@ -437,9 +437,9 @@ class YerushalmiCatcher:
 
         def make_html_row(tref, s):
             oref = Ref(tref)
-            s = s.replace('href="/', 'href="https://jt4.cauldron.sefaria.org/')
+            s = s.replace('href="/', 'href="https://jt4.cauldron.mekoros.com/')
             return f"""
-            <p><a href="https://jt4.cauldron.sefaria.org/{oref.url()}">{tref}</a></p>
+            <p><a href="https://jt4.cauldron.mekoros.com/{oref.url()}">{tref}</a></p>
             <p>{s}</p>
             """
 

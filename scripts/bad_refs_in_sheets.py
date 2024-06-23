@@ -4,8 +4,8 @@ django.setup()
 
 import re
 
-from sefaria.model import *
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.system.database import db
 
 sheets = db.sheets.find()
 bad_refs   = 0

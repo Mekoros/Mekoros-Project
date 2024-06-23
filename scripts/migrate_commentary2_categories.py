@@ -2,7 +2,7 @@
 """
 Migrate category structure for Commentary2 texts
 """
-from sefaria.model import *
+from mekoros.model import *
 
 indexes = IndexSet({"categories.0": "Commentary2"})
 

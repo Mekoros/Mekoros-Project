@@ -1,8 +1,8 @@
 from typing import List, Union, Dict, Optional, Tuple, Iterable
 from enum import Enum
-from sefaria.system.exceptions import InputError
-from sefaria.model import abstract as abst
-from sefaria.model import schema
+from mekoros.system.exceptions import InputError
+from mekoros.model import abstract as abst
+from mekoros.model import schema
 import structlog
 logger = structlog.get_logger(__name__)
 try:

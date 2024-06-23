@@ -4,7 +4,7 @@ import re
 
 
 input_rows = []
-filename = 'log/sefaria.log'
+filename = 'log/mekoros.log'
 l_regex = re.compile(r'Wrap Ref Warning: Ref:\((.*)\)', re.UNICODE)
 with open(filename, 'rb') as infile:
     for line in infile:

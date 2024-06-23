@@ -10,10 +10,10 @@ import math
 import datrie
 from unidecode import unidecode
 from django.contrib.auth.models import User
-from sefaria.model import *
-from sefaria.model.schema import SheetLibraryNode
-from sefaria.utils import hebrew
-from sefaria.model.following import aggregate_profiles
+from mekoros.model import *
+from mekoros.model.schema import SheetLibraryNode
+from mekoros.utils import hebrew
+from mekoros.model.following import aggregate_profiles
 import re2 as re
 import structlog
 logger = structlog.get_logger(__name__)

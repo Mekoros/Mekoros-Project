@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import VersionBlockSelectButton from "./VersionBlockSelectButton";
 import {VersionBlockUtils} from './VersionBlock';
-import Sefaria from "../sefaria/sefaria";
+import Mekoros from "../mekoros/mekoros";
 
 function VersionTitleAndSelector({currentRef, version, currObjectVersions, openVersionInReader, isSelected}) {
     function makeShortVersionTitle() {
         let shortVersionTitle = version.shortVersionTitle || version.versionTitle;
-        if (Sefaria.interfaceLang === "hebrew") {
+        if (Mekoros.interfaceLang === "hebrew") {
             shortVersionTitle = version.shortVersionTitleInHebrew || version.versionTitleInHebrew || shortVersionTitle;
         }
         return shortVersionTitle;

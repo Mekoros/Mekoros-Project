@@ -2,8 +2,8 @@ import React  from 'react';
 import ReactDOM  from 'react-dom';
 import PropTypes  from 'prop-types';
 import classNames  from 'classnames';
-import $  from './sefaria/sefariaJquery';
-import Sefaria  from './sefaria/sefaria';
+import $  from './mekoros/mekorosJquery';
+import Mekoros  from './mekoros/mekoros';
 import Component from 'react-class';
 import {EnglishText, HebrewText} from "./Misc";
 import {VersionContent} from "./ContentText";
@@ -11,7 +11,7 @@ import {ContentText} from "./ContentText";
 
 class TextRange extends Component {
   // A Range or text defined a by a single Ref. Specially treated when set as 'basetext'.
-  // This component is responsible for retrieving data from `Sefaria` for the ref that defines it.
+  // This component is responsible for retrieving data from `Mekoros` for the ref that defines it.
   componentDidMount() {
     this._isMounted = true;
     let data = this.getText();
@@ -91,7 +91,7 @@ class TextRange extends Component {
     if (this.props.onRangeClick) {
       //Click on the body of the TextRange itself from TextList
       this.props.onRangeClick(this.props.sref);
-      Sefaria.track.event("Reader", "Click Text from TextList", this.props.sref);
+      Mekoros.track.event("Reader", "Click Text from TextList", this.props.sref);
     }
   }
   handleKeyPress(event) {
@@ -107,13 +107,13 @@ class TextRange extends Component {
       // Support redirect of basetext for schema node refs.  Don't rewrite refs on sidebar to avoid infinite loop of cache misses.
       firstAvailableRef: this.props.basetext ? 1 : 0,
       translationLanguagePreference: this.props.translationLanguagePreference,
-      versionPref: Sefaria.versionPreferences.getVersionPref(this.props.sref),
+      versionPref: Mekoros.versionPreferences.getVersionPref(this.props.sref),
     };
-    let data = Sefaria.getTextFromCache(this.props.sref, settings);
+    let data = Mekoros.getTextFromCache(this.props.sref, settings);
 
     if ((!data || "updateFromAPI" in data) && !this.textLoading) { // If we don't have data yet, call trigger an API call
       this.textLoading = true;
-      Sefaria.getText(this.props.sref, settings).then(this.onTextLoad);
+      Mekoros.getText(this.props.sref, settings).then(this.onTextLoad);
     } else if (!!data && this.props.isCurrentlyVisible) {
       this._updateCurrVersions(data.versionTitle, data.heVersionTitle);
     }
@@ -176,13 +176,13 @@ class TextRange extends Component {
       return ref;
     });
 
-    if (this.props.loadLinks && !Sefaria.linksLoaded(sectionRefs)) {
+    if (this.props.loadLinks && !Mekoros.linksLoaded(sectionRefs)) {
       for (let i = 0; i < sectionRefs.length; i++) {
-        Sefaria.related(sectionRefs[i], function() {
+        Mekoros.related(sectionRefs[i], function() {
           if (this._isMounted) { this.forceUpdate(); }
         }.bind(this));
-        if (Sefaria._uid) {
-          Sefaria.relatedPrivate(sectionRefs[i], function() {
+        if (Mekoros._uid) {
+          Mekoros.relatedPrivate(sectionRefs[i], function() {
             if (this._isMounted) { this.forceUpdate(); }
           }.bind(this));
         }
@@ -201,28 +201,28 @@ class TextRange extends Component {
 
     if (this.props.prefetchNextPrev) {
      if (data.next) {
-       Sefaria.getText(data.next, {
+       Mekoros.getText(data.next, {
          context: 1,
          multiple: this.props.prefetchMultiple,
          enVersion: this.props.currVersions.en || null,
          heVersion: this.props.currVersions.he || null,
          translationLanguagePreference: this.props.translationLanguagePreference,
-         versionPref: Sefaria.versionPreferences.getVersionPref(data.next),
+         versionPref: Mekoros.versionPreferences.getVersionPref(data.next),
        }).then(ds => Array.isArray(ds) ? ds.map(d => this._prefetchLinksAndNotes(d)) : this._prefetchLinksAndNotes(ds));
      }
      if (data.prev) {
-       Sefaria.getText(data.prev, {
+       Mekoros.getText(data.prev, {
          context: 1,
          multiple: -this.props.prefetchMultiple,
          enVersion: this.props.currVersions.en || null,
          heVersion: this.props.currVersions.he || null,
          translationLanguagePreference: this.props.translationLanguagePreference,
-         versionPref: Sefaria.versionPreferences.getVersionPref(data.prev),
+         versionPref: Mekoros.versionPreferences.getVersionPref(data.prev),
        }).then(ds => Array.isArray(ds) ? ds.map(d => this._prefetchLinksAndNotes(d)) : this._prefetchLinksAndNotes(ds));
      }
      if (data.indexTitle) {
         // Preload data that is used on Text TOC page
-        Sefaria.getIndexDetails(data.indexTitle);
+        Mekoros.getIndexDetails(data.indexTitle);
      }
     }
     this.dataPrefetched = true;
@@ -293,9 +293,9 @@ class TextRange extends Component {
     let title, heTitle, ref;
     if (data && this.props.basetext) {
       ref              = this.props.withContext ? data.sectionRef : data.ref;
-      const sectionStrings   = Sefaria.sectionString(ref);
-      const oref             = Sefaria.ref(ref);
-      const useShortString   = oref && Sefaria.util.inArray(oref.primary_category, ["Tanakh", "Mishnah", "Talmud", "Tanaitic", "Commentary"]) !== -1;
+      const sectionStrings   = Mekoros.sectionString(ref);
+      const oref             = Mekoros.ref(ref);
+      const useShortString   = oref && Mekoros.util.inArray(oref.primary_category, ["Tanakh", "Mishnah", "Talmud", "Tanaitic", "Commentary"]) !== -1;
       title            = useShortString ? sectionStrings.en.numbered : sectionStrings.en.named;
       heTitle          = useShortString ? sectionStrings.he.numbered : sectionStrings.he.named;
     } else if (data && !this.props.basetext) {
@@ -331,14 +331,14 @@ class TextRange extends Component {
       strip_vowels_re = (this.props.settings.vowels == "partial") ? nre : cnre;
     }
 
-    let segments      = Sefaria.makeSegments(data, this.props.withContext);
+    let segments      = Mekoros.makeSegments(data, this.props.withContext);
     if(segments.length > 0 && strip_vowels_re && !strip_vowels_re.test(segments[0].he)){
       strip_vowels_re = null; //if the first segment doesnt even match as containing vowels or cantillation- stop
     }
     let textSegments = segments.map((segment, i) => {
       let highlight = this.props.highlightedRefs && this.props.highlightedRefs.length ?        // if highlighted refs are explicitly set
-                            Sefaria.util.inArray(segment.ref, this.props.highlightedRefs) !== -1 || // highlight if this ref is in highlighted refs prop
-                            Sefaria.util.inArray(Sefaria.sectionRef(segment.ref), this.props.highlightedRefs) !== -1 : // or if the highlighted refs include a section level ref including this ref
+                            Mekoros.util.inArray(segment.ref, this.props.highlightedRefs) !== -1 || // highlight if this ref is in highlighted refs prop
+                            Mekoros.util.inArray(Mekoros.sectionRef(segment.ref), this.props.highlightedRefs) !== -1 : // or if the highlighted refs include a section level ref including this ref
                             this.props.basetext && segment.highlight;  // otherwise highlight if this a basetext and the ref is specific
       const textHighlights = (highlight || !this.props.basetext) && !!this.props.textHighlights ? this.props.textHighlights : null; // apply textHighlights in a base text only when the segment is hightlights
       let parashahHeader = null;
@@ -373,7 +373,7 @@ class TextRange extends Component {
             textHighlights={textHighlights}
             segmentNumber={showSegmentNumbers ? segment.number : 0}
             showLinkCount={this.props.basetext}
-            linkCount={Sefaria.linkCount(segment.ref, this.props.filter)}
+            linkCount={Mekoros.linkCount(segment.ref, this.props.filter)}
             filter={this.props.filter}
             panelPosition={this.props.panelPosition}
             onSegmentClick={this.props.onSegmentClick}
@@ -401,7 +401,7 @@ class TextRange extends Component {
     // configure number display for inline references
     let sidebarNum;
     const displaySidebarNumber = (this.props.inlineReference &&
-        this.props.inlineReference['data-commentator'] === Sefaria.index(Sefaria.parseRef(this.props.sref).index).collectiveTitle);
+        this.props.inlineReference['data-commentator'] === Mekoros.index(Mekoros.parseRef(this.props.sref).index).collectiveTitle);
     if (displaySidebarNumber) {
       let enDisplayValue, heDisplayValue;
       if (this.props.inlineReference['data-label']) {
@@ -410,7 +410,7 @@ class TextRange extends Component {
       }
       else {
          enDisplayValue = this.props.inlineReference['data-order'];
-         heDisplayValue = Sefaria.hebrew.encodeHebrewNumeral(enDisplayValue);
+         heDisplayValue = Mekoros.hebrew.encodeHebrewNumeral(enDisplayValue);
       }
       if (heDisplayValue === undefined) {
         heDisplayValue = enDisplayValue;
@@ -423,7 +423,7 @@ class TextRange extends Component {
     } else if (showNumberLabel && this.props.numberLabel) {
       sidebarNum = <div className="numberLabel sans-serif">
         <span className="numberLabelInner">
-          <ContentText text={{en:this.props.numberLabel, he:Sefaria.hebrew.encodeHebrewNumeral(this.props.numberLabel)}} defaultToInterfaceOnBilingual={true}/>
+          <ContentText text={{en:this.props.numberLabel, he:Mekoros.hebrew.encodeHebrewNumeral(this.props.numberLabel)}} defaultToInterfaceOnBilingual={true}/>
         </span>
       </div>;
     } else { sidebarNum = null;}
@@ -505,9 +505,9 @@ class TextSegment extends Component {
   }
   handleRefLinkClick(refLink, event) {
     event.preventDefault();
-    let newRef = Sefaria.humanRef(refLink.attr("data-ref"));
-    const newBook = Sefaria.parseRef(newRef)?.book;
-    const currBook = Sefaria.parseRef(this.props.sref)?.book;
+    let newRef = Mekoros.humanRef(refLink.attr("data-ref"));
+    const newBook = Mekoros.parseRef(newRef)?.book;
+    const currBook = Mekoros.parseRef(this.props.sref)?.book;
     const isScrollLink = refLink.attr('data-scroll-link');
 
     // two options: in most cases, we open a new panel, but if isScrollLink is 'true', we should navigate in the same panel to the new location
@@ -523,7 +523,7 @@ class TextSegment extends Component {
     }
 
     event.stopPropagation();
-    Sefaria.track.event("Reader", "Citation Link Click", ref);
+    Mekoros.track.event("Reader", "Citation Link Click", ref);
   }
   isRefLink (x) {
     // 'x' is a jquery element
@@ -546,13 +546,13 @@ class TextSegment extends Component {
       if (!this.props.onNamedEntityClick) { return; }
 
       let topicSlug = namedEntityLink.attr("data-slug");
-      Sefaria.util.selectElementContents(namedEntityLink[0]);
+      Mekoros.util.selectElementContents(namedEntityLink[0]);
       this.props.onNamedEntityClick(topicSlug, this.props.sref, namedEntityLink[0].innerText);
       event.stopPropagation();
-      Sefaria.track.event("Reader", "Named Entity Link Click", topicSlug);
+      Mekoros.track.event("Reader", "Named Entity Link Click", topicSlug);
     } else if (this.props.onSegmentClick) {
       this.props.onSegmentClick(this.props.sref);
-      Sefaria.track.event("Reader", "Text Segment Click", this.props.sref);
+      Mekoros.track.event("Reader", "Text Segment Click", this.props.sref);
     }
   }
   handleKeyPress(event) {
@@ -568,7 +568,7 @@ class TextSegment extends Component {
         return $(i).attr('data-label');
       } else {
         if (lang === "he") {
-          value = Sefaria.hebrew.encodeHebrewNumeral($(i).attr('data-order'));
+          value = Mekoros.hebrew.encodeHebrewNumeral($(i).attr('data-order'));
         }
         else if (lang === "en") {
           value = $(i).attr('data-order');
@@ -641,7 +641,7 @@ class TextSegment extends Component {
         <div className="segmentNumber sans-serif">
           <span className="segmentNumberInner">
              <ContentText
-                 text={{"en": this.props.segmentNumber, "he": Sefaria.hebrew.encodeHebrewNumeral(this.props.segmentNumber)}}
+                 text={{"en": this.props.segmentNumber, "he": Mekoros.hebrew.encodeHebrewNumeral(this.props.segmentNumber)}}
                  defaultToInterfaceOnBilingual={true}
              />
           </span>

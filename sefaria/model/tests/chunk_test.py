@@ -1,11 +1,11 @@
 # coding=utf-8
 import pytest
 
-from sefaria.model import *
-from sefaria.system.exceptions import InputError
+from mekoros.model import *
+from mekoros.system.exceptions import InputError
 import re
-from sefaria.model.text import AbstractTextRecord
-from sefaria.utils.util import list_depth
+from mekoros.model.text import AbstractTextRecord
+from mekoros.utils.util import list_depth
 
 
 def test_text_index_map():

@@ -21,8 +21,8 @@ import { CategoryFilter, TextFilter } from './ConnectionFilters';
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import Sefaria from './sefaria/sefaria';
-import $ from './sefaria/sefariaJquery';
+import Mekoros from './mekoros/mekoros';
+import $ from './mekoros/mekorosJquery';
 import AboutSheet from './AboutSheet';
 import SidebarSearch from './SidebarSearch';
 import TextList from './TextList'
@@ -40,7 +40,7 @@ import { CollectionsModal } from './CollectionsWidget';
 import { event } from 'jquery';
 import TopicSearch from "./TopicSearch";
 import WebPage from './WebPage'
-import { SignUpModalKind } from './sefaria/signupModalContent';
+import { SignUpModalKind } from './mekoros/signupModalContent';
 
 
 class ConnectionsPanel extends Component {
@@ -54,7 +54,7 @@ class ConnectionsPanel extends Component {
       availableTranslations: [],
       linksLoaded: false, // has the list of refs been loaded
       connectionSummaryCollapsed: true,
-      currentlyVisibleSectionRef: Sefaria.sectionRef(this.props.currentlyVisibleRef),
+      currentlyVisibleSectionRef: Mekoros.sectionRef(this.props.currentlyVisibleRef),
     };
   }
   toggleTopLevelCollapsed() {
@@ -64,7 +64,7 @@ class ConnectionsPanel extends Component {
     this._isMounted = true;
     this.loadData();
     this.getCurrentVersions();
-    this.debouncedCheckVisibleSegments = Sefaria.util.debounce(this.checkVisibleSegments, 100);
+    this.debouncedCheckVisibleSegments = Mekoros.util.debounce(this.checkVisibleSegments, 100);
     this.addScrollListener();
   }
 
@@ -155,9 +155,9 @@ class ConnectionsPanel extends Component {
     ) { return; }
     const ref = element.getAttribute('data-ref');
     if (this._savedHistorySegments.has(ref)) { return; }
-    const parsedRef = Sefaria.parseRef(ref);
+    const parsedRef = Mekoros.parseRef(ref);
     // TODO: add version info once we support that in links
-    Sefaria.saveUserHistory({
+    Mekoros.saveUserHistory({
       ref,
       versions: { en: null, he: null },
       book: parsedRef.book,
@@ -185,12 +185,12 @@ class ConnectionsPanel extends Component {
     return !prevRefs.compare(nextRefs);
   }
   sectionRef() {
-    return Sefaria.sectionRef(Sefaria.humanRef(this.props.srefs), true) || this.props.srefs;
+    return Mekoros.sectionRef(Mekoros.humanRef(this.props.srefs), true) || this.props.srefs;
   }
   loadData() {
     let ref = this.sectionRef();
-    if (!Sefaria.related(ref)) {
-      Sefaria.related(ref, function (data) {
+    if (!Mekoros.related(ref)) {
+      Mekoros.related(ref, function (data) {
         if (this._isMounted) {
           this.setState({
             linksLoaded: true,
@@ -204,13 +204,13 @@ class ConnectionsPanel extends Component {
       });
     }
     if (!this.isSheet()) {
-      Sefaria.getTranslations(ref).then(versions => this.setState({ availableTranslations: Object.values(versions).flat() })); //for counting translations
-      Sefaria.getRef(this.props.currentlyVisibleRef).then(data => { //this does not properly return a secionRef for a spanning/ranged ref
-        const currRef = (typeof data == "string") ? Sefaria.sectionRef(data) : data["sectionRef"]; //this is an annoying consequence of getRef not actually returning a
+      Mekoros.getTranslations(ref).then(versions => this.setState({ availableTranslations: Object.values(versions).flat() })); //for counting translations
+      Mekoros.getRef(this.props.currentlyVisibleRef).then(data => { //this does not properly return a secionRef for a spanning/ranged ref
+        const currRef = (typeof data == "string") ? Mekoros.sectionRef(data) : data["sectionRef"]; //this is an annoying consequence of getRef not actually returning a
         // consistent response. Its either the ref from cache or the entire text api response if async.
         this.setState({currentlyVisibleSectionRef: currRef});
       });
-      //this.setState({currentlyVisibleSectionRef: Sefaria.sectionRef(this.props.currentlyVisibleRef)});
+      //this.setState({currentlyVisibleSectionRef: Mekoros.sectionRef(this.props.currentlyVisibleRef)});
 
     }
   }
@@ -218,7 +218,7 @@ class ConnectionsPanel extends Component {
     this.setState({
       linksLoaded: false,
     });
-    Sefaria.clearLinks();
+    Mekoros.clearLinks();
     this.loadData();
   }
   flashMessage(msg) {
@@ -234,8 +234,8 @@ class ConnectionsPanel extends Component {
   }
   getData(cb) {
     // Gets data about this text from cache, which may be null.
-    const versionPref = Sefaria.versionPreferences.getVersionPref(this.props.srefs[0]);
-    return Sefaria.getText(this.props.srefs[0], { context: 1, enVersion: this.props.currVersions.en, heVersion: this.props.currVersions.he, translationLanguagePreference: this.props.translationLanguagePreference, versionPref}).then(cb);
+    const versionPref = Mekoros.versionPreferences.getVersionPref(this.props.srefs[0]);
+    return Mekoros.getText(this.props.srefs[0], { context: 1, enVersion: this.props.currVersions.en, heVersion: this.props.currVersions.he, translationLanguagePreference: this.props.translationLanguagePreference, versionPref}).then(cb);
   }
   getVersionFromData(d, lang) {
     //d - data received from this.getData()
@@ -282,11 +282,11 @@ class ConnectionsPanel extends Component {
   checkSrefs(srefs) {
     // Mostly exists for properly displaying Ranging refs in TextList on page loads and on sheets
     if (typeof (srefs) == "object" && srefs.length === 1) {
-      srefs = Sefaria.splitRangingRef(srefs[0]);
+      srefs = Mekoros.splitRangingRef(srefs[0]);
     }
-    if (srefs.length === 1 && (Sefaria.sectionRef(srefs[0]) === srefs[0])) {
-      const oref = Sefaria.ref(srefs[0]);
-      srefs = Sefaria.makeSegments(oref).map(segment => segment.ref)
+    if (srefs.length === 1 && (Mekoros.sectionRef(srefs[0]) === srefs[0])) {
+      const oref = Mekoros.ref(srefs[0]);
+      srefs = Mekoros.makeSegments(oref).map(segment => segment.ref)
     }
     return (srefs)
   }
@@ -302,7 +302,7 @@ class ConnectionsPanel extends Component {
   }
   openVersionInSidebar(versionTitle, versionLanguage) {
     this.props.setConnectionsMode("Translation Open");
-    this.props.setFilter(Sefaria.getTranslateVersionsKey(versionTitle, versionLanguage));
+    this.props.setFilter(Mekoros.getTranslateVersionsKey(versionTitle, versionLanguage));
   }
   render() {
     let content = null;
@@ -319,20 +319,20 @@ class ConnectionsPanel extends Component {
         />
       </div>);
     } else if (this.props.mode === "Resources") {
-      const summary = Sefaria.linkSummary(this.props.srefs, this.props.nodeRef ? this.props.nodeRef.split(".")[0] : null);
-      const showConnectionSummary = summary.length > 0 || Sefaria.hasEssayLinks(this.props.srefs);
+      const summary = Mekoros.linkSummary(this.props.srefs, this.props.nodeRef ? this.props.nodeRef.split(".")[0] : null);
+      const showConnectionSummary = summary.length > 0 || Mekoros.hasEssayLinks(this.props.srefs);
       const resourcesButtonCounts = {
-        sheets: Sefaria.sheets.sheetsTotalCount(this.props.srefs),
-        webpages: Sefaria.webPagesByRef(this.props.srefs).length,
-        audio: Sefaria.mediaByRef(this.props.srefs).length,
-        topics: Sefaria.topicsByRefCount(this.props.srefs) || 0,
-        manuscripts: Sefaria.manuscriptsByRef(this.props.srefs).length,
-        guides: Sefaria.guidesByRef(this.props.srefs).length,
+        sheets: Mekoros.sheets.sheetsTotalCount(this.props.srefs),
+        webpages: Mekoros.webPagesByRef(this.props.srefs).length,
+        audio: Mekoros.mediaByRef(this.props.srefs).length,
+        topics: Mekoros.topicsByRefCount(this.props.srefs) || 0,
+        manuscripts: Mekoros.manuscriptsByRef(this.props.srefs).length,
+        guides: Mekoros.guidesByRef(this.props.srefs).length,
         translations: this.state.availableTranslations.length, //versions dont come from the related api, so this one looks a bit different than the others.
       }
-      const showResourceButtons = Sefaria.is_moderator || Object.values(resourcesButtonCounts).some(elem => elem > 0);
+      const showResourceButtons = Mekoros.is_moderator || Object.values(resourcesButtonCounts).some(elem => elem > 0);
       const toolsButtonsCounts = {
-        notes: Sefaria.notesTotalCount(this.props.srefs),
+        notes: Mekoros.notesTotalCount(this.props.srefs),
       }
       content = (
         <div>
@@ -511,7 +511,7 @@ class ConnectionsPanel extends Component {
           closePanel={this.props.closePanel}
           onSave={() => this.props.setConnectionsMode("Notes")}
           onCancel={() => this.props.setConnectionsMode("Notes")} />
-        {Sefaria._uid ?
+        {Mekoros._uid ?
           <div>
             <a href="/my/profile?tab=notes" className="allNotesLink button white transparent bordered fillWidth">
               <span className="int-en">Go to My Notes</span>
@@ -528,7 +528,7 @@ class ConnectionsPanel extends Component {
         selectedWords={this.props.selectedWords}
         selectedNamedEntity={this.props.selectedNamedEntity}
         selectedNamedEntityText={this.props.selectedNamedEntityText}
-        oref={Sefaria.ref(this.props.srefs[0])}
+        oref={Mekoros.ref(this.props.srefs[0])}
         srefs={this.props.srefs}
         onEntryClick={this.props.onTextClick}
         onCitationClick={this.props.onCitationClick}
@@ -652,7 +652,7 @@ class ConnectionsPanel extends Component {
         title={this.props.title} />);
     } else if (this.props.mode === "manuscripts") {
       content = (<ManuscriptImageList
-        manuscriptList={Sefaria.manuscriptsByRef(this.props.srefs)}
+        manuscriptList={Mekoros.manuscriptsByRef(this.props.srefs)}
         interfaceLang={this.props.interfaceLang}
         contentLang={this.props.contentLang}
       />);
@@ -757,7 +757,7 @@ const ResourcesList = ({ masterPanelMode, setConnectionsMode, counts }) => {
     <div className="toolButtonsList">
       <ToolsButton en="Sheets" he="דפי מקורות" image="sheet.svg" count={counts["sheets"]} urlConnectionsMode="Sheets" onClick={() => setConnectionsMode("Sheets")} />
       <ToolsButton en="Web Pages" he="דפי אינטרנט" image="webpages.svg" count={counts["webpages"]} urlConnectionsMode="WebPages" onClick={() => setConnectionsMode("WebPages")} />
-      <ToolsButton en="Topics" he="נושאים" image="hashtag-icon.svg" count={counts["topics"]} urlConnectionsMode="Topics" onClick={() => setConnectionsMode("Topics")} alwaysShow={Sefaria.is_moderator} />
+      <ToolsButton en="Topics" he="נושאים" image="hashtag-icon.svg" count={counts["topics"]} urlConnectionsMode="Topics" onClick={() => setConnectionsMode("Topics")} alwaysShow={Mekoros.is_moderator} />
       <ToolsButton en="Manuscripts" he="כתבי יד" image="manuscripts.svg" count={counts["manuscripts"]} urlConnectionsMode="manuscripts" onClick={() => setConnectionsMode("manuscripts")} />
       <ToolsButton en="Torah Readings" he="קריאה בתורה" image="torahreadings.svg" count={counts["audio"]} urlConnectionsMode="Torah Readings" onClick={() => setConnectionsMode("Torah Readings")} />
     </div>
@@ -772,10 +772,10 @@ const ToolsList = ({ setConnectionsMode, toggleSignUpModal, openComparePanel, co
   // A list of Resources in addition to connection
   return (
     <div className="toolButtonsList">
-      <ToolsButton en="Add to Sheet" he="הוספה לדף מקורות" image="sheetsplus.svg" onClick={() => !Sefaria._uid ? toggleSignUpModal(SignUpModalKind.AddToSheet) : setConnectionsMode("Add To Sheet", { "addSource": "mainPanel" })} />
+      <ToolsButton en="Add to Sheet" he="הוספה לדף מקורות" image="sheetsplus.svg" onClick={() => !Mekoros._uid ? toggleSignUpModal(SignUpModalKind.AddToSheet) : setConnectionsMode("Add To Sheet", { "addSource": "mainPanel" })} />
       <ToolsButton en="Dictionaries" he="מילונים" image="dictionaries.svg" urlConnectionsMode="Lexicon" onClick={() => setConnectionsMode("Lexicon")} />
       {openComparePanel ? <ToolsButton en="Compare Text" he="טקסט להשוואה" image="compare-panel.svg" onClick={openComparePanel} /> : null}
-      <ToolsButton en="Notes" he="הערות" image="notes.svg" alwaysShow={true} count={counts["notes"]} urlConnectionsMode="Notes" onClick={() => !Sefaria._uid ? toggleSignUpModal(SignUpModalKind.Notes) : setConnectionsMode("Notes")} />
+      <ToolsButton en="Notes" he="הערות" image="notes.svg" alwaysShow={true} count={counts["notes"]} urlConnectionsMode="Notes" onClick={() => !Mekoros._uid ? toggleSignUpModal(SignUpModalKind.Notes) : setConnectionsMode("Notes")} />
       {masterPanelMode !== "Sheet" ? <ToolsButton en="Share" he="שיתוף" image="share.svg" onClick={() => setConnectionsMode("Share")} /> : null}
       <ToolsButton en="Feedback" he="משוב" image="feedback.svg" onClick={() => setConnectionsMode("Feedback")} />
       <ToolsButton en="Advanced" he="כלים מתקדמים" image="advancedtools.svg" onClick={() => setConnectionsMode("Advanced Tools")} />
@@ -793,11 +793,11 @@ const AboutSheetButtons = ({ setConnectionsMode, masterPanelSheetId }) => {
   const [isOwner, setIsOwner] = useState(false);
   const [showEditButton, setShowEditButton] = useState(false);
   useEffect(() => {
-    const sheet = Sefaria.sheets.loadSheetByID(masterPanelSheetId)
-    setIsOwner(sheet.owner === Sefaria._uid);
+    const sheet = Mekoros.sheets.loadSheetByID(masterPanelSheetId)
+    setIsOwner(sheet.owner === Mekoros._uid);
     setShowEditButton(
-        !Sefaria._uses_new_editor && Sefaria._uid && (
-            sheet.owner === Sefaria._uid ||
+        !Mekoros._uses_new_editor && Mekoros._uid && (
+            sheet.owner === Mekoros._uid ||
             sheet.options.collaboration == "anyone-can-edit" ||
             sheet.options.collaboration == "anyone-can-add"
         )
@@ -837,11 +837,11 @@ const SheetToolsList = ({ toggleSignUpModal, masterPanelSheetId, setConnectionsM
     error: { en: "Sorry, there was an error.", he: "סליחה, ארעה שגיאה" }
   }
   const [copyText, setCopyText] = useState(copyState.copy);
-  const urlHashObject = Sefaria.util.parseHash(Sefaria.util.parseUrl(window.location).hash).afterLoading;
+  const urlHashObject = Mekoros.util.parseHash(Mekoros.util.parseUrl(window.location).hash).afterLoading;
   const [googleDriveText, setGoogleDriveText] = urlHashObject === "exportToDrive" ? useState(googleDriveState.exporting) : useState(googleDriveState.export);
   const [googleDriveLink, setGoogleDriveLink] = useState("");
   const [copiedSheetId, setCopiedSheetId] = useState(0);
-  const sheet = Sefaria.sheets.loadSheetByID(masterPanelSheetId);
+  const sheet = Mekoros.sheets.loadSheetByID(masterPanelSheetId);
   const [showCollectionsModal, setShowCollectionsModal] = useState(false);
 
   useEffect(() => {
@@ -870,7 +870,7 @@ const SheetToolsList = ({ toggleSignUpModal, masterPanelSheetId, setConnectionsM
   }, [googleDriveText])
 
   // const toggleCollectionsModal = () => {
-  //   if (!Sefaria._uid) {
+  //   if (!Mekoros._uid) {
   //     toggleSignUpModal();
   //   } else {
   //     setShowCollectionsModal(!showCollectionsModal)
@@ -880,14 +880,14 @@ const SheetToolsList = ({ toggleSignUpModal, masterPanelSheetId, setConnectionsM
 
 
   const filterAndSaveCopiedSheetData = (data) => {
-    let newSheet = Sefaria.util.clone(data);
+    let newSheet = Mekoros.util.clone(data);
     newSheet.status = "unlisted";
     newSheet.title = newSheet.title + " (Copy)";
 
-    if (Sefaria._uid != newSheet.owner) {
+    if (Mekoros._uid != newSheet.owner) {
       newSheet.via = newSheet.id;
       newSheet.viaOwner = newSheet.owner;
-      newSheet.owner = Sefaria._uid
+      newSheet.owner = Mekoros._uid
     }
     delete newSheet.id;
     delete newSheet.ownerName;
@@ -914,7 +914,7 @@ const SheetToolsList = ({ toggleSignUpModal, masterPanelSheetId, setConnectionsM
   }
 
   const copySheet = () => {
-    if (!Sefaria._uid) {
+    if (!Mekoros._uid) {
       toggleSignUpModal(SignUpModalKind.AddToSheet);
     } else if (copyText.en === copyState.copy.en) {
       setCopyText(copyState.copying);
@@ -928,13 +928,13 @@ const SheetToolsList = ({ toggleSignUpModal, masterPanelSheetId, setConnectionsM
   const googleDriveExport = () => {
     // $("#overlay").show();
     // sjs.alert.message('<span class="int-en">Syncing with Google Docs...</span><span class="int-he">מייצא לגוגל דרייב...</span>');
-    if (!Sefaria._uid) {
+    if (!Mekoros._uid) {
       toggleSignUpModal();
     }
     else if (googleDriveText.en === googleDriveState.exportComplete.en) {
-      Sefaria.util.openInNewTab(googleDriveLink);
+      Mekoros.util.openInNewTab(googleDriveLink);
     } else {
-      Sefaria.track.sheets("Export to Google Docs");
+      Mekoros.track.sheets("Export to Google Docs");
       setGoogleDriveText(googleDriveState.exporting)
     }
   }
@@ -944,8 +944,8 @@ const SheetToolsList = ({ toggleSignUpModal, masterPanelSheetId, setConnectionsM
     <ToolsButton en="Print" he="הדפסה" image="print.svg" onClick={() => window.print()} />
     <ToolsButton en={googleDriveText.en} he={googleDriveText.he} greyColor={!!googleDriveText.secondaryEn || googleDriveText.greyColor} secondaryEn={googleDriveText.secondaryEn} secondaryHe={googleDriveText.secondaryHe} image="googledrive.svg" onClick={() => googleDriveExport()} />
     {
-      Sefaria._uses_new_editor && Sefaria._uid && (
-            sheet.owner === Sefaria._uid ||
+      Mekoros._uses_new_editor && Mekoros._uid && (
+            sheet.owner === Mekoros._uid ||
             sheet.options.collaboration == "anyone-can-edit"
         ) ?
       <ToolsButton en="Divine Name" he="שמות קודש" image="tools-translate.svg" onClick={() => setConnectionsMode("DivineName")} /> : null}
@@ -981,10 +981,10 @@ class ConnectionsSummary extends Component {
     const collapsedTopLevelLimit = 4;
     const refs = this.props.srefs;
     const excludedSheet = this.props.nodeRef ? this.props.nodeRef.split(".")[0] : null;
-    const oref = Sefaria.ref(refs[0]);
+    const oref = Mekoros.ref(refs[0]);
     const isTopLevel = !this.props.category;
     const baseCat = oref ? oref["categories"][0] : null;
-    let summary = Sefaria.linkSummary(refs, excludedSheet);
+    let summary = Mekoros.linkSummary(refs, excludedSheet);
     let essaySummary = [];
 
     if (!summary) { return null; }
@@ -1025,7 +1025,7 @@ class ConnectionsSummary extends Component {
       });
 
       summary = topSummary;
-      let essayLinks = this.props.currObjectVersions ? Sefaria.essayLinks(refs, this.props.currObjectVersions) : [];
+      let essayLinks = this.props.currObjectVersions ? Mekoros.essayLinks(refs, this.props.currObjectVersions) : [];
       if (essayLinks.length > 0) {
         essayLinks.forEach(function (link, i) {
           const essayTextFilter = <TextFilter
@@ -1050,13 +1050,13 @@ class ConnectionsSummary extends Component {
     }
     let connectionsSummary = summary.map(function (cat, i) {
       const books = this.props.contentLang === "hebrew"
-        ? cat.books.concat().sort(Sefaria.linkSummaryBookSortHebrew.bind(null, baseCat))
+        ? cat.books.concat().sort(Mekoros.linkSummaryBookSortHebrew.bind(null, baseCat))
         : cat.books;
       return (
         <CategoryFilter
           srefs={this.props.srefs}
           category={cat.category}
-          heCategory={Sefaria.hebrewTerm(cat.category)}
+          heCategory={Mekoros.hebrewTerm(cat.category)}
           showBooks={this.props.showBooks}
           count={cat.count}
           books={books}
@@ -1065,7 +1065,7 @@ class ConnectionsSummary extends Component {
           updateRecent={true}
           setFilter={this.props.setFilter}
           setConnectionsCategory={this.props.setConnectionsCategory}
-          on={Sefaria.util.inArray(cat.category, this.props.filter) !== -1}
+          on={Mekoros.util.inArray(cat.category, this.props.filter) !== -1}
           key={cat.category} />
       );
     }.bind(this));
@@ -1111,7 +1111,7 @@ ConnectionsSummary.propTypes = {
 class MySheetsList extends Component {
   // List of my sheets for a ref in the Sidebar
   render() {
-    const sheets = Sefaria.sheets.userSheetsByRef(this.props.srefs);
+    const sheets = Mekoros.sheets.userSheetsByRef(this.props.srefs);
     let content = sheets.length ? sheets.filter(sheet => {
       // Don't show sheets as connections to themselves
       return sheet.id !== this.props.connectedSheet;
@@ -1136,15 +1136,15 @@ MySheetsList.propTypes = {
 class PublicSheetsList extends Component {
   // List of public sheets for a ref in the sidebar
   render() {
-    const sheets = Sefaria.sheets.sheetsByRef(this.props.srefs);
+    const sheets = Mekoros.sheets.sheetsByRef(this.props.srefs);
     let content = sheets.length ? sheets.filter(sheet => {
       // My sheets are shown already in MySheetList
-      return sheet.owner !== Sefaria._uid && sheet.id !== this.props.connectedSheet;
+      return sheet.owner !== Mekoros._uid && sheet.id !== this.props.connectedSheet;
     }).sort((a, b) => {
       // First sort by language / interface language
       let aHe, bHe;
-      [aHe, bHe] = [a.title, b.title].map(Sefaria.hebrew.isHebrew);
-      if (aHe !== bHe) { return (bHe ? -1 : 1) * (Sefaria.interfaceLang === "hebrew" ? -1 : 1); }
+      [aHe, bHe] = [a.title, b.title].map(Mekoros.hebrew.isHebrew);
+      if (aHe !== bHe) { return (bHe ? -1 : 1) * (Mekoros.interfaceLang === "hebrew" ? -1 : 1); }
       // Then by number of views
       return b.views - a.views;
     }).map(sheet => {
@@ -1162,16 +1162,16 @@ PublicSheetsList.propTypes = {
 const TopicList = ({ masterPanelMode, srefs, interfaceLang, contentLang }) => {
   // segment ref topicList can be undefined even if loaded
   // but section ref topicList is null when loading and array when loaded
-  const [topics, setTopics] = useState(Sefaria.topicsByRef(srefs));
+  const [topics, setTopics] = useState(Mekoros.topicsByRef(srefs));
   const updateTopics = function() {
-    setTopics(Sefaria.topicsByRef(srefs));
+    setTopics(Mekoros.topicsByRef(srefs));
   }
   return (
     <div className={`topicList ${contentLang === 'hebrew' ? 'topicsHe' : 'topicsEn'}`}>
-      {Sefaria.is_moderator && masterPanelMode === "Text" ? <TopicSearch contentLang={contentLang} contextSelector=".topicList"
+      {Mekoros.is_moderator && masterPanelMode === "Text" ? <TopicSearch contentLang={contentLang} contextSelector=".topicList"
                                                                          srefs={srefs}
                                                                          update={updateTopics}
-                                                                         createNewTopicStr={Sefaria.translation(contentLang, "Create a new topic: ")}/>
+                                                                         createNewTopicStr={Mekoros.translation(contentLang, "Create a new topic: ")}/>
                                                                          : null}
       {(!topics || !topics.length) ? (
         <div className="webpageList empty">
@@ -1198,7 +1198,7 @@ const TopicListItem = ({ id, topic, interfaceLang, srefs }) => {
   let dataSourceText = '';
   const langKey = interfaceLang === 'english' ? 'en' : 'he';
   if (!!topic.dataSources && Object.values(topic.dataSources).length > 0) {
-    dataSourceText = `${Sefaria._('This topic is connected to ')}"${Sefaria._r(srefs[0])}" ${Sefaria._('by')} ${Object.values(topic.dataSources).map(d => d[langKey]).join(' & ')}.`;
+    dataSourceText = `${Mekoros._('This topic is connected to ')}"${Mekoros._r(srefs[0])}" ${Mekoros._('by')} ${Object.values(topic.dataSources).map(d => d[langKey]).join(' & ')}.`;
   }
   return (
       <a href={`/topics/${topic.topic}`} className="topicButton" target="_blank" id={`topicItem-${id}`}>
@@ -1231,13 +1231,13 @@ class WebPagesList extends Component {
   webSitesSort(a, b) {
     // First sort by site language / interface language
     let aHe, bHe;
-    [aHe, bHe] = [a.name, b.name].map(Sefaria.hebrew.isHebrew);
-    if (aHe !== bHe) { return (bHe ? -1 : 1) * (Sefaria.interfaceLang === "hebrew" ? -1 : 1); }
+    [aHe, bHe] = [a.name, b.name].map(Mekoros.hebrew.isHebrew);
+    if (aHe !== bHe) { return (bHe ? -1 : 1) * (Mekoros.interfaceLang === "hebrew" ? -1 : 1); }
     // Then by number of pages
     return b.count - a.count;
   }
   render() {
-    let webpages = Sefaria.webPagesByRef(this.props.srefs)
+    let webpages = Mekoros.webPagesByRef(this.props.srefs)
     let content = [];
 
     if (!this.props.filter) {
@@ -1272,9 +1272,9 @@ class WebPagesList extends Component {
       </div>;
     }
 
-    const linkerMessage = Sefaria._siteSettings.TORAH_SPECIFIC ?
+    const linkerMessage = Mekoros._siteSettings.TORAH_SPECIFIC ?
       <div className="webpagesLinkerMessage sans-serif">
-        <InterfaceText>Sites that are listed here use the</InterfaceText> <a href="/linker"><InterfaceText>Sefaria Linker</InterfaceText></a>
+        <InterfaceText>Sites that are listed here use the</InterfaceText> <a href="/linker"><InterfaceText>Mekoros Linker</InterfaceText></a>
       </div> : null;
 
     return <div className="webpageList">
@@ -1291,7 +1291,7 @@ WebPagesList.propTypes = {
 const AdvancedToolsList = ({srefs, canEditText, currVersions, setConnectionsMode, masterPanelLanguage, toggleSignUpModal}) => {
     const editText = canEditText ? function () {
       let refString = srefs[0];
-      let currentPath = Sefaria.util.currentPath();
+      let currentPath = Mekoros.util.currentPath();
       let currentLangParam;
       const langCode = masterPanelLanguage.slice(0, 2);
       if (currVersions[langCode]) {
@@ -1301,16 +1301,16 @@ const AdvancedToolsList = ({srefs, canEditText, currVersions, setConnectionsMode
       let nextParam = "?next=" + encodeURIComponent(currentPath);
       path += nextParam;
       //console.log(path);
-      Sefaria.track.event("Tools", "Edit Text Click", refString,
+      Mekoros.track.event("Tools", "Edit Text Click", refString,
         { hitCallback: () => window.location = path }
       );
     } : null;
 
     const addTranslation = function () {
-      if (!Sefaria._uid) { toggleSignUpModal(SignUpModalKind.AddTranslation) }
+      if (!Mekoros._uid) { toggleSignUpModal(SignUpModalKind.AddTranslation) }
       else {
-        let nextParam = "?next=" + Sefaria.util.currentPath();
-        Sefaria.track.event("Tools", "Add Translation Click", srefs[0],
+        let nextParam = "?next=" + Mekoros.util.currentPath();
+        Mekoros.track.event("Tools", "Add Translation Click", srefs[0],
           { hitCallback: () => { window.location = "/translate/" + srefs[0] + nextParam } }
         );
       }
@@ -1319,7 +1319,7 @@ const AdvancedToolsList = ({srefs, canEditText, currVersions, setConnectionsMode
     return (
       <div>
         <ToolsButton en="Add Translation" he="הוספת תרגום" image="tools-translate.svg" onClick={addTranslation} />
-        <ToolsButton en="Add Connection" he="הוספת קישור לטקסט אחר" image="tools-add-connection.svg" onClick={() => !Sefaria._uid ? toggleSignUpModal(SignUpModalKind.AddConnection) : setConnectionsMode("Add Connection")} />
+        <ToolsButton en="Add Connection" he="הוספת קישור לטקסט אחר" image="tools-add-connection.svg" onClick={() => !Mekoros._uid ? toggleSignUpModal(SignUpModalKind.AddConnection) : setConnectionsMode("Add Connection")} />
         {editText ? (<ToolsButton en="Edit Text" he="עריכת טקסט" image="tools-edit-text.svg" onClick={editText} />) : null}
       </div>
     );
@@ -1352,7 +1352,7 @@ const ToolsButton = ({ en, he, onClick, urlConnectionsMode = null, icon, image,
     iconElem = (<img src={"/static/img/" + image} className="toolsButtonIcon" alt="" />);
   }
   //We only want to generate reloadable urls for states where we actually respond to said url. See ReaderApp.makeHistoryState()- sidebarModes.
-  const url = urlConnectionsMode ? Sefaria.util.replaceUrlParam("with", urlConnectionsMode) : null;
+  const url = urlConnectionsMode ? Mekoros.util.replaceUrlParam("with", urlConnectionsMode) : null;
   const nameClass = en.camelize();
   const wrapperClasses = classNames({ toolsButton: 1, [nameClass]: 1, [control + "Control"]: 1, [typeface + "Typeface"]: 1, noselect: 1, greyColor: greyColor })
   return (
@@ -1366,7 +1366,7 @@ const ToolsButton = ({ en, he, onClick, urlConnectionsMode = null, icon, image,
           {experiment ? <span className="experimentLabel">Experiment</span> : null}
         </span>
       </a>
-      {secondaryEn && secondaryHe ? <a className="toolsSecondaryButton" onClick={clickHandler}><InterfaceText text={{ en: secondaryEn, he: secondaryHe }} /> <img className="linkArrow" src={`/static/img/${Sefaria.interfaceLang === "hebrew" ? "arrow-left-bold" : "arrow-right-bold"}.svg`} aria-hidden="true"></img></a> : null}
+      {secondaryEn && secondaryHe ? <a className="toolsSecondaryButton" onClick={clickHandler}><InterfaceText text={{ en: secondaryEn, he: secondaryHe }} /> <img className="linkArrow" src={`/static/img/${Mekoros.interfaceLang === "hebrew" ? "arrow-left-bold" : "arrow-right-bold"}.svg`} aria-hidden="true"></img></a> : null}
       </div>
       : null
   );
@@ -1390,7 +1390,7 @@ class ShareBox extends Component {
   constructor(props) {
     super(props);
     if (this.props.masterPanelSheetId) {
-      const sheet = Sefaria.sheets.loadSheetByID(this.props.masterPanelSheetId);
+      const sheet = Mekoros.sheets.loadSheetByID(this.props.masterPanelSheetId);
       this.state = {
         sheet: sheet,
         shareValue: sheet.options.collaboration ? sheet.options.collaboration : "none"
@@ -1406,7 +1406,7 @@ class ShareBox extends Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.shareValue != prevState.shareValue) {
-      new Promise((resolve, reject) => Sefaria.sheets.loadSheetByID(this.props.masterPanelSheetId, sheet => resolve(sheet))).then(updatedSheet => {
+      new Promise((resolve, reject) => Mekoros.sheets.loadSheetByID(this.props.masterPanelSheetId, sheet => resolve(sheet))).then(updatedSheet => {
         updatedSheet.options.collaboration = this.state.shareValue;
         updatedSheet.lastModified = updatedSheet.dateModified
         delete updatedSheet._id;
@@ -1424,7 +1424,7 @@ class ShareBox extends Component {
     $.post("/api/sheets/", { "json": postJSON }, (data) => {
       if (data.id) {
         console.log('saved...')
-        Sefaria.sheets._loadSheetByID[data.id] = data;
+        Mekoros.sheets._loadSheetByID[data.id] = data;
       } else {
         console.log(data);
       }
@@ -1448,13 +1448,13 @@ class ShareBox extends Component {
     const url = this.props.url;
 
     const shareFacebook = function () {
-      Sefaria.util.openInNewTab("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url));
+      Mekoros.util.openInNewTab("https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(url));
     };
     const shareTwitter = function () {
-      Sefaria.util.openInNewTab("https://twitter.com/share?url=" + encodeURIComponent(url));
+      Mekoros.util.openInNewTab("https://twitter.com/share?url=" + encodeURIComponent(url));
     };
     const shareEmail = function () {
-      Sefaria.util.openInNewTab("mailto:?&subject=Text on Sefaria&body=" + url);
+      Mekoros.util.openInNewTab("mailto:?&subject=Text on Mekoros&body=" + url);
     };
     const classes = classNames({ textList: 1, fullPanel: this.props.fullPanel });
     return (
@@ -1464,7 +1464,7 @@ class ShareBox extends Component {
             <button tabindex="0" className="shareInputButton" aria-label="Copy Link to Sheet" onClick={this.copySheetLink.bind(this)}><img src="/static/icons/copy.svg" className="copyLinkIcon" aria-hidden="true"></img></button>
             <input tabindex="0" className="shareInput" id="sheetShareLink" value={this.props.url} />
           </div>
-          {this.state.sheet && Sefaria._uid === this.state.sheet.owner ?
+          {this.state.sheet && Mekoros._uid === this.state.sheet.owner ?
             <div className="shareSettingsBox">
               <InterfaceText>People with this link can</InterfaceText>
               <select
@@ -1472,9 +1472,9 @@ class ShareBox extends Component {
                 name="Share"
                 onChange={this.updateShareOptions.bind(this)}
                 value={this.state.shareValue}>
-                <option value="none">{Sefaria._("View", "Sheet Share")}</option>
-                <option value="anyone-can-add">{Sefaria._("Add", "Sheet Share")}</option>
-                <option value="anyone-can-edit">{Sefaria._("Edit", "Sheet Share")}</option>
+                <option value="none">{Mekoros._("View", "Sheet Share")}</option>
+                <option value="anyone-can-add">{Mekoros._("Add", "Sheet Share")}</option>
+                <option value="anyone-can-edit">{Mekoros._("Edit", "Sheet Share")}</option>
               </select>
             </div> : null}
         </ConnectionsPanelSection>
@@ -1527,18 +1527,18 @@ class AddNoteBox extends Component {
         alert(data.error);
       } else if (data) {
         if (this.props.noteId) {
-          Sefaria.clearPrivateNotes(data);
+          Mekoros.clearPrivateNotes(data);
         } else {
-          Sefaria.addPrivateNote(data);
+          Mekoros.addPrivateNote(data);
         }
-        Sefaria.track.event("Tools", "Note Save " + ((this.state.isPrivate) ? "Private" : "Public"), this.props.srefs.join("/"));
+        Mekoros.track.event("Tools", "Note Save " + ((this.state.isPrivate) ? "Private" : "Public"), this.props.srefs.join("/"));
         $(ReactDOM.findDOMNode(this)).find(".noteText").val("");
         this.props.onSave();
       } else {
-        alert(Sefaria._("Sorry, there was a problem saving your note."));
+        alert(Mekoros._("Sorry, there was a problem saving your note."));
       }
     }.bind(this)).fail(function (xhr, textStatus, errorThrown) {
-      alert(Sefaria._("Unfortunately, there was an error saving this note. Please try again or try reloading this page."));
+      alert(Mekoros._("Unfortunately, there was an error saving this note. Please try again or try reloading this page."));
     });
     this.setState({ saving: true });
   }
@@ -1549,19 +1549,19 @@ class AddNoteBox extends Component {
     this.setState({ isPrivate: false });
   }
   deleteNote() {
-    alert(Sefaria._("Something went wrong (that's all I know)."));
-    if (!confirm(Sefaria._("Are you sure you want to delete this note?"))) { return; }
-    Sefaria.deleteNote(this.props.noteId).then(this.props.onDelete);
+    alert(Mekoros._("Something went wrong (that's all I know)."));
+    if (!confirm(Mekoros._("Are you sure you want to delete this note?"))) { return; }
+    Mekoros.deleteNote(this.props.noteId).then(this.props.onDelete);
   }
   render() {
-    if (!Sefaria._uid) {
+    if (!Mekoros._uid) {
       return (<div className="addNoteBox"><LoginPrompt /></div>);
     }
     //const privateClasses = classNames({ notePrivateButton: 1, active: this.state.isPrivate });
     //const publicClasses = classNames({ notePublicButton: 1, active: !this.state.isPrivate });
     return (
       <div className="addNoteBox">
-        <textarea className="noteText" placeholder={Sefaria._("Write a note...")} defaultValue={this.props.noteText}></textarea>
+        <textarea className="noteText" placeholder={Mekoros._("Write a note...")} defaultValue={this.props.noteText}></textarea>
         <div className="button fillWidth" onClick={this.saveNote}>
           <span className="int-en">{this.props.noteId ? "Save" : "Add Note"}</span>
           <span className="int-he">{this.props.noteId ? "שמירה" : "הוספת הערה"}</span>
@@ -1615,13 +1615,13 @@ class MyNotes extends Component {
   }
   loadNotes() {
     // Rerender this component when privateNotes arrive.
-    Sefaria.privateNotes(this.props.srefs, this.rerender);
+    Mekoros.privateNotes(this.props.srefs, this.rerender);
   }
   rerender() {
     this.forceUpdate();
   }
   render() {
-    const myNotesData = Sefaria.privateNotes(this.props.srefs);
+    const myNotesData = Mekoros.privateNotes(this.props.srefs);
     const myNotes = myNotesData ? myNotesData.map(function (note) {
       let editNote = function () {
         this.props.editNote(note);
@@ -1652,10 +1652,10 @@ MyNotes.propTypes = {
 class PublicNotes extends Component {
   // List of Publc notes a ref or range or refs.
   render() {
-    const notes = Sefaria.notes(this.props.srefs);
+    const notes = Mekoros.notes(this.props.srefs);
     const content = notes ? notes.filter(function (note) {
       // Exlude my notes, shown already in MyNotes.
-      return note.owner !== Sefaria._uid;
+      return note.owner !== Mekoros._uid;
     }).map(function (note) {
       return (<Note
         text={note.text}
@@ -1693,10 +1693,10 @@ class AddConnectionBox extends Component {
   }
   getHeRefs(refs) {
     let heRefs = refs.map(ref => {
-      let oRef = Sefaria.ref(ref);
+      let oRef = Mekoros.ref(ref);
       if (!oRef) {
         // If a range was selected, the ref cache may not have a Hebrew ref for us, so ask the API
-        Sefaria.getRef(ref).then(this.setHeRefs);
+        Mekoros.getRef(ref).then(this.setHeRefs);
         return "...";
       }
       return oRef.heRef;
@@ -1720,8 +1720,8 @@ class AddConnectionBox extends Component {
       if (data.error) {
         alert(data.error);
       } else {
-        Sefaria.track.event("Tools", "Add Connection", this.props.srefs.join("/"));
-        Sefaria.clearLinks();
+        Mekoros.track.event("Tools", "Add Connection", this.props.srefs.join("/"));
+        Mekoros.clearLinks();
         this.props.onSave();
       }
     }.bind(this)).fail(function (xhr, textStatus, errorThrown) {
@@ -1764,16 +1764,16 @@ class AddConnectionBox extends Component {
           <Dropdown
             name="connectionType"
             options={[
-              { value: "", label: Sefaria._("None", "AddConnectionBox") },
-              { value: "commentary", label: Sefaria._("Commentary", "AddConnectionBox") },
-              { value: "quotation", label: Sefaria._("Quotation", "AddConnectionBox") },
-              { value: "midrash", label: Sefaria._("Midrash", "AddConnectionBox") },
-              { value: "ein mishpat", label: Sefaria._("Ein Mishpat / Ner Mitsvah", "AddConnectionBox") },
-              { value: "mesorat hashas", label: Sefaria._("Mesorat HaShas", "AddConnectionBox") },
-              { value: "reference", label: Sefaria._("Reference", "AddConnectionBox") },
-              { value: "related", label: Sefaria._("Related Passage", "AddConnectionBox") }
+              { value: "", label: Mekoros._("None", "AddConnectionBox") },
+              { value: "commentary", label: Mekoros._("Commentary", "AddConnectionBox") },
+              { value: "quotation", label: Mekoros._("Quotation", "AddConnectionBox") },
+              { value: "midrash", label: Mekoros._("Midrash", "AddConnectionBox") },
+              { value: "ein mishpat", label: Mekoros._("Ein Mishpat / Ner Mitsvah", "AddConnectionBox") },
+              { value: "mesorat hashas", label: Mekoros._("Mesorat HaShas", "AddConnectionBox") },
+              { value: "reference", label: Mekoros._("Reference", "AddConnectionBox") },
+              { value: "related", label: Mekoros._("Related Passage", "AddConnectionBox") }
             ]}
-            placeholder={Sefaria._("Select Type", "AddConnectionBox")}
+            placeholder={Mekoros._("Select Type", "AddConnectionBox")}
             onChange={this.setType} />
 
           <div className="button fillWidth" onClick={this.addConnection}>
@@ -1831,15 +1831,15 @@ function ManuscriptImage(props) {
           ? <div className="manuscriptLicense">
               <InterfaceText>License</InterfaceText>
               <InterfaceText>:</InterfaceText>
-              <a className="manuscriptLicenseLink" href={Sefaria.getLicenseMap()[manuscript.manuscript['license']]} target="_blank">
-                {Sefaria._(manuscript.manuscript['license'])}
+              <a className="manuscriptLicenseLink" href={Mekoros.getLicenseMap()[manuscript.manuscript['license']]} target="_blank">
+                {Mekoros._(manuscript.manuscript['license'])}
               </a>
           </div>
           : ''
       }
       <InterfaceText text={{ en: 'Source: ', he: 'מקור: ' }} />
       <a className="versionDetailsLink" href={manuscript.manuscript['source']} target="_blank">
-        { Sefaria.util.parseUrl(manuscript.manuscript['source']).host.replace("www.", "") }
+        { Mekoros.util.parseUrl(manuscript.manuscript['source']).host.replace("www.", "") }
       </a>
     </div>
 

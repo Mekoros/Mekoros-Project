@@ -3,8 +3,8 @@
 import django
 django.setup()
 
-from sefaria.system.database import db
-from sefaria.model.link import LinkSet
+from mekoros.system.database import db
+from mekoros.model.link import LinkSet
 
 
 db.links.create_index("expandedRefs0")

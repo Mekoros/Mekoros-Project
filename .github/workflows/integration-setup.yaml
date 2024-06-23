@@ -11,7 +11,7 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-    runs-on: sefaria-integrations
+    runs-on: mekoros-integrations
     steps:
     - name: Setup base utils
       run: |
@@ -27,7 +27,7 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-    runs-on: sefaria-integrations
+    runs-on: mekoros-integrations
     steps:
     - name: Setup base utils
       run: |
@@ -53,7 +53,7 @@ jobs:
       env:
         MONGO_DEB: mongodb-database-tools-ubuntu2204-x86_64-100.6.1.deb
     - name: Get latest Backup
-      run: gsutil -q cp gs://sefaria-mongo-backup/dump.tar.gz dump.tar.gz
+      run: gsutil -q cp gs://mekoros-mongo-backup/dump.tar.gz dump.tar.gz
     - name: Extract Backup
       run: tar xzvf dump.tar.gz -C .
     - name: Restore Backup
@@ -83,4 +83,4 @@ jobs:
         if [[ ! -z "MONGO_REPLICASET_NAME" ]]; then
         URI="${URI}&replicaSet=${MONGO_REPLICASET_NAME}"
         fi
-        mongorestore --drop --uri="$URI" -v -d sefaria-integration --dir=dump/sefaria 
+        mongorestore --drop --uri="$URI" -v -d mekoros-integration --dir=dump/mekoros 

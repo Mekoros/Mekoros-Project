@@ -1,9 +1,9 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 import * as d3 from './lib/d3.v5.min';
-import Sefaria from 'sefaria';
-import SefariaD3  from "./sefaria-d3/sefaria-d3";
-import $  from "./sefaria/sefariaJquery";
+import Mekoros from 'mekoros';
+import MekorosD3  from "./mekoros-d3/mekoros-d3";
+import $  from "./mekoros/mekorosJquery";
 
 /*****          Layout              *****/
 let margin = [60, 40, 20, 40];
@@ -52,10 +52,10 @@ async function getPartitionedLinks(ref, year) {
 
     if (ref in _partitionedLinks) return _partitionedLinks[ref];
 
-    let refYear = (year != null) ? year : await Sefaria.getIndexDetails(Sefaria.parseRef(ref).index).then(getDate);
+    let refYear = (year != null) ? year : await Mekoros.getIndexDetails(Mekoros.parseRef(ref).index).then(getDate);
     if ((!refYear) && (refYear !== 0)) throw "No date for " + ref;
 
-    let links = await Sefaria.getLinks(ref).then(refineLinks);
+    let links = await Mekoros.getLinks(ref).then(refineLinks);
 
     let partionedLinks = partitionLinks(links, refYear);
     _partitionedLinks[ref] = partionedLinks;
@@ -69,7 +69,7 @@ async function refineLinks(alllinks) {
     // Expand links to include full passages
     const refs = mainlinks.filter(l => l.category === "Talmud").map(l => l.ref);
     if (refs.length) {
-        const passageRefs = await Sefaria.getPassages(refs);
+        const passageRefs = await Mekoros.getPassages(refs);
         mainlinks.forEach(l => {
             l.ref = passageRefs[l.ref] || l.ref
         }); // Most of these will stay the same.
@@ -84,8 +84,8 @@ function sortLinks(a1,b1) {
         return a.commentaryNum - b.commentaryNum;
     }
     if (isHebrew()) {
-        var indexA = Sefaria.index(a.index_title);
-        var indexB = Sefaria.index(b.index_title);
+        var indexA = Mekoros.index(a.index_title);
+        var indexB = Mekoros.index(b.index_title);
         return indexA.heTitle > indexB.heTitle ? 1 : -1;
     }
     else {
@@ -172,7 +172,7 @@ async function buildRawTrees(ref) {
     // "past" refs may have a "past" attributes with a list of refs, and recursing
     // "future" refs may have a "future" attribute with a list of refs, and recursing
 
-    const i = await Sefaria.getIndexDetails(Sefaria.parseRef(ref).index);
+    const i = await Mekoros.getIndexDetails(Mekoros.parseRef(ref).index);
     const obj = {
         ref: ref,
         compDate: i.compDate,
@@ -191,7 +191,7 @@ async function buildRawTrees(ref) {
 }
 
 async function getPassage(ref) {
-    let res = await Sefaria.getPassages([ref]);
+    let res = await Mekoros.getPassages([ref]);
     return res[ref];
 }
 
@@ -266,10 +266,10 @@ function layoutTrees(treesObj) {
     // Reset x according to date
     // Reset root y to center;
     [pt, ft].forEach(t => {
-        t.each(n => {n.y = s(n.data); n.color = Sefaria.palette.categoryColor(n.data.category); treesObj.refLookup[n.data.ref] = n; });
+        t.each(n => {n.y = s(n.data); n.color = Mekoros.palette.categoryColor(n.data.category); treesObj.refLookup[n.data.ref] = n; });
         t.y = s(t.data);
         t.x = graphBox_height/2;
-        t.color = Sefaria.palette.categoryColor(t.data.category);
+        t.color = Mekoros.palette.categoryColor(t.data.category);
     });
 
     treesObj.refLookup[pt.ref] = pt;
@@ -456,7 +456,7 @@ function renderTrees(treesObj) {
 }
 
 function renderText(node) {
-    Sefaria.getText(node.data.ref).then(text => {
+    Mekoros.getText(node.data.ref).then(text => {
         d3.select("#textTitle").html(text.ref);
         d3.select("#textInner").html(text.he);
     });
@@ -577,7 +577,7 @@ function replaceHistory() {
 
     changePageTitle(args.object.title);
     history.replaceState(args.object, args.argtitle, args.url);
-    //args.books.forEach(function (e,a,i) { Sefaria.track.exploreBook(e) });
+    //args.books.forEach(function (e,a,i) { Mekoros.track.exploreBook(e) });
 
 }
 
@@ -585,10 +585,10 @@ function pushHistory() {
     var args = _getHistory();
 
     //console.log("pushHistory",args.object, args.title, args.url);
-    Sefaria.track.exploreUrl(args.url);
+    Mekoros.track.exploreUrl(args.url);
     changePageTitle(args.object.title);
     history.pushState(args.object, args.argtitle, args.url);
-    //args.books.forEach(function (e,a,i) { Sefaria.track.exploreBook(e) });
+    //args.books.forEach(function (e,a,i) { Mekoros.track.exploreBook(e) });
 }
 
 function _getHistory() {

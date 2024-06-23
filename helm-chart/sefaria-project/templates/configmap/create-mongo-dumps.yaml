@@ -5,7 +5,7 @@ metadata:
   name: create-dumps-{{ .Values.deployEnv }}
   labels:
     deployEnv: "{{ .Values.deployEnv }}"
-    {{- include "sefaria.labels" . | nindent 4 }}
+    {{- include "mekoros.labels" . | nindent 4 }}
 data:
   create-dumps.sh: |-
     #!/usr/bin/env bash
@@ -84,18 +84,18 @@ data:
     echo "building full private tar file"
     tar cvzf "${DATADIR}/private_dump.tar.gz" -C "${DATADIR}" ./dump
 
-    rm "${DATADIR}/dump/sefaria/user_history.bson"
-    rm "${DATADIR}/dump/sefaria/user_history.metadata.json"
+    rm "${DATADIR}/dump/mekoros/user_history.bson"
+    rm "${DATADIR}/dump/mekoros/user_history.metadata.json"
 
-    mv "${DATADIR}/dump/sefaria/history.bson" "/tmp_storage/history.bson"
-    mv "${DATADIR}/dump/sefaria/history.metadata.json" "/tmp_storage/history.metadata.json"
+    mv "${DATADIR}/dump/mekoros/history.bson" "/tmp_storage/history.bson"
+    mv "${DATADIR}/dump/mekoros/history.metadata.json" "/tmp_storage/history.metadata.json"
 
     echo "building small private tar file"
     tar cvzf "${DATADIR}/private_dump_small.tar.gz" -C "${DATADIR}" ./dump
 
     {{- if .Values.backup.mongo.public }}
     echo "creating public dump"
-    until mongodump --uri="$URI" -d sefaria -v --collection texts --query '{"license": {"$not": {"$regex": "/^Copyright/i"}}}' -o "${DATADIR}/dump"
+    until mongodump --uri="$URI" -d mekoros -v --collection texts --query '{"license": {"$not": {"$regex": "/^Copyright/i"}}}' -o "${DATADIR}/dump"
     do
     echo "trying to dump texts again"
     sleep 2
@@ -106,41 +106,41 @@ data:
     #  exit 1
     #fi
 
-    rm "${DATADIR}/dump/sefaria/apikeys.bson"
-    rm "${DATADIR}/dump/sefaria/apikeys.metadata.json"
+    rm "${DATADIR}/dump/mekoros/apikeys.bson"
+    rm "${DATADIR}/dump/mekoros/apikeys.metadata.json"
 
-    rm "${DATADIR}/dump/sefaria/notes.bson"
-    rm "${DATADIR}/dump/sefaria/notes.metadata.json"
+    rm "${DATADIR}/dump/mekoros/notes.bson"
+    rm "${DATADIR}/dump/mekoros/notes.metadata.json"
 
-    rm "${DATADIR}/dump/sefaria/layers.bson"
-    rm "${DATADIR}/dump/sefaria/layers.metadata.json"
+    rm "${DATADIR}/dump/mekoros/layers.bson"
+    rm "${DATADIR}/dump/mekoros/layers.metadata.json"
 
-    rm "${DATADIR}/dump/sefaria/sheets.bson"
-    rm "${DATADIR}/dump/sefaria/sheets.metadata.json"
+    rm "${DATADIR}/dump/mekoros/sheets.bson"
+    rm "${DATADIR}/dump/mekoros/sheets.metadata.json"
 
-    rm "${DATADIR}/dump/sefaria/locks.bson"
-    rm "${DATADIR}/dump/sefaria/locks.metadata.json"
+    rm "${DATADIR}/dump/mekoros/locks.bson"
+    rm "${DATADIR}/dump/mekoros/locks.metadata.json"
 
-    rm "${DATADIR}/dump/sefaria/notifications.bson"
-    rm "${DATADIR}/dump/sefaria/notifications.metadata.json"
+    rm "${DATADIR}/dump/mekoros/notifications.bson"
+    rm "${DATADIR}/dump/mekoros/notifications.metadata.json"
 
-    rm "${DATADIR}/dump/sefaria/profiles.bson"
-    rm "${DATADIR}/dump/sefaria/profiles.metadata.json"
+    rm "${DATADIR}/dump/mekoros/profiles.bson"
+    rm "${DATADIR}/dump/mekoros/profiles.metadata.json"
 
-    rm "${DATADIR}/dump/sefaria/trend.bson"
-    rm "${DATADIR}/dump/sefaria/trend.metadata.json"
+    rm "${DATADIR}/dump/mekoros/trend.bson"
+    rm "${DATADIR}/dump/mekoros/trend.metadata.json"
 
-    rm "${DATADIR}/dump/sefaria/user_story.bson"
-    rm "${DATADIR}/dump/sefaria/user_story.metadata.json"
+    rm "${DATADIR}/dump/mekoros/user_story.bson"
+    rm "${DATADIR}/dump/mekoros/user_story.metadata.json"
 
-    rm "${DATADIR}/dump/sefaria/Copy_of_user_history.bson"
-    rm "${DATADIR}/dump/sefaria/Copy_of_user_history.metadata.json"
+    rm "${DATADIR}/dump/mekoros/Copy_of_user_history.bson"
+    rm "${DATADIR}/dump/mekoros/Copy_of_user_history.metadata.json"
 
     echo "building small public tar file"
     tar cvzf "${DATADIR}/dump_small.tar.gz" -C "${DATADIR}" ./dump
 
-    mv "/tmp_storage/history.bson" "${DATADIR}/dump/sefaria/history.bson"
-    mv "/tmp_storage/history.metadata.json" "${DATADIR}/dump/sefaria/history.metadata.json"
+    mv "/tmp_storage/history.bson" "${DATADIR}/dump/mekoros/history.bson"
+    mv "/tmp_storage/history.metadata.json" "${DATADIR}/dump/mekoros/history.metadata.json"
 
     echo "building full public tar file"
     tar cvzf "${DATADIR}/dump.tar.gz" -C "${DATADIR}" ./dump

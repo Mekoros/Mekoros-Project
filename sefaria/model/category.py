@@ -3,8 +3,8 @@
 import structlog
 logger = structlog.get_logger(__name__)
 
-from sefaria.system.database import db
-from sefaria.system.exceptions import BookNameError, InputError, DuplicateRecordError
+from mekoros.system.database import db
+from mekoros.system.exceptions import BookNameError, InputError, DuplicateRecordError
 from . import abstract as abstract
 from . import schema as schema
 from . import text as text
@@ -110,7 +110,7 @@ class Category(abstract.AbstractMongoRecord, schema.AbstractTitledOrTermedObject
         return d
 
     def get_toc_object(self):
-        from sefaria.model import library
+        from mekoros.model import library
         toc_tree = library.get_toc_tree()
         return toc_tree.lookup(self.path)
 
@@ -152,8 +152,8 @@ def process_category_path_change(changed_cat, **kwargs):
         old_val[:pos] = new_val
         return old_val
 
-    from sefaria.model.text import library
-    from sefaria.model import Index
+    from mekoros.model.text import library
+    from mekoros.model import Index
     tree = library.get_toc_tree()
     new_categories = kwargs["new"]
     old_toc_node = tree.lookup(kwargs["old"])

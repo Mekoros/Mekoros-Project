@@ -27,7 +27,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ "${dest}" == "prod" ]]; then
-  dest="https://www.sefaria.org"
+  dest="https://www.mekoros.com"
 fi
 
 echo -e "-v all -l $links -d $dest -k $apikey \n\n"

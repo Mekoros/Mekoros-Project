@@ -1,4 +1,4 @@
-from sefaria.texts import *
+from mekoros.texts import *
 
 versions = db.texts.find({"title": "Pele Yoetz"}).distinct("versionTitle")
 v1 = versions[0]

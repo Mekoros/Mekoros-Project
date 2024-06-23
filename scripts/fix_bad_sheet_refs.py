@@ -6,8 +6,8 @@ import sys
 import sqlite3
 import django
 django.setup()
-from sefaria.model import *
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.system.database import db
 
 
 class ConversionError(Exception):

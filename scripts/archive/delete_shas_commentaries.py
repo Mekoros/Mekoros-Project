@@ -1,4 +1,4 @@
-from sefaria.model import *
+from mekoros.model import *
 
 coms = ("Rashi", "Tosafot")
 tractates = ("Sanhedrin", "Bava Batra", "Menachot", "Arakhin", "Keritot")

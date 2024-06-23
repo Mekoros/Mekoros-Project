@@ -8,7 +8,7 @@ import {
 } from './ConnectionFilters';
 import React  from 'react';
 import ReactDOM  from 'react-dom';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 import PropTypes  from 'prop-types';
 import TextRange  from './TextRange';
 import Component      from 'react-class';
@@ -31,7 +31,7 @@ class TextList extends Component {
     this._isMounted = false;
   }
   componentWillReceiveProps(nextProps) {
-    if (!Sefaria.util.object_equals(this.props.filter, nextProps.filter)) {
+    if (!Mekoros.util.object_equals(this.props.filter, nextProps.filter)) {
       this.preloadText(nextProps.filter);
     }
   }
@@ -50,14 +50,14 @@ class TextList extends Component {
   }
   getSectionRef() {
     var ref = this.props.srefs[0]; // TODO account for selections spanning sections
-    var sectionRef = Sefaria.sectionRef(ref) || ref;
+    var sectionRef = Mekoros.sectionRef(ref) || ref;
     return sectionRef;
   }
   loadConnections() {
     // Load connections data from server for this section
     var sectionRef = this.getSectionRef();
     if (!sectionRef) { return; }
-    Sefaria.related(sectionRef, function(data) {
+    Mekoros.related(sectionRef, function(data) {
       if (this._isMounted) {
         this.preloadText(this.props.filter);
         this.setState({
@@ -67,17 +67,17 @@ class TextList extends Component {
     }.bind(this));
   }
   onDataChange() {
-    Sefaria.clearLinks();
+    Mekoros.clearLinks();
     this.setState({linksLoaded: false});
     this.loadConnections();
   }
   preloadText(filter) {
     // Preload text of links if `filter` is a single commentary, or all commentary
     if (filter.length == 1 &&
-        Sefaria.index(filter[0]) && // filterSuffix for quoting commmentary prevents this path for QC
-        (Sefaria.index(filter[0]).categories[0] == "Commentary"||
-         Sefaria.index(filter[0]).primary_category == "Commentary")) {
-      // Individual commentator names ("Rashi") are put into Sefaria.index with "Commentary" as first category
+        Mekoros.index(filter[0]) && // filterSuffix for quoting commmentary prevents this path for QC
+        (Mekoros.index(filter[0]).categories[0] == "Commentary"||
+         Mekoros.index(filter[0]).primary_category == "Commentary")) {
+      // Individual commentator names ("Rashi") are put into Mekoros.index with "Commentary" as first category
       // Intentionally fails when looking up "Rashi on Genesis", which indicates we're looking at a quoting commentary.
       this.preloadSingleCommentaryText(filter);
 
@@ -94,13 +94,13 @@ class TextList extends Component {
     this.setState({textLoaded: false});
     var commentator       = filter[0];
     var basetext          = this.getSectionRef();
-    var commentarySection = Sefaria.commentarySectionRef(commentator, basetext);
+    var commentarySection = Mekoros.commentarySectionRef(commentator, basetext);
     if (!commentarySection) {
       this.setState({waitForText: false});
       return;
     }
     this.setState({waitForText: true});
-    Sefaria.text(commentarySection, {}, function() {
+    Mekoros.text(commentarySection, {}, function() {
       if (this._isMounted) {
         this.setState({textLoaded: true});
       }
@@ -108,7 +108,7 @@ class TextList extends Component {
   }
   preloadAllCommentaryText() {
     var basetext   = this.getSectionRef();
-    var summary    = Sefaria.linkSummary(basetext);
+    var summary    = Mekoros.linkSummary(basetext);
     if (summary.length && summary[0].category == "Commentary") {
       this.setState({textLoaded: false, waitForText: true});
       // Get a list of commentators on this section that we need don't have in the cache
@@ -118,14 +118,14 @@ class TextList extends Component {
 
       if (commentators.length) {
         var commentarySections = commentators.map(function(commentator) {
-          return Sefaria.commentarySectionRef(commentator, basetext);
+          return Mekoros.commentarySectionRef(commentator, basetext);
         }).filter(function(commentarySection) {
           return !!commentarySection;
         });
-        this.waitingFor = Sefaria.util.clone(commentarySections);
+        this.waitingFor = Mekoros.util.clone(commentarySections);
         this.target = 0;
         for (var i = 0; i < commentarySections.length; i++) {
-          Sefaria.text(commentarySections[i], {}, function(data) {
+          Mekoros.text(commentarySections[i], {}, function(data) {
             var index = this.waitingFor.indexOf(data.commentator);
             if (index == -1) {
                 // console.log("Failed to clear commentator:");
@@ -177,17 +177,17 @@ class TextList extends Component {
       }
     }.bind(this);
 
-    let sectionLinks = Sefaria.getLinksFromCache(sectionRef);
+    let sectionLinks = Mekoros.getLinksFromCache(sectionRef);
     sectionLinks.map(link => {
-      if (!("anchorRefExpanded" in link)) { link.anchorRefExpanded = Sefaria.splitRangingRef(link.anchorRef); }
+      if (!("anchorRefExpanded" in link)) { link.anchorRefExpanded = Mekoros.splitRangingRef(link.anchorRef); }
     });
-    let overlaps = link => (!(link.anchorRefExpanded.every(aref => Sefaria.util.inArray(aref, refs) === -1)));
-    let links = Sefaria._filterLinks(sectionLinks, filter)
+    let overlaps = link => (!(link.anchorRefExpanded.every(aref => Mekoros.util.inArray(aref, refs) === -1)));
+    let links = Mekoros._filterLinks(sectionLinks, filter)
       .filter(overlaps)
       .sort(sortConnections);
 
     if (excludedSheet) {
-      links = Sefaria._filterSheetFromLinks(links, excludedSheet);
+      links = Mekoros._filterSheetFromLinks(links, excludedSheet);
     }
 
     return links;
@@ -195,13 +195,13 @@ class TextList extends Component {
 
   render() {
     var refs               = this.props.srefs;
-    var oref               = Sefaria.ref(refs[0]);
+    var oref               = Mekoros.ref(refs[0]);
     var filter             = this.props.filter; // Remove filterSuffix for display
     var displayFilter      = filter.map(filter => filter.split("|")[0]);  // Remove filterSuffix for display
     var links              = this.getLinks();
 
     var en = "No connections known" + (filter.length ? " for " + displayFilter.join(", ") + " here" : "") + ".";
-    var he = "אין קשרים ידועים"        + (filter.length ? " ל"    + displayFilter.map(f => Sefaria.hebrewTerm(f)).join(", ") : "") + ".";
+    var he = "אין קשרים ידועים"        + (filter.length ? " ל"    + displayFilter.map(f => Mekoros.hebrewTerm(f)).join(", ") : "") + ".";
     var noResultsMessage = <LoadingMessage message={en} heMessage={he} />;
     var message = !this.state.linksLoaded ? (<LoadingMessage />) : (links.length === 0 ? noResultsMessage : null);
     var content = links.length === 0 ? message :
@@ -236,7 +236,7 @@ class TextList extends Component {
                                     <ConnectionButtons>
                                       <OpenConnectionTabButton srefs={[link.sourceRef]} openInTabCallback={this.props.onTextClick}/>
                                       <AddConnectionToSheetButton srefs={[link.sourceRef]} addToSheetCallback={this.props.setConnectionsMode}/>
-                                      {Sefaria.is_moderator ?
+                                      {Mekoros.is_moderator ?
                                       <DeleteConnectionButton delUrl={"/api/links/" + link._id} connectionDeleteCallback={this.onDataChange}/> : null
                                       }
                                     </ConnectionButtons>
@@ -288,7 +288,7 @@ const DeleteConnectionButton = ({delUrl, connectionDeleteCallback}) =>{
   Takes a url for a delete api (with the full URI of a specific object) and callback
    */
   const deleteLink = () => {
-    if(!Sefaria.is_moderator) return;
+    if(!Mekoros.is_moderator) return;
     if (confirm("Are you sure you want to delete this connection?")) {
       const url = delUrl;
       $.ajax({
@@ -304,7 +304,7 @@ const DeleteConnectionButton = ({delUrl, connectionDeleteCallback}) =>{
       });
     }
   }
-  return Sefaria.is_moderator ? (
+  return Mekoros.is_moderator ? (
       <SimpleLinkedBlock
         aclasses={"connection-button delete-link"}
         onClick={deleteLink}
@@ -320,14 +320,14 @@ const OpenConnectionTabButton = ({srefs, openInTabCallback, openStrings}) =>{
   ConnectionButton composite element. Goes inside a ConnectionButtons
   Takes a ref(s) for opening as a link and callback for opening in-app
    */
-  const sref = Array.isArray(srefs) ? Sefaria.normRefList(srefs) : srefs;
+  const sref = Array.isArray(srefs) ? Mekoros.normRefList(srefs) : srefs;
   const [en, he] = openStrings || ['Open', 'פתיחה'];
   const openLinkInTab = (event) => {
     if (openInTabCallback) {
       event.preventDefault();
       //Click on the body of the TextRange itself from TextList
       openInTabCallback(srefs);
-      Sefaria.track.event("Reader", "Click Text from TextList", sref);
+      Mekoros.track.event("Reader", "Click Text from TextList", sref);
     }
   }
   return(

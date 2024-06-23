@@ -1,5 +1,5 @@
 /* 
-    PURPOSE: Test the header bar for Sefaria
+    PURPOSE: Test the header bar for Mekoros
         Is it appearing and functioning as usual?
         TODO: Tests to visualize mobile vs webpage behaviors
 */
@@ -12,8 +12,8 @@ test('Banner links exist - English', async ({ context }) => {
     
     const page = await goToPageWithLang(context,'/texts',LANGUAGES.EN);
 
-    // Testing Sefaria logo
-    await page.getByRole('link', { name: 'Sefaria Logo' }).click();
+    // Testing Mekoros logo
+    await page.getByRole('link', { name: 'Mekoros Logo' }).click();
     expect(getPathAndParams(page.url())).toBe("/texts")
 
     // Testing Texts link
@@ -41,20 +41,20 @@ test('Banner links exist - English', async ({ context }) => {
     
     // Testing Help link
     await page.getByRole('banner').getByRole('link', { name: 'Help' }).click();
-    expect(getPathAndParams(page.url())).toContain("/collections/sefaria-faqs")
+    expect(getPathAndParams(page.url())).toContain("/collections/mekoros-faqs")
 
     const page1Promise = page.waitForEvent('popup');
     await page.getByRole('banner').getByRole('link', { name: 'Donate' }).click();
     const page1 = await page1Promise;
-    //Test redirect to https://donate.sefaria.org/
-    expect(page1.url()).toContain("https://donate.sefaria.org/")
+    //Test redirect to https://donate.mekoros.com/
+    expect(page1.url()).toContain("https://donate.mekoros.com/")
 
 });
 
 test('Banner links exist - Hebrew', async ({ context }) => {
     
     const page = await goToPageWithLang(context, '/', LANGUAGES.HE);
-    await page.getByRole('link', { name: 'Sefaria Logo' }).click();
+    await page.getByRole('link', { name: 'Mekoros Logo' }).click();
     expect(getPathAndParams(page.url())).toBe("/texts")
 
     await page.getByRole('banner').getByRole('link', { name: 'מקורות' }).click();
@@ -71,8 +71,8 @@ test('Banner links exist - Hebrew', async ({ context }) => {
     await page.getByRole('banner').getByRole('link', { name: 'תרומה'}).click();
     const page1 = await page1Promise;
     
-    //Test redirect to https://donate.sefaria.org/
-    expect(page1.url()).toContain("https://donate.sefaria.org/give/468442/#!/donation/checkout?c_src=Header")
+    //Test redirect to https://donate.mekoros.com/
+    expect(page1.url()).toContain("https://donate.mekoros.com/give/468442/#!/donation/checkout?c_src=Header")
     
     // Testing for search box existence
     expect(page.locator('#searchBox').getByRole('img')).toBeDefined();

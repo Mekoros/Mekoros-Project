@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from sefaria.model import *
-from sefaria.model.schema import *
+from mekoros.model import *
+from mekoros.model.schema import *
 import json
 
 root = SchemaNode()

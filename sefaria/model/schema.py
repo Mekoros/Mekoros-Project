@@ -6,17 +6,17 @@ from typing import Optional, List
 import structlog
 from functools import reduce
 import re2 as re
-from sefaria.system.decorators import conditional_graceful_exception
+from mekoros.system.decorators import conditional_graceful_exception
 
 logger = structlog.get_logger(__name__)
 
 import regex
 from . import abstract as abst
-from sefaria.system.database import db
-from sefaria.model.lexicon import LexiconEntrySet
-from sefaria.system.exceptions import InputError, IndexSchemaError, DictionaryEntryNotFoundError, SheetNotFoundError
-from sefaria.utils.hebrew import decode_hebrew_numeral, encode_small_hebrew_numeral, encode_hebrew_numeral, encode_hebrew_daf, hebrew_term, sanitize
-from sefaria.utils.talmud import daf_to_section
+from mekoros.system.database import db
+from mekoros.model.lexicon import LexiconEntrySet
+from mekoros.system.exceptions import InputError, IndexSchemaError, DictionaryEntryNotFoundError, SheetNotFoundError
+from mekoros.utils.hebrew import decode_hebrew_numeral, encode_small_hebrew_numeral, encode_hebrew_numeral, encode_hebrew_daf, hebrew_term, sanitize
+from mekoros.utils.talmud import daf_to_section
 
 """
                 -----------------------------------------
@@ -212,7 +212,7 @@ class AbstractTitledOrTermedObject(AbstractTitledObject):
     @conditional_graceful_exception()
     def _process_terms(self):
         # To be called after raw data load
-        from sefaria.model import library
+        from mekoros.model import library
 
         if self.sharedTitle:
             term = library.get_term(self.sharedTitle)
@@ -1171,7 +1171,7 @@ class ArrayMapNode(NumberedTitledTreeNode):
     # Move this over to Ref and cache it?
     def expand_ref(self, tref, he_text_ja = None, en_text_ja = None):
         from . import text
-        from sefaria.utils.util import text_preview
+        from mekoros.utils.util import text_preview
 
         oref = text.Ref(tref)
         if oref.is_spanning():
@@ -2105,7 +2105,7 @@ class AddressType(object):
         :param fromSections: optional. in case of parsing toSections, these represent the sections. Used for parsing edge-case of toSections='b' which is relative to sections
         :param strip_prefixes: optional. if true, consider possibilities when stripping potential prefixes
         """
-        from sefaria.utils.hebrew import get_prefixless_inds
+        from mekoros.utils.hebrew import get_prefixless_inds
 
         sections = []
         toSections = []

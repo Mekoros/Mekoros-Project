@@ -1,5 +1,5 @@
 {{- if .Values.tasks.enabled }}
- {{- $QueueConfig := (fromYaml (include "sefaria.tasks.queues" . )) -}}
+ {{- $QueueConfig := (fromYaml (include "mekoros.tasks.queues" . )) -}}
 ---
 # apiVersion: apps/v1
 # kind: Deployment
@@ -59,13 +59,13 @@ spec:
                 - "tasks-{{ .Values.deployEnv }}"
             topologyKey: kubernetes.io/hostname
         nodeAffinity:
-          {{- include "sefaria.nodeAffinities" . | nindent 10 }}
+          {{- include "mekoros.nodeAffinities" . | nindent 10 }}
       containers:
       - name: tasks
         image: "{{ .Values.web.containerImage.imageRegistry }}:{{ .Values.web.containerImage.tag }}"
         imagePullPolicy: Always
         command: ["celery"]
-        args: ["-A", "sefaria.celery_setup.app","worker", "-Q", "{{ $QueueConfig.tasks }}", "-l", "INFO"]
+        args: ["-A", "mekoros.celery_setup.app","worker", "-Q", "{{ $QueueConfig.tasks }}", "-l", "INFO"]
         env:
           - name: ENV_NAME
             value: "{{ .Values.deployEnv }}"
@@ -87,7 +87,7 @@ spec:
               name: {{ .Values.tasks.redis.redisPassword.ref }}
           {{- end }}
           - secretRef:
-              name: {{ template "sefaria.secrets.elasticUser" . }}
+              name: {{ template "mekoros.secrets.elasticUser" . }}
           - secretRef:
               name: {{ .Values.secrets.localSettings.ref }}
               optional: true
@@ -104,7 +104,7 @@ spec:
               optional: true
         resources: {{ toYaml .Values.tasks.resources | nindent 10 }}
         volumeMounts:
-        - mountPath: /app/sefaria/local_settings.py
+        - mountPath: /app/mekoros/local_settings.py
           name: local-settings
           subPath: local_settings.py
           readOnly: true
@@ -127,13 +127,13 @@ spec:
                 path: local_settings.py
         - name: elastic-cert
           secret:
-            secretName: {{ template "sefaria.secrets.elasticCertificate" . }}
+            secretName: {{ template "mekoros.secrets.elasticCertificate" . }}
             optional: true
         - name: client-secret
           secret:
-            secretName: {{ template "sefaria.secrets.googleClient" . }} # needs to be checked if it's a reference object or the data object we created.
+            secretName: {{ template "mekoros.secrets.googleClient" . }} # needs to be checked if it's a reference object or the data object we created.
         - name: logging-secret
           secret:
-            secretName: {{ template "sefaria.secrets.logging" . }}
+            secretName: {{ template "mekoros.secrets.logging" . }}
             optional: true
 {{- end }}

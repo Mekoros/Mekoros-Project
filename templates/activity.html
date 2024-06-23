@@ -1,24 +1,24 @@
 {% extends "base.html" %}
-{% load i18n cache humanize sefaria_tags static %}
+{% load i18n cache humanize mekoros_tags static %}
 
 
 {% block title %}
 	{% if single %}
 {% trans "Revision History of" %} {{ ref }} ({{ version }})
 	{% elif for_user %}
-{{ profile.full_name }} | {% trans "Sefaria Activity" %}
+{{ profile.full_name }} | {% trans "Mekoros Activity" %}
 	{% else %}
-{% trans "Sefaria Activity" %}
+{% trans "Mekoros Activity" %}
 	{% endif %}
 {% endblock %}
 
 {% block description %}
 	{% if single %}
-{% trans "View the complete revision hisotry of this text on Sefaria." %}
+{% trans "View the complete revision hisotry of this text on Mekoros." %}
 	{% elif for_user %}
-{% trans "View a user's acitvitiy history on Sefaria, including published source sheets, and text translations, edits or additions." %}
+{% trans "View a user's acitvitiy history on Mekoros, including published source sheets, and text translations, edits or additions." %}
 	{% else %}
-{% trans "View the complete log of public activity on Sefaria, including published source sheets, and text translations, edits or additions. " %}
+{% trans "View the complete log of public activity on Mekoros, including published source sheets, and text translations, edits or additions. " %}
 	{% endif %}
 {% endblock %}
 
@@ -48,7 +48,7 @@
         	</h1>
         {% else %}
             <h1>
-				<span class="int-en">Recent Activity on Sefaria</span>
+				<span class="int-en">Recent Activity on Mekoros</span>
 				<span class="int-he">פעילות אחרונה בספריא</span>
         	</h1>
         {% endif %}

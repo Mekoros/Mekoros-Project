@@ -2,11 +2,11 @@ import dataclasses
 import json
 import spacy
 import structlog
-from sefaria.model.linker.ref_part import TermContext, RefPartType
-from sefaria.model.linker.ref_resolver import ResolvedRef, AmbiguousResolvedRef
-from sefaria.model import text, library
-from sefaria.model.webpage import WebPage
-from sefaria.system.cache import django_cache
+from mekoros.model.linker.ref_part import TermContext, RefPartType
+from mekoros.model.linker.ref_resolver import ResolvedRef, AmbiguousResolvedRef
+from mekoros.model import text, library
+from mekoros.model.webpage import WebPage
+from mekoros.system.cache import django_cache
 from typing import List, Union, Optional, Tuple
 
 logger = structlog.get_logger(__name__)
@@ -15,8 +15,8 @@ logger = structlog.get_logger(__name__)
 def load_spacy_model(path: str) -> spacy.Language:
     import re, tarfile
     from tempfile import TemporaryDirectory
-    from sefaria.google_storage_manager import GoogleStorageManager
-    from sefaria.spacy_function_registry import inner_punct_tokenizer_factory  # this looks unused, but spacy.load() expects this function to be in scope
+    from mekoros.google_storage_manager import GoogleStorageManager
+    from mekoros.spacy_function_registry import inner_punct_tokenizer_factory  # this looks unused, but spacy.load() expects this function to be in scope
 
     using_gpu = spacy.prefer_gpu()
     logger.info(f"Spacy successfully connected to GPU: {using_gpu}")
@@ -65,7 +65,7 @@ class _FindRefsText:
     lang: str
 
     # def __post_init__(self):
-    #     from sefaria.utils.hebrew import is_mostly_hebrew
+    #     from mekoros.utils.hebrew import is_mostly_hebrew
     #     self.lang = 'he' if is_mostly_hebrew(self.body) else 'en'
 
 
@@ -76,7 +76,7 @@ def _unpack_find_refs_request(request):
 
 
 def _create_find_refs_text(post_body) -> _FindRefsText:
-    from sefaria.utils.hebrew import is_mostly_hebrew
+    from mekoros.utils.hebrew import is_mostly_hebrew
     title = post_body['text']['title']
     body = post_body['text']['body']
     lang = post_body['lang'] if 'lang' in post_body else 'he' if is_mostly_hebrew(body) else 'en'

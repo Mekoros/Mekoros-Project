@@ -2,9 +2,9 @@ import sys
 import os
 import pymongo
 
-from sefaria.settings import *
-from sefaria.system.database import db
-from sefaria.model.user_profile import UserProfile
+from mekoros.settings import *
+from mekoros.system.database import db
+from mekoros.model.user_profile import UserProfile
 from django.contrib.auth.models import User
 
 

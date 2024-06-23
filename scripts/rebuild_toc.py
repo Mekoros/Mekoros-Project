@@ -1,5 +1,5 @@
 import django
 django.setup()
-from sefaria.model import library
+from mekoros.model import library
 
 library.rebuild_toc()

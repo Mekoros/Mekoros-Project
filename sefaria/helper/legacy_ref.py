@@ -1,8 +1,8 @@
 from typing import List, Union, Dict
 import re
 
-from sefaria.model.abstract import AbstractMongoRecord
-from sefaria.model.text import Ref
+from mekoros.model.abstract import AbstractMongoRecord
+from mekoros.model.text import Ref
 
 
 class LegacyRefParserError(Exception):

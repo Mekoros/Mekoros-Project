@@ -10,7 +10,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = "settings"
 from datetime import datetime
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, path)
-sys.path.insert(0, path + "/sefaria")
+sys.path.insert(0, path + "/mekoros")
 
 from django.contrib.auth.models import User
 
@@ -26,7 +26,7 @@ if SEFARIA_DB_USER and SEFARIA_DB_PASSWORD:
 settings = {
 	"contest_start"    : datetime.strptime("12/1/13", "%m/%d/%y"),
 	"contest_end"      : datetime.strptime("1/1/14", "%m/%d/%y"),
-	"version"          : "Sefaria Community Translation",
+	"version"          : "Mekoros Community Translation",
 	"ref_regex"        : "^Mishna ",
 	"assignment_url"   : "/translate/mishnah",
 	"title"            : "Mishnah Translation 2013", 
@@ -48,4 +48,4 @@ with open('mishnah-contest.csv', 'wb') as csvfile:
 	for m in translated:
 		user = User.objects.get(id=m["user"])
 		name = "%s %s" % (user.first_name, user.last_name)	
-		writer.writerow([name, m["ref"], "www.sefaria.org/%s" % m["ref"].replace(" ", "_")])
+		writer.writerow([name, m["ref"], "www.mekoros.com/%s" % m["ref"].replace(" ", "_")])

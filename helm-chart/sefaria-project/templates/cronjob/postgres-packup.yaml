@@ -5,7 +5,7 @@ kind: CronJob
 metadata:
   name: {{ .Values.deployEnv }}-postgresbackup
   labels:
-    {{- include "sefaria.labels" . | nindent 4 }}
+    {{- include "mekoros.labels" . | nindent 4 }}
 spec:
   concurrencyPolicy: Replace
   schedule: "0 0 * * 0"
@@ -73,7 +73,7 @@ spec:
             - name: SLACK_URL
               valueFrom:
                 secretKeyRef:
-                  name: {{ template "sefaria.secrets.slackWebhook" . }}
+                  name: {{ template "mekoros.secrets.slackWebhook" . }}
                   key: slack-webhook
             command: ["bash"]
             args: ["-c", "/scripts/upload-dumps.sh"]

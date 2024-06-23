@@ -1,6 +1,6 @@
-from sefaria.helper.crm.crm_factory import CrmFactory
-from sefaria.helper.crm.crm_info_store import CrmInfoStore
-from sefaria import settings as sls
+from mekoros.helper.crm.crm_factory import CrmFactory
+from mekoros.helper.crm.crm_info_store import CrmInfoStore
+from mekoros import settings as sls
 
 
 # todo: task queue, async

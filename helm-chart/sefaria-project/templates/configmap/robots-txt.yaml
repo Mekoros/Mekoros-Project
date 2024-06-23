@@ -4,7 +4,7 @@ metadata:
   name: robots-txt-{{ .Values.deployEnv }}
   labels:
     deployEnv: {{ .Values.deployEnv | quote }}
-    {{- include "sefaria.labels" . | nindent 4 }}
+    {{- include "mekoros.labels" . | nindent 4 }}
 data:
   robots.txt: |-
     User-agent: *

@@ -2,7 +2,7 @@
 from langdetect import detect
 import bleach
 import unicodecsv as csv
-from sefaria.model import *
+from mekoros.model import *
 from functools import reduce
 
 non_english = []

@@ -3,7 +3,7 @@
 import django
 django.setup()
 
-from sefaria.model.group import Group
+from mekoros.model.group import Group
 
 g = Group().load({"name": "גיליונות נחמה"})
 

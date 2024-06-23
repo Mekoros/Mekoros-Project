@@ -1,6 +1,6 @@
-import sefaria.model as model
-from sefaria.system.database import db
-from sefaria.clean import remove_old_counts
+import mekoros.model as model
+from mekoros.system.database import db
+from mekoros.clean import remove_old_counts
 
 # Move the history books
 

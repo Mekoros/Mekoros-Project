@@ -1,6 +1,6 @@
 import django
 django.setup()
-from sefaria.model import *
+from mekoros.model import *
 import csv
 
 alt_titles_dict = {}

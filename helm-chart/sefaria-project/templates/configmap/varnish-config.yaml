@@ -8,9 +8,9 @@ metadata:
   labels:
     deployEnv: "{{ $.Values.deployEnv }}"
     releaseRevision: "{{ $v }}"
-    {{- include "sefaria.labels" $ | nindent 4 }}
+    {{- include "mekoros.labels" $ | nindent 4 }}
 data:
-  sefaria.vcl: |-
+  mekoros.vcl: |-
     vcl 4.0;
 
     backend default {
@@ -70,7 +70,7 @@ data:
     }
 
     # Commenting server portion out out default vcl_hash.
-    # calls to sefaria.org and sefaria.org.il will be cached together.
+    # calls to mekoros.com and mekoros.com will be cached together.
     sub vcl_hash {
         hash_data(req.url);
         # if (req.http.host) {

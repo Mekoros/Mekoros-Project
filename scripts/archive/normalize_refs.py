@@ -7,7 +7,7 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import *
 from datetime import datetime
-from sefaria import *
+from mekoros import *
 
 connection = pymongo.Connection()
 db = connection[SEFARIA_DB]

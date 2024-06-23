@@ -2,10 +2,10 @@
 import django
 
 django.setup()
-from sefaria.model import *
-from sefaria.helper.category import move_index_into, move_category_into, create_category, rename_category
-from sefaria.helper.schema import change_term_hebrew
-from sefaria.system.exceptions import InputError
+from mekoros.model import *
+from mekoros.helper.category import move_index_into, move_category_into, create_category, rename_category
+from mekoros.helper.schema import change_term_hebrew
+from mekoros.system.exceptions import InputError
 
 # Change Hebrew primaries for categories
 for k, he in [

@@ -1,8 +1,8 @@
-import sefaria.model as model
-from sefaria.system.database import db
-from sefaria.clean import remove_old_counts
-from sefaria.counts import update_counts
-from sefaria.summaries import update_summaries
+import mekoros.model as model
+from mekoros.system.database import db
+from mekoros.clean import remove_old_counts
+from mekoros.counts import update_counts
+from mekoros.summaries import update_summaries
 
 
 torah = ['Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy']

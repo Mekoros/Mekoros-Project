@@ -3,10 +3,10 @@ Small utilities for fixing problems that occur in the DB.
 """
 from copy import deepcopy
 
-import sefaria.model as model
-from sefaria.system.database import db
-from sefaria.utils.util import rtrim_jagged_string_array
-from sefaria.system.exceptions import BookNameError
+import mekoros.model as model
+from mekoros.system.database import db
+from mekoros.utils.util import rtrim_jagged_string_array
+from mekoros.system.exceptions import BookNameError
 
 
 def remove_refs_with_false():

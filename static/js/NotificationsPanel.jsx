@@ -3,8 +3,8 @@ import PropTypes  from 'prop-types';
 import classNames  from 'classnames';
 import Footer  from './Footer';
 import ReactDOM  from 'react-dom';
-import Sefaria  from './sefaria/sefaria';
-import $  from './sefaria/sefariaJquery';
+import Mekoros  from './mekoros/mekoros';
+import $  from './mekoros/mekorosJquery';
 import Component from 'react-class';
 import { NavSidebar }from './NavSidebar';
 import {
@@ -46,7 +46,7 @@ class NotificationsPanel extends Component {
   markAsRead() {
     // Marks each notification that is loaded into the page as read via API call
     var ids = [];
-    Sefaria.notifications.map(n => {
+    Mekoros.notifications.map(n => {
       if (!n.read) {
         ids.push(n._id);
         n.read = true;
@@ -66,12 +66,12 @@ class NotificationsPanel extends Component {
     if (data.count < data.page_size) {
       this.setState({loadedToEnd: true});
     }
-    Sefaria.notifications = Sefaria.notifications.concat(data.notifications);
+    Mekoros.notifications = Mekoros.notifications.concat(data.notifications);
     this.setState({page: data.page + 1, loading: false});
     this.forceUpdate();
   }
   render() {
-    const notifications = Sefaria.notifications.map(n => 
+    const notifications = Mekoros.notifications.map(n => 
       <Notifications type={n.type} props={n} key={n._id} />
     );
     const sidebarModules = [{type: "StayConnected"}];
@@ -84,9 +84,9 @@ class NotificationsPanel extends Component {
               <div className="notificationsHeaderBox"><h1>
                 <img className="notificationsTitleIcon" src="/static/icons/notification.svg" />
                 <InterfaceText>Notifications</InterfaceText>
-              </h1></div>{ Sefaria.notificationCount > 0 ? <button className="button small white" onClick={this.markAllAsRead}>Mark all as Read</button> : null}
+              </h1></div>{ Mekoros.notificationCount > 0 ? <button className="button small white" onClick={this.markAllAsRead}>Mark all as Read</button> : null}
               </div>
-              { Sefaria._uid ?
+              { Mekoros._uid ?
               notifications :
               <LoginPrompt fullPanel={true} /> }
             </div>
@@ -136,7 +136,7 @@ const Notification = ({imageUrl, imageLink, topLine, date, body}) => {
         <div className="topLine">
           <div className="topLineText">{topLine}</div>
           <div className="date">
-            <InterfaceText text={{en: `${Sefaria.util.naturalTime(date)} ago`, he: `לפני ${Sefaria.util.naturalTime(date)}`}} />
+            <InterfaceText text={{en: `${Mekoros.util.naturalTime(date)} ago`, he: `לפני ${Mekoros.util.naturalTime(date)}`}} />
           </div>
         </div>
         
@@ -265,8 +265,8 @@ const CollectionAddNotification = ({date, content}) => {
 
 const IndexNotification = ({date, content}) => {
   const title = content.index;
-  const heTitle = Sefaria.index(title).heTitle;
-  const url = "/" + Sefaria.normRef(title);
+  const heTitle = Mekoros.index(title).heTitle;
+  const url = "/" + Mekoros.normRef(title);
 
   const topLine = (
     <>
@@ -295,8 +295,8 @@ const IndexNotification = ({date, content}) => {
 
 const VersionNotification = ({date, content}) => {
   const title = content.index;
-  const heTitle = Sefaria.index(title).heTitle;
-  const url = "/" + Sefaria.normRef(title);
+  const heTitle = Mekoros.index(title).heTitle;
+  const url = "/" + Mekoros.normRef(title);
 
   const topLine = (
     <>

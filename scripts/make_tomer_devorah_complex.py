@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'stevenkaplan'
-from sefaria.helper.schema import *
-from sefaria.model import JaggedArrayNode
+from mekoros.helper.schema import *
+from mekoros.model import JaggedArrayNode
 
 if __name__ == "__main__":
     map = {}

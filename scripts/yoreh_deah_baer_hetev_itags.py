@@ -2,7 +2,7 @@
 
 import django
 django.setup()
-from sefaria.model import *
+from mekoros.model import *
 from bs4 import BeautifulSoup
 from collections import OrderedDict
 

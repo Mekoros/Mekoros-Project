@@ -1,14 +1,14 @@
 from typing import List, Callable, Any, Optional, Dict, Tuple
 from collections import defaultdict
 import re
-from sefaria.model.text import Ref, library, TextChunk
-from sefaria.model.passage import Passage
-from sefaria.model.topic import Topic, RefTopicLink
-from sefaria.client.wrapper import get_links
-from sefaria.datatype.jagged_array import JaggedTextArray
-from sefaria_llm_interface.topic_prompt import TopicPromptGenerationOutput, TopicPromptInput, TopicPromptSource, TopicPromptCommentary
-from sefaria_llm_interface import Topic as LLMTopic
-from sefaria.utils.util import deep_update
+from mekoros.model.text import Ref, library, TextChunk
+from mekoros.model.passage import Passage
+from mekoros.model.topic import Topic, RefTopicLink
+from mekoros.client.wrapper import get_links
+from mekoros.datatype.jagged_array import JaggedTextArray
+from mekoros_llm_interface.topic_prompt import TopicPromptGenerationOutput, TopicPromptInput, TopicPromptSource, TopicPromptCommentary
+from mekoros_llm_interface import Topic as LLMTopic
+from mekoros.utils.util import deep_update
 
 
 def _lang_dict_by_func(func: Callable[[str], Any]) -> Dict[str, Any]:
@@ -72,23 +72,23 @@ def _get_surrounding_text(oref: Ref) -> Optional[Dict[str, str]]:
         return _lang_dict_by_func(lambda lang: context_ref.text(lang).as_string())
 
 
-def make_llm_topic(sefaria_topic: Topic) -> LLMTopic:
+def make_llm_topic(mekoros_topic: Topic) -> LLMTopic:
     """
-    Return a dict that can be instantiated as `sefaria_interface.Topic` in the LLM repo.
+    Return a dict that can be instantiated as `mekoros_interface.Topic` in the LLM repo.
     This represents the basic metadata of a topic for the LLM repo to process.
-    :param sefaria_topic:
+    :param mekoros_topic:
     :return:
     """
     return LLMTopic(
-        slug=sefaria_topic.slug,
-        description=getattr(sefaria_topic, 'description', {}),
-        title=_lang_dict_by_func(sefaria_topic.get_primary_title)
+        slug=mekoros_topic.slug,
+        description=getattr(mekoros_topic, 'description', {}),
+        title=_lang_dict_by_func(mekoros_topic.get_primary_title)
     )
 
 
 def make_topic_prompt_source(oref: Ref, context: str, with_commentary=True, normalize_text=True) -> TopicPromptSource:
     """
-    Return a dict that can be instantiated as `sefaria_interface.TopicPromptSource` in the LLM repo.
+    Return a dict that can be instantiated as `mekoros_interface.TopicPromptSource` in the LLM repo.
     This represents the basic metadata of a source for the LLM repo to process.
     :param oref:
     :param context:
@@ -130,19 +130,19 @@ def make_topic_prompt_source(oref: Ref, context: str, with_commentary=True, norm
     )
 
 
-def make_topic_prompt_input(lang: str, sefaria_topic: Topic, orefs: List[Ref], contexts: List[str]) -> TopicPromptInput:
+def make_topic_prompt_input(lang: str, mekoros_topic: Topic, orefs: List[Ref], contexts: List[str]) -> TopicPromptInput:
     """
-    Return a dict that can be instantiated as `sefaria_interface.TopicPromptInput` in the LLM repo.
+    Return a dict that can be instantiated as `mekoros_interface.TopicPromptInput` in the LLM repo.
     This represents the full input required for the LLM repo to generate topic prompts.
     :param lang:
-    :param sefaria_topic:
+    :param mekoros_topic:
     :param orefs:
     :param contexts:
     :return:
     """
     return TopicPromptInput(
         lang=lang,
-        topic=make_llm_topic(sefaria_topic),
+        topic=make_llm_topic(mekoros_topic),
         sources=[make_topic_prompt_source(oref, context) for oref, context in zip(orefs, contexts)]
     )
 

@@ -9,7 +9,7 @@ import os, errno
 import os.path
 import requests
 
-from sefaria.model import *
+from mekoros.model import *
 
 class LaazRashiParser(object):
     bible_data_file = 'data/tmp/Laaz-Rashi-Bible.txt'

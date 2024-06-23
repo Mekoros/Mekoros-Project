@@ -4,7 +4,7 @@ django.setup()
 
 import csv
 from datetime import datetime, timedelta
-from sefaria.system.database import db
+from mekoros.system.database import db
 
 
 # Process Daf Yomi data dumped from Analytics.

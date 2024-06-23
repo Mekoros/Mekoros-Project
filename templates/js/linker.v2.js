@@ -1,5 +1,5 @@
 {% autoescape off %}
-//call with sefaria.link();
+//call with mekoros.link();
 
 (function(ns){
 
@@ -26,7 +26,7 @@
     /* see https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript/3561711#3561711 */
     function escapeRegex(string) {return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');}
 
-    var base_url = '{% if DEBUG %}http://localhost:8000/{% else %}https://www.sefaria.org/{% endif %}';
+    var base_url = '{% if DEBUG %}http://localhost:8000/{% else %}https://www.mekoros.com/{% endif %}';
     var bookTitles = {{ book_titles }};
     var popUpElem;
     var heBox;
@@ -66,7 +66,7 @@
           "Modern Commentary":  "#7c406f",
         };
         popUpElem = document.createElement("div");
-        popUpElem.id = "sefaria-popup";
+        popUpElem.id = "mekoros-popup";
         popUpElem.classList.add("interface-" + options.interfaceLang);
         popUpElem.classList.add("content-" + options.contentLang);
 
@@ -74,7 +74,7 @@
         // Set default content for the popup
         html += '<style scoped>' +
             '@import url("https://fonts.googleapis.com/css?family=Crimson+Text:ital,wght@0,400;0,700;1,400;1,700|Frank+Ruhl+Libre|Heebo");' +
-            '#sefaria-popup {'+
+            '#mekoros-popup {'+
                 'width: 400px;'+
                 'max-width: 90%;'+
                 'max-height: 560px;' +
@@ -85,56 +85,56 @@
                 'background-color: #fff;'+
                 'color: #222222;'+
             '}'+
-            '.sefaria-text .en, .sefaria-text .he {' +
+            '.mekoros-text .en, .mekoros-text .he {' +
                 'padding: 10px 20px;'+
                 'text-align: justify;'+
                 'font-weight: normal' +
             '}' +
-            '.sefaria-text {' +
+            '.mekoros-text {' +
                 'max-height: 430px;'+
                 'overflow-y: auto;' +
                 'overflow-x: hidden;' +
             '}' +
-            '.sefaria-text:focus {' +
+            '.mekoros-text:focus {' +
                 'outline: none;'+
             '}' +
-            '#sefaria-title {' +
+            '#mekoros-title {' +
                 'font-size: 18px;'+
                 'text-align: center;' +
                 'text-decoration: none;' +
                 'margin: 12px 0;' +
                 'padding: 0;' +
             '}' +
-            '#sefaria-title .en {' +
+            '#mekoros-title .en {' +
                 'text-align: center;' +
             '}' +
-            '#sefaria-title .he {' +
+            '#mekoros-title .he {' +
                 'text-align: center;' +
             '}' +
-            '#sefaria-popup .en, #sefaria-popup .en * {' +
+            '#mekoros-popup .en, #mekoros-popup .en * {' +
                 'font-family: "Crimson Text";' +
                 'font-size: 18px;' +
                 'line-height: 1.2;' +
             '}' +
-            '#sefaria-popup .he, #sefaria-popup .he * {' +
+            '#mekoros-popup .he, #mekoros-popup .he * {' +
                 'font-family: "Frank Ruhl Libre";' +
                 'font-size: 21px;' +
                 'line-height: 1.5;' +
             '}' +
-            '.content-hebrew .sefaria-text .en {' +
+            '.content-hebrew .mekoros-text .en {' +
                 'display: none;' +
             '}' +
-            '.content-english .sefaria-text .he {' +
+            '.content-english .mekoros-text .he {' +
                 'display: none' +
             '}' +
-            '.content-hebrew .sefaria-text .en.enOnly {' +
+            '.content-hebrew .mekoros-text .en.enOnly {' +
                 'display: block;' +
             '}' +
-            '.content-english .sefaria-text .he.heOnly {' +
+            '.content-english .mekoros-text .he.heOnly {' +
                 'display: block' +
             '}' +
-            '#sefaria-logo {' +
-                "background: url(\"data:image/svg+xml,%3Csvg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 340.96 93.15'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:none;%7D.cls-2%7Bclip-path:url(%23clip-path);%7D.cls-3%7Bfill:%23231f20;%7D%3C/style%3E%3CclipPath id='clip-path' transform='translate(-389 -337.85)'%3E%3Crect class='cls-1' x='389' y='337.85' width='340.96' height='93.15'/%3E%3C/clipPath%3E%3C/defs%3E%3Ctitle%3Esefarialogo%3C/title%3E%3Cg class='cls-2'%3E%3Cpath class='cls-3' d='M454,397.67c-2.41,11.31-10.59,16.11-28.82,16.11-44.79,0-28.92-36-22.66-43.42,2.63-3.29,4.47-6,11.15-6h12.71c17.72,0,21.1.84,25.54,9.9,2.4,4.88,3.79,15.41,2.08,23.43m4.81-22.48c-1.5-9.67-3.45-20.19-11.85-26-5.09-3.54-10.34-3.8-16.21-3.8-4,0-18.11-.17-24.29-.17-6,0-10-4.94-10-7.34-3.91,4.79-6.9,10.08-5.85,16.48.94,5.76,4.89,9.44,10.67,10.17-6.55,9.25-12.47,19.9-12.18,31.18.18,7.11,1.81,35.32,33.71,35.32h5.81c13.62,0,21.87-10.11,24.27-14,7.05-11.5,8.23-29.29,6-41.78' transform='translate(-389 -337.85)'/%3E%3Cpath class='cls-3' d='M722.79,402.89a12.32,12.32,0,0,1-9.74,5.06,11.59,11.59,0,0,1-11.78-11.7c0-6.19,4.53-11.7,11.4-11.7a12.78,12.78,0,0,1,10.12,5.06ZM723,414H730V378.51H723v3.24a16.65,16.65,0,0,0-11.1-4,16.87,16.87,0,0,0-8.69,2.27,19,19,0,0,0-.07,32.39,18.26,18.26,0,0,0,8.91,2.34,16.31,16.31,0,0,0,10.95-4ZM676,365.9a4.61,4.61,0,0,0,4.68,4.68,4.68,4.68,0,0,0,4.76-4.68,4.75,4.75,0,0,0-4.76-4.76A4.68,4.68,0,0,0,676,365.9M677.11,414h7.17V378.51h-7.17Zm-8.68-36a18.29,18.29,0,0,0-2.79-.23c-5.21,0-8.91,2.42-10.65,4.83v-4.07h-7V414h7.18V390.51c2-3.4,5.89-6,9.59-6a10.06,10.06,0,0,1,2.79.3ZM628,402.89A12.32,12.32,0,0,1,618.3,408a11.59,11.59,0,0,1-11.78-11.7c0-6.19,4.53-11.7,11.4-11.7A12.8,12.8,0,0,1,628,389.61Zm.22,11.1h7V378.51h-7v3.24a16.62,16.62,0,0,0-11.1-4,16.83,16.83,0,0,0-8.68,2.27,19,19,0,0,0-.07,32.39,18.2,18.2,0,0,0,8.91,2.34,16.3,16.3,0,0,0,10.94-4Zm-33.07-53.83a16.61,16.61,0,0,0-4.23-.53,13.88,13.88,0,0,0-11.62,5.89c-1.59,2.27-2.27,5.21-2.27,10v3h-8.3v6.41h8.3V414h7.18V384.92h10.94v-6.41H584.25v-3.25c0-3.25.37-5.06,1.35-6.34a7,7,0,0,1,5.44-2.49,11.64,11.64,0,0,1,2.64.3ZM546.65,384a9.92,9.92,0,0,1,9.36,7.7H536.68a10.31,10.31,0,0,1,10-7.7m16.76,13.74a14,14,0,0,0,.07-1.51c0-10.5-7.17-18.5-17.06-18.5s-17.29,7.85-17.29,18.5a18,18,0,0,0,18.35,18.5c7.24,0,12.3-3.25,14.95-6.65l-4.69-4.45a12.78,12.78,0,0,1-10.19,4.83,11.43,11.43,0,0,1-11.47-10.72Zm-75.58,8.15a23.68,23.68,0,0,0,18.5,8.84c9.21,0,16.38-6,16.38-15.33,0-6-3.32-9.74-6.87-12.08-6.79-4.53-18-6-18-12.68,0-4.61,4.38-7.1,8.75-7.1a14.55,14.55,0,0,1,9.44,3.62l4.46-5.51a21.76,21.76,0,0,0-14.2-5.28c-9.21,0-16,6.34-16,14,0,5.51,2.94,9.14,6.72,11.63,7,4.6,18.19,5.51,18.19,13.59,0,4.75-4.3,7.92-9.21,7.92-5.44,0-9.81-3-12.91-6.79Z' transform='translate(-389 -337.85)'/%3E%3C/g%3E%3C/svg%3E\") no-repeat;" +
+            '#mekoros-logo {' +
+                "background: url(\"data:image/svg+xml,%3Csvg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 340.96 93.15'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:none;%7D.cls-2%7Bclip-path:url(%23clip-path);%7D.cls-3%7Bfill:%23231f20;%7D%3C/style%3E%3CclipPath id='clip-path' transform='translate(-389 -337.85)'%3E%3Crect class='cls-1' x='389' y='337.85' width='340.96' height='93.15'/%3E%3C/clipPath%3E%3C/defs%3E%3Ctitle%3Emekoroslogo%3C/title%3E%3Cg class='cls-2'%3E%3Cpath class='cls-3' d='M454,397.67c-2.41,11.31-10.59,16.11-28.82,16.11-44.79,0-28.92-36-22.66-43.42,2.63-3.29,4.47-6,11.15-6h12.71c17.72,0,21.1.84,25.54,9.9,2.4,4.88,3.79,15.41,2.08,23.43m4.81-22.48c-1.5-9.67-3.45-20.19-11.85-26-5.09-3.54-10.34-3.8-16.21-3.8-4,0-18.11-.17-24.29-.17-6,0-10-4.94-10-7.34-3.91,4.79-6.9,10.08-5.85,16.48.94,5.76,4.89,9.44,10.67,10.17-6.55,9.25-12.47,19.9-12.18,31.18.18,7.11,1.81,35.32,33.71,35.32h5.81c13.62,0,21.87-10.11,24.27-14,7.05-11.5,8.23-29.29,6-41.78' transform='translate(-389 -337.85)'/%3E%3Cpath class='cls-3' d='M722.79,402.89a12.32,12.32,0,0,1-9.74,5.06,11.59,11.59,0,0,1-11.78-11.7c0-6.19,4.53-11.7,11.4-11.7a12.78,12.78,0,0,1,10.12,5.06ZM723,414H730V378.51H723v3.24a16.65,16.65,0,0,0-11.1-4,16.87,16.87,0,0,0-8.69,2.27,19,19,0,0,0-.07,32.39,18.26,18.26,0,0,0,8.91,2.34,16.31,16.31,0,0,0,10.95-4ZM676,365.9a4.61,4.61,0,0,0,4.68,4.68,4.68,4.68,0,0,0,4.76-4.68,4.75,4.75,0,0,0-4.76-4.76A4.68,4.68,0,0,0,676,365.9M677.11,414h7.17V378.51h-7.17Zm-8.68-36a18.29,18.29,0,0,0-2.79-.23c-5.21,0-8.91,2.42-10.65,4.83v-4.07h-7V414h7.18V390.51c2-3.4,5.89-6,9.59-6a10.06,10.06,0,0,1,2.79.3ZM628,402.89A12.32,12.32,0,0,1,618.3,408a11.59,11.59,0,0,1-11.78-11.7c0-6.19,4.53-11.7,11.4-11.7A12.8,12.8,0,0,1,628,389.61Zm.22,11.1h7V378.51h-7v3.24a16.62,16.62,0,0,0-11.1-4,16.83,16.83,0,0,0-8.68,2.27,19,19,0,0,0-.07,32.39,18.2,18.2,0,0,0,8.91,2.34,16.3,16.3,0,0,0,10.94-4Zm-33.07-53.83a16.61,16.61,0,0,0-4.23-.53,13.88,13.88,0,0,0-11.62,5.89c-1.59,2.27-2.27,5.21-2.27,10v3h-8.3v6.41h8.3V414h7.18V384.92h10.94v-6.41H584.25v-3.25c0-3.25.37-5.06,1.35-6.34a7,7,0,0,1,5.44-2.49,11.64,11.64,0,0,1,2.64.3ZM546.65,384a9.92,9.92,0,0,1,9.36,7.7H536.68a10.31,10.31,0,0,1,10-7.7m16.76,13.74a14,14,0,0,0,.07-1.51c0-10.5-7.17-18.5-17.06-18.5s-17.29,7.85-17.29,18.5a18,18,0,0,0,18.35,18.5c7.24,0,12.3-3.25,14.95-6.65l-4.69-4.45a12.78,12.78,0,0,1-10.19,4.83,11.43,11.43,0,0,1-11.47-10.72Zm-75.58,8.15a23.68,23.68,0,0,0,18.5,8.84c9.21,0,16.38-6,16.38-15.33,0-6-3.32-9.74-6.87-12.08-6.79-4.53-18-6-18-12.68,0-4.61,4.38-7.1,8.75-7.1a14.55,14.55,0,0,1,9.44,3.62l4.46-5.51a21.76,21.76,0,0,0-14.2-5.28c-9.21,0-16,6.34-16,14,0,5.51,2.94,9.14,6.72,11.63,7,4.6,18.19,5.51,18.19,13.59,0,4.75-4.3,7.92-9.21,7.92-5.44,0-9.81-3-12.91-6.79Z' transform='translate(-389 -337.85)'/%3E%3C/g%3E%3C/svg%3E\") no-repeat;" +
                 'width: 70px;' +
                 'display: inline-block;'+
                 'margin-left: 3px;' +
@@ -142,7 +142,7 @@
                 'line-height: 18px;' +
                 'opacity: 0.6' +
             '}' +
-            '.sefaria-footer {' +
+            '.mekoros-footer {' +
                 'color: #999;' +
                 'padding:20px 20px 20px 20px;' +
                 'border-top: 1px solid #ddd;' +
@@ -153,41 +153,41 @@
                 'align-items: center;' +
                 'font-family: "Helvetica Neue", "Helvetica", sans-serif;' +
             '}'+
-            '.sefaria-read-more-button {' +
+            '.mekoros-read-more-button {' +
                 'background-color: #fff;' +
                 'padding: 5px 10px;'+
                 'margin-top: -3px;' +
                 'border: 1px solid #ddd;' +
                 'border-radius: 5px;' +
             '}' +
-            '.interface-hebrew .sefaria-powered-by-box {' +
+            '.interface-hebrew .mekoros-powered-by-box {' +
                 'margin-top: -6px' +
             '}'+
-            '.sefaria-read-more-button a {' +
+            '.mekoros-read-more-button a {' +
                 'text-decoration: none;' +
                 'color: #666;' +
             '}'+
-            '#sefaria-linker-header {' +
+            '#mekoros-linker-header {' +
                 'border-top: 4px solid #ddd;' +
                 'border-bottom: 1px solid #ddd;' +
                 'background-color: #FBFBFA;' +
                 'text-align: center;' +
                 'padding-bottom: 3px;' +
             '}'+
-            '.interface-hebrew .sefaria-footer {' +
+            '.interface-hebrew .mekoros-footer {' +
                 'direction: rtl;' +
                 'font-family: "Heebo", sans-serif' +
             '}'+
-            '#sefaria-popup.short-screen .sefaria-text{'+
+            '#mekoros-popup.short-screen .mekoros-text{'+
                 'overflow-y: scroll;' +
                 'max-height: calc(100% - 117px);' +
             '}'+
-            'span.sefaria-ref-wrapper{'+
+            'span.mekoros-ref-wrapper{'+
                 'display: inline !important;' +
             '}';
 
         if (mode == "popup-click") {
-            html += '#sefaria-close {' +
+            html += '#mekoros-close {' +
                 '    font-family: "Crimson Text";' +
                 '    font-size: 36px;' +
                 '    height: 48px;' +
@@ -201,7 +201,7 @@
                 '    outline: none;' +
                 '}' +
             '</style>' +
-            '<div id="sefaria-close">×</div>';
+            '<div id="mekoros-close">×</div>';
         } else {
             html += '</style>'
         }
@@ -214,16 +214,16 @@
             "hebrew": '<center>מונע ע"י<br></center>'
         }[options.interfaceLang];
 
-        html += '<div id="sefaria-linker-header">' +
-                '<div id="sefaria-title"><span class="he" dir="rtl"></span><span class="en"></span></div>' +
+        html += '<div id="mekoros-linker-header">' +
+                '<div id="mekoros-title"><span class="he" dir="rtl"></span><span class="en"></span></div>' +
             '</div>' +
-            '<div class="sefaria-text" id="sefaria-linker-text" tabindex="0"></div>' +
+            '<div class="mekoros-text" id="mekoros-linker-text" tabindex="0"></div>' +
 
-            '<div class="sefaria-footer">' +
-                '<div class="sefaria-powered-by-box">' + poweredByText + ' <div id="sefaria-logo">&nbsp;</div></div>' +
+            '<div class="mekoros-footer">' +
+                '<div class="mekoros-powered-by-box">' + poweredByText + ' <div id="mekoros-logo">&nbsp;</div></div>' +
                 (mode == "popup-click" ?
-                '<span class="sefaria-read-more-button">' +
-                    '<a class = "sefaria-popup-ref" target="_blank" href = "">' + readMoreText + '</a>' +
+                '<span class="mekoros-read-more-button">' +
+                    '<a class = "mekoros-popup-ref" target="_blank" href = "">' + readMoreText + '</a>' +
                 '</span>' : "") +
             '</div>';
 
@@ -249,20 +249,20 @@
 
         popUpElem = document.body.appendChild(popUpElem);
 
-        var draggie = new Draggabilly(popUpElem, {handle: "#sefaria-linker-header"});
+        var draggie = new Draggabilly(popUpElem, {handle: "#mekoros-linker-header"});
 
-        heBox = popUpElem.querySelector(".sefaria-text.he");
-        enBox = popUpElem.querySelector(".sefaria-text.en");
-        linkerHeader = popUpElem.querySelector("#sefaria-linker-header");
-        linkerFooter = popUpElem.querySelector(".sefaria-footer");
-        textBox = popUpElem.querySelector(".sefaria-text");
-        heTitle = popUpElem.querySelector("#sefaria-title .he");
-        enTitle = popUpElem.querySelector("#sefaria-title .en");
+        heBox = popUpElem.querySelector(".mekoros-text.he");
+        enBox = popUpElem.querySelector(".mekoros-text.en");
+        linkerHeader = popUpElem.querySelector("#mekoros-linker-header");
+        linkerFooter = popUpElem.querySelector(".mekoros-footer");
+        textBox = popUpElem.querySelector(".mekoros-text");
+        heTitle = popUpElem.querySelector("#mekoros-title .he");
+        enTitle = popUpElem.querySelector("#mekoros-title .en");
         heElems = popUpElem.querySelectorAll(".he");
         enElems = popUpElem.querySelectorAll(".en");
 
         if (mode == "popup-click") {
-            popUpElem.querySelector('#sefaria-close').addEventListener('click', hidePopup, false);
+            popUpElem.querySelector('#mekoros-close').addEventListener('click', hidePopup, false);
             popUpElem.addEventListener('keydown', function (e) {
                 var key = e.which || e.keyCode;
                 if (key === 27) { // 27 is escape
@@ -349,7 +349,7 @@
 
 
         if (mode == "popup-click") {
-            [].forEach.call(popUpElem.querySelectorAll(".sefaria-popup-ref"), function(link) {link.setAttribute('href', e.href);});
+            [].forEach.call(popUpElem.querySelectorAll(".mekoros-popup-ref"), function(link) {link.setAttribute('href', e.href);});
             document.addEventListener("click", function (e) {
               var level = 0;
               for (var element = e.target; element; element = element.parentNode) {
@@ -418,7 +418,7 @@
         ns.matchedTitles = bookTitles.filter(title => full_text.indexOf(title) > -1).filter(distinct);
 
          if (ns.matchedTitles.length === 0) {
-            //console.log("No book titles found to link to Sefaria.");
+            //console.log("No book titles found to link to Mekoros.");
             ns._trackPage();
         }
         else {
@@ -448,7 +448,7 @@
                 ns._trackPage();
 
                 if (ns.matches.length == 0) {
-                    //console.log("No references found to link to Sefaria.");
+                    //console.log("No references found to link to Mekoros.");
                     return;
                 }
                 if (mode != 'link') {
@@ -520,10 +520,10 @@
                             ns.matches.push(matched_ref);
                             const atag = document.createElement("a");
                             atag.target = "_blank";
-                            atag.className = "sefaria-ref";
+                            atag.className = "mekoros-ref";
                             atag.href = base_url + matched_ref;
                             atag.setAttribute('data-ref', matched_ref);
-                            atag.setAttribute('aria-controls', 'sefaria-popup');
+                            atag.setAttribute('aria-controls', 'mekoros-popup');
                             atag.textContent = portion.text;
                             const preText = match[0].substr(0, match[0].indexOf(match[1]));
                             if (!isFirstPortionInMatch || preText.length === 0) { return atag; }
@@ -534,7 +534,7 @@
                             // due to the fact that safari doesn't support lookbehinds, we need to include prefix group in match
                             // however, we don't want the prefix group to end up in the final a-tag
                             const node = document.createElement("span");
-                            node.className="sefaria-ref-wrapper";
+                            node.className="mekoros-ref-wrapper";
                             node.textContent = preText;
                             node.appendChild(atag);
                             return node;
@@ -589,18 +589,18 @@
     };
 
     ns._getTextsSuccess = function(mode, data) {
-        //Put text data into sefaria.sources
+        //Put text data into mekoros.sources
         ns.sources = data;
 
         // Bind a click event and a mouseover event to each link
-        [].forEach.call(document.querySelectorAll('.sefaria-ref'),function(e) {
+        [].forEach.call(document.querySelectorAll('.mekoros-ref'),function(e) {
             if ("error" in ns.sources[e.getAttribute('data-ref')]) {
                 unwrap(e);
                 return;
             }
             var source = ns.sources[e.getAttribute('data-ref')];
             var utm_source = window.location.hostname ? window.location.hostname.replace(/^www\./, "") : "(not%20set)";
-            e.setAttribute('href', base_url + source.url + "?lang=" + (source.lang == "en"?"he-en":"he") + "&utm_source=" + utm_source + "&utm_medium=sefaria_linker");
+            e.setAttribute('href', base_url + source.url + "?lang=" + (source.lang == "en"?"he-en":"he") + "&utm_source=" + utm_source + "&utm_medium=mekoros_linker");
             if (mode == "popup-hover") {
                 e.addEventListener('mouseover', function(event) {
                     showPopup(this, mode);
@@ -611,7 +611,7 @@
                     showPopup(this, mode);
                     event.preventDefault();
                     event.stopPropagation();
-                    document.getElementById("sefaria-linker-text").focus();
+                    document.getElementById("mekoros-linker-text").focus();
                 }, false);
             }
         });
@@ -650,6 +650,6 @@
             });
     }
 
-}(this.sefaria = this.sefaria || {}));
+}(this.mekoros = this.mekoros || {}));
 
 {% endautoescape %}

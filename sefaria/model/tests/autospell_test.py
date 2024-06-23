@@ -8,7 +8,7 @@
 """
 
 import pytest
-from sefaria.model import *
+from mekoros.model import *
 
 
 def setup_module(module):

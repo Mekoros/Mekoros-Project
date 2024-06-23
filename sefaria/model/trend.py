@@ -13,9 +13,9 @@ from . import abstract as abst
 from . import user_profile
 from . import text
 
-from sefaria.system.database import db
-from sefaria.model import Ref
-from sefaria.model.text import library
+from mekoros.system.database import db
+from mekoros.model import Ref
+from mekoros.model.text import library
 
 import structlog
 logger = structlog.get_logger(__name__)
@@ -429,8 +429,8 @@ def user_stats_data(uid):
     :param end: datetime
     :return:
     """
-    from sefaria.model.story import Story
-    from sefaria.sheets import user_sheets
+    from mekoros.model.story import Story
+    from mekoros.sheets import user_sheets
 
     uid = int(uid)
     user_stats_dict = user_profile.public_user_data(uid)

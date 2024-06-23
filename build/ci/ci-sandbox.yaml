@@ -5,13 +5,13 @@ substitutions:
 
   _GIT_COMMIT: deadbeef
   _ENV_NAME: ASDF
-  _GIT_REPO: Sefaria/Sefaria-Project
+  _GIT_REPO: Mekoros/Mekoros-Project
   _GKE_CLUSTER: cluster-1
   _GKE_NAMESPACE: sandboxes
   _GKE_REGION: us-east1-b
   _IS_SANDBOX: "false" # must be a quoted string
   _MONGO_HOST: mongo
-  _MONGO_DATABASE: "sefaria-vecino"
+  _MONGO_DATABASE: "mekoros-vecino"
   _MONGO_RESTORE_JOB: "restore-mongo-ASDF-foobar"
   _RAND_SLUG: "foobar"
   _RESOURCE_ALLOCATION: small
@@ -33,19 +33,19 @@ steps:
   # Clone repository using specified remote and branch
   - name: gcr.io/cloud-builders/git
     args: ["clone", "https://github.com/${_GIT_REPO}.git" ]
-    id: sefaria_repo_clone
+    id: mekoros_repo_clone
     wait_for: [ "-" ]
 
   - name: gcr.io/cloud-builders/git
-    dir: Sefaria-Project
+    dir: Mekoros-Project
     args: ["checkout", "${_GIT_COMMIT}" ]
 
   # Print git hash
   - name: gcr.io/cloud-builders/git
     args: [ "rev-parse", "--verify", "HEAD", "--short=6" ]
-    dir: Sefaria-Project
-    id: sefaria_repo_git_hash
-    wait_for: [ "sefaria_repo_clone" ]
+    dir: Mekoros-Project
+    id: mekoros_repo_git_hash
+    wait_for: [ "mekoros_repo_clone" ]
 
   # Restore Mongo
   # This build step is defined at `v2/containers/mongo-restore
@@ -84,49 +84,49 @@ steps:
   # Build artifacts
   - name: gcr.io/kaniko-project/executor:v1.6.0
     args:
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-web-${_ENV_NAME}:$SHORT_SHA
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-web-${_ENV_NAME}:gha-${_ENV_NAME}
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-web-${_ENV_NAME}:latest
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-web-dev:${_ENV_NAME}
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-web-${_ENV_NAME}:$SHORT_SHA
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-web-${_ENV_NAME}:gha-${_ENV_NAME}
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-web-${_ENV_NAME}:latest
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-web-dev:${_ENV_NAME}
       - --cache=true
-      - --cache-repo=gcr.io/${PROJECT_ID}/sefaria-web/cache
+      - --cache-repo=gcr.io/${PROJECT_ID}/mekoros-web/cache
       - --dockerfile=build/web/Dockerfile
       - --context=dir://.
-    dir: Sefaria-Project
+    dir: Mekoros-Project
     id: web_container
     wait_for:
-      - sefaria_repo_clone
+      - mekoros_repo_clone
 
   - name: gcr.io/kaniko-project/executor:v1.6.0
     args:
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-node-${_ENV_NAME}:$SHORT_SHA
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-node-${_ENV_NAME}:gha-${_ENV_NAME}
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-node-${_ENV_NAME}:latest
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-node-dev:${_ENV_NAME}
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-node-${_ENV_NAME}:$SHORT_SHA
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-node-${_ENV_NAME}:gha-${_ENV_NAME}
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-node-${_ENV_NAME}:latest
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-node-dev:${_ENV_NAME}
       - --cache=true
-      - --cache-repo=gcr.io/${PROJECT_ID}/sefaria-node/cache
+      - --cache-repo=gcr.io/${PROJECT_ID}/mekoros-node/cache
       - --dockerfile=build/node/Dockerfile
       - --context=dir://.
-    dir: Sefaria-Project
+    dir: Mekoros-Project
     id: nodejs_container
     wait_for:
-      - sefaria_repo_clone
+      - mekoros_repo_clone
   
   - name: gcr.io/kaniko-project/executor:v1.6.0
     args:
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-asset-${_ENV_NAME}:$SHORT_SHA
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-asset-${_ENV_NAME}:gha-${_ENV_NAME}
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-asset-${_ENV_NAME}:latest
-      - --destination=gcr.io/${PROJECT_ID}/sefaria-asset-dev:${_ENV_NAME}
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-asset-${_ENV_NAME}:$SHORT_SHA
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-asset-${_ENV_NAME}:gha-${_ENV_NAME}
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-asset-${_ENV_NAME}:latest
+      - --destination=gcr.io/${PROJECT_ID}/mekoros-asset-dev:${_ENV_NAME}
       - --cache=false
       - --dockerfile=build/nginx/Dockerfile
-      - --build-arg=SRC_IMG=gcr.io/${PROJECT_ID}/sefaria-web-${_ENV_NAME}:$SHORT_SHA
+      - --build-arg=SRC_IMG=gcr.io/${PROJECT_ID}/mekoros-web-${_ENV_NAME}:$SHORT_SHA
       - --context=dir://.
-    dir: Sefaria-Project
+    dir: Mekoros-Project
     id: nginx_container
     wait_for:
       - web_container
-      - sefaria_repo_clone
+      - mekoros_repo_clone
 
   # Outputs a file to /k8s-admin/v2/app_settings/helm/_sandboxValues.yaml
   - name: gcr.io/${PROJECT_ID}/mongo-restore # used for gettext access
@@ -161,7 +161,7 @@ steps:
     dir: k8s-admin/v2
     id: copy_localsettings_file
     entrypoint: cp
-    args: ["-f", "./app_settings/local_settings/_local_settings.py", "./charts/sefaria/local_settings.py"]
+    args: ["-f", "./app_settings/local_settings/_local_settings.py", "./charts/mekoros/local_settings.py"]
     wait_for:
       - generate_localsettings_file
 
@@ -180,14 +180,14 @@ steps:
     dir: k8s-admin/v2
     id: copy_robots_file
     entrypoint: cp
-    args: ["-f", "./app_settings/nginx/_robots.txt", "./charts/sefaria/robots.txt"]
+    args: ["-f", "./app_settings/nginx/_robots.txt", "./charts/mekoros/robots.txt"]
     wait_for:
       - generate_robots_file
 
   - name: "gcr.io/${PROJECT_ID}/cloudbuild-helm:v3.5.4"
     id: deploy_sandbox
     dir: k8s-admin/v2
-    args: ["upgrade", "-i", "sandbox-${_ENV_NAME}", "./charts/sefaria", "--namespace", "${_GKE_NAMESPACE}", "--set-string", "releaseImageTag=gha-${_ENV_NAME},deployEnv=${_ENV_NAME}", "-f", "app_settings/helm/_envValues.yaml", "-f", "app_settings/helm/_resourceValues.yaml", "--debug"]
+    args: ["upgrade", "-i", "sandbox-${_ENV_NAME}", "./charts/mekoros", "--namespace", "${_GKE_NAMESPACE}", "--set-string", "releaseImageTag=gha-${_ENV_NAME},deployEnv=${_ENV_NAME}", "-f", "app_settings/helm/_envValues.yaml", "-f", "app_settings/helm/_resourceValues.yaml", "--debug"]
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=${_GKE_REGION}'
       - 'CLOUDSDK_CONTAINER_CLUSTER=${_GKE_CLUSTER}'

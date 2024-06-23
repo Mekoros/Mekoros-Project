@@ -2,13 +2,13 @@ import React from 'react';
 import classNames from 'classnames';
 import extend from 'extend';
 import PropTypes from 'prop-types';
-import Sefaria from './sefaria/sefaria';
+import Mekoros from './mekoros/mekoros';
 import Header from './Header';
 import ReaderPanel from './ReaderPanel';
-import $ from './sefaria/sefariaJquery';
+import $ from './mekoros/mekorosJquery';
 import EditCollectionPage from './EditCollectionPage';
 import Footer from './Footer';
-import SearchState from './sefaria/searchState';
+import SearchState from './mekoros/searchState';
 import {ContentLanguageContext, AdContext, StrapiDataProvider, ExampleComponent, StrapiDataContext} from './context';
 import {
   ContestLandingPage,
@@ -36,7 +36,7 @@ import {
 import { Promotions } from './Promotions';
 import Component from 'react-class';
 import  { io }  from 'socket.io-client';
-import { SignUpModalKind } from './sefaria/signupModalContent';
+import { SignUpModalKind } from './mekoros/signupModalContent';
 
 class ReaderApp extends Component {
   constructor(props) {
@@ -96,7 +96,7 @@ class ReaderApp extends Component {
         else if (panel.currVersions.he)                     { panel.settings = {language: "hebrew"}; }
         else if (panel.currVersions.en)                     { panel.settings = {language: "english"}; }
       }
-      panel.settings = extend(Sefaria.util.clone(defaultPanelSettings), (panel.settings || {}));
+      panel.settings = extend(Mekoros.util.clone(defaultPanelSettings), (panel.settings || {}));
 
       if (panel.mode.endsWith("AndConnections")) {
         panel.highlightedRefs = panel.refs;
@@ -107,14 +107,14 @@ class ReaderApp extends Component {
       return panel;
     }).map(panel => this.makePanelState(panel));
 
-    const defaultVersions   = Sefaria.util.clone(props.initialDefaultVersions) || {};
+    const defaultVersions   = Mekoros.util.clone(props.initialDefaultVersions) || {};
     const layoutOrientation = (props.interfaceLang == "hebrew") ? "rtl" : "ltr";
 
     this.state = {
       panels: panels,
       headerMode: props.headerMode,
       defaultVersions: defaultVersions,
-      defaultPanelSettings: Sefaria.util.clone(defaultPanelSettings),
+      defaultPanelSettings: Mekoros.util.clone(defaultPanelSettings),
       layoutOrientation: layoutOrientation,
       path: props.initialPath,
       panelCap: props.initialPanelCap,
@@ -161,7 +161,7 @@ class ReaderApp extends Component {
       compare:                 state.compare                 || false,
       openSidebarAsConnect:    state.openSidebarAsConnect    || false,
       bookRef:                 state.bookRef                 || null,
-      settings:                state.settings ? Sefaria.util.clone(state.settings) : Sefaria.util.clone(this.getDefaultPanelSettings()),
+      settings:                state.settings ? Mekoros.util.clone(state.settings) : Mekoros.util.clone(this.getDefaultPanelSettings()),
       displaySettingsOpen:     false,
       initialAnalyticsTracked: state.initialAnalyticsTracked || false,
       selectedWords:           state.selectedWords           || "",
@@ -179,7 +179,7 @@ class ReaderApp extends Component {
     };
     // if version is not set for the language you're in, see if you can retrieve it from cache
     if (this.state && panel.refs.length && ((panel.settings.language === "hebrew" && !panel.currVersions.he) || (panel.settings.language !== "hebrew" && !panel.currVersions.en ))) {
-      const oRef = Sefaria.ref(panel.refs[0]);
+      const oRef = Mekoros.ref(panel.refs[0]);
       if (oRef) {
         const lang = panel.settings.language === "hebrew"?"he":"en";
         panel.currVersions[lang] = this.getCachedVersion(oRef.indexTitle, lang);
@@ -206,12 +206,12 @@ class ReaderApp extends Component {
     document.addEventListener('click', this.handleInAppClickWithModifiers, {capture: true});
     // Save all initial panels to recently viewed
     this.state.panels.map(this.saveLastPlace);
-    if (Sefaria._uid) {
+    if (Mekoros._uid) {
       // A logged in user is automatically a returning visitor
-      Sefaria.markUserAsReturningVisitor();
-    } else if (Sefaria.isNewVisitor()) {
+      Mekoros.markUserAsReturningVisitor();
+    } else if (Mekoros.isNewVisitor()) {
       // Initialize entries for first-time visitors to determine if they are new or returning presently or in the future
-      Sefaria.markUserAsNewVisitor();
+      Mekoros.markUserAsNewVisitor();
     }
   }
   componentWillUnmount() {
@@ -306,52 +306,52 @@ class ReaderApp extends Component {
       // Set Page Type
       // Todo: More specificity for sheets - browsing, reading, writing
       const pageType = !panels.length ? "Static" : (panels[0].menuOpen || panels[0].mode);
-      Sefaria.track.setPageType(pageType);
+      Mekoros.track.setPageType(pageType);
 
       // Number of panels as e.g. "2" meaning 2 text panels or "3.2" meaning 3 text panels and 2 connection panels
       if (connectionPanels.length == 0) {
-        Sefaria.track.setNumberOfPanels(textPanels.length.toString());
+        Mekoros.track.setNumberOfPanels(textPanels.length.toString());
       } else {
-        Sefaria.track.setNumberOfPanels(`${textPanels.length}.${connectionPanels.length}`);
+        Mekoros.track.setNumberOfPanels(`${textPanels.length}.${connectionPanels.length}`);
       }
 
       // refs - per text panel
       var refs =  textPanels.map(panel => (panel.refs.length) ? panel.refs.slice(-1)[0] : panel.bookRef);
-      Sefaria.track.setRef(refs.join(" | "));
+      Mekoros.track.setRef(refs.join(" | "));
 
       // Book name (Index record primary name) - per text panel
-      var bookNames = refs.map(ref => Sefaria.parseRef(ref).index).filter(b => !!b);
-      Sefaria.track.setBookName(bookNames.join(" | "));
+      var bookNames = refs.map(ref => Mekoros.parseRef(ref).index).filter(b => !!b);
+      Mekoros.track.setBookName(bookNames.join(" | "));
 
       // Indexes - per text panel
-      var indexes = bookNames.map(b => Sefaria.index(b)).filter(i => !!i);
+      var indexes = bookNames.map(b => Mekoros.index(b)).filter(i => !!i);
 
       // categories - per text panel
       var primaryCats = indexes.map(i => (i.dependence === "Commentary")? i.categories[0] + " Commentary": i.categories[0]);
-      Sefaria.track.setPrimaryCategory(primaryCats.join(" | "));
+      Mekoros.track.setPrimaryCategory(primaryCats.join(" | "));
 
       var secondaryCats = indexes.map(i => {
           var cats = i.categories.filter(cat=> cat != "Commentary").slice(1);
           return (cats.length >= 1) ? cats[0] : ""
       });
-      Sefaria.track.setSecondaryCategory(secondaryCats.join(" | "));
+      Mekoros.track.setSecondaryCategory(secondaryCats.join(" | "));
 
       // panel content languages - per text panel
       var contentLanguages = textPanels.map(panel => panel.settings.language);
-      Sefaria.track.setContentLanguage(contentLanguages.join(" | "));
+      Mekoros.track.setContentLanguage(contentLanguages.join(" | "));
 
       // Set Versions - per text panel
       var versionTitles = textPanels.map(p => p.currVersions.en ? `${p.currVersions.en}(en)`: (p.currVersions.he ? `${p.currVersions.he}(he)` : 'default version'));
-      Sefaria.track.setVersionTitle(versionTitles.join(" | "));
+      Mekoros.track.setVersionTitle(versionTitles.join(" | "));
 
       // Set Sidebar usages
       // todo: handle toolbar selections
       var sidebars = connectionPanels.map(panel => panel.filter.length ? panel.filter.join("+") : "all");
-      Sefaria.track.setSidebars(sidebars.join(" | "));
+      Mekoros.track.setSidebars(sidebars.join(" | "));
 
       // After setting the dimensions, post the hit
       var url = window.location.pathname + window.location.search;
-      // Sefaria.track.pageview(url);
+      // Mekoros.track.pageview(url);
 
       if (!this.state.initialAnalyticsTracked) {
         this.setState({initialAnalyticsTracked: true});
@@ -420,14 +420,14 @@ class ReaderApp extends Component {
     return false;
   }
   clonePanel(panel, prepareForSerialization) {
-    return Sefaria.util.clone(panel, prepareForSerialization);
+    return Mekoros.util.clone(panel, prepareForSerialization);
   }
   makeHistoryState() {
     // Returns an object with state, title and url params for the current state
     var histories = [];
     const states = this.state.panels.map(panel => this.clonePanel(panel, true));
-    var siteName = Sefaria._siteSettings["SITE_NAME"]["en"]; // e.g. "Sefaria"
-    const shortLang = Sefaria.interfaceLang === 'hebrew' ? 'he' : 'en';
+    var siteName = Mekoros._siteSettings["SITE_NAME"]["en"]; // e.g. "Mekoros"
+    const shortLang = Mekoros.interfaceLang === 'hebrew' ? 'he' : 'en';
 
     // List of modes that the ConnectionsPanel may have which can be represented in a URL.
     const sidebarModes = new Set(["Sheets", "Notes", "Translations", "Translation Open",
@@ -450,32 +450,32 @@ class ReaderApp extends Component {
         switch (state.menuOpen) {
           case "navigation":
             var cats   = state.navigationCategories ? state.navigationCategories.join("/") : "";
-            hist.title = cats ? state.navigationCategories.map(Sefaria._).join(", ") + " | " + Sefaria._(siteName) : Sefaria._("Sefaria: a Living Library of Jewish Texts Online");
+            hist.title = cats ? state.navigationCategories.map(Mekoros._).join(", ") + " | " + Mekoros._(siteName) : Mekoros._("Mekoros: a Living Library of Jewish Texts Online");
             hist.url   = "texts" + (cats ? "/" + cats : "");
             hist.mode  = "navigation";
             break;
           case "text toc":
             var ref    = state.refs.slice(-1)[0];
-            var bookTitle  = ref ? Sefaria.parseRef(ref).index : "404";
-            hist.title = Sefaria._(bookTitle) + " | " + Sefaria._(siteName);
+            var bookTitle  = ref ? Mekoros.parseRef(ref).index : "404";
+            hist.title = Mekoros._(bookTitle) + " | " + Mekoros._(siteName);
             hist.url   = bookTitle.replace(/ /g, "_");
             hist.mode  = "text toc";
             break;
           case "book toc":
             var bookTitle = state.bookRef;
-            hist.title = Sefaria._(bookTitle) + " | " + Sefaria._(siteName);
+            hist.title = Mekoros._(bookTitle) + " | " + Mekoros._(siteName);
             hist.url = bookTitle.replace(/ /g, "_");
             hist.mode = "book toc";
             break;
           case "sheet meta":
-            const sheet = Sefaria.sheets.loadSheetByID(state.sheetID);
+            const sheet = Mekoros.sheets.loadSheetByID(state.sheetID);
             const sheetTitle = sheet? sheet.title.stripHtml() : "";
-            hist.title = Sefaria._(siteName + " Source Sheets")+": " + sheetTitle;
+            hist.title = Mekoros._(siteName + " Source Sheets")+": " + sheetTitle;
             hist.url = i == 0 ? "sheets/"+ state.sheetID : "sheet&s="+ state.sheetID;
             hist.mode = "sheet meta";
             break;
           case "extended notes":
-            var bookTitle = state.mode==="Connections" ?Sefaria.parseRef(state.currentlyVisibleRef).index : state.bookRef;
+            var bookTitle = state.mode==="Connections" ?Mekoros.parseRef(state.currentlyVisibleRef).index : state.bookRef;
             hist.currVersions = state.currVersions;
             hist.url = `${bookTitle}&notes${i>1 ? i : ''}=1`.replace(/ /g, "_");
             hist.mode = "extended notes";
@@ -483,7 +483,7 @@ class ReaderApp extends Component {
           case "search":
             const query = state.searchQuery ? encodeURIComponent(state.searchQuery) : "";
             hist.title = state.searchQuery ? state.searchQuery.stripHtml() + " | " : "";
-            hist.title += Sefaria._(siteName + " Search");
+            hist.title += Mekoros._(siteName + " Search");
             hist.url   = "search" + (state.searchQuery ? (`&q=${query}&tab=${state.searchTab}` +
               state.textSearchState.makeURL({ prefix: 't', isStart: false }) +
               state.sheetSearchState.makeURL({ prefix: 's', isStart: false })) : "");
@@ -493,35 +493,35 @@ class ReaderApp extends Component {
             if (state.navigationTopic) {
               hist.url = state.topicTestVersion ? `topics/${state.topicTestVersion}/${state.navigationTopic}` : `topics/${state.navigationTopic}`;
               hist.url = hist.url + (state.topicSort ? `&sort=${state.topicSort}` : '');
-              hist.title = `${state.topicTitle[shortLang]} | ${ Sefaria._("Texts & Source Sheets from Torah, Talmud and Sefaria's library of Jewish sources.")}`;
+              hist.title = `${state.topicTitle[shortLang]} | ${ Mekoros._("Texts & Source Sheets from Torah, Talmud and Mekoros's library of Jewish sources.")}`;
               hist.mode  = "topic";
             } else if (state.navigationTopicCategory) {
-              hist.title = state.navigationTopicTitle[shortLang] + " | " + Sefaria._("Texts & Source Sheets from Torah, Talmud and Sefaria's library of Jewish sources.");
+              hist.title = state.navigationTopicTitle[shortLang] + " | " + Mekoros._("Texts & Source Sheets from Torah, Talmud and Mekoros's library of Jewish sources.");
               hist.url   =  "topics/category/" + state.navigationTopicCategory;
               hist.mode  = "topicCat";
             } else {
               hist.url   = "topics";
-              hist.title = Sefaria._("Topics | " + siteName);
+              hist.title = Mekoros._("Topics | " + siteName);
               hist.mode  = "topics";
             }
             break;
           case "allTopics":
               hist.url   = "topics/all/" + state.navigationTopicLetter;
-              hist.title = Sefaria._("Explore Jewish Texts by Topic") + " - " + state.navigationTopicLetter + " | " + Sefaria._(siteName);
+              hist.title = Mekoros._("Explore Jewish Texts by Topic") + " - " + state.navigationTopicLetter + " | " + Mekoros._(siteName);
               hist.mode  = "topics";
             break;
           case "community":
-            hist.title = Sefaria._("From the Community: Today on Sefaria");
+            hist.title = Mekoros._("From the Community: Today on Mekoros");
             hist.url   = "community";
             hist.mode  = "community";
             break;
           case "profile":
-            hist.title = `${state.profile.full_name} ${Sefaria._("on Sefaria")}`;
+            hist.title = `${state.profile.full_name} ${Mekoros._("on Mekoros")}`;
             hist.url   = `profile/${state.profile.slug}`;
             hist.mode = "profile";
             break;
           case "notifications":
-            hist.title = Sefaria._(siteName + " Notifications");
+            hist.title = Mekoros._(siteName + " Notifications");
             hist.url   = "notifications";
             hist.mode  = "notifications";
             break;
@@ -530,70 +530,70 @@ class ReaderApp extends Component {
             if (states[i].collectionTag) {
               hist.url += "&tag=" + state.collectionTag.replace("#","%23");
             }
-            hist.title = (state.collectionName ? state.collectionName + " | " : "") + Sefaria._(siteName + " Collections");
+            hist.title = (state.collectionName ? state.collectionName + " | " : "") + Mekoros._(siteName + " Collections");
             hist.mode  = "collection";
             break;
           case "collectionsPublic":
-            hist.title = Sefaria._("Collections") + " | " + Sefaria._(siteName);
+            hist.title = Mekoros._("Collections") + " | " + Mekoros._(siteName);
             hist.url = "collections";
             hist.mode = "collcetionsPublic";
             break;
           case "translationsPage":
             hist.url   = "translations/" + state.translationsSlug;
-            hist.title = Sefaria.getHebrewTitle(state.translationsSlug);
+            hist.title = Mekoros.getHebrewTitle(state.translationsSlug);
             hist.mode  = "translations";
             break;
           case "calendars":
-            hist.title = Sefaria._("Learning Schedules") + " | " + Sefaria._(siteName);
+            hist.title = Mekoros._("Learning Schedules") + " | " + Mekoros._(siteName);
             hist.url = "calendars";
             hist.mode = "calendars";
             break;
           case "updates":
-            hist.title = Sefaria._("New Additions to the " + siteName + " Library");
+            hist.title = Mekoros._("New Additions to the " + siteName + " Library");
             hist.url = "updates";
             hist.mode = "updates";
             break;
           case "modtools":
-            hist.title = Sefaria._("Moderator Tools");
+            hist.title = Mekoros._("Moderator Tools");
             hist.url = "modtools";
             hist.mode = "modtools";
             break;
           case "user_stats":
-            hist.title = Sefaria._("Torah Tracker");
+            hist.title = Mekoros._("Torah Tracker");
             hist.url = "torahtracker";
             hist.mode = "user_stats";
             break;
           case "saved":
-            hist.title = Sefaria._("My Saved Content");
+            hist.title = Mekoros._("My Saved Content");
             hist.url = "texts/saved";
             hist.mode = "saved";
             break;
           case "history":
-            hist.title = Sefaria._("My Reading History");
+            hist.title = Mekoros._("My Reading History");
             hist.url = "texts/history";
             hist.mode = "history";
         }
         hist.url = addTab(hist.url)
       } else if (state.mode === "Text") {
-        var highlighted = state.highlightedRefs.length ? Sefaria.normRefList(state.highlightedRefs) : null;
+        var highlighted = state.highlightedRefs.length ? Mekoros.normRefList(state.highlightedRefs) : null;
 
         if (highlighted &&
-            (Sefaria.refContains(highlighted, state.currentlyVisibleRef)
-             || Sefaria.refContains(state.currentlyVisibleRef, highlighted))) {
+            (Mekoros.refContains(highlighted, state.currentlyVisibleRef)
+             || Mekoros.refContains(state.currentlyVisibleRef, highlighted))) {
           var htitle = highlighted;
         } else {
           var htitle = state.currentlyVisibleRef;
         }
-        hist.title        = Sefaria._r(htitle);
-        hist.url          = Sefaria.normRef(htitle);
+        hist.title        = Mekoros._r(htitle);
+        hist.url          = Mekoros.normRef(htitle);
         hist.currVersions = state.currVersions;
         hist.mode         = "Text";
-        if(Sefaria.titleIsTorah(htitle)){
+        if(Mekoros.titleIsTorah(htitle)){
           hist.aliyot = (state.settings.aliyotTorah == "aliyotOff") ? 0 : 1;
         }
 
       } else if (state.mode === "Connections") {
-        var ref       = Sefaria.normRefList(state.refs);
+        var ref       = Mekoros.normRefList(state.refs);
         if (!!state.filterRef) {
           hist.filterRef = state.filterRef;
         }
@@ -619,18 +619,18 @@ class ReaderApp extends Component {
           if (state.selectedNamedEntity) { hist.selectedNamedEntity = state.selectedNamedEntity; }
           if (state.selectedNamedEntityText) { hist.selectedNamedEntityText = state.selectedNamedEntityText; }
         }
-        hist.title    = Sefaria._r(ref)  + Sefaria._(" with ") + Sefaria._(hist.sources === "all" ? "Connections" : hist.sources);
-        hist.url      = Sefaria.normRef(ref); // + "?with=" + sources;
+        hist.title    = Mekoros._r(ref)  + Mekoros._(" with ") + Mekoros._(hist.sources === "all" ? "Connections" : hist.sources);
+        hist.url      = Mekoros.normRef(ref); // + "?with=" + sources;
         hist.mode     = "Connections";
 
       } else if (state.mode === "TextAndConnections") {
-        var highlighted = state.highlightedRefs.length ? Sefaria.normRefList(state.highlightedRefs) : null;
+        var highlighted = state.highlightedRefs.length ? Mekoros.normRefList(state.highlightedRefs) : null;
         var filter    = state.filter.length ? state.filter :
                           (sidebarModes.has(state.connectionsMode) ? [state.connectionsMode] : ["all"]);
         hist.sources  = filter.join("+");
         if (highlighted &&
-            (Sefaria.refContains(highlighted, state.currentlyVisibleRef)
-             || Sefaria.refContains(state.currentlyVisibleRef, highlighted))) {
+            (Mekoros.refContains(highlighted, state.currentlyVisibleRef)
+             || Mekoros.refContains(state.currentlyVisibleRef, highlighted))) {
           var htitle = highlighted;
         } else {
           var htitle = state.currentlyVisibleRef;
@@ -638,16 +638,16 @@ class ReaderApp extends Component {
         if (state.connectionsMode === "Translation Open" && state.versionFilter.length) {
           hist.versionFilter = state.versionFilter[0];
         }
-        hist.title    = Sefaria._r(htitle)  + Sefaria._(" with ") + Sefaria._(hist.sources === "all" ? "Connections" : hist.sources);
-        hist.url      = Sefaria.normRef(htitle); // + "?with=" + sources;
+        hist.title    = Mekoros._r(htitle)  + Mekoros._(" with ") + Mekoros._(hist.sources === "all" ? "Connections" : hist.sources);
+        hist.url      = Mekoros.normRef(htitle); // + "?with=" + sources;
         hist.currVersions = state.currVersions;
         hist.mode     = "TextAndConnections";
-        if(Sefaria.titleIsTorah(htitle)){
+        if(Mekoros.titleIsTorah(htitle)){
           hist.aliyot = (state.settings.aliyotTorah == "aliyotOff") ? 0 : 1;
         }
 
       } else if (state.mode === "Sheet") {
-        const sheet = Sefaria.sheets.loadSheetByID(state.sheetID);
+        const sheet = Mekoros.sheets.loadSheetByID(state.sheetID);
         hist.title = sheet ? sheet.title.stripHtml() : "";
         const sheetURLSlug = state.highlightedNode ? state.sheetID + "." + state.highlightedNode : state.sheetID;
         const filter    = state.filter.length ? state.filter :
@@ -663,10 +663,10 @@ class ReaderApp extends Component {
         if (state.connectionsMode === "Translation Open" && state.versionFilter.length) {
           hist.versionFilter = state.versionFilter[0];
         }
-        const sheet = Sefaria.sheets.loadSheetByID(state.sheetID);
+        const sheet = Mekoros.sheets.loadSheetByID(state.sheetID);
         const title = sheet ? sheet.title.stripHtml() : "";
-        hist.title  = title + Sefaria._(" with ") + Sefaria._(hist.sources === "all" ? "Connections" : hist.sources);
-        hist.url    = i == 0 ? "sheets/" + state.sheetID : "sheet&s=" + state.sheetID + "?with=" + Sefaria._(hist.sources === "all" ? "Connections" : hist.sources);
+        hist.title  = title + Mekoros._(" with ") + Mekoros._(hist.sources === "all" ? "Connections" : hist.sources);
+        hist.url    = i == 0 ? "sheets/" + state.sheetID : "sheet&s=" + state.sheetID + "?with=" + Mekoros._(hist.sources === "all" ? "Connections" : hist.sources);
         hist.mode   = "SheetAndConnections";
       }
 
@@ -691,10 +691,10 @@ class ReaderApp extends Component {
     }
 
     // Now merge all history objects into one
-    var title =  histories.length ? histories[0].title : "Sefaria";
+    var title =  histories.length ? histories[0].title : "Mekoros";
 
     var url   = "/" + (histories.length ? histories[0].url : "");
-    url += Sefaria.util.getUrlVersionsParams(histories[0].currVersions, 0);
+    url += Mekoros.util.getUrlVersionsParams(histories[0].currVersions, 0);
     if (histories[0].mode === "TextAndConnections" || histories[0].mode === "SheetAndConnections") {
         url += "&with=" + histories[0].sources;
     }
@@ -715,7 +715,7 @@ class ReaderApp extends Component {
           var connectionsHistory = (isMultiPanelConnectionsOpen) ? histories[1] : histories[0];
           // short form for two panels text+commentary - e.g., /Genesis.1?with=Rashi
           hist.url  = sheetAndCommentary ? "/" + histories[0].url : "/" + connectionsHistory.url; // Rewrite the URL
-          hist.url += Sefaria.util.getUrlVersionsParams(histories[0].currVersions, 0);
+          hist.url += Mekoros.util.getUrlVersionsParams(histories[0].currVersions, 0);
           if(histories[0].lang) {
             hist.url += "&lang=" + histories[0].lang;
           }
@@ -723,7 +723,7 @@ class ReaderApp extends Component {
               url += "&aliyot=" + histories[0].aliyot;
           }
           if(connectionsHistory.versionFilter) {
-            hist.url += "&vside=" + Sefaria.util.encodeVtitle(connectionsHistory.versionFilter);
+            hist.url += "&vside=" + Mekoros.util.encodeVtitle(connectionsHistory.versionFilter);
           }
           if (connectionsHistory.selectedWords) {
             hist.url += "&lookup=" + encodeURIComponent(connectionsHistory.selectedWords);
@@ -744,7 +744,7 @@ class ReaderApp extends Component {
           var replacer = "&p" + i + "=";
           hist.url    = hist.url.replace(RegExp(replacer + ".*"), "");
           hist.url   += replacer + histories[i].url;
-          hist.url += Sefaria.util.getUrlVersionsParams(histories[i-1].currVersions, i);
+          hist.url += Mekoros.util.getUrlVersionsParams(histories[i-1].currVersions, i);
           if(histories[i-1].lang) {
             hist.url += "&lang" + (i) + "=" + histories[i-1].lang;
           }
@@ -752,7 +752,7 @@ class ReaderApp extends Component {
             hist.url += "&aliyot" + (i) + "=" + histories[i-1].aliyot;
           }
           if(histories[i].versionFilter) {
-            hist.url += "&vside" + (i) + "=" + Sefaria.util.encodeVtitle(histories[i].versionFilter);
+            hist.url += "&vside" + (i) + "=" + Mekoros.util.encodeVtitle(histories[i].versionFilter);
           }
           if (histories[i].selectedWords) {
             hist.url += `&lookup${i}=${encodeURIComponent(histories[i].selectedWords)}`;
@@ -767,14 +767,14 @@ class ReaderApp extends Component {
             hist.url += `&namedEntityText${i}=${encodeURIComponent(histories[i].selectedNamedEntityText)}`;
           }
           hist.url   += "&w" + i + "=" + histories[i].sources; //.replace("with=", "with" + i + "=").replace("?", "&");
-          hist.title += Sefaria._(" & ") + histories[i].title; // TODO this doesn't trim title properly
+          hist.title += Mekoros._(" & ") + histories[i].title; // TODO this doesn't trim title properly
         }
       } else {
         var next    = "&p=" + histories[i].url;
         next        = next.replace("?", "&").replace(/=/g, (i+1) + "=");
         hist.url   += next;
-        hist.url += Sefaria.util.getUrlVersionsParams(histories[i].currVersions, i+1);
-        hist.title += Sefaria._(" & ") + histories[i].title;
+        hist.url += Mekoros.util.getUrlVersionsParams(histories[i].currVersions, i+1);
+        hist.title += Mekoros._(" & ") + histories[i].title;
       }
       if (!isMobileConnectionsOpen) {
         if (histories[i].lang) {
@@ -840,7 +840,7 @@ class ReaderApp extends Component {
     this.panelScrollIntentTimer = this.panelScrollIntentTimer || [];
     this.panelScrollIntentTimer[n] = this.checkIntentTimer(this.panelScrollIntentTimer[n], () => {
       if (!this.didPanelRefChange(state, this.state.panels[n])) {
-        //const ref  = (state.highlightedRefs && state.highlightedRefs.length) ? Sefaria.normRef(state.highlightedRefs) : (state.currentlyVisibleRef || state.refs.slice(-1)[0]);  // Will currentlyVisibleRef ever not be available?
+        //const ref  = (state.highlightedRefs && state.highlightedRefs.length) ? Mekoros.normRef(state.highlightedRefs) : (state.currentlyVisibleRef || state.refs.slice(-1)[0]);  // Will currentlyVisibleRef ever not be available?
         //console.log("Firing last viewed " + ref + " in panel " + n);
         this.saveLastPlace(this.state.panels[n], n);
       }
@@ -911,7 +911,7 @@ class ReaderApp extends Component {
   setPaddingForScrollbar() {
     // Scrollbars take up spacing, causing the centering of panels to be slightly off
     // compared to the header. This functions sets appropriate padding to compensate.
-    var width = Sefaria.util.getScrollbarWidth();
+    var width = Mekoros.util.getScrollbarWidth();
     // These are the divs that actually scroll
     var $container = $(ReactDOM.findDOMNode(this)).find(".textColumn, .sheetsInPanel");
     if (this.state.panels.length > 1) {
@@ -1082,16 +1082,16 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
   }
   openURL(href, replace=true, overrideContentLang=false) {
     // Attempts to open `href` in app, return true if successful.
-    href = href.startsWith("/") ? "https://www.sefaria.org" + href : href;
+    href = href.startsWith("/") ? "https://www.mekoros.com" + href : href;
     let url;
     try {
       url = new URL(href);
     } catch {
       return false;
     }
-    // Open non-Sefaria urls in new tab/window
+    // Open non-Mekoros urls in new tab/window
     // TODO generalize to any domain of current deploy.
-    if (url.hostname.indexOf("www.sefaria.org") === -1) {
+    if (url.hostname.indexOf("www.mekoros.com") === -1) {
       window.open(url, '_blank')
       return true;
     }
@@ -1125,7 +1125,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
       this.showCommunity();
 
     } else if (path === "/my/profile") {
-      this.openProfile(Sefaria.slug, params.get("tab"));
+      this.openProfile(Mekoros.slug, params.get("tab"));
 
     } else if (path === "/notifications") {
       this.showNotifications();
@@ -1160,10 +1160,10 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
     } else if (path.match(/^\/translations\/.+/)) {
       let slug = path.slice(14);
       this.openTranslationsPage(slug);
-    } else if (Sefaria.isRef(path.slice(1))) {
+    } else if (Mekoros.isRef(path.slice(1))) {
       const currVersions = {en: params.get("ven"), he: params.get("vhe")};
       const options = {showHighlight: path.slice(1).indexOf("-") !== -1};   // showHighlight when ref is ranged
-      openPanel(Sefaria.humanRef(path.slice(1)), currVersions, options);
+      openPanel(Mekoros.humanRef(path.slice(1)), currVersions, options);
     } else {
       return false
     }
@@ -1218,7 +1218,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
     } else {
       filterNode.setUnselected(true);
     }
-    const update = Sefaria.search.getAppliedSearchFilters(searchState.availableFilters)
+    const update = Mekoros.search.getAppliedSearchFilters(searchState.availableFilters)
     this.setPanelState(n, {
       [searchStateName]: searchState.update(update)
     });
@@ -1262,7 +1262,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
     this.state.panels[n] = extend(this.state.panels[n], state);
     let new_state = {panels: this.state.panels};
     if(this.didDefaultPanelSettingsChange(state)){
-      new_state["defaultPanelSettings"] = Sefaria.util.clone(state.settings);
+      new_state["defaultPanelSettings"] = Mekoros.util.clone(state.settings);
     }
     this.setState(new_state);
   }
@@ -1345,14 +1345,14 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
   selectVersion(n, versionName, versionLanguage) {
     // Set the version for panel `n`.
     const panel = this.state.panels[n];
-    const oRef = Sefaria.ref(panel.refs[0]);
+    const oRef = Mekoros.ref(panel.refs[0]);
     if (versionName && versionLanguage) {
       panel.currVersions[versionLanguage] = versionName;
       this.setCachedVersion(oRef.indexTitle, versionLanguage, versionName);
-      Sefaria.track.event("Reader", "Choose Version", `${oRef.indexTitle} / ${versionName} / ${versionLanguage}`)
+      Mekoros.track.event("Reader", "Choose Version", `${oRef.indexTitle} / ${versionName} / ${versionLanguage}`)
     } else {
       panel.currVersions[versionLanguage] = null;
-      Sefaria.track.event("Reader", "Choose Version", `${oRef.indexTitle} / default version / ${panel.settings.language}`)
+      Mekoros.track.event("Reader", "Choose Version", `${oRef.indexTitle} / default version / ${panel.settings.language}`)
     }
     panel.settings.language = this._getPanelLangOnVersionChange(panel, versionLanguage, panel.mode === "Connections");
     const { dependentPanel, isDependentPanelConnections } = this._getDependentPanel(n);
@@ -1374,8 +1374,8 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
     if (ref.constructor === Array) {
       // When called with an array, set highlight for the whole spanning range
       refs = ref;
-      currentlyVisibleRef = Sefaria.humanRef(ref);
-      let splitArray = refs.map(ref => Sefaria.splitRangingRef(ref));
+      currentlyVisibleRef = Mekoros.humanRef(ref);
+      let splitArray = refs.map(ref => Mekoros.splitRangingRef(ref));
       highlightedRefs = [].concat.apply([], splitArray);
     } else {
       refs = [ref];
@@ -1445,8 +1445,8 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
     * @param {bool} saveLastPlace: whether to save user history.
     */
     this.replaceHistory = Boolean(replaceHistory);
-    const parsedRef = Sefaria.parseRef(ref);
-    const index = Sefaria.index(ref); // Do we have to worry about normalization, as in Header.subimtSearch()?
+    const parsedRef = Mekoros.parseRef(ref);
+    const index = Mekoros.index(ref); // Do we have to worry about normalization, as in Header.subimtSearch()?
     let panel, connectionPanel;
     if (index) {
       panel = this.makePanelState({"menuOpen": "book toc", "bookRef": index.title});
@@ -1462,18 +1462,18 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
     } else {  // Text
       let filter = [];
       let filterRef;
-      if (convertCommentaryRefToBaseRef && Sefaria.isCommentaryRefWithBaseText(ref)) {
+      if (convertCommentaryRefToBaseRef && Mekoros.isCommentaryRefWithBaseText(ref)) {
         // getBaseRefAndFilter breaks up the ref "Rashi on Genesis 1:1:4" into filter "Rashi" and ref "Genesis 1:1",
         // so `filterRef` is needed to store the entire "Rashi on Genesis 1:1:4"
-        filterRef = Sefaria.humanRef(ref);
-        ({ref, filter} = Sefaria.getBaseRefAndFilter(ref));
+        filterRef = Mekoros.humanRef(ref);
+        ({ref, filter} = Mekoros.getBaseRefAndFilter(ref));
       }
       let refs, currentlyVisibleRef, highlightedRefs;
       if (Array.isArray(ref)) {
         // When called with an array, set highlight for the whole spanning range of the array
         refs = ref;
-        currentlyVisibleRef = Sefaria.normRef(ref);
-        const splitArray = refs.map(ref => Sefaria.splitRangingRef(ref));
+        currentlyVisibleRef = Mekoros.normRef(ref);
+        const splitArray = refs.map(ref => Mekoros.splitRangingRef(ref));
         highlightedRefs = [].concat.apply([], splitArray);
       } else {
         refs = [ref];
@@ -1496,7 +1496,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
       else {
         panel = this.makePanelState(panelProps);
       }
-      panel.currentlyVisibleRef = Sefaria.humanRef(panelProps.currentlyVisibleRef);
+      panel.currentlyVisibleRef = Mekoros.humanRef(panelProps.currentlyVisibleRef);
     }
 
     const newPanels = this.state.panels.slice();
@@ -1536,7 +1536,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
       compare: true,
       openSidebarAsConnect: typeof connectAfter !== "undefined" ? connectAfter : false,
     });
-    Sefaria.track.event("Reader", "Other Text Click");
+    Mekoros.track.event("Reader", "Other Text Click");
     this.state.panels[n] = comparePanel;
     this.setState({panels: this.state.panels});
   }
@@ -1562,7 +1562,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
     panel.nodeRef           = sheetNodes;
     panel.menuOpen          = null;
     panel.mode              = panel.mode || "Connections";
-    panel.settings          = panel.settings ? panel.settings : Sefaria.util.clone(this.getDefaultPanelSettings());
+    panel.settings          = panel.settings ? panel.settings : Mekoros.util.clone(this.getDefaultPanelSettings());
     panel.settings.language = panel.settings.language === "hebrew" ? "hebrew" : "english"; // Don't let connections panels be bilingual
     if(parentPanel) {
       panel.filter = parentPanel.filter;
@@ -1605,7 +1605,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
     const basePanel        = this.state.panels[n-1];
     if (filter) {
       if (updateRecent) {
-        if (Sefaria.util.inArray(filter, connectionsPanel.recentFilters) !== -1) {
+        if (Mekoros.util.inArray(filter, connectionsPanel.recentFilters) !== -1) {
           connectionsPanel.recentFilters.toggle(filter);
         }
         connectionsPanel.recentFilters = [filter].concat(connectionsPanel.recentFilters);
@@ -1632,7 +1632,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
     const connectionsPanel = this.state.panels[n];
     const basePanel        = this.state.panels[n-1];
     if (filter) {
-      if (Sefaria.util.inArray(filter, connectionsPanel.recentVersionFilters) === -1) {
+      if (Mekoros.util.inArray(filter, connectionsPanel.recentVersionFilters) === -1) {
         connectionsPanel.recentVersionFilters = [filter].concat(connectionsPanel.recentVersionFilters);
       }
       connectionsPanel.versionFilter = [filter];
@@ -1656,7 +1656,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
     }
   }
   setUnreadNotificationsCount(n) {
-    Sefaria.notificationCount = n;
+    Mekoros.notificationCount = n;
     this.forceUpdate();
   }
   closePanel(n) {
@@ -1669,8 +1669,8 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
         const parent = this.state.panels[n-1];
         parent.filter = [];
         parent.highlightedRefs = [];
-        parent.refs = parent.refs.map(ref => Sefaria.ref(ref).sectionRef);
-        parent.currentlyVisibleRef = parent.currentlyVisibleRef ? Sefaria.ref(parent.currentlyVisibleRef).sectionRef : null;
+        parent.refs = parent.refs.map(ref => Mekoros.ref(ref).sectionRef);
+        parent.currentlyVisibleRef = parent.currentlyVisibleRef ? Mekoros.ref(parent.currentlyVisibleRef).sectionRef : null;
       }
       this.state.panels.splice(n, 1);
       if (this.state.panels[n] && (this.state.panels[n].mode === "Connections" || this.state.panels[n].compare)) {
@@ -1694,7 +1694,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
     var base = this.state.panels[n-1];
     this.closePanel(n);
     if (base.mode == "Sheet") {
-      const sheet = Sefaria.sheets.loadSheetByID(base.sheetID);
+      const sheet = Mekoros.sheets.loadSheetByID(base.sheetID);
       if (!sheet) { return; }
       for(var i in sheet.sources){
         if (sheet.sources[i].node == base.highlightedNode) {
@@ -1709,7 +1709,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
   showLibrary(categories) {
     let state = {menuOpen: "navigation", navigationCategories: categories, "mode": "Menu"};
     state = this.makePanelState(state);
-    if (!Sefaria._siteSettings.TORAH_SPECIFIC) {
+    if (!Mekoros._siteSettings.TORAH_SPECIFIC) {
       state.settings.language = "english";
     }
     this.setSinglePanelState(state);
@@ -1759,7 +1759,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
     this.setState({panels: [state], headerMode: false});
   }
   openTopic(slug) {
-    Sefaria.getTopic(slug).then(topic => {
+    Mekoros.getTopic(slug).then(topic => {
       this.setSinglePanelState({ menuOpen: "topics", navigationTopic: slug, topicTitle: topic.primaryTitle, topicTestVersion: this.props.topicTestVersion});
     });
   }
@@ -1767,7 +1767,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
     this.setSinglePanelState({
       menuOpen: "topics",
       navigationTopicCategory: slug,
-      navigationTopicTitle: Sefaria.topicTocCategoryTitle(slug),
+      navigationTopicTitle: Mekoros.topicTocCategoryTitle(slug),
       navigationTopic: null,
     });
   }
@@ -1776,7 +1776,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
   }
   openProfile(slug, tab) {
     tab = tab || "sheets";
-    Sefaria.profileAPI(slug).then(profile => {
+    Mekoros.profileAPI(slug).then(profile => {
       this.setSinglePanelState({ menuOpen: "profile", profile, tab: tab});
     });
   }
@@ -1801,17 +1801,17 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
     // get rave to send to /api/profile/user_history
     let ref, sheet_owner, sheet_title;
     if (panel.mode === 'Sheet' || panel.mode === "SheetAndConnections") {
-      const sheet = Sefaria.sheets.loadSheetByID(panel.sheetID);
+      const sheet = Mekoros.sheets.loadSheetByID(panel.sheetID);
       if (!sheet) { return null; }
       ref = `Sheet ${sheet.id}${panel.highlightedNode ? `:${panel.highlightedNode}`: ''}`;
       sheet_owner = sheet.ownerName;
       sheet_title = sheet.title;
     } else {
-      ref = (hasSidebar && panel.highlightedRefs && panel.highlightedRefs.length) ? Sefaria.normRef(panel.highlightedRefs) : (panel.currentlyVisibleRef || panel.refs.slice(-1)[0]);  // Will currentlyVisibleRef ever not be available?
+      ref = (hasSidebar && panel.highlightedRefs && panel.highlightedRefs.length) ? Mekoros.normRef(panel.highlightedRefs) : (panel.currentlyVisibleRef || panel.refs.slice(-1)[0]);  // Will currentlyVisibleRef ever not be available?
     }
     // strip APIResult fields from currVersions
-    const currVersions = Sefaria.util.getCurrVersionsWithoutAPIResultFields(panel.currVersions);
-    const parsedRef = Sefaria.parseRef(ref);
+    const currVersions = Mekoros.util.getCurrVersionsWithoutAPIResultFields(panel.currVersions);
+    const parsedRef = Mekoros.parseRef(ref);
     if (!ref) { debugger; }
     return {
       ref,
@@ -1832,8 +1832,8 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
       $.cookie("translation_language_preference", lang, {path: "/"});
       $.cookie("translation_language_preference_suggested", JSON.stringify(1), {path: "/"});
     }
-    Sefaria.track.event("Reader", "Set Translation Language Preference", lang);
-    Sefaria.editProfileAPI({settings: {translation_language_preference: lang, translation_language_preference_suggested: suggested}});
+    Mekoros.track.event("Reader", "Set Translation Language Preference", lang);
+    Mekoros.editProfileAPI({settings: {translation_language_preference: lang, translation_language_preference_suggested: suggested}});
     this.setState({translationLanguagePreference: lang});
   }
   doesPanelHaveSidebar(n) {
@@ -1844,7 +1844,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
     const hasSidebar = this.doesPanelHaveSidebar(n) || openingSidebar;
     // if panel is sheet, panel.refs isn't set
     if ((panel.mode !== 'Sheet' && !panel.refs.length ) || panel.mode === 'Connections') { return; }
-    Sefaria.saveUserHistory(this.getHistoryObject(panel, hasSidebar));
+    Mekoros.saveUserHistory(this.getHistoryObject(panel, hasSidebar));
   }
   currentlyConnecting() {
     // returns true if there is currently an "Add Connections" Panel open
@@ -1891,8 +1891,8 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
       const activePanel = this.state.panels[activePanelIndex]
 
 
-      const book = activePanel['currentlyVisibleRef'] ? Sefaria.parseRef(activePanel['currentlyVisibleRef'])["book"] : null
-      const category = book && Sefaria.index(book) ? Sefaria.index(book)["primary_category"] : null
+      const book = activePanel['currentlyVisibleRef'] ? Mekoros.parseRef(activePanel['currentlyVisibleRef'])["book"] : null
+      const category = book && Mekoros.index(book) ? Mekoros.index(book)["primary_category"] : null
 
       let params = {
         "length": textOnly.length,
@@ -1941,7 +1941,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
       let contentSpans = container.querySelectorAll(".contentSpan");
       if (closestReaderPanel && !closestReaderPanel.classList.contains('continuous')) {
         contentSpans.forEach(el => {
-            el.outerHTML = `<div dir="${Sefaria.hebrew.isHebrew(el.innerText) ? 'rtl' : 'ltr'}">${el.innerHTML}</div>`;
+            el.outerHTML = `<div dir="${Mekoros.hebrew.isHebrew(el.innerText) ? 'rtl' : 'ltr'}">${el.innerHTML}</div>`;
         })
       }
 
@@ -2000,7 +2000,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
       SourceTextSpans.forEach(el => el.outerHTML = el.innerText);
 
       html = container.outerHTML;
-      textOnly = Sefaria.util.htmlToText(html);
+      textOnly = Mekoros.util.htmlToText(html);
       selectedEls = container;
     }
 
@@ -2032,8 +2032,8 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
 
     }
     const refs = this.state.panels.map(panel => panel.currentlyVisibleRef || panel.bookRef || returnNullIfEmpty(panel.navigationCategories) || panel.navigationTopic).flat();
-    const books = refs.map(ref => Sefaria.parseRef(ref).book);
-    const triggers = refs.map(ref => Sefaria.refCategories(ref))
+    const books = refs.map(ref => Mekoros.parseRef(ref).book);
+    const triggers = refs.map(ref => Mekoros.refCategories(ref))
           .concat(books)
           .concat(refs)
           .flat()
@@ -2041,9 +2041,9 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
     const deDupedTriggers = [...new Set(triggers.map(JSON.stringify))].map(JSON.parse).map(x => x.toLowerCase());
     const context = {
       isDebug: this.props._debug,
-      isLoggedIn: Sefaria._uid,
-      interfaceLang: Sefaria.interfaceLang,
-      dt: Sefaria.util.epoch_time(new Date())*1000,
+      isLoggedIn: Mekoros._uid,
+      interfaceLang: Mekoros.interfaceLang,
+      dt: Mekoros.util.epoch_time(new Date())*1000,
       keywordTargets: refs ? deDupedTriggers : []
     };
     return context
@@ -2104,7 +2104,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
         hidden={hideHeader}
         mobileNavMenuOpen={this.state.mobileNavMenuOpen}
         onMobileMenuButtonClick={this.toggleMobileNavMenu}
-        hasLanguageToggle={!this.props.multiPanel && Sefaria.interfaceLang !== "hebrew" && this.state.panels?.[0]?.menuOpen === "navigation"}
+        hasLanguageToggle={!this.props.multiPanel && Mekoros.interfaceLang !== "hebrew" && this.state.panels?.[0]?.menuOpen === "navigation"}
         toggleLanguage={this.toggleLanguageInFirstPanel}
         firstPanelLanguage={this.state.panels?.[0]?.settings?.language}
         hasBoxShadow={headerHasBoxShadow}
@@ -2114,7 +2114,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
 
     var panels = [];
     var allOpenRefs = panelStates.filter( panel => panel.mode == "Text" && !panel.menuOpen)
-                                  .map( panel => Sefaria.humanRef(panel.highlightedRefs.length ? panel.highlightedRefs : panel.refs));
+                                  .map( panel => Mekoros.humanRef(panel.highlightedRefs.length ? panel.highlightedRefs : panel.refs));
 
     for (var i = 0; i < panelStates.length; i++) {
       const panel                        = this.clonePanel(panelStates[i]);
@@ -2154,7 +2154,7 @@ toggleSignUpModal(modalContentKind = SignUpModalKind.Default) {
       var navigatePanel                  = this.navigatePanel.bind(null, i)
 
       var ref   = panel.refs && panel.refs.length ? panel.refs[0] : null;
-      var oref  = ref ? Sefaria.parseRef(ref) : null;
+      var oref  = ref ? Mekoros.parseRef(ref) : null;
       var title = oref && oref.indexTitle ? oref.indexTitle : 0;
       // Keys must be constant as text scrolls, but changing as new panels open in new positions
       // Use a combination of the panel number and text title
@@ -2312,12 +2312,12 @@ ReaderApp.defaultProps = {
   topicTestVersion:          null
 };
 
-const sefariaSetup = Sefaria.setup;
-const { unpackDataFromProps, loadServerData } = Sefaria;
+const mekorosSetup = Mekoros.setup;
+const { unpackDataFromProps, loadServerData } = Mekoros;
 export {
   ReaderApp,
   Footer,
-  sefariaSetup,
+  mekorosSetup,
   unpackDataFromProps,
   loadServerData,
   EditCollectionPage,

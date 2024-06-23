@@ -4,8 +4,8 @@ import csv
 
 from django.contrib.auth.models import User
 
-from sefaria.settings import *
-from sefaria.system.database import db
+from mekoros.settings import *
+from mekoros.system.database import db
 
 cfile = "./data/private/schools.csv"
 
@@ -16,7 +16,7 @@ header = next(reader)
 if len(header) == 14:
   new_row = header
 else:
-  new_row = header + ["# Sefaria Accounts"]
+  new_row = header + ["# Mekoros Accounts"]
 new_rows_list = [new_row]
 
 all_users_found = []

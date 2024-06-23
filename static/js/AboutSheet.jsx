@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import {SheetAuthorStatement, InterfaceText, ProfilePic, EnglishText, HebrewText} from "./Misc";
-import Sefaria from "./sefaria/sefaria";
+import Mekoros from "./mekoros/mekoros";
 import ReactTags from 'react-tag-autocomplete'
 import { useDebounce } from "./Hooks";
 
 const AboutSheet = ({ masterPanelSheetId, toggleSignUpModal }) => {
 
-    const sheet = Sefaria.sheets.loadSheetByID(masterPanelSheetId);
-    const canEdit = sheet.owner === Sefaria._uid;
+    const sheet = Mekoros.sheets.loadSheetByID(masterPanelSheetId);
+    const canEdit = sheet.owner === Mekoros._uid;
     const reactTags = React.createRef()
 
     const title = sheet.title.stripHtmlConvertLineBreaks();
@@ -28,8 +28,8 @@ const AboutSheet = ({ masterPanelSheetId, toggleSignUpModal }) => {
         validationFailed: "none"
     });
     const [summary, setSummary] = useState(sheet.summary);
-    const getRefSavedHistory = Sefaria.makeCancelable(Sefaria.getRefSavedHistory("Sheet " + masterPanelSheetId));
-    const debouncedSummary = Sefaria._uid == sheet.owner ? useDebounce(summary, 250) : null;
+    const getRefSavedHistory = Mekoros.makeCancelable(Mekoros.getRefSavedHistory("Sheet " + masterPanelSheetId));
+    const debouncedSummary = Mekoros._uid == sheet.owner ? useDebounce(summary, 250) : null;
     useEffect(() => {
         getRefSavedHistory.promise.then(data => {
             for (let hist of data) {
@@ -52,7 +52,7 @@ const AboutSheet = ({ masterPanelSheetId, toggleSignUpModal }) => {
         const newSummary = event.target.value
         if (event.target.value.length > 280) {
             setValidation({
-                validationMsg: Sefaria._("The summary description is limited to 280 characters."),
+                validationMsg: Mekoros._("The summary description is limited to 280 characters."),
                 validationFailed: "summary"
             });
         }
@@ -67,7 +67,7 @@ const AboutSheet = ({ masterPanelSheetId, toggleSignUpModal }) => {
 
     const updateSuggestedTags = (input) => {
         if (input == "") return
-        Sefaria.getName(input, false, 0).then(d => {
+        Mekoros.getName(input, false, 0).then(d => {
             const topics = d.completion_objects
                 .filter(obj => obj.type === "Topic")
                 .map((filteredObj, index) => ({
@@ -82,7 +82,7 @@ const AboutSheet = ({ masterPanelSheetId, toggleSignUpModal }) => {
 
 
     const updateTopics = async (newTags) => {
-        let updatedSheet = await (new Promise((resolve, reject) => Sefaria.sheets.loadSheetByID(sheet.id, sheet => resolve(sheet))));
+        let updatedSheet = await (new Promise((resolve, reject) => Mekoros.sheets.loadSheetByID(sheet.id, sheet => resolve(sheet))));
 
         const topics = newTags.map(tag => ({
             asTyped: tag.name,
@@ -99,7 +99,7 @@ const AboutSheet = ({ masterPanelSheetId, toggleSignUpModal }) => {
 
 
     const saveSummary = async () => {
-        let updatedSheet = await (new Promise((resolve, reject) => Sefaria.sheets.loadSheetByID(sheet.id, sheet => resolve(sheet))));
+        let updatedSheet = await (new Promise((resolve, reject) => Mekoros.sheets.loadSheetByID(sheet.id, sheet => resolve(sheet))));
         updatedSheet.summary = summary;
         updatedSheet.lastModified = lastModified;
         delete updatedSheet._id;
@@ -111,14 +111,14 @@ const AboutSheet = ({ masterPanelSheetId, toggleSignUpModal }) => {
     const isFormValidated = () => {
         if ((!summary || summary.trim() == '') && tags.length == 0) {
             setValidation({
-                validationMsg: Sefaria._("Please add a description and topics to publish your sheet."),
+                validationMsg: Mekoros._("Please add a description and topics to publish your sheet."),
                 validationFailed: "both"
             });
             return false
         }
         else if (!summary || summary.trim() == '') {
             setValidation({
-                validationMsg: Sefaria._("Please add a description to publish your sheet."),
+                validationMsg: Mekoros._("Please add a description to publish your sheet."),
                 validationFailed: "summary"
             });
             return false
@@ -126,7 +126,7 @@ const AboutSheet = ({ masterPanelSheetId, toggleSignUpModal }) => {
 
         else if (tags.length == 0) {
             setValidation({
-                validationMsg: Sefaria._("Please add topics to publish your sheet."),
+                validationMsg: Mekoros._("Please add topics to publish your sheet."),
                 validationFailed: "topics"
             });
             return false
@@ -147,7 +147,7 @@ const AboutSheet = ({ masterPanelSheetId, toggleSignUpModal }) => {
         }
 
         const newPublishState = isPublished ? "unlisted" : "public";
-        let updatedSheet = await (new Promise((resolve, reject) => Sefaria.sheets.loadSheetByID(sheet.id, sheet => resolve(sheet))));
+        let updatedSheet = await (new Promise((resolve, reject) => Mekoros.sheets.loadSheetByID(sheet.id, sheet => resolve(sheet))));
         updatedSheet.status = newPublishState;
         updatedSheet.lastModified = lastModified;
         delete updatedSheet._id;
@@ -180,7 +180,7 @@ const AboutSheet = ({ masterPanelSheetId, toggleSignUpModal }) => {
             if (data.id) {
                 console.log('saved...')
                 setLastModified(data.dateModified)
-                Sefaria.sheets._loadSheetByID[data.id] = data;
+                Mekoros.sheets._loadSheetByID[data.id] = data;
             } else {
                 console.log(data);
             }
@@ -201,7 +201,7 @@ const AboutSheet = ({ masterPanelSheetId, toggleSignUpModal }) => {
             </div> : null
 
         }
-        {!!Sefaria._uid ? <CollectionsEditor sheetId={sheet.id}/> : null }
+        {!!Mekoros._uid ? <CollectionsEditor sheetId={sheet.id}/> : null }
 
 
         {sheet.topics && sheet.topics.length > 0 ?
@@ -224,13 +224,13 @@ const AboutSheet = ({ masterPanelSheetId, toggleSignUpModal }) => {
     </div>;
 
     const publishSettingsEditMode = <div className="publishSettingsEditMode"><div className={isPublished ? "publishBox transparentBackground sans-serif" : "publishBox sans-serif"}>
-        {!isPublished ? <p><InterfaceText>Publish your sheet on Sefaria for others to discover.</InterfaceText></p> : null}
+        {!isPublished ? <p><InterfaceText>Publish your sheet on Mekoros for others to discover.</InterfaceText></p> : null}
         <h3 className="aboutSheetHeader"><InterfaceText>Summary</InterfaceText></h3>
         <textarea
             className={validation.validationFailed === "both" || validation.validationFailed === "summary" ? "error" : ""}
             rows="3"
             maxLength="281"
-            placeholder={Sefaria._("Write a short description of your sheet...")}
+            placeholder={Mekoros._("Write a short description of your sheet...")}
             value={summary} onChange={handleSummaryChange}></textarea>
         <h3 className="aboutSheetHeader"><InterfaceText>Topics</InterfaceText></h3>
         <div className={validation.validationFailed == "both" || validation.validationFailed == "topics" ? "error" : ""}>
@@ -240,7 +240,7 @@ const AboutSheet = ({ masterPanelSheetId, toggleSignUpModal }) => {
                 tags={tags}
                 suggestions={suggestions}
                 onDelete={onTagDelete}
-                placeholderText={Sefaria._("Add a topic...")}
+                placeholderText={Mekoros._("Add a topic...")}
                 delimiters={["Enter", "Tab", ","]}
                 onAddition={onTagAddition}
                 onValidate={onTagValidate}
@@ -261,7 +261,7 @@ const AboutSheet = ({ masterPanelSheetId, toggleSignUpModal }) => {
             <div className={"publishButton"}>
                 <div className="publishedText">
                     <InterfaceText>
-                        <EnglishText>Your Sheet is <span className="publishedTextBold">published</span> on Sefaria and visible to others.</EnglishText>
+                        <EnglishText>Your Sheet is <span className="publishedTextBold">published</span> on Mekoros and visible to others.</EnglishText>
                         <HebrewText>דף המקורות שלך <span className="publishedTextBold">מפורסם</span> בספריא וגלוי למשתמשים אחרים</HebrewText>
                     </InterfaceText>
                 </div>
@@ -294,11 +294,11 @@ const AboutSheet = ({ masterPanelSheetId, toggleSignUpModal }) => {
         </SheetAuthorStatement>
         <div className="aboutSheetMetadata">
             <div>
-                <span>{Sefaria.util.localeDate(sheet.dateCreated)}</span>
-                <span>{sheet.views} {Sefaria._("Views")}</span>
-                <span>{sheetSaves.length} {Sefaria._("Saves")}</span>
+                <span>{Mekoros.util.localeDate(sheet.dateCreated)}</span>
+                <span>{sheet.views} {Mekoros._("Views")}</span>
+                <span>{sheetSaves.length} {Mekoros._("Saves")}</span>
             </div>
-            {/* {sheet.status !== 'public' ? (<div><span className="unlisted"><img src="/static/img/eye-slash.svg"/><span>{Sefaria._("Not Published")}</span></span></div>) : undefined} */}
+            {/* {sheet.status !== 'public' ? (<div><span className="unlisted"><img src="/static/img/eye-slash.svg"/><span>{Mekoros._("Not Published")}</span></span></div>) : undefined} */}
         </div>
         {
             canEdit ? publishSettingsEditMode : publishSettingsReadOnly
@@ -324,8 +324,8 @@ const CollectionsEditor = ({ sheetId }) => {
             else { return aSel ? -1 : 1; }
         });
     };
-    const [collectionsSelected, setCollectionsSelected] = useState(Sefaria.getUserCollectionsForSheetFromCache(sheetId));
-    let initialCollections = Sefaria.getUserCollectionsFromCache(Sefaria._uid);
+    const [collectionsSelected, setCollectionsSelected] = useState(Mekoros.getUserCollectionsForSheetFromCache(sheetId));
+    let initialCollections = Mekoros.getUserCollectionsFromCache(Mekoros._uid);
     initialCollections = initialCollections ? initialCollectionsSort(initialCollections.slice(), collectionsSelected) : null;
     const [collections, setCollections] = useState(initialCollections);
     const [dataLoaded, setDataLoaded] = useState(!!collections && !!collectionsSelected);
@@ -337,12 +337,12 @@ const CollectionsEditor = ({ sheetId }) => {
     useEffect(() => {
         if (!dataLoaded) {
             Promise.all([
-                Sefaria.getUserCollections(Sefaria._uid),
-                Sefaria.getUserCollectionsForSheet(sheetId)
+                Mekoros.getUserCollections(Mekoros._uid),
+                Mekoros.getUserCollectionsForSheet(sheetId)
             ])
                 .then(() => {
-                    const initialCollectionsSelected = Sefaria.getUserCollectionsForSheetFromCache(sheetId);
-                    const initialSortedCollections = initialCollectionsSort(Sefaria.getUserCollectionsFromCache(Sefaria._uid), initialCollectionsSelected);
+                    const initialCollectionsSelected = Mekoros.getUserCollectionsForSheetFromCache(sheetId);
+                    const initialSortedCollections = initialCollectionsSort(Mekoros.getUserCollectionsFromCache(Mekoros._uid), initialCollectionsSelected);
                     setCollections(initialSortedCollections);
                     setCollectionsSelected(initialCollectionsSelected);
                     setDataLoaded(true);
@@ -362,23 +362,23 @@ const CollectionsEditor = ({ sheetId }) => {
         }
 
         $.post(url, data => handleCollectionInclusionChange(data));
-        Sefaria._userCollectionsForSheet[sheetId] = newCollectionsSelected;
+        Mekoros._userCollectionsForSheet[sheetId] = newCollectionsSelected;
         setCollectionsSelected(newCollectionsSelected);
     };
 
     const handleCollectionInclusionChange = (data) => {
         // When a sheet has been added or removed, update collections list data in cache
-        let newCollections = Sefaria.getUserCollectionsFromCache(Sefaria._uid).filter(c => c.slug != data.collection.slug);
+        let newCollections = Mekoros.getUserCollectionsFromCache(Mekoros._uid).filter(c => c.slug != data.collection.slug);
         // Put the new collection first since it's just been modified
         newCollections = [data.collectionListing, ...newCollections];
         // Update in cache, but not in Component state -- prevents the list from jumping around
         // while you're looking at it, but show this collection first next time you see the list.
-        Sefaria._userCollections[Sefaria._uid] = newCollections;
+        Mekoros._userCollections[Mekoros._uid] = newCollections;
         // Update cache for this collection's full listing, which has now changed
-        Sefaria._collections[data.collection.slug] = data.collection;
+        Mekoros._collections[data.collection.slug] = data.collection;
         // Update sheet cache
-        Sefaria.sheets._loadSheetByID[sheetId] = data.sheet;
-        Sefaria.sheets.updateUserSheets(data.sheetListing, Sefaria._uid, true, true);
+        Mekoros.sheets._loadSheetByID[sheetId] = data.sheet;
+        Mekoros.sheets.updateUserSheets(data.sheetListing, Mekoros._uid, true, true);
         setChanged(true);
     };
 
@@ -393,7 +393,7 @@ const CollectionsEditor = ({ sheetId }) => {
             }
             setNewName("");
             const newCollections = [data.collection, ...collections];
-            Sefaria._userCollections[Sefaria._uid] = newCollections;
+            Mekoros._userCollections[Mekoros._uid] = newCollections;
             setCollections(newCollections);
             onCheckChange(data.collection, true);
         });
@@ -417,14 +417,14 @@ const CollectionsEditor = ({ sheetId }) => {
                 {dataLoaded && collections.length == 0 ?
                     <span className={"emptyMessage"}>
                         <InterfaceText>
-                            You can use collections to organize your sheets or public sheets you like. Collections can shared privately or made public on Sefaria.
+                            You can use collections to organize your sheets or public sheets you like. Collections can shared privately or made public on Mekoros.
                         </InterfaceText>
                     </span> : null}
             </div>
             <div className="collectionsEditorCreate">
                 <span className="collectionsWidgetPlus">+</span>
                 <div className="collectionsWidgetCreateInputBox">
-                    <input className="collectionsWidgetCreateInput" placeholder={Sefaria._("Create new collection")} value={newName} onChange={onNameChange} />
+                    <input className="collectionsWidgetCreateInput" placeholder={Mekoros._("Create new collection")} value={newName} onChange={onNameChange} />
                 </div>
                 {newName.length ?
                     <div className="button extraSmall white collectionsWidgetCreateButton" onClick={onCreateClick}>

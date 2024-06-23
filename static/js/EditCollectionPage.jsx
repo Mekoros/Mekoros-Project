@@ -1,8 +1,8 @@
 import React  from 'react';
 import PropTypes  from 'prop-types';
 import Component from 'react-class';
-import $  from './sefaria/sefariaJquery';
-import Sefaria  from './sefaria/sefaria';
+import $  from './mekoros/mekorosJquery';
+import Mekoros  from './mekoros/mekoros';
 import { InterfaceText } from './Misc';
 
 
@@ -22,7 +22,7 @@ class EditCollectionPage extends Component {
   componentDidMount() {
     $(window).on("beforeunload", function() {
       if (this.changed) {
-        return Sefaria._("You have unsaved changes to your collection.");
+        return Mekoros._("You have unsaved changes to your collection.");
       }
     }.bind(this));
   }
@@ -36,7 +36,7 @@ class EditCollectionPage extends Component {
     var field = idToField[e.target.id];
     var file = e.currentTarget.files[0];
     if (file.size > MAX_IMAGE_SIZE) {
-      alert(Sefaria._("Images must be smaller than ") + MAX_IMAGE_MB + "MB.");
+      alert(Mekoros._("Images must be smaller than ") + MAX_IMAGE_MB + "MB.");
       return;
     }
     var formData = new FormData();
@@ -59,7 +59,7 @@ class EditCollectionPage extends Component {
           }
         }.bind(this),
         fail: function() {
-          alert(Sefaria._("Unfortunately an error occurred uploading your file."))
+          alert(Mekoros._("Unfortunately an error occurred uploading your file."))
           this.clearUploading(field);
         }
     });
@@ -91,7 +91,7 @@ class EditCollectionPage extends Component {
     this.setState({listed: !!e.target.checked});
   }
   delete() {
-    if (confirm(Sefaria._("Are you sure you want to delete this collection? This cannot be undone."))) {
+    if (confirm(Mekoros._("Are you sure you want to delete this collection? This cannot be undone."))) {
      $.ajax({
         url: "/api/collections/" + this.props.initialData.slug,
         type: "DELETE",
@@ -103,13 +103,13 @@ class EditCollectionPage extends Component {
           }
         },
         fail: function() {
-          alert(Sefaria._("Unfortunately an error occurred deleting your collection."));
+          alert(Mekoros._("Unfortunately an error occurred deleting your collection."));
         }
       });
     }
   }
   save() {
-    var collectionData = Sefaria.util.clone(this.state);
+    var collectionData = Mekoros.util.clone(this.state);
 
     if (collectionData["headerUrl"] == "/static/img/loading.gif") { collectionData["headerUrl"] = null; }
     if (collectionData["imageUrl"] == "/static/img/loading.gif") { collectionData["imageUrl"] = null; }
@@ -122,7 +122,7 @@ class EditCollectionPage extends Component {
           window.location = "/collections/" + data.collection.slug;
         }
     }.bind(this)).fail(function() {
-        alert(Sefaria._("Unfortunately an error occurred saving your collection."));
+        alert(Mekoros._("Unfortunately an error occurred saving your collection."));
     });
   }
   render() {
@@ -175,7 +175,7 @@ class EditCollectionPage extends Component {
           <FileInput
              name="collectionImage"
              accept="image/*"
-             text={Sefaria._("Upload Image")}
+             text={Mekoros._("Upload Image")}
              className="button white"
              onChange={this.handleImageChange} />
           <div className="helperText">
@@ -211,7 +211,7 @@ class EditCollectionPage extends Component {
         {this.props.initialData ?
         <div className="field">
           <label>
-              <InterfaceText>List on Sefaria</InterfaceText>
+              <InterfaceText>List on Mekoros</InterfaceText>
           </label>
           {this.state.moderationStatus !== "nolist" ?
           <div className="onoffswitch">
@@ -230,8 +230,8 @@ class EditCollectionPage extends Component {
             </div>
           </div>
           : <div>
-              <span className="int-en">Your collection was previously made public, but our moderators determined it was not generally useful for all Sefaria users. Please contact <a href="mailto:hello@sefari.org">hello@sefaria.org</a> with any questions.</span>
-              <span className="int-he">האסופה שלך הוגדרה כציבורית, אך המנהלים שלנו הגיעו למסקנה שהיא אינה רלוונטית לכלל משתמשי ספריא. לשאלות יש ליצור עימנו קשר בכתובת <a href="mailto:hello@sefari.org">hello@sefaria.org</a>.</span>
+              <span className="int-en">Your collection was previously made public, but our moderators determined it was not generally useful for all Mekoros users. Please contact <a href="mailto:hello@sefari.org">hello@mekoros.com</a> with any questions.</span>
+              <span className="int-he">האסופה שלך הוגדרה כציבורית, אך המנהלים שלנו הגיעו למסקנה שהיא אינה רלוונטית לכלל משתמשי ספריא. לשאלות יש ליצור עימנו קשר בכתובת <a href="mailto:hello@sefari.org">hello@mekoros.com</a>.</span>
           </div> }
         </div>
         : null }

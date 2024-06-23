@@ -12,11 +12,11 @@
 				margin-left: 10px;
 			}
 			
-			#sefaria-nav {
+			#mekoros-nav {
 				margin: 20px;
 			}
 			
-			#sefaria-output {
+			#mekoros-output {
 				margin: 20px;
 				border: 1px solid black;
 				display: none;
@@ -26,13 +26,13 @@
 		</style>
 	</head>
 	<body>
-		<div id="sefaria-nav"></div>
+		<div id="mekoros-nav"></div>
 		<br/>
-		<div id="sefaria-output"></div>
+		<div id="mekoros-output"></div>
 		
 		
 		<script type="text/javascript">
-			var sefariaModule = (function () {
+			var mekorosModule = (function () {
 	var config;
 	function gotTitles(retObj) {
 		var selector = $('<select/>');
@@ -65,7 +65,7 @@
 	}
 
 	function changedTitle(title) {
-		$('.sefariaPickerContainer').remove();
+		$('.mekorosPickerContainer').remove();
 		$.ajax({
 			url : config.API_ENDPOINT + "v2/index/" + title,
 			dataType : 'jsonp'
@@ -98,7 +98,7 @@
 		}
 
 		for (var idx = sections.length; idx >= sectionIndex; idx--) {
-			$("#sefariaPickerContainer_" + idx).remove();
+			$("#mekorosPickerContainer_" + idx).remove();
 		}
 
 		var picker = makePicker(sections[sectionIndex], sectionIndex, countData.length);
@@ -106,7 +106,7 @@
 		picker.button.click(function () {
 			var ref = title;
 			for (var idx = 0; idx <= sectionIndex; idx++) {
-				ref += '.' + $("#sefariaPickerSelector_" + idx).val();
+				ref += '.' + $("#mekorosPickerSelector_" + idx).val();
 			}
 			getText(ref);
 		});
@@ -133,8 +133,8 @@
 	}
 
 	function makePicker(sectionName, sectionIndex, max) {
-		var container = $('<div class="sefariaPickerContainer" id="sefariaPickerContainer_' + sectionIndex + '" />');
-		var selector = $('<select id="sefariaPickerSelector_' + sectionIndex + '"/>');
+		var container = $('<div class="mekorosPickerContainer" id="mekorosPickerContainer_' + sectionIndex + '" />');
+		var selector = $('<select id="mekorosPickerSelector_' + sectionIndex + '"/>');
 		var button = $('<button type="button">Show ' + sectionName + '</button>');
 
 		for (var idx = 1; idx <= max; idx++) {
@@ -220,7 +220,7 @@
 					outputContainer : outputContainer
 				}, options);
 
-			config.API_ENDPOINT = (config.host == undefined ? "https://www.sefaria.org" : config.host.replace(/\/+$/, "")) + "/api/"; //also strip trailing slashes
+			config.API_ENDPOINT = (config.host == undefined ? "https://www.mekoros.com" : config.host.replace(/\/+$/, "")) + "/api/"; //also strip trailing slashes
 
 			$.ajax({
 				url : config.API_ENDPOINT + "index/titles",
@@ -230,10 +230,10 @@
 	}
 }());
 $(document).ready(function () {
-	sefariaModule.init(
-		$("#sefaria-nav"),
-		$("#sefaria-output"), {
-		//host: "http://10.0.0.4:8000", //optional - the host for api calls. Will default to http://sefaria.org
+	mekorosModule.init(
+		$("#mekoros-nav"),
+		$("#mekoros-output"), {
+		//host: "http://10.0.0.4:8000", //optional - the host for api calls. Will default to http://mekoros.com
 		titlestart : "Bereishit" //optional - to open a specific title immediately
 	});
 });

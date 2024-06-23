@@ -6,7 +6,7 @@ django.setup()
 
 import csv
 import re
-from sefaria.model import *
+from mekoros.model import *
 
 
 # This function generates a CSV given a list of dicts

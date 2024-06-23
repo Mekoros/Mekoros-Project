@@ -117,7 +117,7 @@ a, a:hover {
 
   /* colors */
   --inline-link-blue: #4871bf;
-  --sefaria-blue: #18345D;
+  --mekoros-blue: #18345D;
   --highlight-blue: #DDEEFF;
   --highlight-blue-light: #F0F7FF;
   --beit-midrash-grey: #333333;
@@ -199,7 +199,7 @@ body, .en, .int-en {
   align-content: center;
   flex-direction: column;
   margin: 10px 20px;
-  background-color: var(--sefaria-blue);
+  background-color: var(--mekoros-blue);
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   border-radius: 7px;
   cursor: pointer;
@@ -1020,7 +1020,7 @@ div.interfaceLinks-row a {
   position: fixed;
   z-index: 1001;
 }
-.sefariaModalBox {
+.mekorosModalBox {
   transition: none;
 }
 #interruptingMessageBox {
@@ -1059,7 +1059,7 @@ div.interfaceLinks-row a {
   text-align: center;
   color: #666;
 }
-#interruptingMessage.sefariaModalContentBox {
+#interruptingMessage.mekorosModalContentBox {
   background-color: #18345D;
   color: white;
   padding: 50px 70px;
@@ -1067,7 +1067,7 @@ div.interfaceLinks-row a {
   border-radius: 5px;
 }
 @media (max-width: 450px) {
-  #interruptingMessage.sefariaModalContentBox {
+  #interruptingMessage.mekorosModalContentBox {
     max-width: 100%;
     max-height: 100%;
     width: 100%;
@@ -1111,7 +1111,7 @@ div.interfaceLinks-row a {
   color: white;
 }
 
-#interruptingMessage.beitMidrashModalContentBox .sefariaModalContent h2 {
+#interruptingMessage.beitMidrashModalContentBox .mekorosModalContent h2 {
   margin-top: 0px;
   --english-font: var(--english-sans-serif-font-family);
   --hebrew-font: var(--hebrew-sans-serif-font-family);
@@ -1132,7 +1132,7 @@ div.interfaceLinks-row a {
   margin-bottom: 10px;
 }
 
-.sefariaModalContent {
+.mekorosModalContent {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1141,30 +1141,30 @@ div.interfaceLinks-row a {
   font-size: 16px;
   line-height: 1.5;
 }
-.interface-hebrew .sefariaModalContent {
+.interface-hebrew .mekorosModalContent {
   direction: rtl;
 }
-.sefariaModalContent a {
+.mekorosModalContent a {
   color: white;
 }
-.sefariaModalContent h2 {
+.mekorosModalContent h2 {
   font-weight: normal;
   font-size: 30px;
   margin-bottom: 0px;
 }
-.sefariaModalInnerContent {
+.mekorosModalInnerContent {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 40px;
 }
-.sefariaModalInnerContent div, .sefariaModalInnerContent h3{
+.mekorosModalInnerContent div, .mekorosModalInnerContent h3{
   display: flex;
   align-items: center;
   text-align: start;
   padding: 10px 0;
 }
-.sefariaModalContent h3{
+.mekorosModalContent h3{
   align-items: center;
   text-align: start;
   padding: 10px 0;
@@ -1174,19 +1174,19 @@ div.interfaceLinks-row a {
   margin-bottom: 10px;
   margin-top: 5px;
 }
-.sefariaModalBottomContent {
+.mekorosModalBottomContent {
   font-size: 16px;
   color: #999;
 }
-.sefariaModalContent .button {
+.mekorosModalContent .button {
   width: 100%;
 }
-.sefariaModalInnerContent img {
+.mekorosModalInnerContent img {
   width: 16px;
   height: 16px;
   padding-right: 10px;
 }
-.readerApp.interface-hebrew .sefariaModalInnerContent img {
+.readerApp.interface-hebrew .mekorosModalInnerContent img {
   padding-right: 0;
   padding-left: 10px;
 }
@@ -1204,7 +1204,7 @@ div.interfaceLinks-row a {
   z-index: 101;
   background: linear-gradient(90deg, var(--tanakh-teal) 0% 10%, var(--mishnah-blue) 10% 20%, var(--talmud-gold) 20% 30%, var(--midrash-green) 30% 40%, var(--halakhah-red) 40% 50%, var(--kabbalah-purple) 50% 60%, var(--liturgy-rose) 60% 70%, var(--philosophy-purple) 70% 80%, var(--taanitic-green) 80% 90%, var(--chasidut-green) 90% 100%)
 }
-#interruptingMessageClose.sefariaModalClose {
+#interruptingMessageClose.mekorosModalClose {
   color: white;
 }
 #interruptingMessageClose {
@@ -1828,7 +1828,7 @@ div.interfaceLinks-row a {
   height: auto;
 }
 .navSidebarModule.blue {
-  background-color: var(--sefaria-blue);
+  background-color: var(--mekoros-blue);
   color: white;
   padding: 34px 44px 45px;
 }
@@ -2086,10 +2086,10 @@ div.interfaceLinks-row a {
   align-items: center;
   width:27px;
 }
-.sefariaLogo img {
+.mekorosLogo img {
   width: 110px;
 }
-.readerNavTop .sefariaLogo img {
+.readerNavTop .mekorosLogo img {
   vertical-align: middle;
 }
 .readerNavTop .searchBox {
@@ -2835,7 +2835,7 @@ display: none;
 .sidebarPromo.blue {
   padding-top: 33px;
   padding-bottom: 33px;
-  background-color: var(--sefaria-blue);
+  background-color: var(--mekoros-blue);
   color: #FFF;
 }
 .sidebarPromo.blue h3 {
@@ -2846,7 +2846,7 @@ display: none;
   width: fit-content;
   text-align: center;
   display: inline-block;
-  color: var(--sefaria-blue);
+  color: var(--mekoros-blue);
   background-color: white;
 }
 .sidebarPromo a.button img {
@@ -2865,7 +2865,7 @@ display: none;
   margin-inline-start: 0px;
 }
 .sidebarPromo.blue.button a:hover {
-  color: var(--sefaria-blue);
+  color: var(--mekoros-blue);
 }
 .sidebarPromo img {
     height: 18px;
@@ -3385,7 +3385,7 @@ display: none;
 .bookPage .versionEditForm #priority {
   width: 25px;
 }
-.bookPage .versionEditForm #digitzedBySefaria {
+.bookPage .versionEditForm #digitzedByMekoros {
   margin-right: 10px;
 }
 .bookPage .versionEditForm #save_button,
@@ -3517,11 +3517,11 @@ display: none;
   color: #000000;
 }
 .textTableOfContents .sectionLink.current{
-  background-color: var(--sefaria-blue);
+  background-color: var(--mekoros-blue);
   color: #FFFFFF;
 }
 .textTableOfContents .torahNavParshiot .sectionLink.current{
-  color: var(--sefaria-blue);
+  color: var(--mekoros-blue);
   font-weight: bold;
 }
 .textTableOfContents .sectionName {
@@ -3574,7 +3574,7 @@ display: none;
 }
 .textTableOfContents .schema-node-toc.linked.current,
 .textTableOfContents .schema-node-toc.linked.current .schema-node-title {
-  color: var(--sefaria-blue);
+  color: var(--mekoros-blue);
   font-weight: bold;
 }
 .textTableOfContents .schema-node-toc:not(.linked)>.schema-node-title:not(.fixed):after {
@@ -5424,7 +5424,7 @@ body .ui-autocomplete.dictionary-toc-autocomplete .ui-menu-item a.ui-state-focus
   justify-content: center;
 }
 .toggleSet.blueStyle .toggleOption.on {
-  background-color:  var(--sefaria-blue);
+  background-color:  var(--mekoros-blue);
   color: white;
   border-radius: 6px;
 }
@@ -7068,7 +7068,7 @@ But not to use a display block directive that might break continuous mode for ot
 }
 
 .toolsButtonContainer.blue {
-  background-color: var(--sefaria-blue);
+  background-color: var(--mekoros-blue);
   color: white;
   margin: -29px 34px 20px;
   margin-inline-start: -34px;
@@ -7248,7 +7248,7 @@ But not to use a display block directive that might break continuous mode for ot
   width: 52px;
   margin: 0 3px;
   border: 0;
-  color: var(--sefaria-blue);
+  color: var(--mekoros-blue);
   font-weight: 600;
   --english-font: var(--english-sans-serif-font-family);
   --hebrew-font: var(--hebrew-sans-serif-font-family);
@@ -7823,7 +7823,7 @@ But not to use a display block directive that might break continuous mode for ot
     transform: rotate(360deg);
   }
 }
-.sefariaLogo {
+.mekorosLogo {
   text-align: center;
   text-transform: uppercase;
   font-family: "Roboto", "Helvetica Neue", "Helvetica", sans-serif;
@@ -7860,7 +7860,7 @@ But not to use a display block directive that might break continuous mode for ot
 .button {
   display: inline-block;
   color: white;
-  background-color: var(--sefaria-blue);
+  background-color: var(--mekoros-blue);
   box-shadow: 0 1px 3px rgba(0,0,0,0.25);
   border-radius: 6px;
   padding: 16px 30px;
@@ -8593,7 +8593,7 @@ body.interface-english .publishBox .react-tags__suggestions ul {
   width: 30px;
   border-radius: 30px;
   border: none;
-  background-color: var(--sefaria-blue);
+  background-color: var(--mekoros-blue);
   cursor: pointer;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
 }
@@ -11509,7 +11509,7 @@ cursor: pointer;
   width: min-content;
   text-align: center;
   cursor: pointer;
-  background: var(--sefaria-blue);
+  background: var(--mekoros-blue);
   color: white;
   border-radius: 3px;
   margin-inline-start: 15px;

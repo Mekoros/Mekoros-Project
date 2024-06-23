@@ -7,7 +7,7 @@ function VersionBlockSelectButton({link, openVersionInMainPanel, text, isSelecte
               href={link}
               onClick={openVersionInMainPanel}
           >
-              {Sefaria._(text)}
+              {Mekoros._(text)}
           </a>
     );
 }

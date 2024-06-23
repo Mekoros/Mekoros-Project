@@ -4,16 +4,16 @@ from pymongo import UpdateOne, InsertOne
 from typing import Optional, Union
 from collections import defaultdict
 from functools import cmp_to_key, partial
-from sefaria.model import *
-from sefaria.model.place import process_topic_place_change
-from sefaria.system.exceptions import InputError
-from sefaria.model.topic import TopicLinkHelper
-from sefaria.system.database import db
-from sefaria.system.cache import django_cache
+from mekoros.model import *
+from mekoros.model.place import process_topic_place_change
+from mekoros.system.exceptions import InputError
+from mekoros.model.topic import TopicLinkHelper
+from mekoros.system.database import db
+from mekoros.system.cache import django_cache
 
 import structlog
-from sefaria import tracker
-from sefaria.helper.descriptions import create_era_link
+from mekoros import tracker
+from mekoros.helper.descriptions import create_era_link
 logger = structlog.get_logger(__name__)
 
 def get_topic(v2, topic, lang, with_html=True, with_links=True, annotate_links=True, with_refs=True, group_related=True, annotate_time_period=False, ref_link_type_filters=None, with_indexes=True):
@@ -391,7 +391,7 @@ def generate_all_topic_links_from_sheets(topic=None):
     """
     Processes all public source sheets to create topic links.
     """
-    from sefaria.recommendation_engine import RecommendationEngine
+    from mekoros.recommendation_engine import RecommendationEngine
     from statistics import mean, stdev
     import math
 
@@ -498,7 +498,7 @@ def generate_all_topic_links_from_sheets(topic=None):
                     "expandedRefs": source[1],
                     "linkType": "about",
                     "is_sheet": False,
-                    "dataSource": "sefaria-users",
+                    "dataSource": "mekoros-users",
                     "generatedBy": "sheet-topic-aggregator",
                     "order": {"user_votes": source[2]}
                 }]
@@ -531,7 +531,7 @@ def generate_sheet_topic_links():
                 "expandedRefs": [f"Sheet {sheet['id']}"],
                 "linkType": "about",
                 "is_sheet": True,
-                "dataSource": "sefaria-users",
+                "dataSource": "mekoros-users",
                 "generatedBy": "sheet-topic-aggregator"
             }]
     return sheet_links
@@ -576,7 +576,7 @@ def calculate_tfidf_related_sheet_links(related_links):
                     'fromTopic': l['b'] if is_inverse else l['a'],
                     'toTopic': l['a'] if is_inverse else l['b'],
                     "linkType": "sheets-related-to",
-                    "dataSource": "sefaria-users",
+                    "dataSource": "mekoros-users",
                     "generatedBy": "sheet-topic-aggregator",
                     "order": {"tfidf": inner_score_dict['tfidf']}
                 }]
@@ -584,7 +584,7 @@ def calculate_tfidf_related_sheet_links(related_links):
 
 
 def tokenize_words_for_tfidf(text, stopwords):
-    from sefaria.utils.hebrew import strip_cantillation
+    from mekoros.utils.hebrew import strip_cantillation
 
     try:
         text = TextChunk.strip_itags(text)
@@ -678,7 +678,7 @@ def calculate_mean_tfidf(ref_topic_links):
 
 
 def calculate_pagerank_scores(ref_topic_map):
-    from sefaria.pagesheetrank import pagerank_rank_ref_list
+    from mekoros.pagesheetrank import pagerank_rank_ref_list
     from statistics import mean
     pr_map = {}
     pr_seg_map = {}  # keys are (topic, seg_tref). used for sheet relevance
@@ -955,7 +955,7 @@ def calculate_popular_writings_for_authors(top_n, min_pr):
                 "toTopic": author,
                 "ref": rd['ref'],
                 "linkType": "popular-writing-of",
-                "dataSource": "sefaria",
+                "dataSource": "mekoros",
                 "generatedBy": "calculate_popular_writings_for_authors",
                 "order": {"custom_order": rd['pagesheetrank']}
             }).save()
@@ -1039,7 +1039,7 @@ def topic_change_category(topic_obj, new_category, old_category="", rebuild=Fals
     link_to_itself = IntraTopicLink().load({"fromTopic": topic_obj.slug, "toTopic": topic_obj.slug, "linkType": "displays-under"})
     had_children_before_changing_category = IntraTopicLink().load({"linkType": "displays-under", "toTopic": topic_obj.slug, "fromTopic": {"$ne": topic_obj.slug}}) is not None
     new_link_dict = {"fromTopic": topic_obj.slug, "toTopic": new_category, "linkType": "displays-under",
-                     "dataSource": "sefaria"}
+                     "dataSource": "mekoros"}
 
     if old_category != Topic.ROOT and new_category != Topic.ROOT:
         orig_link.load_from_dict(new_link_dict).save()
@@ -1064,7 +1064,7 @@ def topic_change_category(topic_obj, new_category, old_category="", rebuild=Fals
             # if topic has sources and we dont create an IntraTopicLink to itself, the sources wont be accessible
             # from the topic TOC
             IntraTopicLink({"fromTopic": topic_obj.slug, "toTopic": topic_obj.slug,
-                            "dataSource": "sefaria", "linkType": "displays-under"}).save()
+                            "dataSource": "mekoros", "linkType": "displays-under"}).save()
 
     if rebuild:
         rebuild_topic_toc(topic_obj, category_changed=True)
@@ -1132,7 +1132,7 @@ def update_topic(topic, **kwargs):
             topic = topic_change_category(topic, kwargs["category"], old_category=old_category)  # can change topic and intratopiclinks
 
     if kwargs.get('manual', False):
-        topic.data_source = "sefaria"  # any topic edited manually should display automatically in the TOC and this flag ensures this
+        topic.data_source = "mekoros"  # any topic edited manually should display automatically in the TOC and this flag ensures this
         topic.description_published = True
 
     if "description" in kwargs or "categoryDescription" in kwargs:
@@ -1188,7 +1188,7 @@ def _description_was_ai_generated(description: dict) -> bool:
     return bool(description.get('ai_title', ''))
 
 def _get_merged_descriptions(current_descriptions, requested_descriptions):
-    from sefaria.utils.util import deep_update
+    from mekoros.utils.util import deep_update
     for lang, requested_description_in_lang in requested_descriptions.items():
         current_description_in_lang = current_descriptions.get(lang, {})
         current_review_state = current_description_in_lang.get("review_state")

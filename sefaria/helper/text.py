@@ -5,12 +5,12 @@ import re
 
 import pymongo
 
-from sefaria.model import *
-from sefaria.system.database import db
-from sefaria.datatype.jagged_array import JaggedTextArray
+from mekoros.model import *
+from mekoros.system.database import db
+from mekoros.datatype.jagged_array import JaggedTextArray
 from diff_match_patch import diff_match_patch
 from functools import reduce
-from sefaria.system.exceptions import InputError
+from mekoros.system.exceptions import InputError
 
 import regex as re
 import pprint
@@ -18,8 +18,8 @@ try:
     import xml.etree.cElementTree as ET
 except ImportError:
     import xml.etree.ElementTree as ET
-from sefaria.model import *
-from sefaria.utils.hebrew import has_hebrew
+from mekoros.model import *
+from mekoros.utils.hebrew import has_hebrew
 
 def add_spelling(category, old, new, lang="en"):
     """
@@ -241,7 +241,7 @@ def modify_text_by_function(title, vtitle, lang, rewrite_function, uid, needs_re
     Walks ever segment contained in title, calls rewrite_function on the text and saves the result.
     rewrite_function should accept two parameters: 1) text of current segment 2) zero-indexed indices of segment
     """
-    from sefaria.tracker import modify_text
+    from mekoros.tracker import modify_text
 
     leaf_nodes = library.get_index(title).nodes.get_leaf_nodes()
     for leaf in leaf_nodes:
@@ -392,7 +392,7 @@ def make_versions_csv():
         "priority",
         "license",
         "versionNotes",
-        "digitizedBySefaria",
+        "digitizedByMekoros",
         "method",
     ]
     writer.writerow(fields)
@@ -404,7 +404,7 @@ def make_versions_csv():
 
 
 def get_core_link_stats():
-    from sefaria.model.link import get_category_category_linkset
+    from mekoros.model.link import get_category_category_linkset
     output = io.BytesIO()
     writer = csv.writer(output)
     titles = [
@@ -592,8 +592,8 @@ def word_frequency_for_text(title, lang="en"):
     """
     import string
     from collections import defaultdict
-    from sefaria.export import make_text, prepare_merged_text_for_export
-    from sefaria.utils.util import strip_tags 
+    from mekoros.export import make_text, prepare_merged_text_for_export
+    from mekoros.utils.util import strip_tags 
     text = make_text(prepare_merged_text_for_export(title, lang=lang))
 
     text = strip_tags(text)
@@ -824,7 +824,7 @@ class WorkflowyParser(object):
 
     # builds and posts text to api
     def save_version_from_outline_notes(self):
-        from sefaria.tracker import modify_text
+        from mekoros.tracker import modify_text
         for text_ref in self.version_info['text']:
             node = text_ref['node']
             ref = Ref(node.full_title(force_update=True))

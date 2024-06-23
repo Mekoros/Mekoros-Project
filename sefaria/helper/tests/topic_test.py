@@ -1,21 +1,21 @@
 import pytest
-from sefaria.model.topic import Topic, IntraTopicLink
-from sefaria.model.text import library
-from sefaria.model.place import Place
-from sefaria.helper import topic
+from mekoros.model.topic import Topic, IntraTopicLink
+from mekoros.model.text import library
+from mekoros.model.place import Place
+from mekoros.helper import topic
 
 
 @pytest.fixture(autouse=True, scope='module') 
 def root_with_self_link():
 	# create branch of tree starting with root_with_self_link
-	t = Topic({'slug': "", "isTopLevelDisplay": True, "data_source": "sefaria", "numSources": 30, "displayOrder": 10})
+	t = Topic({'slug': "", "isTopLevelDisplay": True, "data_source": "mekoros", "numSources": 30, "displayOrder": 10})
 	title = "Root Topic With Link to Itself"
 	he_title = title[::-1]
 	t.add_primary_titles(title, he_title)
 	t.set_slug_to_primary_title()
 	t.save()
 	l = IntraTopicLink({"linkType": "displays-under", "fromTopic": t.slug,
-						"toTopic": t.slug, "dataSource": "sefaria",
+						"toTopic": t.slug, "dataSource": "mekoros",
 						"class": "intraTopic"}).save()
 	yield {"topic": t, "link": l}
 	t.delete()
@@ -24,14 +24,14 @@ def root_with_self_link():
 
 @pytest.fixture(autouse=True, scope='module')
 def child_of_root_with_self_link(root_with_self_link):
-	t = Topic({'slug': "", "isTopLevelDisplay": False, "data_source": "sefaria", "numSources": 0})
+	t = Topic({'slug': "", "isTopLevelDisplay": False, "data_source": "mekoros", "numSources": 0})
 	title = "Second Level"
 	he_title = title[::-1]
 	t.add_primary_titles(title, he_title)
 	t.set_slug_to_primary_title()
 	t.save()
 	l = IntraTopicLink({"linkType": "displays-under", "fromTopic": t.slug,
-						"toTopic": root_with_self_link["topic"].slug, "dataSource": "sefaria",
+						"toTopic": root_with_self_link["topic"].slug, "dataSource": "mekoros",
 						"class": "intraTopic"}).save()
 	yield {"topic": t, "link": l}
 	t.delete()
@@ -40,14 +40,14 @@ def child_of_root_with_self_link(root_with_self_link):
 
 @pytest.fixture(autouse=True, scope='module')
 def grandchild_of_root_with_self_link(child_of_root_with_self_link):
-	t = Topic({'slug': "", "isTopLevelDisplay": False, "data_source": "sefaria", "numSources": 0})
+	t = Topic({'slug': "", "isTopLevelDisplay": False, "data_source": "mekoros", "numSources": 0})
 	title = "Second Level With Leaf Node"
 	he_title = title[::-1]
 	t.add_primary_titles(title, he_title)
 	t.set_slug_to_primary_title()
 	t.save()
 	l = IntraTopicLink({"linkType": "displays-under", "fromTopic": t.slug,
-						"toTopic": child_of_root_with_self_link["topic"].slug, "dataSource": "sefaria",
+						"toTopic": child_of_root_with_self_link["topic"].slug, "dataSource": "mekoros",
 						"class": "intraTopic"}).save()
 	yield {"topic": t, "link": l}
 	t.delete()
@@ -57,7 +57,7 @@ def grandchild_of_root_with_self_link(child_of_root_with_self_link):
 @pytest.fixture(autouse=True, scope='module')
 def author_root():
 	# create second branch of tree starting with author_root
-	t = Topic({'slug': "", "isTopLevelDisplay": True, "data_source": "sefaria", "numSources": 0})
+	t = Topic({'slug': "", "isTopLevelDisplay": True, "data_source": "mekoros", "numSources": 0})
 	title = "Authors"
 	he_title = title[::-1]
 	t.add_primary_titles(title, he_title)
@@ -70,14 +70,14 @@ def author_root():
 
 @pytest.fixture(autouse=True, scope='module')
 def actual_author(author_root):
-	t = Topic({'slug': "", "isTopLevelDisplay": False, "data_source": "sefaria", "numSources": 0})
+	t = Topic({'slug': "", "isTopLevelDisplay": False, "data_source": "mekoros", "numSources": 0})
 	title = "Author Dude"
 	he_title = title[::-1]
 	t.add_primary_titles(title, he_title)
 	t.set_slug_to_primary_title()
 	t.save()
 	l = IntraTopicLink({"linkType": "displays-under", "fromTopic": t.slug,
-						"toTopic": author_root["topic"].slug, "dataSource": "sefaria",
+						"toTopic": author_root["topic"].slug, "dataSource": "mekoros",
 						"class": "intraTopic"}).save()  # author_root has child leaf_node
 	yield {"topic": t, "link": l}
 	t.delete()

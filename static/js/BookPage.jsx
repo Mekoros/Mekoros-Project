@@ -17,8 +17,8 @@ import {ContentText} from "./ContentText";
 import {validateMarkdownLinks} from "./AdminEditor";
 import React, { useState, useRef }  from 'react';
 import ReactDOM  from 'react-dom';
-import $  from './sefaria/sefariaJquery';
-import Sefaria  from './sefaria/sefaria';
+import $  from './mekoros/mekorosJquery';
+import Mekoros  from './mekoros/mekoros';
 import { NavSidebar, Modules } from './NavSidebar';
 import DictionarySearch  from './DictionarySearch';
 import VersionBlock  from './VersionBlock/VersionBlock';
@@ -28,7 +28,7 @@ import classNames  from 'classnames';
 import PropTypes  from 'prop-types';
 import Component   from 'react-class';
 import {ContentLanguageContext} from './context';
-import Hebrew from './sefaria/hebrew.js';
+import Hebrew from './mekoros/hebrew.js';
 
 import ReactTags from 'react-tag-autocomplete';
 import Cookies from "js-cookie";
@@ -47,7 +47,7 @@ class BookPage extends Component {
       versionsLoaded: false,
       currentVersion: null,
       currObjectVersions: {en: null, he: null},
-      indexDetails: Sefaria.getIndexDetailsFromCache(props.title),
+      indexDetails: Mekoros.getIndexDetailsFromCache(props.title),
       dlVersionTitle: null,
       dlVersionLanguage: null,
       dlVersionFormat: null,
@@ -64,19 +64,19 @@ class BookPage extends Component {
   }
   getDataRef() {
     // Returns ref to be used to looking up data
-    return Sefaria.sectionRef(this.props.currentRef) || this.props.currentRef;
+    return Mekoros.sectionRef(this.props.currentRef) || this.props.currentRef;
   }
   getData() {
     // Gets data about this text from cache, which may be null.
-    return Sefaria.text(this.getDataRef(), {context: 1, enVersion: this.props.currVersions.en, heVersion: this.props.currVersions.he});
+    return Mekoros.text(this.getDataRef(), {context: 1, enVersion: this.props.currVersions.en, heVersion: this.props.currVersions.he});
   }
   loadData() {
     // Ensures data this text is in cache, rerenders after data load if needed
-    Sefaria.getIndexDetails(this.props.title).then(data => this.setState({indexDetails: data}));
+    Mekoros.getIndexDetails(this.props.title).then(data => this.setState({indexDetails: data}));
 
     if (this.isBookToc() && !this.props.compare) {
       if(!this.state.versionsLoaded){
-        Sefaria.getVersions(this.props.title).then(result => {
+        Mekoros.getVersions(this.props.title).then(result => {
           this.onVersionsLoad(Object.values(result).flat());
         })
       }
@@ -120,7 +120,7 @@ class BookPage extends Component {
         license:                currentLanguage == "he" ? d.heLicense : d.license,
         sources:                currentLanguage == "he" ? d.heSources : d.sources,
         versionNotes:           currentLanguage == "he" ? d.heVersionNotes : d.versionNotes,
-        digitizedBySefaria:     currentLanguage == "he" ? d.heDigitizedBySefaria : d.digitizedBySefaria,
+        digitizedByMekoros:     currentLanguage == "he" ? d.heDigitizedByMekoros : d.digitizedByMekoros,
         versionTitleInHebrew: currentLanguage == "he" ? d.heVersionTitleInHebrew : d.VersionTitleInHebrew,
         shortVersionTitle:    currentLanguage == "he" ? d.heShortVersionTitle : d.shortVersionTitle,
         shortVersionTitleInHebrew: currentLanguage == "he" ? d.heShortVersionTitleInHebrew : d.shortVersionTitleInHebrew,
@@ -149,11 +149,11 @@ class BookPage extends Component {
   }
   render() {
     const title     = this.props.title;
-    const index     = Sefaria.index(title);
+    const index     = Mekoros.index(title);
     const heTitle   = index ? index.heTitle : title;
     const category  = this.props.category;
     const isDictionary = this.state.indexDetails && !!this.state.indexDetails.lexiconName;
-    const categories = Sefaria.index(this.props.title).categories;
+    const categories = Mekoros.index(this.props.title).categories;
     let currObjectVersions = this.state.currObjectVersions;
     let catUrl;
     if (category == "Commentary") {
@@ -170,18 +170,18 @@ class BookPage extends Component {
     }
 
     const readButton = !this.state.indexDetails || this.isTextToc() || this.props.compare ? null :
-      Sefaria.lastPlaceForText(title) ?
-        <a className="button small readButton" href={"/" + Sefaria.normRef(Sefaria.lastPlaceForText(title).ref)}>
+      Mekoros.lastPlaceForText(title) ?
+        <a className="button small readButton" href={"/" + Mekoros.normRef(Mekoros.lastPlaceForText(title).ref)}>
           <InterfaceText>Continue Reading</InterfaceText>
         </a>
         :
-        <a className="button small readButton" href={"/" + Sefaria.normRef(this.state.indexDetails["firstSectionRef"])}>
+        <a className="button small readButton" href={"/" + Mekoros.normRef(this.state.indexDetails["firstSectionRef"])}>
           <InterfaceText>Start Reading</InterfaceText>
         </a>
 
-    const tabs = [{id: "contents", title: {en: "Contents", he: Sefaria._("Contents")}}];
+    const tabs = [{id: "contents", title: {en: "Contents", he: Mekoros._("Contents")}}];
     if (this.isBookToc()){
-      tabs.push({id: "versions", title: {en: "Versions", he: Sefaria._("Versions")}});
+      tabs.push({id: "versions", title: {en: "Versions", he: Mekoros._("Versions")}});
     }
     const renderTab = t => (
       <div className={classNames({tab: 1, noselect: 1})}>
@@ -204,7 +204,7 @@ class BookPage extends Component {
       fullBookPage: this.isBookToc(),
       narrowPanel: this.props.narrowPanel,
       compare: this.props.compare,
-      noLangToggleInHebrew: Sefaria.interfaceLang === 'hebrew'
+      noLangToggleInHebrew: Mekoros.interfaceLang === 'hebrew'
     });
 
     return (
@@ -230,7 +230,7 @@ class BookPage extends Component {
                 </div>}
               </div>
               <div className="rightButtons">
-                {Sefaria.interfaceLang !== "hebrew" ?
+                {Mekoros.interfaceLang !== "hebrew" ?
                   <DisplaySettingsButton onClick={this.props.openDisplaySettings} />
                   : <DisplaySettingsButton placeholder={true} />}
               </div>
@@ -248,12 +248,12 @@ class BookPage extends Component {
                     <CategoryHeader type="books" toggleButtonIDs={["section", "edit"]}
                                     data={title}><ContentText text={{en:title, he:heTitle}}/></CategoryHeader>
                   </div>
-                  { this.props.multiPanel && this.props.toggleLanguage && Sefaria.interfaceLang !== "hebrew" && Sefaria._siteSettings.TORAH_SPECIFIC ?
+                  { this.props.multiPanel && this.props.toggleLanguage && Mekoros.interfaceLang !== "hebrew" && Mekoros._siteSettings.TORAH_SPECIFIC ?
                   <LanguageToggleButton toggleLanguage={this.props.toggleLanguage} /> : null }
                 </div>
 
                 <a className="tocCategory" href={catUrl}>
-                  <ContentText text={{en:category, he:Sefaria.hebrewTerm(category)}}/>
+                  <ContentText text={{en:category, he:Mekoros.hebrewTerm(category)}}/>
                 </a>
 
                 <CategoryAttribution categories={categories} asEdition={true} />
@@ -340,7 +340,7 @@ class TextTableOfContents extends Component {
     super(props);
     this.state = {
       tab: "schema",
-      indexDetails: Sefaria.getIndexDetailsFromCache(props.title)
+      indexDetails: Mekoros.getIndexDetailsFromCache(props.title)
     };
   }
   componentDidMount() {
@@ -349,7 +349,7 @@ class TextTableOfContents extends Component {
   }
   loadData(){
     // Ensures data this text is in cache, rerenders after data load if needed
-    Sefaria.getIndexDetails(this.props.title).then((data) => {
+    Mekoros.getIndexDetails(this.props.title).then((data) => {
       this.setState({
         indexDetails: data,
         tab: this.getDefaultActiveTab(data)
@@ -365,7 +365,7 @@ class TextTableOfContents extends Component {
   scrollToCurrent(){
     const curr = document.querySelector(".current");
     if(curr){
-      Sefaria.util.scrollIntoViewIfNeeded(curr, {block: "center"});
+      Mekoros.util.scrollIntoViewIfNeeded(curr, {block: "center"});
     }
   }
   getDefaultActiveTab(indexDetails){
@@ -379,7 +379,7 @@ class TextTableOfContents extends Component {
     if ($a.length && ($a.hasClass("sectionLink") || $a.hasClass("linked"))) {
       let ref = $a.attr("data-ref");
       ref = decodeURIComponent(ref);
-      ref = Sefaria.humanRef(ref);
+      ref = Mekoros.humanRef(ref);
       if(this.props?.close){
         this.props.close();
       }
@@ -525,7 +525,7 @@ const TabbedToggleSet = ({tabOptions, activeTab, narrowPanel}) => {
     }.bind(this);
 
     let classes = classNames({altStructToggle: 1, "sans-serif": 1, active: activeTab === option.name});
-    const url = Sefaria.util.replaceUrlParam("tab", option.name);
+    const url = Mekoros.util.replaceUrlParam("tab", option.name);
     return (
       <div className="altStructToggleBox" key={i}>
         <a className={classes} onClick={handleClick} href={url}>
@@ -648,7 +648,7 @@ class SchemaNode extends Component {
           let currentPlace = path == this.props?.currentlyVisibleSectionRef;
           const linkClasses = classNames({"schema-node-toc": 1, "linked": 1, "current": currentPlace})
           return (
-            <a className={linkClasses} href={"/" + Sefaria.normRef(path)} data-ref={path} key={i}>
+            <a className={linkClasses} href={"/" + Mekoros.normRef(path)} data-ref={path} key={i}>
               <span className="schema-node-title" role="heading" aria-level="3">
                 <ContentText text={{en:node.title , he:node.heTitle }}/>
               </span>
@@ -684,7 +684,7 @@ class SchemaNode extends Component {
         <div className="specialNavSectionHeader">
           <ContentText text={{
             en: this.props.topLevelHeader,
-            he: Sefaria.hebrewTranslation(this.props.topLevelHeader)
+            he: Mekoros.hebrewTranslation(this.props.topLevelHeader)
           }}/>
         </div>
       ) : null;
@@ -725,7 +725,7 @@ class JaggedArrayNode extends Component {
         <div className="specialNavSectionHeader">
           <ContentText text={{
             en: specialHeaderText,
-            he: Sefaria.hebrewTranslation(specialHeaderText)
+            he: Mekoros.hebrewTranslation(specialHeaderText)
           }}/>
         </div>
     ) : null;
@@ -779,11 +779,11 @@ class JaggedArrayNodeSection extends Component {
       let content = [];
       for (let i = 0; i < this.props.contentCounts.length; i++) {
         if (this.contentCountIsEmpty(this.props.contentCounts[i])) { continue; }
-        let [enSection, heSection] = Sefaria.getSectionStringByAddressType(this.props.addressTypes[0], i);
+        let [enSection, heSection] = Mekoros.getSectionStringByAddressType(this.props.addressTypes[0], i);
         content.push(
           <div className="tocSection" key={i}>
             <div className="sectionName">
-              <ContentText text={{ en:this.props.sectionNames[0] + " " + enSection , he: Sefaria.hebrewTerm(this.props.sectionNames[0]) + " " +heSection}}/>
+              <ContentText text={{ en:this.props.sectionNames[0] + " " + enSection , he: Mekoros.hebrewTerm(this.props.sectionNames[0]) + " " +heSection}}/>
             </div>
             <JaggedArrayNodeSection
               depth={this.props.depth - 1}
@@ -801,12 +801,12 @@ class JaggedArrayNodeSection extends Component {
     let sectionLinks = [];
     for (let i = 0; i < contentCounts.length; i++) {
       if (this.contentCountIsEmpty(contentCounts[i])) { continue; }
-      let [section, heSection] = Sefaria.getSectionStringByAddressType(this.props.addressTypes[0], i, this.props.offset);
+      let [section, heSection] = Mekoros.getSectionStringByAddressType(this.props.addressTypes[0], i, this.props.offset);
       let ref  = (this.props.refPath + ":" + section).replace(":", " ") + this.refPathTerminal(contentCounts[i]);
-      let currentPlace = ref == this.props?.currentlyVisibleSectionRef || ref == this.props?.currentlyVisibleRef || Sefaria.refContains(this.props?.currentlyVisibleSectionRef, ref); //the second clause is for depth 1 texts
+      let currentPlace = ref == this.props?.currentlyVisibleSectionRef || ref == this.props?.currentlyVisibleRef || Mekoros.refContains(this.props?.currentlyVisibleSectionRef, ref); //the second clause is for depth 1 texts
       const linkClasses = classNames({"sectionLink": 1, "current": currentPlace}); 
       let link = (
-        <a className={linkClasses} href={"/" + Sefaria.normRef(ref)} data-ref={ref} key={i}>
+        <a className={linkClasses} href={"/" + Mekoros.normRef(ref)} data-ref={ref} key={i}>
           <ContentText text={{en:section, he:heSection}}/>
         </a>
       );
@@ -861,21 +861,21 @@ class ArrayMapNode extends Component {
         if (ref === "") {
           return null;
         }
-        let [section, heSection] = Sefaria.getSectionStringByAddressType(schema.addressTypes[0], i);
-        let currentPlace = ref == this.props?.currentlyVisibleSectionRef  || ref == this.props?.currentlyVisibleRef || Sefaria.refContains(ref, this.props?.currentlyVisibleRef);
+        let [section, heSection] = Mekoros.getSectionStringByAddressType(schema.addressTypes[0], i);
+        let currentPlace = ref == this.props?.currentlyVisibleSectionRef  || ref == this.props?.currentlyVisibleRef || Mekoros.refContains(ref, this.props?.currentlyVisibleRef);
         const linkClasses = classNames({"sectionLink": 1, "current": currentPlace}); 
         return (
-          <a className={linkClasses} href={"/" + Sefaria.normRef(ref)} data-ref={ref} key={i}>
+          <a className={linkClasses} href={"/" + Mekoros.normRef(ref)} data-ref={ref} key={i}>
             <ContentText text={{en:section, he:heSection}}/>
           </a>
         );
       }.bind(this));
       
       let path = this.props.refPath + ", " + schema.title;
-      let ref = "wholeRef" in schema ? Sefaria.splitSpanningRefNaive(schema.wholeRef)[0] : null;
+      let ref = "wholeRef" in schema ? Mekoros.splitSpanningRefNaive(schema.wholeRef)[0] : null;
       
       return schema.displayFixedTitleSubSections ? (
-          <a className="schema-node-toc linked" href={"/" + Sefaria.normRef(ref)} data-ref={ref} key={path}>
+          <a className="schema-node-toc linked" href={"/" + Mekoros.normRef(ref)} data-ref={ref} key={path}>
             <span className="schema-node-title open fixed"
                   role="heading"
                   aria-level="3"
@@ -902,10 +902,10 @@ class ArrayMapNode extends Component {
 
     } else { //just a single link for an alt struct section
       let currentPlace = this.props?.currentlyVisibleSectionRef && 
-          (schema.wholeRef == this.props?.currentlyVisibleRef || (Sefaria.refContains(schema.wholeRef, this.props?.currentlyVisibleRef)));
+          (schema.wholeRef == this.props?.currentlyVisibleRef || (Mekoros.refContains(schema.wholeRef, this.props?.currentlyVisibleRef)));
       const linkClasses = classNames({"schema-node-toc": 1, "linked":1, "current": currentPlace}); 
       return (
-        <a className={linkClasses} href={"/" + Sefaria.normRef(schema.wholeRef)} data-ref={schema.wholeRef}>
+        <a className={linkClasses} href={"/" + Mekoros.normRef(schema.wholeRef)} data-ref={schema.wholeRef}>
           <span className="schema-node-title" role="heading" aria-level="3">
             <ContentText text={{en:schema.title, he:schema.heTitle}}/>
           </span>
@@ -944,7 +944,7 @@ class DictionaryNode extends Component {
         let currentPlace = letterSection ? ref == letterSection : false;
         const linkClasses = classNames({"sectionLink": 1, "current": currentPlace});
         return (
-            <a className={linkClasses} href={"/" + Sefaria.normRef(ref)} data-ref={ref} key={i}>
+            <a className={linkClasses} href={"/" + Mekoros.normRef(ref)} data-ref={ref} key={i}>
               <ContentText text={{en: letter, he: letter}}/>
             </a>
         );
@@ -969,7 +969,7 @@ DictionaryNode.propTypes = {
 
 class VersionsList extends Component {
   componentDidMount() {
-    Sefaria.getVersions(this.props.currentRef).then((result) => {
+    Mekoros.getVersions(this.props.currentRef).then((result) => {
           this.onVersionsLoad(Object.values(result).flat());
         });
   }
@@ -1052,7 +1052,7 @@ const SectionTypesBox = function({sections, canEdit, updateParent}) {
 
 const EditTextInfo = function({initTitle, close}) {
   const index = useRef(null);
-  index.current = Sefaria.getIndexDetailsFromCache(initTitle);
+  index.current = Mekoros.getIndexDetailsFromCache(initTitle);
   const oldTitle = index.current.title; //save original title, in case english title gets edited
   const [enTitle, setEnTitle] = useState(index.current.title);
   const [heTitle, setHeTitle] = useState(index.current.heTitle);
@@ -1100,7 +1100,7 @@ const EditTextInfo = function({initTitle, close}) {
       return false;
     }
 
-    if (!heTitle && Sefaria._siteSettings.TORAH_SPECIFIC) {
+    if (!heTitle && Mekoros._siteSettings.TORAH_SPECIFIC) {
       alert("Please give a Hebrew text title.");
       return false;
     }
@@ -1219,7 +1219,7 @@ const EditTextInfo = function({initTitle, close}) {
   }
   const addAuthor = function (newAuthor) {
     const lowerCaseName = newAuthor.name.toLowerCase();
-    Sefaria._ApiPromise(Sefaria.apiHost + "/api/topic/completion/" + newAuthor.name).then(d => {
+    Mekoros._ApiPromise(Mekoros.apiHost + "/api/topic/completion/" + newAuthor.name).then(d => {
       const matches = d[1].filter((t) => t.type === 'AuthorTopic');
       const exactMatch = matches.find((t) => t.title.toLowerCase() === lowerCaseName);
       if (!exactMatch) {
@@ -1338,8 +1338,8 @@ const EditTextInfo = function({initTitle, close}) {
           </div>
   }
   const validateBaseTextTitle = (newVal) => {
-    if (!Sefaria.index(newVal.name)) {
-      alert(`${newVal.name} is not a book in the Sefaria library.`);
+    if (!Mekoros.index(newVal.name)) {
+      alert(`${newVal.name} is not a book in the Mekoros library.`);
       return false;
     }
     return true;
@@ -1362,7 +1362,7 @@ const EditTextInfo = function({initTitle, close}) {
                 <label><InterfaceText>Text Title</InterfaceText></label>
               <input type="text" id="textTitle" onChange={(e) => setEnTitle(e.target.value)} defaultValue={enTitle}/>
             </div>
-            {Sefaria._siteSettings.TORAH_SPECIFIC ?
+            {Mekoros._siteSettings.TORAH_SPECIFIC ?
                 <div className="section">
                 <label><InterfaceText>Hebrew Title</InterfaceText></label>
                 <input id="textTitle" type="text" onChange={(e) => setHeTitle(e.target.value)} defaultValue={heTitle}/>
@@ -1376,12 +1376,12 @@ const EditTextInfo = function({initTitle, close}) {
                 <label><InterfaceText>Short English Description</InterfaceText></label>
               <textarea className="default" onChange={(e) => setEnShortDesc(e.target.value)} defaultValue={enShortDesc}/>
             </div>
-            {Sefaria._siteSettings.TORAH_SPECIFIC ?
+            {Mekoros._siteSettings.TORAH_SPECIFIC ?
               <div className="section">
                   <label><InterfaceText>Hebrew Description</InterfaceText></label>
                 <textarea className="default" onChange={(e) => setHeDesc(e.target.value)} defaultValue={heDesc}/>
               </div> : null}
-            {Sefaria._siteSettings.TORAH_SPECIFIC ?
+            {Mekoros._siteSettings.TORAH_SPECIFIC ?
               <div className="section">
                   <label><InterfaceText>Short Hebrew Description</InterfaceText></label>
                 <textarea className="default" onChange={(e) => setHeShortDesc(e.target.value)} defaultValue={heShortDesc}/>
@@ -1402,7 +1402,7 @@ const EditTextInfo = function({initTitle, close}) {
               <TitleVariants update={setTitleVariants} titles={titleVariants}/>
             </div>
 
-            {Sefaria._siteSettings.TORAH_SPECIFIC ?
+            {Mekoros._siteSettings.TORAH_SPECIFIC ?
                 <div className="section">
                   <div><InterfaceText>Alternate Hebrew Titles</InterfaceText></div><label><span className="optional"><InterfaceText>Optional</InterfaceText></span></label>
                   <TitleVariants update={setHeTitleVariants} titles={heTitleVariants}/>
@@ -1416,7 +1416,7 @@ const EditTextInfo = function({initTitle, close}) {
               <label><span className="optional"><InterfaceText>Optional</InterfaceText></span></label>
               <input id="compPlace" onChange={(e) => setCompPlace(e.target.value)} defaultValue={compPlace}/>
             </div>
-            {Sefaria._siteSettings.TORAH_SPECIFIC &&
+            {Mekoros._siteSettings.TORAH_SPECIFIC &&
                 <div className="section">
                   <div><InterfaceText>Hebrew Place of Composition</InterfaceText></div><label>
                   <span className="optional"><InterfaceText>Optional</InterfaceText></span></label>
@@ -1430,7 +1430,7 @@ const EditTextInfo = function({initTitle, close}) {
               <div><InterfaceText>Place of Publication</InterfaceText></div><label><span className="optional"><InterfaceText>Optional</InterfaceText></span></label>
               <input id="pubPlace" onChange={(e) => setPubPlace(e.target.value)} defaultValue={pubPlace}/>
             </div>
-            {Sefaria._siteSettings.TORAH_SPECIFIC &&
+            {Mekoros._siteSettings.TORAH_SPECIFIC &&
                 <div className="section">
                   <div><InterfaceText>Hebrew Place of Publication</InterfaceText></div>
                   <label><span className="optional"><InterfaceText>Optional</InterfaceText></span></label>

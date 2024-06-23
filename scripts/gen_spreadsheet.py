@@ -1,5 +1,5 @@
 __author__ = 'stevenkaplan'
-from sefaria.model import *
+from mekoros.model import *
 import csv
 import sys
 

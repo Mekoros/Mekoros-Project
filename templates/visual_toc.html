@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% load sefaria_tags static %}
+{% load mekoros_tags static %}
 
-{% block title %}Visualizing the Sefaria Table of Contents{% if lang %} ({{ lang }}){% endif %}{% endblock %}
+{% block title %}Visualizing the Mekoros Table of Contents{% if lang %} ({{ lang }}){% endif %}{% endblock %}
 {% block ogimage %}<meta property="og:image" content="{% static 'img/sunburst.png' %}"/>{% endblock %}
 {% block head %}
     {% if not OFFLINE %}
@@ -81,8 +81,8 @@
     
     var makeD3Toc = function() {
         var d3Toc = {
-            name: "Sefaria",
-            children: Sefaria.toc.map(makeD3TreeNode)
+            name: "Mekoros",
+            children: Mekoros.toc.map(makeD3TreeNode)
         }
         return d3Toc;
     };

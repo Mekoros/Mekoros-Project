@@ -144,16 +144,16 @@ class ITagNormalizer(AbstractNormalizer):
 
     @staticmethod
     def _find_itags(tag):
-        from sefaria.model.text import AbstractTextRecord
+        from mekoros.model.text import AbstractTextRecord
         return AbstractTextRecord._find_itags(tag)
 
     @staticmethod
     def _get_all_itags(s):
         """
-        Very similar to sefaria.model.text.AbstractTextRecord
+        Very similar to mekoros.model.text.AbstractTextRecord
         Originally called `_strip_itags`
         """
-        from sefaria.model.text import AbstractTextRecord
+        from mekoros.model.text import AbstractTextRecord
 
         all_itags = []
         soup = BeautifulSoup(f"<root>{s}</root>", 'lxml')

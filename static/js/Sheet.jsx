@@ -4,9 +4,9 @@ import PropTypes  from 'prop-types';
 import classNames  from 'classnames';
 import sanitizeHtml  from 'sanitize-html';
 import Component from 'react-class'
-import $  from './sefaria/sefariaJquery';
-import Sefaria  from './sefaria/sefaria';
-import SefariaEditor from './Editor';
+import $  from './mekoros/mekorosJquery';
+import Mekoros  from './mekoros/mekoros';
+import MekorosEditor from './Editor';
 import {
   InterfaceText,
   LoadingMessage,
@@ -34,10 +34,10 @@ class Sheet extends Component {
 
   }
   getSheetFromCache() {
-    return Sefaria.sheets.loadSheetByID(this.props.id);
+    return Mekoros.sheets.loadSheetByID(this.props.id);
   }
   getSheetFromAPI() {
-    Sefaria.sheets.loadSheetByID(this.props.id, this.onDataLoad);
+    Mekoros.sheets.loadSheetByID(this.props.id, this.onDataLoad);
   }
   onDataLoad(data) {
     const sheetRef = "Sheet " + data.id + (this.props.highlightedNode ? "." + this.props.highlightedNode : "");
@@ -59,7 +59,7 @@ class Sheet extends Component {
     if (!data) {return; }
     for (let i = 0; i < data.sources.length; i++) {
       if ("ref" in data.sources[i]) {
-        Sefaria.related(data.sources[i].ref, () => this.forceUpdate);
+        Mekoros.related(data.sources[i].ref, () => this.forceUpdate);
       }
     }
   }
@@ -85,7 +85,7 @@ class Sheet extends Component {
         this.props.onCitationClick(`Sheet ${path.slice(8)}`, `Sheet ${this.props.sheetID}`, true)
       }
 
-      else if (Sefaria.isRef(path.slice(1))) {
+      else if (Mekoros.isRef(path.slice(1))) {
         e.preventDefault()
         const currVersions = {en: params.get("ven"), he: params.get("vhe")};
         const options = {showHighlight: path.slice(1).indexOf("-") !== -1};   // showHighlight when ref is ranged
@@ -121,7 +121,7 @@ class Sheet extends Component {
           collectionName={sheet.collectionName}
           collectionSlug={sheet.displayedCollection}
           collectionImage={sheet.collectionImage}
-          editable={Sefaria._uid === sheet.owner}
+          editable={Mekoros._uid === sheet.owner}
           hasSidebar={this.props.hasSidebar}
           setSelectedWords={this.props.setSelectedWords}
           sheetNumbered={sheet.options.numbered}
@@ -132,9 +132,9 @@ class Sheet extends Component {
     }
     return (
       <div className={classes}>
-        { sheet && Sefaria._uid === sheet.owner && Sefaria._uses_new_editor ?
+        { sheet && Mekoros._uid === sheet.owner && Mekoros._uses_new_editor ?
         <div className="sheetContent">
-          <SefariaEditor
+          <MekorosEditor
             data={sheet}
             hasSidebar={this.props.hasSidebar}
             handleClick={this.handleClick}
@@ -162,7 +162,7 @@ class SheetContent extends Component {
       node.addEventListener("scroll", this.handleScroll);
       this.windowMiddle = $(window).outerHeight() / 2;
       this.highlightThreshhold = this.props.multiPanel ? 200 : 70; // distance from the top of screen that we want highlighted segments to appear below.
-      this.debouncedAdjustHighlightedAndVisible = Sefaria.util.debounce(this.adjustHighlightedAndVisible, 100);
+      this.debouncedAdjustHighlightedAndVisible = Mekoros.util.debounce(this.adjustHighlightedAndVisible, 100);
       this.scrollToHighlighted();
   }
   componentWillUnmount() {
@@ -184,7 +184,7 @@ class SheetContent extends Component {
     this.debouncedAdjustHighlightedAndVisible();
   }
   handleTextSelection() {
-    const selectedWords = Sefaria.util.getNormalizedSelectionString(); //this gets around the above issue
+    const selectedWords = Mekoros.util.getNormalizedSelectionString(); //this gets around the above issue
     if (selectedWords !== this.props.selectedWords) {
       //console.log("setting selecting words")
       this.props.setSelectedWords(selectedWords);
@@ -244,12 +244,12 @@ class SheetContent extends Component {
   }
   render() {
     var sources = this.props.sources.length ? this.props.sources.map(function(source, i) {
-      const highlightedRef = this.props.highlightedRefsInSheet ? Sefaria.normRefList(this.props.highlightedRefsInSheet) : null;
+      const highlightedRef = this.props.highlightedRefsInSheet ? Mekoros.normRefList(this.props.highlightedRefsInSheet) : null;
       if ("ref" in source) {
         const highlighted = this.props.highlightedNode ?
             this.props.highlightedNode === source.node :
               highlightedRef ?
-              Sefaria.refContains(source.ref, highlightedRef) :
+              Mekoros.refContains(source.ref, highlightedRef) :
                 false;
         return (
           <SheetSource
@@ -375,7 +375,7 @@ class SheetContent extends Component {
 
         <div id="printFooter" style={{display:"none"}}>
           <span className="int-en">Created with <img src="/static/img/logo.svg" /></span>
-          <span className="int-he">{Sefaria._("Created with")} <img src="/static/img/logo.svg" /></span>
+          <span className="int-he">{Mekoros._("Created with")} <img src="/static/img/logo.svg" /></span>
         </div>
       </div>
     )
@@ -402,7 +402,7 @@ class SheetSource extends Component {
     );
 
     return (
-      <section className={sectionClasses} style={{"borderColor": Sefaria.palette.refColor(this.props.source.ref)}}>
+      <section className={sectionClasses} style={{"borderColor": Mekoros.palette.refColor(this.props.source.ref)}}>
         <div className={containerClasses}
           onClick={this.props.sheetSourceClick}
           data-node={this.props.source.node}
@@ -421,9 +421,9 @@ class SheetSource extends Component {
             {this.props.source.options && this.props.source.options.sourcePrefix && this.props.source.options.sourcePrefix != "" ? <sup className="sourcePrefix">{this.props.source.options.sourcePrefix}</sup> : null }
             <div className="ref">
               {this.props.source.options && this.props.source.options.PrependRefWithHe ? this.props.source.options.PrependRefWithHe : null}
-              <a href={"/" + Sefaria.normRef(this.props.source.ref)}>{this.props.source.heRef}</a>
+              <a href={"/" + Mekoros.normRef(this.props.source.ref)}>{this.props.source.heRef}</a>
             </div>
-            <div className="sourceContentText" dangerouslySetInnerHTML={ {__html: (Sefaria.util.cleanHTML(this.props.source.text.he))} }></div>
+            <div className="sourceContentText" dangerouslySetInnerHTML={ {__html: (Mekoros.util.cleanHTML(this.props.source.text.he))} }></div>
           </div> : null }
 
           {this.props.source.text && this.props.source.text.en && this.props.source.text.en !== "" ?
@@ -431,16 +431,16 @@ class SheetSource extends Component {
             {this.props.source.options && this.props.source.options.sourcePrefix && this.props.source.options.sourcePrefix != "" ? <sup className="sourcePrefix">{this.props.source.options.sourcePrefix}</sup> : null }
             <div className="ref">
               {this.props.source.options && this.props.source.options.PrependRefWithEn ? this.props.source.options.PrependRefWithEn : null}
-              <a href={"/" + Sefaria.normRef(this.props.source.ref)}>{this.props.source.ref}</a>
+              <a href={"/" + Mekoros.normRef(this.props.source.ref)}>{this.props.source.ref}</a>
             </div>
-            <div className="sourceContentText" dangerouslySetInnerHTML={ {__html: (Sefaria.util.cleanHTML(this.props.source.text.en))} }></div>
+            <div className="sourceContentText" dangerouslySetInnerHTML={ {__html: (Mekoros.util.cleanHTML(this.props.source.text.en))} }></div>
           </div> : null }
 
           <div className="clearFix"></div>
 
           {this.props.source.addedBy ?
           <div className="addedBy">
-            <small><em>{Sefaria._("Added by")}: <span dangerouslySetInnerHTML={ {__html: Sefaria.util.cleanHTML(this.props.source.userLink)} }></span></em></small>
+            <small><em>{Mekoros._("Added by")}: <span dangerouslySetInnerHTML={ {__html: Mekoros.util.cleanHTML(this.props.source.userLink)} }></span></em></small>
           </div>
           : null }
 
@@ -453,7 +453,7 @@ class SheetSource extends Component {
 
 class SheetComment extends Component {
   render() {
-    const lang = Sefaria.hebrew.isHebrew(this.props.source.comment.stripHtml().replace(/\s+/g, ' ')) ? "he" : "en";
+    const lang = Mekoros.hebrew.isHebrew(this.props.source.comment.stripHtml().replace(/\s+/g, ' ')) ? "he" : "en";
     const containerClasses = classNames(
       "sheetItem",
       "segment",
@@ -469,14 +469,14 @@ class SheetComment extends Component {
           <div className={lang}>
               <div
                 className="sourceContentText"
-                dangerouslySetInnerHTML={{__html: Sefaria.util.cleanHTML(this.props.source.comment)}}></div>
+                dangerouslySetInnerHTML={{__html: Mekoros.util.cleanHTML(this.props.source.comment)}}></div>
           </div>
 
           <div className="clearFix"></div>
           {this.props.source.addedBy ?
           <div className="addedBy">
             <small><em>
-              {Sefaria._("Added by")}: <span dangerouslySetInnerHTML={ {__html: Sefaria.util.cleanHTML(this.props.source.userLink)} }></span>
+              {Mekoros._("Added by")}: <span dangerouslySetInnerHTML={ {__html: Mekoros.util.cleanHTML(this.props.source.userLink)} }></span>
             </em></small>
           </div>
           : null }
@@ -489,7 +489,7 @@ class SheetComment extends Component {
 
 class SheetHeader extends Component {
   render() {
-    const lang = Sefaria.hebrew.isHebrew(this.props.source.outsideText.stripHtml().replace(/\s+/g, ' ')) ? "he" : "en";
+    const lang = Mekoros.hebrew.isHebrew(this.props.source.outsideText.stripHtml().replace(/\s+/g, ' ')) ? "he" : "en";
     const containerClasses = classNames("sheetItem",
         "segment",
         lang == "he" ? "heOnly" : "enOnly",
@@ -523,7 +523,7 @@ class SheetOutsideText extends Component {
   }
 
   render() {
-    const lang = Sefaria.hebrew.isHebrew(this.props.source.outsideText.stripHtml().replace(/\s+/g, ' ')) ? "he" : "en";
+    const lang = Mekoros.hebrew.isHebrew(this.props.source.outsideText.stripHtml().replace(/\s+/g, ' ')) ? "he" : "en";
     const containerClasses = classNames("sheetItem",
         "segment",
         lang == "he" ? "heOnly" : "enOnly",
@@ -536,14 +536,14 @@ class SheetOutsideText extends Component {
         <div className={containerClasses} data-node={this.props.source.node} onClick={(e) => this.shouldPassClick(e)} aria-label={"Click to see " + this.props.linkCount +  " connections to this source"} tabIndex="0" onKeyPress={function(e) {e.charCode == 13 ? this.props.sheetSourceClick(e):null}.bind(this)} >
 
           <div className={lang}>{this.props.source.options && this.props.source.options.sourcePrefix && this.props.source.options.sourcePrefix != "" ? <sup className="sourcePrefix">{this.props.source.options.sourcePrefix}</sup> : null }
-              <div className="sourceContentText" dangerouslySetInnerHTML={ {__html: Sefaria.util.cleanHTML(this.props.source.outsideText)} }></div>
+              <div className="sourceContentText" dangerouslySetInnerHTML={ {__html: Mekoros.util.cleanHTML(this.props.source.outsideText)} }></div>
           </div>
 
           <div className="clearFix"></div>
 
           {this.props.source.addedBy ?
           <div className="addedBy">
-            <small><em>{Sefaria._("Added by")}: <span dangerouslySetInnerHTML={ {__html: Sefaria.util.cleanHTML(this.props.source.userLink)} }></span></em></small>
+            <small><em>{Mekoros._("Added by")}: <span dangerouslySetInnerHTML={ {__html: Mekoros.util.cleanHTML(this.props.source.userLink)} }></span></em></small>
           </div>
           : null }
 
@@ -574,18 +574,18 @@ class SheetOutsideBiText extends Component {
 
           <div className="he">
             {this.props.source.options && this.props.source.options.sourcePrefix && this.props.source.options.sourcePrefix != "" ? <sup className="sourcePrefix">{this.props.source.options.sourcePrefix}</sup> : null }
-            <div className="sourceContentText outsideBiText" dangerouslySetInnerHTML={ {__html: Sefaria.util.cleanHTML(this.props.source.outsideBiText.he)} }></div>
+            <div className="sourceContentText outsideBiText" dangerouslySetInnerHTML={ {__html: Mekoros.util.cleanHTML(this.props.source.outsideBiText.he)} }></div>
           </div>
           <div className="en">
             {this.props.source.options && this.props.source.options.sourcePrefix && this.props.source.options.sourcePrefix != "" ? <sup className="sourcePrefix">{this.props.source.options.sourcePrefix}</sup> : null }
-            <div className="sourceContentText outsideBiText" dangerouslySetInnerHTML={ {__html: Sefaria.util.cleanHTML(this.props.source.outsideBiText.en)} }></div>
+            <div className="sourceContentText outsideBiText" dangerouslySetInnerHTML={ {__html: Mekoros.util.cleanHTML(this.props.source.outsideBiText.en)} }></div>
           </div>
 
           <div className="clearFix"></div>
 
           {this.props.source.addedBy ?
           <div className="addedBy">
-            <small><em>{Sefaria._("Added by")}: <span dangerouslySetInnerHTML={ {__html: Sefaria.util.cleanHTML(this.props.source.userLink)} }></span></em></small>
+            <small><em>{Mekoros._("Added by")}: <span dangerouslySetInnerHTML={ {__html: Mekoros.util.cleanHTML(this.props.source.userLink)} }></span></em></small>
           </div>
           : null }
 
@@ -655,7 +655,7 @@ class SheetMedia extends Component {
           <div className="sourceContentText centeredSheetContent" dangerouslySetInnerHTML={ {__html: this.makeMediaEmbedContent()} }></div>
           <div className="clearFix"></div>
           {this.props.source.addedBy ?
-            <div className="addedBy"><small><em>{Sefaria._("Added by")}: <span dangerouslySetInnerHTML={ {__html: Sefaria.util.cleanHTML(this.props.source.userLink)} }></span></em></small></div>
+            <div className="addedBy"><small><em>{Mekoros._("Added by")}: <span dangerouslySetInnerHTML={ {__html: Mekoros.util.cleanHTML(this.props.source.userLink)} }></span></em></small></div>
             : null }
         </div>
       </section>

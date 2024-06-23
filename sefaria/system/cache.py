@@ -7,7 +7,7 @@ from functools import wraps
 from django.http import HttpRequest
 from django.core.cache import DEFAULT_CACHE_ALIAS
 
-from sefaria import settings
+from mekoros import settings
 
 import structlog
 logger = structlog.get_logger(__name__)

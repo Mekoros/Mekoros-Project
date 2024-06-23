@@ -1,6 +1,6 @@
 __author__ = 'stevenkaplan'
-from sefaria.model import *
-from sefaria.system.exceptions import *
+from mekoros.model import *
+from mekoros.system.exceptions import *
 import csv
 
 class DoubleLinks:

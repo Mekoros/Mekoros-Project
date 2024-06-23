@@ -72,7 +72,7 @@ def get_links(ref, server="", msg=False):
         return []
 
 
-def get_text(ref, lang="", versionTitle="", server="http://draft.sefaria.org"):
+def get_text(ref, lang="", versionTitle="", server="http://draft.mekoros.com"):
     ref = ref.replace(" ", "_")
     versionTitle = versionTitle.replace(" ", "_")
     url = '{}/api/texts/{}'.format(server, ref)
@@ -123,7 +123,7 @@ if __name__ == "__main__":
     parser.add_argument("-k", "--key",
                         help="API Key")
     parser.add_argument("-s", "--server",
-                        help="Sefaria server")
+                        help="Mekoros server")
     parser.add_argument("-q", "--quantity", default=-1, help="Amount of links to post.")  # -1 means post all links
     parser.add_argument("-r", "--restore", help="Restore cauldron to original condition. Delete anything posted in last run.", default=0)
     args = parser.parse_args()

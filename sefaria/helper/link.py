@@ -7,15 +7,15 @@ from io import StringIO
 import structlog
 logger = structlog.get_logger(__name__)
 
-from sefaria.model import *
-from sefaria.system.exceptions import DuplicateRecordError, InputError
-import sefaria.tracker as tracker
+from mekoros.model import *
+from mekoros.system.exceptions import DuplicateRecordError, InputError
+import mekoros.tracker as tracker
 try:
-    from sefaria.settings import USE_VARNISH
+    from mekoros.settings import USE_VARNISH
 except ImportError:
     USE_VARNISH = False
 if USE_VARNISH:
-    from sefaria.system.varnish.wrapper import invalidate_ref
+    from mekoros.system.varnish.wrapper import invalidate_ref
 
 #TODO: should all the functions here be decoupled from the need to enter a userid?
 

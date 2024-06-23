@@ -1,12 +1,12 @@
 import React, {useState} from "react";
-import Sefaria  from './sefaria/sefaria';
-import $  from './sefaria/sefariaJquery';
+import Mekoros  from './mekoros/mekoros';
+import $  from './mekoros/mekorosJquery';
 import {
     CloseButton, InterfaceText, EnglishText, HebrewText
 } from './Misc';
 
-const cookie = Sefaria._inBrowser ? $.cookie : Sefaria.util.cookie;
-const { translation_language_preference_suggestion } = Sefaria;
+const cookie = Mekoros._inBrowser ? $.cookie : Mekoros.util.cookie;
+const { translation_language_preference_suggestion } = Mekoros;
 
 export const TextColumnBannerChooser = ({ setTranslationLanguagePreference, openTranslations, openTransBannerApplies }) => {
     const [transLangPrefAccepted, setTransLangPrefAccepted] = useState(false);
@@ -49,12 +49,12 @@ const TransLangPrefBanner = ({accepted, setAccepted, setTranslationLanguagePrefe
 
 
 const TransLangPrefAcceptedBanner = () => {
-    const lang = Sefaria.translateISOLanguageCode(translation_language_preference_suggestion);
+    const lang = Mekoros.translateISOLanguageCode(translation_language_preference_suggestion);
     return (
         <TextColumnBanner>
             <InterfaceText>
                 <EnglishText> Thanks! We'll show you {lang} translations first when we have them. </EnglishText>
-                <HebrewText>תודה! כשנוכל, נציג לכם תרגומים בשפה ה<span className="bold">{Sefaria._(lang)}</span> כאשר אלו יהיו זמינים. </HebrewText>
+                <HebrewText>תודה! כשנוכל, נציג לכם תרגומים בשפה ה<span className="bold">{Mekoros._(lang)}</span> כאשר אלו יהיו זמינים. </HebrewText>
             </InterfaceText>
         </TextColumnBanner>
     );
@@ -64,20 +64,20 @@ const TransLangPrefAcceptedBanner = () => {
 const TransLangPrefAskBanner = ({ setAccepted, setTranslationLanguagePreference }) => {
     const reject = () => {
         cookie("translation_language_preference_suggested", JSON.stringify(1), {path: "/"});
-        Sefaria.editProfileAPI({settings: {translation_language_preference_suggested: true}});
+        Mekoros.editProfileAPI({settings: {translation_language_preference_suggested: true}});
     }
     const accept = () => {
         setAccepted(true);
         setTranslationLanguagePreference(translation_language_preference_suggestion);
     }
-    const lang = Sefaria.translateISOLanguageCode(translation_language_preference_suggestion);
+    const lang = Mekoros.translateISOLanguageCode(translation_language_preference_suggestion);
     const buttons = [{text: "Yes", onClick: accept}, {text: "No", onClick: reject, sideEffect: "close" }];
 
     return (
         <TextColumnBanner buttons={buttons} onClose={reject}>
             <InterfaceText>
                 <EnglishText> Prefer to see <span className="bold"> {lang} </span> translations when available? </EnglishText>
-                <HebrewText>האם תעדיפו לראות תרגומים בשפה ה<span className="bold">{Sefaria._(lang)}</span> כאשר הם זמינים?</HebrewText>
+                <HebrewText>האם תעדיפו לראות תרגומים בשפה ה<span className="bold">{Mekoros._(lang)}</span> כאשר הם זמינים?</HebrewText>
             </InterfaceText>
         </TextColumnBanner>
     );

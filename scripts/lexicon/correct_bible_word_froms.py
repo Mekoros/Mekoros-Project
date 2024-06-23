@@ -13,7 +13,7 @@ try:
 except ImportError:
     import xml.etree.ElementTree as ET
 
-from sefaria.model import *
+from mekoros.model import *
 
 class WLCStrongParser(object):
     data_dir = 'data/tmp/hebmorphwlc'

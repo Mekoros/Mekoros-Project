@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% load sefaria_tags %}
+{% load mekoros_tags %}
 {% load humanize %}
 {% load cache %}
 
 
-{% block title %}Sefaria Dashboard{% endblock %}
+{% block title %}Mekoros Dashboard{% endblock %}
 {% block head %}
 {% endblock %}
 
@@ -14,7 +14,7 @@
 
 <div id="dashboardContent">
 
-	<h1>Sefaria Dashboard</h1>
+	<h1>Mekoros Dashboard</h1>
 
 	{% if request.user.is_staff %}
 	<div id="moderatorMsg">

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 
-from sefaria.model import *
-from sefaria.system.database import db
-from sefaria.model.category import toc_serial_to_objects
-from sefaria.summaries import update_table_of_contents
+from mekoros.model import *
+from mekoros.system.database import db
+from mekoros.model.category import toc_serial_to_objects
+from mekoros.summaries import update_table_of_contents
 
 
 def visit_structure(treenode, callback, order=None, **kwargs):

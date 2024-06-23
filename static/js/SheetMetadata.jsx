@@ -13,14 +13,14 @@ import {
 import { CollectionsModal } from './CollectionsWidget'
 import React  from 'react';
 import ReactDOM  from 'react-dom';
-import $  from './sefaria/sefariaJquery';
-import Sefaria  from './sefaria/sefaria';
+import $  from './mekoros/mekorosJquery';
+import Mekoros  from './mekoros/mekoros';
 import classNames  from 'classnames';
 import PropTypes  from 'prop-types';
 import sanitizeHtml  from 'sanitize-html';
 import Component from 'react-class';
 import ReactTags from 'react-tag-autocomplete'
-import { SignUpModalKind } from './sefaria/signupModalContent';
+import { SignUpModalKind } from './mekoros/signupModalContent';
 
 class SheetMetadata extends Component {
   // Menu for the Table of Contents for a single text
@@ -42,7 +42,7 @@ class SheetMetadata extends Component {
       lastModified: null,
     };
     this.reactTags = React.createRef()
-    this.debouncedSaveSummary = Sefaria.util.debounce(this.saveSummary, 250);
+    this.debouncedSaveSummary = Mekoros.util.debounce(this.saveSummary, 250);
   }
   componentDidMount() {
     this._isMounted = true;
@@ -74,7 +74,7 @@ class SheetMetadata extends Component {
     }
   }
   loadSaved() {
-    Sefaria.getRefSavedHistory("Sheet " + this.props.id).then(data => {
+    Mekoros.getRefSavedHistory("Sheet " + this.props.id).then(data => {
       const sheetSaves = [];
       for (let hist of data) {
         sheetSaves.push(hist["uid"]);
@@ -85,10 +85,10 @@ class SheetMetadata extends Component {
     });
   }
   getSheetFromCache() {
-    return Sefaria.sheets.loadSheetByID(this.props.id);
+    return Mekoros.sheets.loadSheetByID(this.props.id);
   }
   getSheetFromAPI() {
-    Sefaria.sheets.loadSheetByID(this.props.id, this.onDataLoad);
+    Mekoros.sheets.loadSheetByID(this.props.id, this.onDataLoad);
   }
   onDataLoad(data) {
     this.forceUpdate();
@@ -99,14 +99,14 @@ class SheetMetadata extends Component {
   isFormValidated() {
     if ((!this.state.summary || this.state.summary.trim() == '') && this.state.tags.length == 0) {
       this.setState({
-        validationMsg: Sefaria._("Please add a description and topics to publish your sheet."),
+        validationMsg: Mekoros._("Please add a description and topics to publish your sheet."),
         validationFailed: "both"
       });
       return false
     }
     else if (!this.state.summary || this.state.summary.trim() == '') {
       this.setState({
-        validationMsg: Sefaria._("Please add a description to publish your sheet."),
+        validationMsg: Mekoros._("Please add a description to publish your sheet."),
         validationFailed: "summary"
       });
       return false
@@ -114,7 +114,7 @@ class SheetMetadata extends Component {
 
     else if (this.state.tags.length == 0) {
       this.setState({
-        validationMsg: Sefaria._("Please add topics to publish your sheet."),
+        validationMsg: Mekoros._("Please add topics to publish your sheet."),
         validationFailed: "topics"
       });
       return false
@@ -135,7 +135,7 @@ class SheetMetadata extends Component {
     }
 
     const newPublishState = this.state.published ? "unlisted" : "public";
-    let updatedSheet = await (new Promise((resolve, reject) => Sefaria.sheets.loadSheetByID(this.props.id, sheet => resolve(sheet))));
+    let updatedSheet = await (new Promise((resolve, reject) => Mekoros.sheets.loadSheetByID(this.props.id, sheet => resolve(sheet))));
     updatedSheet.status = newPublishState;
     updatedSheet.lastModified = this.state.lastModified;
     delete updatedSheet._id;
@@ -147,18 +147,18 @@ class SheetMetadata extends Component {
 
 
   loadSheetData(sheetID) {
-    if (Sefaria.sheets.loadSheetByID(sheetID)) {
-        return(Sefaria.sheets.loadSheetByID(sheetID));
+    if (Mekoros.sheets.loadSheetByID(sheetID)) {
+        return(Mekoros.sheets.loadSheetByID(sheetID));
     }
     else {
-      Sefaria.sheets.loadSheetByID(sheetID, (data) => {
+      Mekoros.sheets.loadSheetByID(sheetID, (data) => {
           return(data);
       });
     }
   }
 
   copySheet() {
-    if (!Sefaria._uid) {
+    if (!Mekoros._uid) {
         this.props.toggleSignUpModal(SignUpModalKind.AddToSheet);
     } else if (this.state.sheetCopyStatus == "Copy") {
         this.setState({sheetCopyStatus: "Copying..."});
@@ -171,7 +171,7 @@ class SheetMetadata extends Component {
         if (data.id)  {
           console.log('saved...')
           this.setState({lastModified: data.dateModified})
-          Sefaria.sheets._loadSheetByID[data.id] = data;
+          Mekoros.sheets._loadSheetByID[data.id] = data;
         } else {
             console.log(data);
         }
@@ -179,14 +179,14 @@ class SheetMetadata extends Component {
   }
 
   filterAndSaveCopiedSheetData(data) {
-    var newSheet = Sefaria.util.clone(data);
+    var newSheet = Mekoros.util.clone(data);
     newSheet.status = "unlisted";
     newSheet.title = newSheet.title + " (Copy)";
 
-    if (Sefaria._uid != newSheet.owner) {
+    if (Mekoros._uid != newSheet.owner) {
         newSheet.via = this.props.id;
         newSheet.viaOwner = newSheet.owner;
-        newSheet.owner = Sefaria._uid
+        newSheet.owner = Mekoros._uid
     }
     delete newSheet.id;
     delete newSheet.ownerName;
@@ -214,7 +214,7 @@ class SheetMetadata extends Component {
     })
   }
   toggleCollectionsModal() {
-    if (!Sefaria._uid) {
+    if (!Mekoros._uid) {
       this.props.toggleSignUpModal(SignUpModalKind.AddToSheet);
     } else {
       this.setState({showCollectionsModal: !this.state.showCollectionsModal});
@@ -222,7 +222,7 @@ class SheetMetadata extends Component {
   }
 
   async updateTopics(tags) {
-    let updatedSheet = await (new Promise((resolve, reject) => Sefaria.sheets.loadSheetByID(this.props.id, sheet => resolve(sheet))));
+    let updatedSheet = await (new Promise((resolve, reject) => Mekoros.sheets.loadSheetByID(this.props.id, sheet => resolve(sheet))));
 
     const topics = tags.map(tag => ({
           asTyped: tag.name,
@@ -256,7 +256,7 @@ class SheetMetadata extends Component {
 
   updateSuggestedTags(input) {
     if (input == "") return
-    Sefaria.getName(input, false, 0).then(d => {
+    Mekoros.getName(input, false, 0).then(d => {
       const topics = d.completion_objects
           .filter(obj => obj.type === "Topic")
           .map((filteredObj, index) => ({
@@ -270,7 +270,7 @@ class SheetMetadata extends Component {
   }
 
   async saveSummary() {
-    let updatedSheet = await (new Promise((resolve, reject) => Sefaria.sheets.loadSheetByID(this.props.id, sheet => resolve(sheet))));
+    let updatedSheet = await (new Promise((resolve, reject) => Mekoros.sheets.loadSheetByID(this.props.id, sheet => resolve(sheet))));
     updatedSheet.summary = this.state.summary;
     updatedSheet.lastModified = this.state.lastModified;
     delete updatedSheet._id;
@@ -282,7 +282,7 @@ class SheetMetadata extends Component {
     const newSummary = event.target.value
     if (event.target.value.length > 280) {
       this.setState({
-        validationMsg: Sefaria._("The summary description is limited to 280 characters."),
+        validationMsg: Mekoros._("The summary description is limited to 280 characters."),
         validationFailed: "summary"
       });
     }
@@ -302,7 +302,7 @@ class SheetMetadata extends Component {
     if (!sheet) {return (<LoadingMessage/>)}
 
     const timestampCreated = Date.parse(sheet.dateCreated)/1000;
-    const canEdit = Sefaria._uid == sheet.owner;
+    const canEdit = Mekoros._uid == sheet.owner;
     const title = sheet.title;
 
     // Text Details
@@ -347,7 +347,7 @@ class SheetMetadata extends Component {
 
                     <a className="tocCategory serif" href="/sheets">
                       <span className="en">Sheet</span>
-                      <span className="he">{Sefaria.hebrewTerm("Sheets")}</span>
+                      <span className="he">{Mekoros.hebrewTerm("Sheets")}</span>
                     </a>
 
                     <div className="tocDetail authorStatement">
@@ -378,18 +378,18 @@ class SheetMetadata extends Component {
                     </div> : null }
                     <div className="sheetMeta">
                       <div className="int-en">
-                          Created {Sefaria.util.naturalTime(timestampCreated, "en")} ago · {sheet.views} Views · { !!this.state.sheetSaves ? this.state.sheetSaves.length + this.state.sheetLikeAdjustment : '--'} Saves {this.state.published ? null : (<span className="unlisted">· <img src="/static/img/eye-slash.svg"/><span>{Sefaria._("Not Published")}</span></span>)}
+                          Created {Mekoros.util.naturalTime(timestampCreated, "en")} ago · {sheet.views} Views · { !!this.state.sheetSaves ? this.state.sheetSaves.length + this.state.sheetLikeAdjustment : '--'} Saves {this.state.published ? null : (<span className="unlisted">· <img src="/static/img/eye-slash.svg"/><span>{Mekoros._("Not Published")}</span></span>)}
 
                       </div>
                       <div className="int-he">
-                          <span>נוצר לפני  {Sefaria.util.naturalTime(timestampCreated, "he")} · </span>
+                          <span>נוצר לפני  {Mekoros.util.naturalTime(timestampCreated, "he")} · </span>
                           <span>{sheet.views} צפיות · </span>
-                          <span> {!!this.state.sheetSaves ? this.state.sheetSaves.length + this.state.sheetLikeAdjustment : '--' } שמירות </span> {this.state.published ? null : (<span className="unlisted">· <img src="/static/img/eye-slash.svg"/><span>{Sefaria._("Not Published")}</span></span>)}                      </div>
+                          <span> {!!this.state.sheetSaves ? this.state.sheetSaves.length + this.state.sheetLikeAdjustment : '--' } שמירות </span> {this.state.published ? null : (<span className="unlisted">· <img src="/static/img/eye-slash.svg"/><span>{Mekoros._("Not Published")}</span></span>)}                      </div>
                     </div>
 
                     <div>
                       <div className="sheetMetaButtons">
-                        {Sefaria._uid == sheet.owner && !Sefaria._uses_new_editor ?
+                        {Mekoros._uid == sheet.owner && !Mekoros._uses_new_editor ?
                         <a href={"/sheets/"+sheet.id+"?editor=1"} className="button white" role="button">
                           <img src="/static/icons/tools-write-note.svg" alt="edit sheet" />
                           <InterfaceText>Edit</InterfaceText>
@@ -405,7 +405,7 @@ class SheetMetadata extends Component {
                           <InterfaceText>Add to Collection</InterfaceText>
                         </a>
 
-                        {Sefaria._uid !== sheet.owner && !Sefaria._uses_new_editor ?
+                        {Mekoros._uid !== sheet.owner && !Mekoros._uses_new_editor ?
                         <a href={"/sheets/"+sheet.id+"?editor=1"} className="button white" role="button">
                           <InterfaceText>View in Editor</InterfaceText>
                         </a> : null }
@@ -417,7 +417,7 @@ class SheetMetadata extends Component {
                           <span className="int-he">צפייה בהעתק &raquo;</span>
                       </a></div> : null }
 
-                      {Sefaria._uses_new_editor ?
+                      {Mekoros._uses_new_editor ?
                       <a className="smallText" href={"/sheets/"+sheet.id+"?editor=1"}>
                         <span className="int-en">View in the old sheets experience</span>
                         <span className="int-he">תצוגה בפורמט הישן של דפי המקורות</span>
@@ -459,8 +459,8 @@ class SheetMetadata extends Component {
 
 
                       {this.state.published ?
-                        <p><InterfaceText>Your sheet is</InterfaceText> <strong><InterfaceText>published</InterfaceText></strong> <InterfaceText>on Sefaria and visible to others through search and topics.</InterfaceText></p> :
-                        <p><InterfaceText>List your sheet on Sefaria for others to discover.</InterfaceText></p>
+                        <p><InterfaceText>Your sheet is</InterfaceText> <strong><InterfaceText>published</InterfaceText></strong> <InterfaceText>on Mekoros and visible to others through search and topics.</InterfaceText></p> :
+                        <p><InterfaceText>List your sheet on Mekoros for others to discover.</InterfaceText></p>
                       }
 
 
@@ -471,7 +471,7 @@ class SheetMetadata extends Component {
                         className={this.state.validationFailed == "both" || this.state.validationFailed == "summary" ? "error" : ""}
                         rows="3"
                         maxLength="281"
-                        placeholder={Sefaria._("Write a short description of your sheet...")}
+                        placeholder={Mekoros._("Write a short description of your sheet...")}
                         value={this.state.summary} onChange={this.handleSummaryChange}></textarea>
                       <p className={"smallText"}><InterfaceText>Topics</InterfaceText></p>
                       <div className={this.state.validationFailed == "both" || this.state.validationFailed == "topics" ? "error" : ""}>
@@ -481,7 +481,7 @@ class SheetMetadata extends Component {
                         tags={this.state.tags}
                         suggestions={this.state.suggestions}
                         onDelete={this.onTagDelete.bind(this)}
-                        placeholderText={Sefaria._("Add a topic...")}
+                        placeholderText={Mekoros._("Add a topic...")}
                         delimiters={["Enter", "Tab", ","]}
                         onAddition={this.onTagAddition.bind(this)}
                         onValidate={this.onTagValidate.bind(this)}

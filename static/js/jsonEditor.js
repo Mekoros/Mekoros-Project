@@ -8,7 +8,7 @@ import DjangoCSRF  from './lib/django-csrf';
 
 DjangoCSRF.init();
 
-window.SefariaJsonEditor = function(schemaName, initData, container) {
+window.MekorosJsonEditor = function(schemaName, initData, container) {
 
   if (schemaName in schemas) {
     var schema = schemas[schemaName];

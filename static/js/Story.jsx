@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 import PropTypes  from 'prop-types';
 import {
     ColorBarBox,
@@ -112,7 +112,7 @@ const StoryTextListItem = ({text, toggleSignUpModal}) => (
             </StoryBodyBlock>
         </ColorBarBox>
         <SaveLine dref={text.ref} toggleSignUpModal={toggleSignUpModal}>
-            <SimpleLinkedBlock url={"/" + Sefaria.normRef(text.ref)} en={text.ref} he={text.heRef} classes="contentText citationLine"/>
+            <SimpleLinkedBlock url={"/" + Mekoros.normRef(text.ref)} en={text.ref} he={text.heRef} classes="contentText citationLine"/>
         </SaveLine>
     </div>
 );
@@ -143,7 +143,7 @@ const reviewStateToDisplayedTextMap = {
 
 const ReviewStateIndicator = ({topic, topicLink}) => {
     const [reviewStateByLang, markReviewed] = useReviewState(topic, topicLink);
-    if (!Sefaria.is_moderator){ return null; }
+    if (!Mekoros.is_moderator){ return null; }
     const langComponentMap = {he: HebrewText, en: EnglishText};
     return (
         <InterfaceText>
@@ -177,7 +177,7 @@ const markReviewedPostRequest = (lang, topic, topicLink) => {
         'interface_lang': lang === 'en' ? 'english' : 'hebrew',
         'description' : {...topicLink.descriptions[lang], 'review_state': 'reviewed'}
     };
-    return Sefaria.postToApi(`/api/ref-topic-links/${topicLink.ref}`, {}, postData);
+    return Mekoros.postToApi(`/api/ref-topic-links/${topicLink.ref}`, {}, postData);
 }
 
 const useReviewState = (topic, topicLink) => {
@@ -196,8 +196,8 @@ const useReviewState = (topic, topicLink) => {
 const IntroducedTextPassage = ({text, topic, afterSave, toggleSignUpModal, bodyTextIsLink=false}) => {
     if (!text.ref) { return null; }
     const versions = text.versions || {}
-    const params = Sefaria.util.getUrlVersionsParams(versions);
-    const url = "/" + Sefaria.normRef(text.ref) + (params ? "?" + params  : "");
+    const params = Mekoros.util.getUrlVersionsParams(versions);
+    const url = "/" + Mekoros.normRef(text.ref) + (params ? "?" + params  : "");
     const heOnly = !text.en;
     const enOnly = !text.he;
     const overrideLanguage = (enOnly || heOnly) ? (heOnly ? "hebrew" : "english") : null;
@@ -241,8 +241,8 @@ IntroducedTextPassage.propTypes = {
 const TextPassage = ({text, topic, afterSave, toggleSignUpModal, bodyTextIsLink=false}) => {
   if (!text.ref) { return null; }
   const versions = text.versions || {}
-  const params = Sefaria.util.getUrlVersionsParams(versions);
-  const url = "/" + Sefaria.normRef(text.ref) + (params ? "?" + params  : "");
+  const params = Mekoros.util.getUrlVersionsParams(versions);
+  const url = "/" + Mekoros.normRef(text.ref) + (params ? "?" + params  : "");
   const heOnly = !text.en;
   const enOnly = !text.he;
   const overrideLanguage = (enOnly || heOnly) ? (heOnly ? "hebrew" : "english") : null;

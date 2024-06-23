@@ -2,10 +2,10 @@
 import geojson
 from . import abstract as abst
 from . import schema
-from sefaria.system.exceptions import InputError
+from mekoros.system.exceptions import InputError
 import structlog
 from geopy.geocoders import Nominatim
-from sefaria.utils.hebrew import get_he_key
+from mekoros.utils.hebrew import get_he_key
 logger = structlog.get_logger(__name__)
 
 class Place(abst.AbstractMongoRecord):
@@ -62,7 +62,7 @@ class Place(abst.AbstractMongoRecord):
         return p
 
     def city_to_coordinates(self, city):
-        geolocator = Nominatim(user_agent='hello@sefaria.org')
+        geolocator = Nominatim(user_agent='hello@mekoros.com')
         location = geolocator.geocode(city)
         if location and location.raw['type'] in ['administrative', 'city', 'town', 'municipality', 'neighbourhood', 'village']:
             self.point_location(lon=location.longitude, lat=location.latitude)

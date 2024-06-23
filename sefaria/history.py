@@ -7,8 +7,8 @@ from datetime import datetime
 from diff_match_patch import diff_match_patch
 from bson.code import Code
 
-from sefaria.model import *
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.system.database import db
 
 dmp = diff_match_patch()
 
@@ -57,7 +57,7 @@ def filter_type_to_query(filter_type):
     q = {}
 
     if filter_type == "translate":
-        q = {"$and": [dict(list(q.items()) + list({"rev_type": "add text"}.items())), {"version": "Sefaria Community Translation"}]}
+        q = {"$and": [dict(list(q.items()) + list({"rev_type": "add text"}.items())), {"version": "Mekoros Community Translation"}]}
     elif filter_type == "index_change":
         q = {"rev_type": {"$in": ["add index", "edit index"]}}
     elif filter_type == "flagged":
@@ -179,7 +179,7 @@ def text_at_revision(tref, version, lang, revision):
 '''
 def next_revision_num():
     """
-    Deprecated in favor of sefaria.model.history.next_revision_num()
+    Deprecated in favor of mekoros.model.history.next_revision_num()
     """
     last_rev = db.history.find().sort([['revision', -1]]).limit(1)
     revision = last_rev.next()["revision"] + 1 if last_rev.count() else 1
@@ -297,7 +297,7 @@ def make_leaderboard(condition):
                         // Total Points
                         switch(obj.rev_type) {
                             case "add text":
-                                if (obj.language !== 'he' && obj.version === "Sefaria Community Translation") {
+                                if (obj.language !== 'he' && obj.version === "Mekoros Community Translation") {
                                     prev.count += Math.max(obj.revert_patch.length / 10, 10);
                                     prev.translateCount += 1
                                 } else if(obj.language !== 'he') {

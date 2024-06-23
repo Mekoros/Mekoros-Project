@@ -11,8 +11,8 @@ import React  from 'react';
 import PropTypes  from 'prop-types';
 import ReactDOM  from 'react-dom';
 import classNames  from 'classnames';
-import Sefaria  from './sefaria/sefaria';
-import $  from './sefaria/sefariaJquery';
+import Mekoros  from './mekoros/mekoros';
+import $  from './mekoros/mekorosJquery';
 import TextRange  from './TextRange';
 import { AddToSourceSheetWindow } from './AddToSourceSheet';
 import Footer  from './Footer';
@@ -28,10 +28,10 @@ class MyNotesPanel extends Component {
     this.loadData();
   }
   loadData() {
-    var notes = Sefaria.allPrivateNotes();
+    var notes = Mekoros.allPrivateNotes();
 
     if (!notes) {
-      Sefaria.allPrivateNotes(this.incrementNumberToRender);
+      Mekoros.allPrivateNotes(this.incrementNumberToRender);
     }
   }
   onScroll() {
@@ -48,7 +48,7 @@ class MyNotesPanel extends Component {
     this.setState({numberToRender: this.state.numberToRender+3});
   }
   render() {
-    var notes = Sefaria.allPrivateNotes();
+    var notes = Mekoros.allPrivateNotes();
     var classStr = classNames({myNotesPanel: 1, systemPanel: 1, readerNavMenu: 1, noHeader: this.props.hideNavHeader });
     var navTopClasses  = classNames({readerNavTop: 1, searchOnly: 1, colorLineOnly: this.props.hideNavHeader});
     var contentClasses = classNames({content: 1, hasFooter: 1});
@@ -66,7 +66,7 @@ class MyNotesPanel extends Component {
           <div className="contentInner">
             {this.props.hideNavHeader ?
               <h1>
-                { this.props.multiPanel && Sefaria._siteSettings.TORAH_SPECIFIC ? <LanguageToggleButton toggleLanguage={this.props.toggleLanguage} /> : null }
+                { this.props.multiPanel && Mekoros._siteSettings.TORAH_SPECIFIC ? <LanguageToggleButton toggleLanguage={this.props.toggleLanguage} /> : null }
                 <span className="int-en">My Notes</span>
                 <span className="int-he">הרשומות שלי</span>
               </h1>
@@ -123,7 +123,7 @@ class NoteListing extends Component {
   }
   render() {
     var data = this.props.data;
-    var url  = "/" + Sefaria.normRef(data.ref) + "?with=Notes";
+    var url  = "/" + Mekoros.normRef(data.ref) + "?with=Notes";
 
     return (<div className="noteListing">
               <div className="addToSheetButton sans-serif he" onClick={this.showSheetModal}>

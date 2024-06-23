@@ -8,7 +8,7 @@ metadata:
   name: restore-mongo-{{ .Values.deployEnv }}
   labels:
     deployEnv: {{ .Values.deployEnv | quote }}
-    {{- include "sefaria.labels" . | nindent 4 }}
+    {{- include "mekoros.labels" . | nindent 4 }}
   annotations:
     helm.sh/hook: pre-install
     helm.sh/hook-delete-policy: hook-succeeded, hook-failed
@@ -34,7 +34,7 @@ spec:
             - name: BACKUP_BUCKET
               value: {{ .Values.restore.bucket }}
             - name: BACKUP_TARBALL
-              value: {{ template "sefaria.tarballName" . }}
+              value: {{ template "mekoros.tarballName" . }}
           command: ["bash"]
           args: ["-c", "gsutil cp gs://$BACKUP_BUCKET/$BACKUP_TARBALL /storage/dump.tar.gz"]
       containers:

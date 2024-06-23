@@ -1,4 +1,4 @@
-# Django settings for sefaria project.
+# Django settings for mekoros project.
 
 import os.path
 from django.utils.translation import ugettext_lazy as _
@@ -88,13 +88,13 @@ TEMPLATES = [
                     "django.template.context_processors.tz",
                     "django.contrib.messages.context_processors.messages",
                     "django.template.context_processors.request",
-                    "sefaria.system.context_processors.global_settings",
-                    "sefaria.system.context_processors.cache_timestamp",
-                    "sefaria.system.context_processors.large_data",
-                    "sefaria.system.context_processors.body_flags",
-                    "sefaria.system.context_processors.header_html",
-                    "sefaria.system.context_processors.footer_html",
-                    "sefaria.system.context_processors.base_props",
+                    "mekoros.system.context_processors.global_settings",
+                    "mekoros.system.context_processors.cache_timestamp",
+                    "mekoros.system.context_processors.large_data",
+                    "mekoros.system.context_processors.body_flags",
+                    "mekoros.system.context_processors.header_html",
+                    "mekoros.system.context_processors.footer_html",
+                    "mekoros.system.context_processors.base_props",
             ],
             'loaders': [
                 #'django_mobile.loader.Loader',
@@ -113,13 +113,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
-    'sefaria.system.middleware.LocationSettingsMiddleware',
-    'sefaria.system.middleware.LanguageCookieMiddleware',
-    'sefaria.system.middleware.LanguageSettingsMiddleware',
-    'sefaria.system.middleware.ProfileMiddleware',
-    'sefaria.system.middleware.CORSDebugMiddleware',
-    'sefaria.system.middleware.SharedCacheMiddleware',
-    'sefaria.system.multiserver.coordinator.MultiServerEventListenerMiddleware',
+    'mekoros.system.middleware.LocationSettingsMiddleware',
+    'mekoros.system.middleware.LanguageCookieMiddleware',
+    'mekoros.system.middleware.LanguageSettingsMiddleware',
+    'mekoros.system.middleware.ProfileMiddleware',
+    'mekoros.system.middleware.CORSDebugMiddleware',
+    'mekoros.system.middleware.SharedCacheMiddleware',
+    'mekoros.system.multiserver.coordinator.MultiServerEventListenerMiddleware',
     'django_structlog.middlewares.RequestMiddleware',
     #'easy_timezones.middleware.EasyTimezoneMiddleware',
     #'django.middleware.cache.UpdateCacheMiddleware',
@@ -127,10 +127,10 @@ MIDDLEWARE = [
 
 ]
 
-ROOT_URLCONF = 'sefaria.urls'
+ROOT_URLCONF = 'mekoros.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'sefaria.wsgi.application'
+WSGI_APPLICATION = 'mekoros.wsgi.application'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -143,7 +143,7 @@ INSTALLED_APPS = (
     'emailusernames',
     'reader',
     'sourcesheets',
-    'sefaria.gauth',
+    'mekoros.gauth',
     'captcha',
     'django.contrib.admin',
     'anymail',
@@ -220,15 +220,15 @@ LOGGING = {
             '()': 'django.utils.log.RequireDebugFalse'
         },
         'require_debug_true': {
-            '()': 'sefaria.utils.log.RequireDebugTrue'
+            '()': 'mekoros.utils.log.RequireDebugTrue'
         },
         'exclude_errors' : {
-            '()': 'sefaria.utils.log.ErrorTypeFilter',
+            '()': 'mekoros.utils.log.ErrorTypeFilter',
             'error_types' : ['BookNameError'],
             'exclude' : True
         },
         'filter_book_name_errors' : {
-            '()': 'sefaria.utils.log.ErrorTypeFilter',
+            '()': 'mekoros.utils.log.ErrorTypeFilter',
             'error_types' : ['BookNameError', 'InputError'],
             'exclude' : False
         }
@@ -238,7 +238,7 @@ LOGGING = {
             'level':'WARNING',
             'filters': ['exclude_errors'],
             'class':'logging.handlers.RotatingFileHandler',
-            'filename': relative_to_abs_path('../log/sefaria.log'),
+            'filename': relative_to_abs_path('../log/mekoros.log'),
             'maxBytes': 1024*1024*5, # 5 MB
             'backupCount': 20,
             'formatter':'verbose',
@@ -247,7 +247,7 @@ LOGGING = {
             'level':'ERROR',
             'filters': ['filter_book_name_errors'],
             'class':'logging.handlers.RotatingFileHandler',
-            'filename': relative_to_abs_path('../log/sefaria_book_errors.log'),
+            'filename': relative_to_abs_path('../log/mekoros_book_errors.log'),
             'maxBytes': 1024*1024*5, # 5 MB
             'backupCount': 20,
             'formatter':'verbose',
@@ -302,11 +302,11 @@ CACHES = {
 # is left out of the repo.
 try:
     if os.getenv("CI_RUN"):
-        from sefaria.local_settings_ci import *
+        from mekoros.local_settings_ci import *
     else:
-        from sefaria.local_settings import *
+        from mekoros.local_settings import *
 except ImportError:
-    from sefaria.local_settings_example import *
+    from mekoros.local_settings_example import *
 
 
 # Listed after local settings are imported so CACHE can depend on DEBUG
@@ -319,8 +319,8 @@ WEBPACK_LOADER = {
         'CACHE': not DEBUG,
     },
     'SEFARIA_JS': {
-        'BUNDLE_DIR_NAME': 'bundles/sefaria/',  # must end with slash
-        'STATS_FILE': relative_to_abs_path('../node/webpack-stats.sefaria.json'),
+        'BUNDLE_DIR_NAME': 'bundles/mekoros/',  # must end with slash
+        'STATS_FILE': relative_to_abs_path('../node/webpack-stats.mekoros.json'),
         'POLL_INTERVAL': 0.1,
         'TIMEOUT': None,
         'CACHE': not DEBUG,

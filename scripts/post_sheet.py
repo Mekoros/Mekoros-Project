@@ -7,10 +7,10 @@ import json
 import urllib.request, urllib.parse, urllib.error
 import urllib.request, urllib.error, urllib.parse
 
-from sefaria.sheets import get_sheet
+from mekoros.sheets import get_sheet
 
 try:
-  from sefaria.local_settings import SEFARIA_API_KEY
+  from mekoros.local_settings import SEFARIA_API_KEY
 except:
   print("To post sheets, please set SEFARIA_API_KEY in your local_settings.py")
   sys.exit()

@@ -1,4 +1,4 @@
-import sefaria.model as model
+import mekoros.model as model
 
 
 """ SOME UTILS """

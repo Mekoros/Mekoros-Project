@@ -34,17 +34,17 @@ sjs.current.nextNode = sjs.current.nextNode || 1;
 // another user updates the currently loaded sheet.
 sjs.lastEdit = null;
 
-// Make sure that we're using the s2 Sefaria utils, and not the s1/utils
-parseRef = Sefaria.parseRef.bind(Sefaria);
-makeRef = Sefaria.makeRef.bind(Sefaria);
-normRef = Sefaria.normRef.bind(Sefaria);
-humanRef = Sefaria.humanRef.bind(Sefaria);
-isHebrew = Sefaria.hebrew.isHebrew;
+// Make sure that we're using the s2 Mekoros utils, and not the s1/utils
+parseRef = Mekoros.parseRef.bind(Mekoros);
+makeRef = Mekoros.makeRef.bind(Mekoros);
+normRef = Mekoros.normRef.bind(Mekoros);
+humanRef = Mekoros.humanRef.bind(Mekoros);
+isHebrew = Mekoros.hebrew.isHebrew;
 
 
 $(window).on("beforeunload", function() {
 	if (!($("#save").data("mode") == "saving")) {
-		if (Sefaria._uid && !(sjs.current.id) && $("#empty").length === 0) {
+		if (Mekoros._uid && !(sjs.current.id) && $("#empty").length === 0) {
 			return _("Your Source Sheet has unsaved changes. Before leaving the page, click Save to keep your work.");
 		}
 		else if ($("#lastSaved").text() == "Saving...") {
@@ -144,7 +144,7 @@ $(function() {
 				var q = parseRef(ref);
 				$("#closeAddSource").trigger("click");
 				addSource(q, undefined, "insert", $target);
-				Sefaria.track.sheets("Add Source", ref);
+				Mekoros.track.sheets("Add Source", ref);
         cleanupActiveSource($target);
 
 			}
@@ -160,7 +160,7 @@ $(function() {
 	$(document).on("click", "#inlineAddSourceOK", function() {
 		var $target = $("#addInterface").prev(".sheetItem");
         var ref = $("#inlineAdd").val();
-		Sefaria.getName(ref, true).then(function(q) {
+		Mekoros.getName(ref, true).then(function(q) {
             addSource(q, undefined, "insert", $target);
             $('#inlineAdd').val('');
             $("#inlineTextPreview").html("");
@@ -170,7 +170,7 @@ $(function() {
             $(".ui-autocomplete").hide();
             $("#sheet").click();
         });
-		Sefaria.track.sheets("Add Source", ref);
+		Mekoros.track.sheets("Add Source", ref);
 	});
 
 	$(document).on("keydown", "#inlineAddSourceOK", function(e) {
@@ -277,7 +277,7 @@ $(function() {
 
     // This object is instantiated and sets up its own events.
     // It doesn't need to be interacted with from the outside.
-    var validator = new Sefaria.util.RefValidator($("#inlineAdd"),
+    var validator = new Mekoros.util.RefValidator($("#inlineAdd"),
     	$("#inlineAddDialogTitle"),
     	$("#inlineAddSourceOK"),
     	$("#inlineTextPreview"),
@@ -285,7 +285,7 @@ $(function() {
 
 	// Printing
 	$("#print").click(function(){
-		Sefaria.track.sheets("Print Sheet");
+		Mekoros.track.sheets("Print Sheet");
 		window.print()
 	});
 
@@ -535,7 +535,7 @@ $(function() {
 		var resetSource = function(option) {
 			var loadClosure = function(data) {
 				loadSource(data, $target, option);
-        		Sefaria.track.sheets("Reset Source", data.ref);
+        		Mekoros.track.sheets("Reset Source", data.ref);
 			};
 			var getStr = "/api/texts/" + normRef($target.attr("data-ref")) + "?commentary=0&context=0&pad=0";
 			$.getJSON(getStr, loadClosure);
@@ -548,14 +548,14 @@ $(function() {
 	$("#removeNikkudot").click(function() {
 		var $target = $(".activeSource").find(".text").find(".he");
 		$target.html(stripNikkud($target.html()));
-		Sefaria.track.sheets("Remove Nikkudot");
+		Mekoros.track.sheets("Remove Nikkudot");
 		// autoSave();
 	});
 
 	$("#splitSourceToSegment").click(function() {
 		var $target = $(".activeSource").find(".text");
 		$($target.find(".segment")).replaceWith(function() { return '<p>'+$(this).html()+'</p>'; });
-		Sefaria.track.sheets("Auto Split Segments");
+		Mekoros.track.sheets("Auto Split Segments");
 	});
 
 	$("#addSourceTitle").click(function() {
@@ -571,7 +571,7 @@ $(function() {
 			.closest(".sheetItem")
 			.addClass("hasCustom");
 
-		Sefaria.track.sheets("Edit Source Title", ref);
+		Mekoros.track.sheets("Edit Source Title", ref);
 	});
 
 
@@ -851,7 +851,7 @@ $(function() {
 
 	$("#likeButton").click(function(e) {
 		e.preventDefault();
-		if (!Sefaria._uid) { return sjs.loginPrompt(); }
+		if (!Mekoros._uid) { return sjs.loginPrompt(); }
 
 		var likeCount = parseInt($("#likeCount").text());
 		if ($(this).hasClass("liked")) {
@@ -859,13 +859,13 @@ $(function() {
 			likeCount -= 1;
 			$("#likeCount").text(likeCount);
 			$.post("/api/sheets/" + sjs.current.id + "/unlike");
-    		Sefaria.track.sheets("Unlike", sjs.current.id);
+    		Mekoros.track.sheets("Unlike", sjs.current.id);
 		} else {
 			$(this).addClass("liked").text(_("Unlike"));
 			$.post("/api/sheets/" + sjs.current.id + "/like");
 			likeCount += 1;
 			$("#likeCount").text(likeCount);
-    		Sefaria.track.sheets("Like", sjs.current.id);
+    		Mekoros.track.sheets("Like", sjs.current.id);
 		}
 	});
 	$(".likes").click(function(e) {
@@ -892,14 +892,14 @@ $(function() {
 		}
 
 	} else if (sjs.assignment_id) {
-		if (!Sefaria._uid) {
+		if (!Mekoros._uid) {
 			$("#fileControlMsg").hide();
 			return sjs.loginPrompt();
 		}
 		buildSheet(sjs.current);
 		afterAction();
 	} else {
-		$("#title").html(Sefaria._("New Source Sheet"));
+		$("#title").html(Mekoros._("New Source Sheet"));
 		$("#bilingual, #enLeft, #sideBySide").trigger("click");
 		$("#viewButtons").show();
 		$("#empty").show();
@@ -1443,7 +1443,7 @@ $(function() {
 
 	    if ($(".cke_editable").length) { return; }
 
-		var isOwner = sjs.is_owner || $(this).attr("data-added-by") == String(Sefaria._uid);
+		var isOwner = sjs.is_owner || $(this).attr("data-added-by") == String(Mekoros._uid);
 		var controlsHtml = "";
 		if (isOwner||sjs.can_edit) {
 			if ($(this).hasClass("source")) {
@@ -1546,7 +1546,7 @@ $(function() {
 				autoSave();
 				setSourceNumbers();
 			}
-			Sefaria.track.sheets("Remove Source");
+			Mekoros.track.sheets("Remove Source");
 		 });
 
 		// Copy a Source
@@ -1583,7 +1583,7 @@ $(function() {
 			.addClass("hasCustom");
 
 		e.stopPropagation();
-		Sefaria.track.sheets("Edit Source Title", ref);
+		Mekoros.track.sheets("Edit Source Title", ref);
 	});
 
 	// Reset Source Text
@@ -1596,7 +1596,7 @@ $(function() {
 		var resetSource = function(option) {
 			var loadClosure = function(data) {
 				loadSource(data, $target, option);
-        		Sefaria.track.sheets("Reset Source", data.ref);
+        		Mekoros.track.sheets("Reset Source", data.ref);
 			};
 			var getStr = "/api/texts/" + normRef($target.attr("data-ref")) + "?commentary=0&context=0&pad=0";
 			$.getJSON(getStr, loadClosure);
@@ -1619,7 +1619,7 @@ $(function() {
 					};
 					buildSource($("#sources"), source);
 				}
-        		Sefaria.track.sheets("Add Parasha", parasha);
+        		Mekoros.track.sheets("Add Parasha", parasha);
 			}
 		});
 
@@ -1880,7 +1880,7 @@ $(function() {
 		} else {
 			$("#biLayoutToggleSource").removeClass("disabled");
 		}
-		Sefaria.track.sheets("Change Source Layout Button");
+		Mekoros.track.sheets("Change Source Layout Button");
 	});
 
 	// Change Source Language via modal
@@ -1900,7 +1900,7 @@ $(function() {
 				$("#biLayoutToggleSource").removeClass("disabled");
 			}
 		}
-		Sefaria.track.sheets("Change Source Language Button");
+		Mekoros.track.sheets("Change Source Language Button");
 	});
 
 	// Change Language Layout via modal
@@ -1910,7 +1910,7 @@ $(function() {
 		$(this).addClass("active");
 		$target.removeClass("heLeft heRight")
 			.addClass($(this).attr("id").replace("Source",""));
-		Sefaria.track.sheets("Change Source Language Layout Button");
+		Mekoros.track.sheets("Change Source Language Layout Button");
 	});
 
 	// Remove all custom source language/layout overrides:
@@ -1919,7 +1919,7 @@ $(function() {
 		$target.removeClass("bilingual english hebrew sideBySide heLeft heRight stacked");
 		$("#overrideLayoutModal, #overlay").hide();
 		autoSave();
-		Sefaria.track.sheets("Reset Source Layout to Default");
+		Mekoros.track.sheets("Reset Source Layout to Default");
 	});
 
 	// Add All Connections
@@ -2016,13 +2016,13 @@ $(function() {
 			sjs.current.promptedToPublish = Date();
 			$("#sourceSheetShareSelect").val('public');
 			autoSave();
-			Sefaria.track.sheets("Publish Prompt Accept");
+			Mekoros.track.sheets("Publish Prompt Accept");
 		});
 		$("#publishPromptModal .later").click(function(){
 			$("#publishPromptModal #prompt").hide();
 			$("#publishPromptModal #notPublished").show();
 			sjs.current.promptedToPublish = Date();
-			Sefaria.track.sheets("Publish Prompt Decline");
+			Mekoros.track.sheets("Publish Prompt Decline");
 
 		});
 		$("#publishPromptModal .ok").click(function(){
@@ -2123,7 +2123,7 @@ sjs.sheetTagger = {
 		})
 		.autocomplete({
 			source: function(request, response) {
-			Sefaria.getName(request.term, false, 0)
+			Mekoros.getName(request.term, false, 0)
 				.then(function(d) {
 					var topics = [];
 					d.completion_objects.map(function(obj) {
@@ -2241,7 +2241,7 @@ function addSource(q, source, appendOrInsert, $target) {
 		};
 	}
 
-	var addedByMe = (source && source.addedBy && source.addedBy == Sefaria._uid) ||
+	var addedByMe = (source && source.addedBy && source.addedBy == Mekoros._uid) ||
 					(!source && sjs.can_add);
 
 	var attributionLink = (source && "userLink" in source ?
@@ -2379,8 +2379,8 @@ function loadSource(data, $target, optionStr) {
     includeNumbers = data.indexTitle === "Pesach Haggadah" ? false : includeNumbers;
     var segmented = !(data.categories[0] in {"Tanakh": 1, "Talmud": 1});
 
-    var segments = Sefaria.makeSegments(data);
-	segments = Sefaria.stripImagesFromSegments(segments);
+    var segments = Mekoros.makeSegments(data);
+	segments = Mekoros.stripImagesFromSegments(segments);
     var enStr = segments.map(placed_segment_mapper.bind(this, "en", segmented, includeNumbers))
         .filter(Boolean)
         .join("");
@@ -2470,7 +2470,7 @@ function readSheet() {
 		sheet["status"] = $("#sheetPublicToggle").is(':checked') ? "public" : "unlisted";
 
 		if (sjs.current.status == "unlisted" && sheet["status"] == "public" ) {
-				Sefaria.track.sheets("Sheet Published");
+				Mekoros.track.sheets("Sheet Published");
 		}
 
 		switch ($("#sourceSheetShareSelect").val()) {
@@ -2720,8 +2720,8 @@ function validateSheet(sheet) {
 
 
 function handleSave() {
-	if (!Sefaria._uid) {
-		Sefaria.track.sheets("Logged out Save Attempt");
+	if (!Mekoros._uid) {
+		Mekoros.track.sheets("Logged out Save Attempt");
 		return alert("Sorry I can't save what you've got here: you need to be signed in to save.");
 	}
 	sjs.loading = false;
@@ -2729,7 +2729,7 @@ function handleSave() {
 
 	var sheet = readSheet();
 	saveSheet(sheet, true);
-	Sefaria.track.sheets("Save New Sheet");
+	Mekoros.track.sheets("Save New Sheet");
 }
 
 
@@ -3135,10 +3135,10 @@ function attributionDataString(uid, newItem, classStr) {
 
 	if (newItem && sjs.can_add) {
 		addedByMe = true;
-		addedBy = Sefaria._uid;
+		addedBy = Mekoros._uid;
 	} else if (!newItem && uid) {
 		addedBy = uid;
-		addedByMe = (uid == Sefaria._uid && !sjs.can_edit);
+		addedByMe = (uid == Mekoros._uid && !sjs.can_edit);
 	}
 
 	var str = "class='" + classStr + " sheetItem" +
@@ -3227,7 +3227,7 @@ sjs.replayLastEdit = function() {
 	if (source) {
 		if (sjs.can_add) {
 			source.userLink = sjs._userLink;
-			source.addedBy  = Sefaria._uid;
+			source.addedBy  = Mekoros._uid;
 		}
 		buildSource($target, source);
 	}
@@ -3310,7 +3310,7 @@ function rebuildUpdatedSheet(data) {
 	// Rebuild the current sheet and
 	if (data.dateModified < sjs.current.dateModified) {
 		// If the update is older than the timestamp on the current sheet, ignore it
-		Sefaria.track.event("Sheets", "Error", "Out of sequence update request.");
+		Mekoros.track.event("Sheets", "Error", "Out of sequence update request.");
 		return;
 	}
 
@@ -3374,19 +3374,19 @@ function rebuildUpdatedSheet(data) {
 // --------------- Copy to Sheet ----------------
 
 function copyToSheet(source) {
-	if (!Sefaria._uid) { return sjs.loginPrompt(); }
+	if (!Mekoros._uid) { return sjs.loginPrompt(); }
 	sjs.copySource = source;
 
 	// Get sheet list if necessary
 	if (!$("#sheetList .sheet").length) {
-		$("#sheetList").html(Sefaria._("Loading..."));
-		$.getJSON("/api/sheets/user/" + Sefaria._uid, function(data) {
+		$("#sheetList").html(Mekoros._("Loading..."));
+		$.getJSON("/api/sheets/user/" + Mekoros._uid, function(data) {
 			$("#sheetList").empty();
 			var sheets = "";
-			sheets += '<li class="sheet new"><i>'+Sefaria._("Start a New Source Sheet")+'</i></li>';
+			sheets += '<li class="sheet new"><i>'+Mekoros._("Start a New Source Sheet")+'</i></li>';
 			for (i = 0; i < data.sheets.length; i++) {
 				sheets += '<li class="sheet" data-id="'+data.sheets[i].id+'">'+
-					(data.sheets[i].title === null ? Sefaria._("Untitled Source Sheet"): data.sheets[i].title.stripHtml()) +
+					(data.sheets[i].title === null ? Mekoros._("Untitled Source Sheet"): data.sheets[i].title.stripHtml()) +
 					"</li>";
 			}
 			$("#sheetList").html(sheets);
@@ -3399,7 +3399,7 @@ function copyToSheet(source) {
 		})
 	}
 	var name = source.ref ? source.ref :
-				(source.comment ? Sefaria._("this comment") : Sefaria._("this source"));
+				(source.comment ? Mekoros._("this comment") : Mekoros._("this source"));
 
 	$("#addToSheetModal .sourceName").text(name);
 
@@ -3420,12 +3420,12 @@ $("#addToSheetModal .ok").click(function(){
 	if (sjs.flags.saving === true) { return false; }
 	var selected = $(".sheet.selected");
 	if (!selected.length) {
-		sjs.alert.message(Sefaria._("Please select a source sheet."));
+		sjs.alert.message(Mekoros._("Please select a source sheet."));
 		return false;
 	}
 
 	if (selected.hasClass("new")) {
-		var title = prompt(Sefaria._("New Source Sheet Name:"), "");
+		var title = prompt(Mekoros._("New Source Sheet Name:"), "");
 		var sheet = {
 			title: title,
 			options: {numbered: 0},
@@ -3457,10 +3457,10 @@ $("#addToSheetModal .ok").click(function(){
 			sjs.alert.message(data.error)
 		} else {
 			var name = data.ref ? data.ref :
-				(data.comment ? Sefaria._("This comment") : Sefaria._("This source"));
-			//sjs.alert.message(`${name} ${Sefaria._("was added to")} "${title}".<br><br><a target="_blank" href="/sheets/${data.id}">${Sefaria._("View sheet")}</a>`);
-			sjs.alert.message(name + " " + Sefaria._("was added to") + " \"" + title + "\".<br><br><a target=\"_blank\" href=\"/sheets/" + data.id + "\">" + Sefaria._("View sheet") + "</a>");
-			Sefaria.track.sheets("Source Copied");
+				(data.comment ? Mekoros._("This comment") : Mekoros._("This source"));
+			//sjs.alert.message(`${name} ${Mekoros._("was added to")} "${title}".<br><br><a target="_blank" href="/sheets/${data.id}">${Mekoros._("View sheet")}</a>`);
+			sjs.alert.message(name + " " + Mekoros._("was added to") + " \"" + title + "\".<br><br><a target=\"_blank\" href=\"/sheets/" + data.id + "\">" + Mekoros._("View sheet") + "</a>");
+			Mekoros.track.sheets("Source Copied");
 		}
 	}
 
@@ -3474,7 +3474,7 @@ function copySheet() {
 	delete sheet.group;
 	delete sheet.id;
 
-	if (Sefaria._uid != sjs.current.owner) {
+	if (Mekoros._uid != sjs.current.owner) {
 		sheet.via = sjs.current.id;
 		sheet.viaOwner = sjs.current.owner;
 	}
@@ -3496,7 +3496,7 @@ function copySheet() {
 function exportToDrive() {
 	$("#overlay").show();
 	sjs.alert.message('<span class="int-en">Syncing with Google Docs...</span><span class="int-he">מייצא לגוגל דרייב...</span>');
-	Sefaria.track.sheets("Export to Google Drive");
+	Mekoros.track.sheets("Export to Google Drive");
 
 	$.ajax({
 	  type: "POST",
@@ -3694,14 +3694,14 @@ function promptToPublish() {
 
 	$("#publishPromptModal").show();
 	$("#overlay").show();
-	Sefaria.track.sheets("Publish Prompt");
+	Mekoros.track.sheets("Publish Prompt");
 }
 
 
 var afterAction = function() {
 	// Called after sheet action (adding sources, comments) to remove video, show save button
 	$("#empty").remove();
-	if (Sefaria._uid) {
+	if (Mekoros._uid) {
 		$("#save").show();
 		$("#fileControlMsg").hide();
 	}
@@ -3743,7 +3743,7 @@ var uploadImage = function(imageData) {
 	// formData.append('file', imageData);
 
 	$.ajax({
-		url: Sefaria.apiHost + "/api/sheets/upload-image",
+		url: Mekoros.apiHost + "/api/sheets/upload-image",
 		type: 'POST',
 		data: formData,
 		contentType: false,
@@ -3894,4 +3894,4 @@ function restoreSelection(range) {
 }
 
 
-var _ = Sefaria._;
+var _ = Mekoros._;

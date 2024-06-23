@@ -1,6 +1,6 @@
-from sefaria.model.user_profile import UserProfile
-from sefaria import settings as sls
-from sefaria.system.database import db
+from mekoros.model.user_profile import UserProfile
+from mekoros import settings as sls
+from mekoros.system.database import db
 
 import structlog
 

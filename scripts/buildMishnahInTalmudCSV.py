@@ -1,5 +1,5 @@
-from sefaria.model import *
-from sefaria.model.schema import AddressTalmud
+from mekoros.model import *
+from mekoros.model.schema import AddressTalmud
 import csv
 
 ls = LinkSet({"type":'mishnah in talmud'})

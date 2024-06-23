@@ -25,7 +25,7 @@ restore:
   enabled: true
   dynamicName: true
   cleanup: true
-  bucket: sefaria-mongo-backup
+  bucket: mekoros-mongo-backup
   # tarball:
   serviceAccount: database-backup-read
 
@@ -35,20 +35,20 @@ backup:
     enabled: false
     prefix: ""
     public: true
-    bucket: sefaria-mongo-backup
-    archiveBucket: sefaria-mongo-archive
+    bucket: mekoros-mongo-backup
+    archiveBucket: mekoros-mongo-archive
     serviceAccount: database-backup-write
     version: 4.4
   postgres:
     enabled: false
     version: 10.3
     prefix: ""
-    bucket: sefaria-user-backup
+    bucket: mekoros-user-backup
     serviceAccount: database-backup-write
   sitemaps:
     enabled: false
     serviceAccount: database-backup-write
-    bucket: sefaria-sitemaps
+    bucket: mekoros-sitemaps
 
 web:
   # key-pair values to load into web pod environment.  Takes precedence over global localsettings
@@ -56,7 +56,7 @@ web:
   # APP: web
   containerImage:
     # Full path of the image registry imclusive of the image name
-    imageRegistry: us-east1-docker.pkg.dev/production-deployment/containers/sefaria-web
+    imageRegistry: us-east1-docker.pkg.dev/production-deployment/containers/mekoros-web
     # Commit id of the repo for which the image build has been triggered.
     tag: latest
   replicaCount: 1
@@ -105,15 +105,15 @@ linker:
   # key-pair values to load into web pod environment.  Takes precedence over global localsettings
   model_paths:
     # en: future_path
-    he: "gs://sefaria-ml-models/ref_model.tar.gz"
+    he: "gs://mekoros-ml-models/ref_model.tar.gz"
   part_model_paths:
     # en: future_path
-    he: "gs://sefaria-ml-models/subref_model.tar.gz"
+    he: "gs://mekoros-ml-models/subref_model.tar.gz"
   localsettings:
   # APP: web
   containerImage:
     # Full path of the image registry imclusive of the image name
-    imageRegistry: us-east1-docker.pkg.dev/production-deployment/containers/sefaria-linker
+    imageRegistry: us-east1-docker.pkg.dev/production-deployment/containers/mekoros-linker
     # Commit id of the repo for which the image build has been triggered.
     tag: latest
   replicaCount: 1
@@ -180,7 +180,7 @@ redis:
 nodejs:
   containerImage:
     # Full path of the image registry inclusive of the image name
-    imageRegistry: us-east1-docker.pkg.dev/production-deployment/containers/sefaria-node
+    imageRegistry: us-east1-docker.pkg.dev/production-deployment/containers/mekoros-node
     # Commit id of the repo for which the image build has been triggered.
     tag: latest
   # key-pair values to load into node pod environment.  Takes precedence over global localsettings
@@ -264,7 +264,7 @@ ingress:
  # set to '/*', 'nginx', '80' respectively for each. Do note that changing this
  # means you'll have to change the nginx service as well.
   hosts:
-    - host: "{{ .Values.deployEnv }}.cauldron.sefaria.org"
+    - host: "{{ .Values.deployEnv }}.cauldron.mekoros.com"
       path: /*
       serviceName: nginx
       port: 80
@@ -297,7 +297,7 @@ ingress:
 nginx:
   containerImage:
     # Full path of the image registry inclusive of the image name
-    imageRegistry: us-east1-docker.pkg.dev/production-deployment/containers/sefaria-asset
+    imageRegistry: us-east1-docker.pkg.dev/production-deployment/containers/mekoros-asset
     # Commit id of the repo for which the image build has been triggered.
     tag: latest
   # set to search-democracy for democracy
@@ -324,7 +324,7 @@ monitor:
   # APP: monitor
   containerImage:
     # Full path of the image registry inclusive of the image name
-    imageRegistry: us-east1-docker.pkg.dev/production-deployment/containers/sefaria-web
+    imageRegistry: us-east1-docker.pkg.dev/production-deployment/containers/mekoros-web
     # Commit id of the repo for which the image build has been triggered.
     tag: latest
   replicaCount: 1
@@ -448,20 +448,20 @@ cronJobs:
 localSettings:
   DEBUG: true
   DOMAIN_LANGUAGE: {}
-    # https://www.sefaria.org: english
-    # https://www.sefaria.org.il: hebrew
+    # https://www.mekoros.com: english
+    # https://www.mekoros.com: hebrew
   APSCHEDULER_NAME: "apscheduler-{{ .Values.deployEnv }}"
   TURN_SERVER: ''
   USE_CLOUDFLARE: false
-  FRONT_END_URL: "http://www.sefaria.org"  # Use "http://${ENV_NAME}.cauldron.sefaria.org" in cauldrons
+  FRONT_END_URL: "http://www.mekoros.com"  # Use "http://${ENV_NAME}.cauldron.mekoros.com" in cauldrons
   OFFLINE: "False"
   DOWN_FOR_MAINTENANCE: "False"
-  MAINTENANCE_MESSAGE: "Sefaria is down for scheduled maintenance. We expect to be back online within 15 minutes. Thank you for your patience."
+  MAINTENANCE_MESSAGE: "Mekoros is down for scheduled maintenance. We expect to be back online within 15 minutes. Thank you for your patience."
   GLOBAL_WARNING: "False"
-  GLOBAL_WARNING_MESSAGE: "Sefaria will be in <b>Read-Only</b> mode for scheduled maintenance from 4:45pm-6:45pm Pacific time. Edits will <b>not</b> be saved during that time."
-  SITE_PACKAGE: "sites.sefaria"
-  DEFAULT_FROM_EMAIL: "Sefaria <hello@sefaria.org>"
-  SERVER_EMAIL: "dev@sefaria.org"
+  GLOBAL_WARNING_MESSAGE: "Mekoros will be in <b>Read-Only</b> mode for scheduled maintenance from 4:45pm-6:45pm Pacific time. Edits will <b>not</b> be saved during that time."
+  SITE_PACKAGE: "sites.mekoros"
+  DEFAULT_FROM_EMAIL: "Mekoros <hello@mekoros.com>"
+  SERVER_EMAIL: "dev@mekoros.com"
   MULTISERVER_ENABLED: "True"
   CRM_TYPE: "NATIONBUILDER"
   FAIL_GRACEFULLY: "True"

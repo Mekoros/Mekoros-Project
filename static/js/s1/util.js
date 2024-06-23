@@ -373,10 +373,10 @@ sjs.peopleList = function(list, title) {
 						"</div>";
 	}
 
-	//var modalHtml = `<div id='peopleListModal' class='modal interface-${Sefaria.interfaceLang}'><div id='peopleListTitle'> ${title} </div><div id='peopleList'> ${peopleHtml} </div><div class='btn
-	// closePeople'>${Sefaria._("Close")}</div></div>`;
+	//var modalHtml = `<div id='peopleListModal' class='modal interface-${Mekoros.interfaceLang}'><div id='peopleListTitle'> ${title} </div><div id='peopleList'> ${peopleHtml} </div><div class='btn
+	// closePeople'>${Mekoros._("Close")}</div></div>`;
 
-	var modalHtml = "<div id='peopleListModal' class='modal interface-" + Sefaria.interfaceLang + "'><div id='peopleListTitle'> " + title + " </div><div id='peopleList'> " + peopleHtml + " </div><div class='btn closePeople'>" + Sefaria._("Close") + "</div></div>";
+	var modalHtml = "<div id='peopleListModal' class='modal interface-" + Mekoros.interfaceLang + "'><div id='peopleListTitle'> " + title + " </div><div id='peopleList'> " + peopleHtml + " </div><div class='btn closePeople'>" + Mekoros._("Close") + "</div></div>";
 
 	$(modalHtml).appendTo("body").show().position({of: window});
 	$("#overlay").show();
@@ -934,7 +934,7 @@ sjs.textBrowser = {
             } else {
                 var key = children[i].title;
                 var name = sjs.interfaceLang == "he" ? children[i].heTitle : key;
-                Sefaria._translateTerms[key] = {"en": key, "he": children[i].heTitle};
+                Mekoros._translateTerms[key] = {"en": key, "he": children[i].heTitle};
     			html += "<div class='browserNavItem section' data-name='" + key.escapeHtml() + "'><i class='ui-icon ui-icon-carat-1-e'></i>" + name + "</div>";
             }
 		}
@@ -981,10 +981,10 @@ sjs.textBrowser = {
             var sectionNumber = (isTalmud ? intToDaf(i) : i+1);
             var key = sectionName + " " + sectionNumber;
             if (sjs.interfaceLang == "he") {
-            	var heSectionName = Sefaria.hebrewTerm(sectionName);
-            	var heSectionNumber = (isTalmud ? Sefaria.hebrew.encodeHebrewDaf(sectionNumber) : Sefaria.hebrew.encodeHebrewNumeral(sectionNumber));
+            	var heSectionName = Mekoros.hebrewTerm(sectionName);
+            	var heSectionNumber = (isTalmud ? Mekoros.hebrew.encodeHebrewDaf(sectionNumber) : Mekoros.hebrew.encodeHebrewNumeral(sectionNumber));
             	var name =  heSectionName + " " + heSectionNumber;
-           		Sefaria._translateTerms[key] = {"en": key, "he": name}
+           		Mekoros._translateTerms[key] = {"en": key, "he": name}
             } else {
             	var name = key;
             }
@@ -1014,7 +1014,7 @@ sjs.textBrowser = {
 						"<span class='int-he'>כל הטקסטים</span>" + 
 					"</span>";
 		for (var i = 0; i < this._path.length; i++) {
-			var name = sjs.interfaceLang == "he" ? Sefaria.hebrewTerm(this._path[i]) : this._path[i]
+			var name = sjs.interfaceLang == "he" ? Mekoros.hebrewTerm(this._path[i]) : this._path[i]
 			html += " > <span class='browserPathItem' data-index='" + (i+1) + "'>" + name + "</span>";
 		}
 		$("#browserPath").html(html);
@@ -1026,7 +1026,7 @@ sjs.textBrowser = {
         if (ref) {
             ref = ref.replace(/_/g, " ").replace(/\./g, " ");
         }
-        var oref = Sefaria.ref(ref);
+        var oref = Mekoros.ref(ref);
         var displayRef = sjs.interfaceLang == "he" ? (oref ? oref.heRef : "&nbsp;") : ref;
 		$("#browserMessage").html(displayRef);
 		if (ref) {
@@ -1037,15 +1037,15 @@ sjs.textBrowser = {
 	},
 	previewText: function(ref) {
 		// Ask the API for text of ref, then build a preview
-		Sefaria.text(ref, {}, this.buildPreviewText);
+		Mekoros.text(ref, {}, this.buildPreviewText);
 	},
 	buildPreviewText: function(data) {
 		function segmentString(he, en, section) {
 			if (!he && !en) { return ""; }
-			en = !!en ? Sefaria.util.stripImgs(en) : en;
-			he = !!he ? Sefaria.util.stripImgs(he) : he;
+			en = !!en ? Mekoros.util.stripImgs(en) : en;
+			he = !!he ? Mekoros.util.stripImgs(he) : he;
 			var sectionLabel = isCommentary ? section.split(":")[0] : section;
-			sectionLabel = sjs.interfaceLang == "he" ? Sefaria.hebrew.encodeHebrewNumeral(sectionLabel) : sectionLabel;
+			sectionLabel = sjs.interfaceLang == "he" ? Mekoros.hebrew.encodeHebrewNumeral(sectionLabel) : sectionLabel;
 			var html = "<div class='segment' data-section='" + section + "'>" +
 							(he ? "<span class='he'>" +
 									(isTalmud ? "" : "<span class='number'>(" + sectionLabel + ")</span> ") +
@@ -1268,7 +1268,7 @@ sjs.deleteTextButtonHandler = function(e) {
 	var title = $(this).attr("data-title");
 	var isCommentator = $(this).attr("data-is-commentator");
 
-	var confirm = prompt("Are you sure you want to delete this text version? Doing so will completely delete this text from Sefaria, including all existing versions and links. This action CANNOT be undone. Type DELETE to confirm.", "");
+	var confirm = prompt("Are you sure you want to delete this text version? Doing so will completely delete this text from Mekoros, including all existing versions and links. This action CANNOT be undone. Type DELETE to confirm.", "");
 	if (confirm !== "DELETE") {
 		alert("Delete canceled.")
 		return;

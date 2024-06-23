@@ -3,11 +3,11 @@ import pytest
 import json
 from deepdiff import DeepDiff
 import copy
-from sefaria.system.exceptions import InputError
-from sefaria.model import *
-from sefaria import tracker
-import sefaria.model.category as c
-from sefaria.helper.category import update_order_of_category_children
+from mekoros.system.exceptions import InputError
+from mekoros.model import *
+from mekoros import tracker
+import mekoros.model.category as c
+from mekoros.helper.category import update_order_of_category_children
 import datetime
 class Test_Category_Editor(object):
     @pytest.fixture(autouse=True, scope='module')

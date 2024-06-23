@@ -2,8 +2,8 @@
 
 import argparse
 import re
-from sefaria.model import *
-from sefaria.helper.text import modify_text_by_function
+from mekoros.model import *
+from mekoros.helper.text import modify_text_by_function
 
 
 def replace_double_quotes(text):

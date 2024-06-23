@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__ = 'stevenkaplan'
-from sefaria.helper.schema import *
+from mekoros.helper.schema import *
 
 def create_schema():
     root = SchemaNode()

@@ -4,8 +4,8 @@ import django
 django.setup()
 
 
-from sefaria import model
-from sefaria.system.database import db
+from mekoros import model
+from mekoros.system.database import db
 
 cfile = "./data/tmp/sheet_tags_over_10.csv"
 

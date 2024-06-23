@@ -2,8 +2,8 @@ import django
 django.setup()
 from pymongo import UpdateOne
 from tqdm import tqdm
-from sefaria.model import *
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.system.database import db
 
 # SHEETS
 

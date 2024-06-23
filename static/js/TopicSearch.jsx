@@ -2,8 +2,8 @@ import React  from 'react';
 import ReactDOM  from 'react-dom';
 import PropTypes  from 'prop-types';
 import classNames  from 'classnames';
-import $  from './sefaria/sefariaJquery';
-import Sefaria  from './sefaria/sefaria';
+import $  from './mekoros/mekorosJquery';
+import Mekoros  from './mekoros/mekoros';
 import Component from 'react-class'
 import {Autocompleter, InterfaceText} from "./Misc";
 import {TopicEditor} from "./TopicEditor";
@@ -36,7 +36,7 @@ class TopicSearch extends Component {
         topics.push({title: this.props.createNewTopicStr+word, key: ""})
         return topics;
      };
-    const completion_objects = await Sefaria.getTopicCompletions(word, callback);
+    const completion_objects = await Mekoros.getTopicCompletions(word, callback);
     results.currentSuggestions = completion_objects
         .map(suggestion => ({
           name: suggestion.title,
@@ -64,25 +64,25 @@ class TopicSearch extends Component {
   }
 
   post(slug) {
-      const postJSON = JSON.stringify({"topic": slug, 'interface_lang': Sefaria.interfaceLang});
+      const postJSON = JSON.stringify({"topic": slug, 'interface_lang': Mekoros.interfaceLang});
       const srefs = this.props.srefs;
       const update = this.props.update;
       const reset = this.reset;
-      $.post("/api/ref-topic-links/" + Sefaria.normRef(this.props.srefs), {"json": postJSON}, async function (data) {
+      $.post("/api/ref-topic-links/" + Mekoros.normRef(this.props.srefs), {"json": postJSON}, async function (data) {
         if (data.error) {
           alert(data.error);
         } else {
-          const sectionRef = await Sefaria.getRef(Sefaria.normRef(srefs)).sectionRef;
+          const sectionRef = await Mekoros.getRef(Mekoros.normRef(srefs)).sectionRef;
           srefs.map(sref => {
-            if (!Sefaria._refTopicLinks[sref]) {
-              Sefaria._refTopicLinks[sref] = [];
+            if (!Mekoros._refTopicLinks[sref]) {
+              Mekoros._refTopicLinks[sref] = [];
             }
-            Sefaria._refTopicLinks[sref].push(data);
+            Mekoros._refTopicLinks[sref].push(data);
           });
-          if (!Sefaria._refTopicLinks[sectionRef]) {
-            Sefaria._refTopicLinks[sectionRef] = [];
+          if (!Mekoros._refTopicLinks[sectionRef]) {
+            Mekoros._refTopicLinks[sectionRef] = [];
           }
-          Sefaria._refTopicLinks[sectionRef].push(data);
+          Mekoros._refTopicLinks[sectionRef].push(data);
           update();
           reset();
           alert("Topic added.");
@@ -114,8 +114,8 @@ class TopicSearch extends Component {
         else {
             return (<Autocompleter selectedCallback={this.validate}
                  getSuggestions={this.getSuggestions}
-                 inputPlaceholder={Sefaria.translation(this.props.contentLang, "Search for a Topic")}
-                 buttonTitle={Sefaria.translation(this.props.contentLang, "Add Topic")}
+                 inputPlaceholder={Mekoros.translation(this.props.contentLang, "Search for a Topic")}
+                 buttonTitle={Mekoros.translation(this.props.contentLang, "Add Topic")}
                  inputValue={this.state.value}
                  changeInputValue={this.changeInputValue}
                  showSuggestionsOnSelect={false}

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from sefaria.helper.text import *
+from mekoros.helper.text import *
 
 books = ("Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy")
 versions = ("Tanach with Ta'amei Hamikra")

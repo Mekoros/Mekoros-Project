@@ -1,8 +1,8 @@
 #encoding=utf-8
 import django
 django.setup()
-from sefaria.model import *
-from sefaria.helper.schema import migrate_to_complex_structure
+from mekoros.model import *
+from mekoros.helper.schema import migrate_to_complex_structure
 
 if __name__ == "__main__":
     mapping = {

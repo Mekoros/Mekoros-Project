@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import Sefaria from "./sefaria/sefaria";
+import Mekoros from "./mekoros/mekoros";
 import {AdminToolHeader, InterfaceText, TitleVariants} from "./Misc";
 import sanitizeHtml  from 'sanitize-html';
 import classNames from "classnames";
@@ -63,7 +63,7 @@ const options_for_form = {
     },
     "Era": {
         label: "Era (GN/Gaonim, RI/Rishonim, AH/Achronim, CO/Contemporary)", field: "era", placeholder: "Choose an era", type: 'dropdown',
-        dropdown_data: Sefaria._eras
+        dropdown_data: Mekoros._eras
     }
 }
     
@@ -100,10 +100,10 @@ const validateMarkdownLinks = async (input) => {
         let namesFound = [];
         let d = [];
         if (url.startsWith("/topics")) {
-            d = await Sefaria.getTopicCompletions(name, (x) => x[1]);
+            d = await Mekoros.getTopicCompletions(name, (x) => x[1]);
         }
         else {
-            d = await Sefaria.getName(name, false);
+            d = await Mekoros.getName(name, false);
             if (d.is_ref) {
                 continue;
             }
@@ -115,7 +115,7 @@ const validateMarkdownLinks = async (input) => {
                 : namesFound.push(x.key);
         });
         const validLink = namesFound.includes(name) > 0 ? true :
-            confirm(`${name} not found in Sefaria database.  Please confirm that you meant to write '${url}' in the description.`);
+            confirm(`${name} not found in Mekoros database.  Please confirm that you meant to write '${url}' in the description.`);
         if (!validLink) {
             return false;
         }
@@ -178,12 +178,12 @@ const AdminEditor = ({title, data, close, catMenu, pictureUploader, updateData, 
                 break;
             case 'textarea':
                 obj = <textarea className="default" id={field} onChange={setInputValue} defaultValue={data[field]} readOnly={readOnly}
-                         placeholder={Sefaria._(placeholder)}/>;
+                         placeholder={Mekoros._(placeholder)}/>;
                 break;
             default:
                 const inputType = field.includes('Year') ? 'number' : 'text';
                 obj = <input type={inputType} id={field} onChange={setInputValue} defaultValue={data[field]} readOnly={readOnly}
-                         placeholder={Sefaria._(placeholder)}/>;
+                         placeholder={Mekoros._(placeholder)}/>;
         }
 
         return <div className="section">
@@ -201,13 +201,13 @@ const AdminEditor = ({title, data, close, catMenu, pictureUploader, updateData, 
         <div className="static">
             <div className="inner">
                 {(savingStatus || validatingLinks) &&
-                <div className="collectionsWidget">{Sefaria._("Saving...")}</div>}
+                <div className="collectionsWidget">{Mekoros._("Saving...")}</div>}
                 <div id="newIndex">
                     <AdminToolHeader title={title} close={close} validate={preprocess}/>
                     {items.map((x) => {
                         if (!x) {
                             return null;
-                        } else if (x.includes("Hebrew") && (!Sefaria._siteSettings.TORAH_SPECIFIC)) {
+                        } else if (x.includes("Hebrew") && (!Mekoros._siteSettings.TORAH_SPECIFIC)) {
                             return null;
                         } else if (x === "Category Menu") {
                             return catMenu;

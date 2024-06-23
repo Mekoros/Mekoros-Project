@@ -4,10 +4,10 @@ import csv, re, django, os
 from collections import OrderedDict
 
 django.setup()
-from sefaria.model import *
-from sefaria.model.abstract import SluggedAbstractMongoRecord
-from sefaria.system.exceptions import DuplicateRecordError
-from sefaria.helper.category import move_index_into, create_category
+from mekoros.model import *
+from mekoros.model.abstract import SluggedAbstractMongoRecord
+from mekoros.system.exceptions import DuplicateRecordError
+from mekoros.helper.category import move_index_into, create_category
 
 UID = 28
 SOURCE_SLUG = "ashlag-glossary"

@@ -1,6 +1,6 @@
 // Generate scores for top text sections (Chapters, Dafs etc).
 
-var db = connect("localhost:27017/sefaria")
+var db = connect("localhost:27017/mekoros")
 
 // These values may be set form the command line (using --eval)
 // to authenticate. 
@@ -113,7 +113,7 @@ var mapper = function () {
     count(this.new.refs[0], 1);
     count(this.new.refs[1], 1);
   } else if (this.rev_type == "add text") {
-    var p = this.language == "en" ? this.versionTitle === "Sefaria Community Translation" ? 8 : 2 : 1;
+    var p = this.language == "en" ? this.versionTitle === "Mekoros Community Translation" ? 8 : 2 : 1;
     count(this.ref, p);
   } else if (this.rev_type == "edit text") {
     count(this.ref, 1);

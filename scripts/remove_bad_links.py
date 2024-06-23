@@ -1,4 +1,4 @@
-from sefaria.model import *
+from mekoros.model import *
 
 links = LinkSet({})
 for link in links:

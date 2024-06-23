@@ -11,9 +11,9 @@ from django.utils import translation
 from django.utils.translation import ugettext as _
 
 from . import abstract as abst
-from sefaria.model.user_profile import public_user_data
-from sefaria.system.exceptions import InputError
-from sefaria.utils import hebrew
+from mekoros.model.user_profile import public_user_data
+from mekoros.system.exceptions import InputError
+from mekoros.utils import hebrew
 
 class Collection(abst.AbstractMongoRecord):
     """
@@ -171,7 +171,7 @@ class Collection(abst.AbstractMongoRecord):
         return self.name if (hebrew.has_hebrew(self.name) == (lang == "he")) else None
 
     def contents(self, with_content=False, authenticated=False):
-        from sefaria.sheets import sheet_topics_counts
+        from mekoros.sheets import sheet_topics_counts
         contents = super(Collection, self).contents()
         if with_content:
             contents["sheets"]       = self.sheet_contents(authenticated=authenticated)
@@ -200,7 +200,7 @@ class Collection(abst.AbstractMongoRecord):
         return contents
 
     def sheet_contents(self, authenticated=False):
-        from sefaria.sheets import sheet_list
+        from mekoros.sheets import sheet_list
         if authenticated is False and getattr(self, "listed", False):
             query = {"status": "public", "id": {"$in": self.sheets}}
         else:
@@ -242,7 +242,7 @@ class Collection(abst.AbstractMongoRecord):
 
     def invite_member(self, email, inviter, role="member"):
         """
-        Invites a person by email to sign up for a Sefaria and join a collection.
+        Invites a person by email to sign up for a Mekoros and join a collection.
         Creates on outstanding inviations record for `email` / `role`
         and sends an invitation to `email`.
         """
@@ -267,7 +267,7 @@ class Collection(abst.AbstractMongoRecord):
         """
         from django.core.mail import EmailMultiAlternatives
         from django.template.loader import render_to_string
-        from sefaria.model import UserProfile
+        from mekoros.model import UserProfile
 
         inviter       = UserProfile(id=inviter_id)
         curr_lang     = translation.get_language()
@@ -281,8 +281,8 @@ class Collection(abst.AbstractMongoRecord):
                                             })
         finally:
             translation.activate(curr_lang)
-        subject       = _("%(name)s invited you to a collection on Sefaria") % {'name': inviter.full_name}
-        from_email    = "Sefaria <hello@sefaria.org>"
+        subject       = _("%(name)s invited you to a collection on Mekoros") % {'name': inviter.full_name}
+        from_email    = "Mekoros <hello@mekoros.com>"
         to            = email
 
         msg = EmailMultiAlternatives(subject, message_html, from_email, [to])
@@ -311,7 +311,7 @@ class Collection(abst.AbstractMongoRecord):
 
     def public_sheet_count(self):
         """Returns the number of public sheets in this collection"""
-        from sefaria.sheets import SheetSet
+        from mekoros.sheets import SheetSet
         return SheetSet({"id": {"$in": self.sheets}, "status": "public"}).count()      
 
     @property
@@ -335,7 +335,7 @@ class Collection(abst.AbstractMongoRecord):
         When image fields change:
         delete images that are no longer referenced
         """
-        from sefaria.google_storage_manager import GoogleStorageManager
+        from mekoros.google_storage_manager import GoogleStorageManager
         bucket_name = GoogleStorageManager.COLLECTIONS_BUCKET
         if isinstance(old_url, str) and re.search("^https?://storage\.googleapis\.com/", old_url):  # only try to delete images in google cloud storage
             GoogleStorageManager.delete_filename(old_url, bucket_name)
@@ -365,7 +365,7 @@ def process_collection_slug_change_in_sheets(collection, **kwargs):
     """
     When a collections's slug changes, update all the sheets that have this collection as `displayedCollection`
     """
-    from sefaria.system.database import db
+    from mekoros.system.database import db
 
     if not kwargs["old"]:
         return
@@ -376,7 +376,7 @@ def process_collection_delete_in_sheets(collection, **kwargs):
     """
     When a collection deleted, move any sheets out of the collection.
     """
-    from sefaria.system.database import db
+    from mekoros.system.database import db
     db.sheets.update_many({"displayedCollection": collection.slug}, {"$set": {"displayedCollection": ""}})
 
 

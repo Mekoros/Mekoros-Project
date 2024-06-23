@@ -1316,24 +1316,24 @@ p.registration-links a:hover{
   font-size: 18px;
   font-family: "Roboto", "Helvetica Neue", "Helvetica", sans-serif;
 }
-#digitizedBySefaria p {
+#digitizedByMekoros p {
   margin-bottom: 20px;
 }
-#digitizedBySefaria #texts {
+#digitizedByMekoros #texts {
   margin-top: 40px;
   padding: 0;
 }
-#digitizedBySefaria .sub {
+#digitizedByMekoros .sub {
   color: #666;
   font-size: 13px;
 }
-#digitizedBySefaria ul {
+#digitizedByMekoros ul {
   list-style-type: none
 }
-#digitizedBySefaria li {
+#digitizedByMekoros li {
   margin-bottom: 12px;
 }
-#digitizedBySefaria li a {
+#digitizedByMekoros li a {
   font-size: 18px;
 }
 .static.legal iframe {

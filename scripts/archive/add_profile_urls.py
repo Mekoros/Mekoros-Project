@@ -9,13 +9,13 @@ import re
 
 p = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, p)
-sys.path.insert(0, p + "/sefaria")
+sys.path.insert(0, p + "/mekoros")
 os.environ['DJANGO_SETTINGS_MODULE'] = "settings"
 
 
 from django.contrib.auth.models import User
-from sefaria.model.user_profile import UserProfile
-from sefaria.system.database import db
+from mekoros.model.user_profile import UserProfile
+from mekoros.system.database import db
 
 db.profiles.ensure_index("slug")
 

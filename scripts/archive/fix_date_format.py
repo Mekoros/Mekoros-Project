@@ -5,7 +5,7 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from sefaria.texts import *
+from mekoros.texts import *
 
 history = db.history.find()
 

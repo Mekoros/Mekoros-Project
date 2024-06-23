@@ -2,9 +2,9 @@ import django
 django.setup()
 import time
 
-from sefaria.model.user_profile import UserProfile
-from sefaria.system.database import db
-from sefaria.helper.crm.nationbuilder import get_everyone, get_person_by_email, nationbuilder_get_all, get_nationbuilder_connection, \
+from mekoros.model.user_profile import UserProfile
+from mekoros.system.database import db
+from mekoros.helper.crm.nationbuilder import get_everyone, get_person_by_email, nationbuilder_get_all, get_nationbuilder_connection, \
     create_person, delete_from_nationbuilder_if_spam
 from django.contrib.auth.models import User
 
@@ -69,7 +69,7 @@ def add_profiles_to_nationbuilder(gt=0):
                                 "email": user_profile.email,
                                 "first_name": user_profile.first_name,
                                 "last_name": user_profile.last_name,
-                                "tags": ["Signed_Up_on_Sefaria"]
+                                "tags": ["Signed_Up_on_Mekoros"]
                             }
                         })
                         res_data = res.json()

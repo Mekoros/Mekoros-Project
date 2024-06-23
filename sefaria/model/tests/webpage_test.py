@@ -1,6 +1,6 @@
 import pytest
-from sefaria.model import *
-from sefaria.model.webpage import WebPage, get_webpages_for_ref
+from mekoros.model import *
+from mekoros.model.webpage import WebPage, get_webpages_for_ref
 
 title_good_url = "Dvar Torah"
 

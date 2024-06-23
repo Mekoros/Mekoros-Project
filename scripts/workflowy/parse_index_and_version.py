@@ -14,7 +14,7 @@ try:
     import xml.etree.cElementTree as ET
 except ImportError:
     import xml.etree.ElementTree as ET
-from sefaria.helper.text import WorkflowyParser
+from mekoros.helper.text import WorkflowyParser
 
 
 

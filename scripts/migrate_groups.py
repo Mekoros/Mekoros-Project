@@ -1,5 +1,5 @@
-from sefaria.system.database import db
-from sefaria.model.group import Group
+from mekoros.system.database import db
+from mekoros.model.group import Group
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group as DjangoGroup
 

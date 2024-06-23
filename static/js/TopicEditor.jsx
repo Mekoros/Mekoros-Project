@@ -1,6 +1,6 @@
-import Sefaria from "./sefaria/sefaria";
+import Mekoros from "./mekoros/mekoros";
 import {InterfaceText, requestWithCallBack, TopicPictureUploader} from "./Misc";
-import $ from "./sefaria/sefariaJquery";
+import $ from "./mekoros/mekorosJquery";
 import {AdminEditor} from "./AdminEditor";
 import {Reorder} from "./CategoryEditor";
 import React, {useState, useEffect} from "react";
@@ -28,8 +28,8 @@ const TopicEditor = ({origData, onCreateSuccess, close, origWasCat}) => {
     const [isAuthor, setIsAuthor] = useState(origData.origCatSlug === 'authors');
     const [isCategory, setIsCategory] = useState(origWasCat);  // initialize to True if the topic originally was a category
                                                                   // isCategory determines whether user can edit categoryDescriptions of topic
-    const subtopics = Sefaria.topicTocPage(origData.origSlug);
-    const [sortedSubtopics, setSortedSubtopics] = useState(subtopics?.sort(Sefaria.sortTopicsCompareFn)
+    const subtopics = Mekoros.topicTocPage(origData.origSlug);
+    const [sortedSubtopics, setSortedSubtopics] = useState(subtopics?.sort(Mekoros.sortTopicsCompareFn)
                                                                                 .filter(x => x.slug !== origData.origSlug) // dont include topics that are self-linked
                                                                                 || []);
     const [isChanged, setIsChanged] = useState(false);
@@ -51,17 +51,17 @@ const TopicEditor = ({origData, onCreateSuccess, close, origWasCat}) => {
     const handleCatChange = function(e) {
       data.catSlug = e.target.value;
       //logic is: if it starts out originally a category, isCategory should always be true, otherwise, it should depend solely on 'Main Menu'
-      const newIsCategory = origWasCat || e.target.value === Sefaria._("Main Menu");
+      const newIsCategory = origWasCat || e.target.value === Mekoros._("Main Menu");
       setIsCategory(newIsCategory);
       setIsChanged(true);
       setIsAuthor(data.catSlug === 'authors');
       setData({...data});
     }
 
-    let slugsToTitles = Sefaria.slugsToTitles();
+    let slugsToTitles = Mekoros.slugsToTitles();
     let specialCases = {
-        "": {"en": "Choose a Parent Topic", "he": Sefaria.translation('he', "Choose a Parent Topic")},
-        "Main Menu": {"en": "Main Menu", "he": Sefaria.translation('he', "Main Menu")}
+        "": {"en": "Choose a Parent Topic", "he": Mekoros.translation('he', "Choose a Parent Topic")},
+        "Main Menu": {"en": "Main Menu", "he": Mekoros.translation('he', "Main Menu")}
     };
     slugsToTitles = Object.assign(specialCases, slugsToTitles);
     const catMenu =   <div className="section">
@@ -69,7 +69,7 @@ const TopicEditor = ({origData, onCreateSuccess, close, origWasCat}) => {
                                             <div className="categoryChooserMenu">
                                                 <select key="topicCats" id="topicCats" onChange={handleCatChange}>
                                                     {Object.keys(slugsToTitles).map(function (tempSlug, i) {
-                                                        const tempTitle = Sefaria.interfaceLang === 'english' ? slugsToTitles[tempSlug].en : slugsToTitles[tempSlug].he;
+                                                        const tempTitle = Mekoros.interfaceLang === 'english' ? slugsToTitles[tempSlug].en : slugsToTitles[tempSlug].he;
                                                         return <option key={i} value={tempSlug} selected={data.catSlug === tempSlug}>{tempTitle}</option>;
                                                     })}
                                                 </select>
@@ -86,11 +86,11 @@ const TopicEditor = ({origData, onCreateSuccess, close, origWasCat}) => {
             return false;
         }
         if (data.catSlug === "") {
-          alert(Sefaria._("Please choose a category."));
+          alert(Mekoros._("Please choose a category."));
           return false;
         }
         if (data.enTitle.length === 0) {
-          alert(Sefaria._("Title must be provided."));
+          alert(Mekoros._("Title must be provided."));
           return false;
         }
         if (data.enImgCaption.length > 300) {

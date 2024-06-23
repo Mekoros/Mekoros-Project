@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from sefaria.model import *
+from mekoros.model import *
 
 for v in library.get_commentary_versions(["Rashi","Tosafot"]):
     assert isinstance(v, Version)

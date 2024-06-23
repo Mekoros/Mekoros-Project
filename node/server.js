@@ -16,10 +16,10 @@ const http          = require('http'),
     settings        = require('./local_settings.js'),
     React           = require('react'),
     ReactDOMServer  = require('react-dom/server'),
-    SefariaReact    = require('../static/js/ReaderApp.jsx'),
-    ReaderApp       = React.createFactory(SefariaReact.ReaderApp);
+    MekorosReact    = require('../static/js/ReaderApp.jsx'),
+    ReaderApp       = React.createFactory(MekorosReact.ReaderApp);
 
-const {logger, expressLogger, errorLogger} = require('./sefaria-logging');
+const {logger, expressLogger, errorLogger} = require('./mekoros-logging');
 
 const server = express();
 
@@ -86,8 +86,8 @@ const needsUpdating = function(cachekey, last_cached_to_compare){
 
 const renderReaderApp = function(props, data, timer) {
   // Returns HTML of ReaderApp component given `props` and `data`
-  SefariaReact.sefariaSetup(data, props); //Do we really need to do Sefaria.setup every request?
-  SefariaReact.unpackDataFromProps(props);
+  MekorosReact.mekorosSetup(data, props); //Do we really need to do Mekoros.setup every request?
+  MekorosReact.unpackDataFromProps(props);
   timer.ms_to_set_data = timer.elapsed();
   const html  = ReactDOMServer.renderToString(ReaderApp(props));
   timer.ms_to_render = timer.elapsed();
@@ -138,8 +138,8 @@ router.post('/ReaderApp/:cachekey', function(req, res) {
 
 router.post('/Footer/:cachekey', function(req, res) {
   const props = JSON.parse(req.body.propsJSON);
-  SefariaReact.unpackDataFromProps(props);
-  const html  = ReactDOMServer.renderToString(React.createElement(SefariaReact.Footer));
+  MekorosReact.unpackDataFromProps(props);
+  const html  = ReactDOMServer.renderToString(React.createElement(MekorosReact.Footer));
   res.send(html);
 });
 

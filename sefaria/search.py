@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-search.py - full-text search for Sefaria using ElasticSearch
+search.py - full-text search for Mekoros using ElasticSearch
 
 Writes to MongoDB Collection: index_queue
 """
@@ -23,18 +23,18 @@ logger = structlog.get_logger(__name__)
 from elasticsearch.client import IndicesClient
 from elasticsearch.helpers import bulk
 from elasticsearch.exceptions import NotFoundError
-from sefaria.model import *
-from sefaria.model.text import AbstractIndex, AbstractTextRecord
-from sefaria.model.user_profile import user_link, public_user_data
-from sefaria.model.collection import CollectionSet
-from sefaria.system.database import db
-from sefaria.system.exceptions import InputError
-from sefaria.utils.util import strip_tags
+from mekoros.model import *
+from mekoros.model.text import AbstractIndex, AbstractTextRecord
+from mekoros.model.user_profile import user_link, public_user_data
+from mekoros.model.collection import CollectionSet
+from mekoros.system.database import db
+from mekoros.system.exceptions import InputError
+from mekoros.utils.util import strip_tags
 from .settings import SEARCH_INDEX_NAME_TEXT, SEARCH_INDEX_NAME_SHEET
-from sefaria.helper.search import get_elasticsearch_client
-from sefaria.site.site_settings import SITE_SETTINGS
-from sefaria.utils.hebrew import strip_cantillation
-import sefaria.model.queue as qu
+from mekoros.helper.search import get_elasticsearch_client
+from mekoros.site.site_settings import SITE_SETTINGS
+from mekoros.utils.hebrew import strip_cantillation
+import mekoros.model.queue as qu
 
 es_client = get_elasticsearch_client()
 index_client = IndicesClient(es_client)
@@ -314,8 +314,8 @@ def put_text_mapping(index_name):
             },
             "naive_lemmatizer": {
                 'type': 'text',
-                'analyzer': 'sefaria-naive-lemmatizer',
-                'search_analyzer': 'sefaria-naive-lemmatizer-less-prefixes',
+                'analyzer': 'mekoros-naive-lemmatizer',
+                'search_analyzer': 'mekoros-naive-lemmatizer-less-prefixes',
                 'fields': {
                     'exact': {
                         'type': 'text',

@@ -5,7 +5,7 @@ metadata:
   name: create-pg-dumps-{{ .Values.deployEnv }}
   labels:
     deployEnv: "{{ .Values.deployEnv }}"
-    {{- include "sefaria.labels" . | nindent 4 }}
+    {{- include "mekoros.labels" . | nindent 4 }}
 data:
   create-dumps.sh: |-
     #!/usr/bin/env bash
@@ -25,7 +25,7 @@ data:
       export PGPASSWORD="${DATABASES_PASSWORD}"
     fi
     DUMP_CMD+=" --verbose --format=c --no-owner --section=pre-data --section=data --no-privileges"
-    DUMP_CMD+=" --no-tablespaces --no-unlogged-table-data 'sefaria_auth'"
+    DUMP_CMD+=" --no-tablespaces --no-unlogged-table-data 'mekoros_auth'"
 
     eval $DUMP_CMD
 {{- end }}

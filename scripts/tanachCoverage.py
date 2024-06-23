@@ -1,5 +1,5 @@
 import re
-from sefaria.model import *
+from mekoros.model import *
 import collections
 
 # For each book of Tanach

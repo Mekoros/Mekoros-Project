@@ -1,0 +1,15 @@
+{
+  "name": "mekoros-d3",
+  "version": "0.1.0",
+  "description": "Mekoros Visualization Library",
+  "main": "mekoros-d3.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Mekoros",
+    "D3"
+  ],
+  "author": "Lev Israel / Noah Santacruz",
+  "license": "GPL-3.0"
+}

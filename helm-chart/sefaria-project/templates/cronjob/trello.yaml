@@ -5,7 +5,7 @@ kind: CronJob
 metadata:
   name: {{ .Values.deployEnv }}-trello
   labels:
-    {{- include "sefaria.labels" . | nindent 4 }}
+    {{- include "mekoros.labels" . | nindent 4 }}
 spec:
   schedule: "0 0 * * 6"
   concurrencyPolicy: Forbid
@@ -37,7 +37,7 @@ spec:
               - name: SLACK_URL
                 valueFrom:
                   secretKeyRef:
-                    name: {{ template "sefaria.secrets.slackWebhook" . }}
+                    name: {{ template "mekoros.secrets.slackWebhook" . }}
                     key: slack-webhook
             envFrom:
             - secretRef:
@@ -51,7 +51,7 @@ spec:
             - secretRef:
                 name: trello-secret
             volumeMounts:
-              - mountPath: /app/sefaria/local_settings.py
+              - mountPath: /app/mekoros/local_settings.py
                 name: local-settings
                 subPath: local_settings.py
                 readOnly: true

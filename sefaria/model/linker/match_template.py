@@ -1,8 +1,8 @@
 from collections import defaultdict
 from typing import List, Optional, Iterable
 from functools import reduce
-from sefaria.model import abstract as abst
-from sefaria.model import schema
+from mekoros.model import abstract as abst
+from mekoros.model import schema
 from .ref_part import TermContext, LEAF_TRIE_ENTRY
 from .referenceable_book_node import NamedReferenceableBookNode
 import structlog
@@ -173,7 +173,7 @@ class MatchTemplateTrie:
         return MatchTemplateTrie(self.lang, sub_trie=merged, scope=self.scope), partial_key_end
 
     def _get_continuations_recursive(self, key: str, prev_sub_tries=None, key_is_id=False, has_partial_matches=False, allow_partial=False):
-        from sefaria.utils.hebrew import get_prefixless_inds
+        from mekoros.utils.hebrew import get_prefixless_inds
         import re
 
         prev_sub_tries = prev_sub_tries or self._trie

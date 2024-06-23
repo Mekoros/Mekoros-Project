@@ -1,6 +1,6 @@
 import pytest
-from sefaria.model.schema import NonUniqueTerm
-from sefaria.model.abstract import SluggedAbstractMongoRecord
+from mekoros.model.schema import NonUniqueTerm
+from mekoros.model.abstract import SluggedAbstractMongoRecord
 
 
 @pytest.fixture(scope='module')

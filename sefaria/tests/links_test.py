@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import pytest
 
-from sefaria.client.wrapper import get_links
-from sefaria.model import *
+from mekoros.client.wrapper import get_links
+from mekoros.model import *
 
 def setup_module(module): 
     pass

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # Put a Welcome to S2 message in the profile of every existing user
 
-from sefaria.model import *
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.system.database import db
 
 profiles = db.profiles.find()
 

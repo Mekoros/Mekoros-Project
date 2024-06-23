@@ -7,7 +7,7 @@ import os
 import csv
 import operator
 
-from sefaria.model import *
+from mekoros.model import *
 
 from django.contrib.auth.models import User
 from pprint import pprint

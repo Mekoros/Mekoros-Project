@@ -1,7 +1,7 @@
 #encoding=utf-8
 import django
 django.setup()
-from sefaria.helper.schema import *
+from mekoros.helper.schema import *
 
 root = SchemaNode()
 root.add_primary_titles("Netzach Yisrael", "נצח ישראל")

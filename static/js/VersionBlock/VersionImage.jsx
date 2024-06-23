@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from "classnames";
-import Sefaria from "../sefaria/sefaria";
+import Mekoros from "../mekoros/mekoros";
 import {VersionBlockUtils} from "./VersionBlock";
 
 function VersionImage({version}) {
@@ -15,7 +15,7 @@ function VersionImage({version}) {
       <div className="versionDetailsImage">
         <div className={classNames(VersionBlockUtils.makeAttrClassNames(version, {"versionBuyImage": 1, "versionDetailsElement": 1} , "purchaseInformationImage"))}>
           <a className="versionDetailsLink versionDetailsImageLink" href={makeImageLink()} target="_blank">
-            <img className="versionImage" src={makeImageSrc()} alt={Sefaria._("Buy Now")} />
+            <img className="versionImage" src={makeImageSrc()} alt={Mekoros._("Buy Now")} />
           </a>
         </div>
       </div>

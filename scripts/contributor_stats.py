@@ -1,4 +1,4 @@
-from sefaria.system.database import *
+from mekoros.system.database import *
 
 all_sheet_makers = db.sheets.distinct("owner")
 public_sheet_makers = db.sheets.find({"status": "public"}).distinct("owner")

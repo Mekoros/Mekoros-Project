@@ -33,50 +33,50 @@ from django.urls.exceptions import Resolver404
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-import sefaria.model as model
-import sefaria.system.cache as scache
-from sefaria.helper.crm.crm_mediator import CrmMediator
-from sefaria.system.cache import in_memory_cache
-from sefaria.client.util import jsonResponse, send_email, read_webpack_bundle
-from sefaria.forms import SefariaNewUserForm, SefariaNewUserFormAPI, SefariaDeleteUserForm, SefariaDeleteSheet
-from sefaria.settings import MAINTENANCE_MESSAGE, USE_VARNISH, MULTISERVER_ENABLED
-from sefaria.model.user_profile import UserProfile, user_link
-from sefaria.model.collection import CollectionSet, process_sheet_deletion_in_collections
-from sefaria.model.notification import process_sheet_deletion_in_notifications
-from sefaria.export import export_all as start_export_all
-from sefaria.datatype.jagged_array import JaggedTextArray
+import mekoros.model as model
+import mekoros.system.cache as scache
+from mekoros.helper.crm.crm_mediator import CrmMediator
+from mekoros.system.cache import in_memory_cache
+from mekoros.client.util import jsonResponse, send_email, read_webpack_bundle
+from mekoros.forms import MekorosNewUserForm, MekorosNewUserFormAPI, MekorosDeleteUserForm, MekorosDeleteSheet
+from mekoros.settings import MAINTENANCE_MESSAGE, USE_VARNISH, MULTISERVER_ENABLED
+from mekoros.model.user_profile import UserProfile, user_link
+from mekoros.model.collection import CollectionSet, process_sheet_deletion_in_collections
+from mekoros.model.notification import process_sheet_deletion_in_notifications
+from mekoros.export import export_all as start_export_all
+from mekoros.datatype.jagged_array import JaggedTextArray
 # noinspection PyUnresolvedReferences
-from sefaria.system.exceptions import InputError, NoVersionFoundError
-from sefaria.system.database import db
-from sefaria.system.decorators import catch_error_as_http
-from sefaria.utils.hebrew import has_hebrew, strip_nikkud
-from sefaria.utils.util import strip_tags
-from sefaria.helper.text import make_versions_csv, get_library_stats, get_core_link_stats, dual_text_diff
-from sefaria.clean import remove_old_counts
-from sefaria.search import index_sheets_by_timestamp as search_index_sheets_by_timestamp
-from sefaria.model import *
-from sefaria.model.webpage import *
-from sefaria.system.multiserver.coordinator import server_coordinator
-from sefaria.google_storage_manager import GoogleStorageManager
-from sefaria.sheets import get_sheet_categorization_info
+from mekoros.system.exceptions import InputError, NoVersionFoundError
+from mekoros.system.database import db
+from mekoros.system.decorators import catch_error_as_http
+from mekoros.utils.hebrew import has_hebrew, strip_nikkud
+from mekoros.utils.util import strip_tags
+from mekoros.helper.text import make_versions_csv, get_library_stats, get_core_link_stats, dual_text_diff
+from mekoros.clean import remove_old_counts
+from mekoros.search import index_sheets_by_timestamp as search_index_sheets_by_timestamp
+from mekoros.model import *
+from mekoros.model.webpage import *
+from mekoros.system.multiserver.coordinator import server_coordinator
+from mekoros.google_storage_manager import GoogleStorageManager
+from mekoros.sheets import get_sheet_categorization_info
 from reader.views import base_props, render_template
-from sefaria.helper.link import add_links_from_csv, delete_links_from_text, get_csv_links_by_refs
+from mekoros.helper.link import add_links_from_csv, delete_links_from_text, get_csv_links_by_refs
 
 if USE_VARNISH:
-    from sefaria.system.varnish.wrapper import invalidate_index, invalidate_title, invalidate_ref, invalidate_counts, invalidate_all
+    from mekoros.system.varnish.wrapper import invalidate_index, invalidate_title, invalidate_ref, invalidate_counts, invalidate_all
 
 import structlog
 logger = structlog.get_logger(__name__)
 
 
 def process_register_form(request, auth_method='session'):
-    from sefaria.utils.util import epoch_time
-    from sefaria.helper.file import get_resized_file
+    from mekoros.utils.util import epoch_time
+    from mekoros.helper.file import get_resized_file
     import hashlib
     import urllib.parse, urllib.request
     from google.cloud.exceptions import GoogleCloudError
     from PIL import Image
-    form = SefariaNewUserForm(request.POST) if auth_method == 'session' else SefariaNewUserFormAPI(request.POST)
+    form = MekorosNewUserForm(request.POST) if auth_method == 'session' else MekorosNewUserFormAPI(request.POST)
     token_dict = None
     if form.is_valid():
         with transaction.atomic():
@@ -145,15 +145,15 @@ def register(request):
             else:
                 next = request.POST.get("next", "/")
                 if "?" in next:
-                    next += "&welcome=to-sefaria"
+                    next += "&welcome=to-mekoros"
                 else:
-                    next += "?welcome=to-sefaria"
+                    next += "?welcome=to-mekoros"
                 return HttpResponseRedirect(next)
     else:
         if request.GET.get('educator', ''):
-            form = SefariaNewUserForm(initial={'subscribe_educator': True})
+            form = MekorosNewUserForm(initial={'subscribe_educator': True})
         else:
-            form = SefariaNewUserForm()
+            form = MekorosNewUserForm()
 
     return render_template(request, "registration/register.html", None, {'form': form, 'next': next})
 
@@ -175,7 +175,7 @@ def generic_subscribe_to_newsletter_api(request, org, email):
     Generic view for subscribing a user to a newsletter
     """
     org_subscribe_fn_map = {
-        "sefaria": subscribe_sefaria_newsletter,
+        "mekoros": subscribe_mekoros_newsletter,
         "steinsaltz": subscribe_steinsaltz,
     }
     body = json.loads(request.body)
@@ -195,11 +195,11 @@ def generic_subscribe_to_newsletter_api(request, org, email):
         return jsonResponse({"error": _("Sorry, there was an error.")})
 
 
-def subscribe_sefaria_newsletter_view(request, email):
-    return generic_subscribe_to_newsletter_api(request, 'sefaria', email)
+def subscribe_mekoros_newsletter_view(request, email):
+    return generic_subscribe_to_newsletter_api(request, 'mekoros', email)
 
 
-def subscribe_sefaria_newsletter(request, email, first_name, last_name):
+def subscribe_mekoros_newsletter(request, email, first_name, last_name):
     """
     API for subscribing to mailing lists, in `lists` url param.
     Currently active lists are:
@@ -260,15 +260,15 @@ def generate_feedback(request):
         from_email = model.user_profile.UserProfile(id=uid).email
 
     if fb_type == "content_issue":
-        to_email = "corrections@sefaria.org"
+        to_email = "corrections@mekoros.com"
         subject = "Correction from website - " + ' / '.join(refs)
         message_html = msg + "\n\n" + "refs: " + ' / '.join(refs) + "\n" + "versions: " + str(versions) + "\n\n" + "URL: " + url
     elif fb_type == "user_testing":
-        to_email = "gabriel@sefaria.org"
+        to_email = "gabriel@mekoros.com"
         subject = "User Testing Sign Up"
         message_html = "Hi! I want to sign up for user testing!"
     else:
-        to_email = "hello@sefaria.org"
+        to_email = "hello@mekoros.com"
         subject = "Feedback from website - " + fb_type.replace("_"," ")
         message_html = msg + "\n\n" + "URL: " + url
 
@@ -291,18 +291,18 @@ def data_js(request):
     return response
 
 
-def sefaria_js(request):
+def mekoros_js(request):
     """
-    Packaged Sefaria.js.
+    Packaged Mekoros.js.
     """
     data_js = render_to_string("js/data.js", context={}, request=request)
-    sefaria_js = read_webpack_bundle("SEFARIA_JS")
+    mekoros_js = read_webpack_bundle("SEFARIA_JS")
     attrs = {
         "data_js": data_js,
-        "sefaria_js": sefaria_js,
+        "mekoros_js": mekoros_js,
     }
 
-    return render(request, "js/sefaria.js", attrs, content_type= "text/javascript; charset=utf-8")
+    return render(request, "js/mekoros.js", attrs, content_type= "text/javascript; charset=utf-8")
 
 
 def linker_js(request, linker_version=None):
@@ -328,7 +328,7 @@ def linker_js(request, linker_version=None):
 
 @api_view(["POST"])
 def find_refs_report_api(request):
-    from sefaria.system.database import db
+    from mekoros.system.database import db
     post = json.loads(request.body)
     db.linker_feedback.insert_one(post)
     return jsonResponse({'ok': True})
@@ -336,7 +336,7 @@ def find_refs_report_api(request):
 
 @api_view(["POST"])
 def find_refs_api(request):
-    from sefaria.helper.linker import make_find_refs_response
+    from mekoros.helper.linker import make_find_refs_response
     return jsonResponse(make_find_refs_response(request))
 
 
@@ -361,7 +361,7 @@ def linker_data_api(request, titles):
         domain = WebPage.domain_for_url(WebPage.normalize_url(url))
 
         website_match = WebSiteSet({"domains": domain})  # we know there can only be 0 or 1 matches found because of a constraint
-                                                         # enforced in Sefaria-Data/sources/WebSites/populate_web_sites.py
+                                                         # enforced in Mekoros-Data/sources/WebSites/populate_web_sites.py
         res["exclude_from_tracking"] = getattr(website_match[0], "exclude_from_tracking", "") if website_match.count() == 1 else ""
         resp = jsonResponse(res, cb)
         return resp
@@ -523,7 +523,7 @@ def passages_api(request, refs):
 def collections_image_upload(request, resize_image=True):
     from PIL import Image
     from tempfile import NamedTemporaryFile
-    from sefaria.google_storage_manager import GoogleStorageManager
+    from mekoros.google_storage_manager import GoogleStorageManager
     from io import BytesIO
     import uuid
     if request.method == "POST":
@@ -729,14 +729,14 @@ def reset_ref(request, tref):
 
 @staff_member_required
 def rebuild_auto_links(request, title):
-    from sefaria.helper.link import rebuild_links_for_title as rebuild
+    from mekoros.helper.link import rebuild_links_for_title as rebuild
     rebuild(title, request.user.id)
     return HttpResponseRedirect("/?m=Automatic-Links-Rebuilt-on-%s" % title)
 
 
 @staff_member_required
 def rebuild_citation_links(request, title):
-    from sefaria.helper.link import rebuild_links_from_text as rebuild
+    from mekoros.helper.link import rebuild_links_from_text as rebuild
     rebuild(title, request.user.id)
     return HttpResponseRedirect("/?m=Citation-Links-Rebuilt-on-%s" % title)
 
@@ -750,9 +750,9 @@ def delete_citation_links(request, title):
 @staff_member_required
 def cache_stats(request):
     import resource
-    from sefaria.utils.util import get_size
-    from sefaria.model.user_profile import public_user_data_cache
-    # from sefaria.sheets import last_updated
+    from mekoros.utils.util import get_size
+    from mekoros.model.user_profile import public_user_data_cache
+    # from mekoros.sheets import last_updated
     resp = {
         'ref_cache_size': f'{model.Ref.cache_size():,}',
         # 'ref_cache_bytes': model.Ref.cache_size_bytes(), # This pretty expensive, not sure if it should run on prod.
@@ -799,7 +799,7 @@ def cause_error(request):
 @staff_member_required
 def account_stats(request):
     from django.contrib.auth.models import User
-    from sefaria.stats import account_creation_stats
+    from mekoros.stats import account_creation_stats
 
     html = account_creation_stats()
     html += "\n\nTotal Accounts: {}".format(User.objects.count())
@@ -914,7 +914,7 @@ def sheet_spam_dashboard(request):
 
         earliest_new_user_id = User.objects.filter(date_joined__gte=date).order_by('date_joined')[0].id
 
-        regex = r'.*(?!href=[\'"](\/|http(s)?:\/\/(www\.)?sefaria).+[\'"])(href).*'
+        regex = r'.*(?!href=[\'"](\/|http(s)?:\/\/(www\.)?mekoros).+[\'"])(href).*'
         sheets = db.sheets.find({"sources.ref": {"$exists": False}, "dateCreated": {"$gt": date.strftime("%Y-%m-%dT%H:%M:%S.%f")}, "owner": {"$gt": earliest_new_user_id}, "includedRefs": {"$size": 0}, "reviewed": {"$ne": True}, "$or": [{"sources.outsideText": {"$regex": regex}}, {"sources.comment": {"$regex": regex}}, {"sources.outsideBiText.en": {"$regex": regex}}, {"sources.outsideBiText.he": {"$regex": regex}}]})
 
         sheets_list = []
@@ -947,7 +947,7 @@ def profile_spam_dashboard(request):
 
         earliest_new_user_id = User.objects.filter(date_joined__gte=date).order_by('date_joined')[0].id
 
-        regex = r'.*(?!href=[\'"](\/|http(s)?:\/\/(www\.)?sefaria).+[\'"])(href).*'
+        regex = r'.*(?!href=[\'"](\/|http(s)?:\/\/(www\.)?mekoros).+[\'"])(href).*'
 
         spam_keywords_regex = r'(?i).*support.*|.*coin.*|.*helpline.*|.*base.*'
 
@@ -985,9 +985,9 @@ def profile_spam_dashboard(request):
 @staff_member_required
 def delete_user_by_email(request):
     from django.contrib.auth.models import User
-    from sefaria.utils.user import delete_user_account
+    from mekoros.utils.user import delete_user_account
     if request.method == 'GET':
-        form = SefariaDeleteUserForm()
+        form = MekorosDeleteUserForm()
         return render_template(request, "registration/delete_user_account.html", None, {'form': form, 'next': next})
     elif request.method == 'POST':
         user = User.objects.get(id=request.user.id)
@@ -1013,9 +1013,9 @@ def delete_user_by_email(request):
 def delete_sheet_by_id(request):
 
     from django.contrib.auth.models import User
-    from sefaria.utils.user import delete_user_account
+    from mekoros.utils.user import delete_user_account
     if request.method == 'GET':
-        form = SefariaDeleteSheet()
+        form = MekorosDeleteSheet()
         return render_template(request, "delete-sheet.html", None, {'form': form, 'next': next})
     elif request.method == 'POST':
         user = User.objects.get(id=request.user.id)
@@ -1028,7 +1028,7 @@ def delete_sheet_by_id(request):
             return jsonResponse({"failure": "incorrect password"})
         try:
 
-            import sefaria.search as search
+            import mekoros.search as search
             id = int(sheet_id)
             sheet = db.sheets.find_one({"id": id})
             if not sheet:
@@ -1158,7 +1158,7 @@ def index_sheets_by_timestamp(request):
         return jsonResponse({"error": "Unrecognized API key."})
     user = User.objects.get(id=apikey["uid"])
     if not user.is_staff:
-        return jsonResponse({"error": "Only Sefaria Moderators can add or edit terms."})
+        return jsonResponse({"error": "Only Mekoros Moderators can add or edit terms."})
 
     timestamp = request.POST.get('timestamp')
     try:
@@ -1247,7 +1247,7 @@ def bulk_download_versions_api(request):
 
 
 def _get_text_version_file(format, title, lang, versionTitle):
-    from sefaria.export import text_is_copyright, make_json, make_text, prepare_merged_text_for_export, prepare_text_for_export, export_merged_csv, export_version_csv
+    from mekoros.export import text_is_copyright, make_json, make_text, prepare_merged_text_for_export, prepare_text_for_export, export_merged_csv, export_version_csv
 
     assert lang in ["en", "he"]
     assert format in ["json", "csv", "txt", "plain.txt"]
@@ -1298,7 +1298,7 @@ def text_upload_api(request):
     if request.method != "POST":
         return jsonResponse({"error": "Unsupported Method: {}".format(request.method)})
 
-    from sefaria.export import import_versions_from_stream
+    from mekoros.export import import_versions_from_stream
     message = ""
     files = request.FILES.getlist("texts[]")
     for f in files:
@@ -1314,25 +1314,25 @@ def text_upload_api(request):
 
 @staff_member_required
 def update_authors_from_sheet(request):
-    from sefaria.helper.descriptions import update_authors_data
+    from mekoros.helper.descriptions import update_authors_data
     res_text = update_authors_data()
     return HttpResponse("\n".join(res_text), content_type="text/plain")
 
 @staff_member_required
 def update_categories_from_sheet(request):
-    from sefaria.helper.descriptions import update_categories_data
+    from mekoros.helper.descriptions import update_categories_data
     res_text = update_categories_data()
     return HttpResponse("\n".join(res_text), content_type="text/plain")
 
 @staff_member_required
 def update_texts_from_sheet(request):
-    from sefaria.helper.descriptions import update_texts_data
+    from mekoros.helper.descriptions import update_texts_data
     res_text = update_texts_data()
     return HttpResponse("\n".join(res_text), content_type="text/plain")
 
 @staff_member_required
 def modtools_upload_workflowy(request):
-    from sefaria.helper.text import WorkflowyParser
+    from mekoros.helper.text import WorkflowyParser
     if request.method != "POST":
         return jsonResponse({"error": "Unsupported Method: {}".format(request.method)})
 

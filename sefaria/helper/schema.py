@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from sefaria.model import *
-from sefaria.model.abstract import AbstractMongoRecord
-from sefaria.system.exceptions import InputError
-from sefaria.system.database import db
-from sefaria.sheets import save_sheet
-from sefaria.utils.util import list_depth, traverse_dict_tree
+from mekoros.model import *
+from mekoros.model.abstract import AbstractMongoRecord
+from mekoros.system.exceptions import InputError
+from mekoros.system.database import db
+from mekoros.sheets import save_sheet
+from mekoros.utils.util import list_depth, traverse_dict_tree
 
 import re
 
@@ -181,7 +181,7 @@ def merge_default_into_parent(parent_node):
 
 # todo: Can we share code with this method and the next?
 def convert_jagged_array_to_schema_with_default(ja_node):
-    from sefaria.model.schema import TitleGroup
+    from mekoros.model.schema import TitleGroup
 
     assert isinstance(ja_node, JaggedArrayNode)
     assert len(ja_node.children) == 0
@@ -227,7 +227,7 @@ def convert_simple_index_to_complex(index):
     :param index:
     :return:
     """
-    from sefaria.model.schema import TitleGroup
+    from mekoros.model.schema import TitleGroup
 
     assert isinstance(index, Index)
 
@@ -909,7 +909,7 @@ def migrate_versions_of_text(versions, mappings, orig_title, new_title, base_ind
                     "title": new_version_title
                 }
             )
-        for attr in ['status', 'license', 'method', 'versionNotes', 'priority', "digitizedBySefaria", "heversionSource"]:
+        for attr in ['status', 'license', 'method', 'versionNotes', 'priority', "digitizedByMekoros", "heversionSource"]:
             value = getattr(version, attr, None)
             if value:
                 setattr(new_version, attr, value)

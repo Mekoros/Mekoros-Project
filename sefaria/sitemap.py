@@ -6,8 +6,8 @@ Outputs sitemaps and sitemapindex to the first entry of STATICFILES_DIRS by defa
 import os, errno
 from datetime import datetime
 
-from sefaria.model import *
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.system.database import db
 from .settings import STATICFILES_DIRS, STATIC_URL
 
 
@@ -19,11 +19,11 @@ def chunks(l, n):
         yield l[i:i + n]
 
 
-class SefariaSiteMapGenerator(object):
+class MekorosSiteMapGenerator(object):
 
     hostnames = {
-        'org': {'interfaceLang': 'en', 'hostname':'https://www.sefaria.org'},
-        'org.il': {'interfaceLang': 'he', 'hostname':'https://www.sefaria.org.il'},
+        'org': {'interfaceLang': 'en', 'hostname':'https://www.mekoros.com'},
+        'org.il': {'interfaceLang': 'he', 'hostname':'https://www.mekoros.com'},
     }
     static_urls = [
         "",
@@ -58,9 +58,9 @@ class SefariaSiteMapGenerator(object):
     sitemaps = []
 
     def __init__(self, hostSuffix='org', output_directory=STATICFILES_DIRS[0]):
-        if hostSuffix in SefariaSiteMapGenerator.hostnames:
-            self._interfaceLang = SefariaSiteMapGenerator.hostnames.get(hostSuffix).get("interfaceLang")
-            self._hostname = SefariaSiteMapGenerator.hostnames.get(hostSuffix).get("hostname")
+        if hostSuffix in MekorosSiteMapGenerator.hostnames:
+            self._interfaceLang = MekorosSiteMapGenerator.hostnames.get(hostSuffix).get("interfaceLang")
+            self._hostname = MekorosSiteMapGenerator.hostnames.get(hostSuffix).get("hostname")
             self.output_directory = output_directory
             path = self.output_directory + "sitemaps/" + self._interfaceLang
             if not os.path.exists(path):

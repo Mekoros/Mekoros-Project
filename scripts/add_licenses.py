@@ -1,6 +1,6 @@
 from urllib.parse import urlparse
 
-from sefaria.system.database import db
+from mekoros.system.database import db
 
 links = db.texts.distinct("versionSource")
 not_sites = set()

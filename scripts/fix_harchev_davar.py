@@ -1,6 +1,6 @@
 # encoding=utf-8
 
-from sefaria.model import *
+from mekoros.model import *
 
 
 def clean_segment_layer(index_title):

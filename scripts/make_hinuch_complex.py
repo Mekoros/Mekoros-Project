@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from sefaria.helper.text import *
-from sefaria.helper.schema import insert_first_child, convert_simple_index_to_complex
+from mekoros.helper.text import *
+from mekoros.helper.schema import insert_first_child, convert_simple_index_to_complex
 
 i = library.get_index("Sefer HaChinuch")
 convert_simple_index_to_complex(i)

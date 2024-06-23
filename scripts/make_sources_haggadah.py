@@ -2,9 +2,9 @@
 """
 Creates Haggadah source sheets with all earlier texts.
 """
-from sefaria.model import *
-from sefaria.sheets import db, make_sheet_from_text
-from sefaria.profiling import prof
+from mekoros.model import *
+from mekoros.sheets import db, make_sheet_from_text
+from mekoros.profiling import prof
 
 
 categories = [

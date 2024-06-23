@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import Component from 'react-class';
 import extend from 'extend';
 import classNames from 'classnames';
-import $ from './sefaria/sefariaJquery';
-import Sefaria from './sefaria/sefaria';
-import { SearchTotal } from "./sefaria/searchTotal";
+import $ from './mekoros/mekorosJquery';
+import Mekoros from './mekoros/mekoros';
+import { SearchTotal } from "./mekoros/searchTotal";
 import SearchTextResult from './SearchTextResult';
 import SearchSheetResult from './SearchSheetResult';
 import SearchFilters from './SearchFilters';
-import SearchState from './sefaria/searchState';
-import Strings from "./sefaria/strings.js"
+import SearchState from './mekoros/searchState';
+import Strings from "./mekoros/strings.js"
 import {
   DropdownModal,
   DropdownButton,
@@ -58,7 +58,7 @@ const SearchTopic = (props) => {
     const sourcesSheetsDiv = <SourcesSheetsDiv url={props.topic.url} numSheets={props.topic.numSheets} numSources={props.topic.numSources}/>;
     const topicTitle = <div className="topicTitle">
                           <h1>
-                          <a href={props.topic.url} onClick={() => Sefaria.track.event("Search", "topic in search click", props.topic.analyticCat+"|"+props.topic.title)}><InterfaceText text={{en:props.topic.title, he:props.topic.heTitle}}/></a>
+                          <a href={props.topic.url} onClick={() => Mekoros.track.event("Search", "topic in search click", props.topic.analyticCat+"|"+props.topic.title)}><InterfaceText text={{en:props.topic.title, he:props.topic.heTitle}}/></a>
                           </h1>
                         </div>;
     const topicCategory = <div className="topicCategory sectionTitleText">
@@ -95,7 +95,7 @@ class SearchResultList extends Component {
       // Load search results from cache so they are available for immediate render
       this.types.map(t => {
         const args = this._getQueryArgs(props, t);
-        let cachedQuery = Sefaria.search.getCachedQuery(args);
+        let cachedQuery = Mekoros.search.getCachedQuery(args);
         while (cachedQuery) {
           // Load all pages of results that are available in cache, so if page X was
           // previously loaded it will be returned.
@@ -109,7 +109,7 @@ class SearchResultList extends Component {
             // Since texts only have one filter type, aggregations are only requested once on first page
             args.aggregationsToUpdate = [];
           }
-          cachedQuery = Sefaria.search.getCachedQuery(args);
+          cachedQuery = Mekoros.search.getCachedQuery(args);
         }
       });
       this.updateTotalResults();
@@ -145,14 +145,14 @@ class SearchResultList extends Component {
       }
     }
     async addRefTopic(topic) {
-        const book = await Sefaria.getIndexDetails(topic.key);
+        const book = await Mekoros.getIndexDetails(topic.key);
         return {
             enDesc: book.enDesc || book.enShortDesc,
             heDesc: book.heDesc || book.heShortDesc,
             title: book.title,
             heTitle: book.heTitle,
             topicCat: book.categories[0],
-            heTopicCat: Sefaria.toc.filter(cat => cat.category === book.categories[0])[0].heCategory,
+            heTopicCat: Mekoros.toc.filter(cat => cat.category === book.categories[0])[0].heCategory,
             url: "/" + book.title,
             analyticCat: "Book"
         }
@@ -160,13 +160,13 @@ class SearchResultList extends Component {
     addTOCCategoryTopic(topic) {
         const topicKeyArr = topic.key.slice();
         const lastCat = topicKeyArr.pop(topicKeyArr - 1); //go up one level in order to get the bottom level's description
-        const relevantCats = topicKeyArr.length === 0 ? Sefaria.toc : Sefaria.tocItemsByCategories(topicKeyArr);
+        const relevantCats = topicKeyArr.length === 0 ? Mekoros.toc : Mekoros.tocItemsByCategories(topicKeyArr);
         const relevantSubCat = relevantCats.filter(cat => "category" in cat && cat.category === lastCat)[0];
         return {
             analyticCat: "Category",
             url: "/texts/" + topic.key.join("/"),
             topicCat: "Texts",
-            heTopicCat: Sefaria.hebrewTerm("Texts"),
+            heTopicCat: Mekoros.hebrewTerm("Texts"),
             enDesc: relevantSubCat.enDesc,
             heDesc: relevantSubCat.heDesc,
             title: relevantSubCat.category,
@@ -174,7 +174,7 @@ class SearchResultList extends Component {
         }
     }
     async addGeneralTopic(topic) {
-        const d = await Sefaria.getTopic(topic.key, {annotated: false});
+        const d = await Mekoros.getTopic(topic.key, {annotated: false});
         let searchTopic = {
             analyticCat: "Topic",
             title: d.primaryTitle["en"],
@@ -183,10 +183,10 @@ class SearchResultList extends Component {
             numSheets: 0,
             url: "/topics/" + topic.key
         }
-        const typeObj = Sefaria.topicTocCategory(topic.key);
+        const typeObj = Mekoros.topicTocCategory(topic.key);
         if (!typeObj) {
             searchTopic.topicCat = "Topics";
-            searchTopic.heTopicCat = Sefaria.hebrewTranslation("Topics");
+            searchTopic.heTopicCat = Mekoros.hebrewTranslation("Topics");
         } else {
             searchTopic.topicCat = typeObj["en"];
             searchTopic.heTopicCat = typeObj["he"];
@@ -204,21 +204,21 @@ class SearchResultList extends Component {
         return searchTopic;
     }
     async addCollection(collection) {
-        const d = await Sefaria.getCollection(collection.key);
+        const d = await Mekoros.getCollection(collection.key);
         return {
             analyticCat: "Collection",
             title: d.name,
             heTitle: d.name,
             url: "/collections/" + collection.key,
             topicCat: "Collections",
-            heTopicCat: Sefaria.hebrewTranslation("Collections"),
+            heTopicCat: Mekoros.hebrewTranslation("Collections"),
             enDesc: d.description,
             heDesc: d.description,
             numSheets: d.sheets.length
         }
     }
     async _executeTopicQuery() {
-        const d = await Sefaria.getName(this.props.query)
+        const d = await Mekoros.getName(this.props.query)
         let topics = d.completion_objects.filter(obj => obj.title.toUpperCase() === this.props.query.toUpperCase());
         const hasAuthor = topics.some(obj => obj.type === "AuthorTopic");
         if (hasAuthor) {
@@ -296,9 +296,9 @@ class SearchResultList extends Component {
       // If there is only on possible filter (i.e. path for text) and filters are valid, no need to request again for any filter interactions
       if (filtersValid && aggregation_field_array.length === 1) { return []; }
 
-      return Sefaria.util
+      return Mekoros.util
         .zip(aggregation_field_array, aggregation_field_lang_suffix_array)
-        .map(([agg, suffix_map]) => `${agg}${suffix_map ? suffix_map[Sefaria.interfaceLang] : ''}`); // add suffix based on interfaceLang to filter, if present in suffix_map
+        .map(([agg, suffix_map]) => `${agg}${suffix_map ? suffix_map[Mekoros.interfaceLang] : ''}`); // add suffix based on interfaceLang to filter, if present in suffix_map
     }
     _executeQuery(props, type) {
       //This takes a props object, so as to be able to handle being called from componentWillReceiveProps with newProps
@@ -335,7 +335,7 @@ class SearchResultList extends Component {
                 });
                 const filter_label = (request_applied && request_applied.length > 0) ? (' - ' + request_applied.join('|')) : '';
                 const query_label = props.query + filter_label;
-                Sefaria.track.event("Search", `${this.props.searchInBook? "SidebarSearch ": ""}Query: ${type}`, query_label, data.hits.total.getValue());
+                Mekoros.track.event("Search", `${this.props.searchInBook? "SidebarSearch ": ""}Query: ${type}`, query_label, data.hits.total.getValue());
               }
 
               if (data.aggregations) {
@@ -349,7 +349,7 @@ class SearchResultList extends Component {
                       availableFilters: tempAvailable,
                       registry: tempRegistry,
                       orphans: tempOrphans
-                    } = Sefaria.search[build_and_apply_filters](buckets, appliedFilters, appliedFilterAggTypes, aggregation);
+                    } = Mekoros.search[build_and_apply_filters](buckets, appliedFilters, appliedFilterAggTypes, aggregation);
                     availableFilters.push(...tempAvailable);  // array concat
                     registry = extend(registry, tempRegistry);
                     orphans.push(...tempOrphans);
@@ -360,7 +360,7 @@ class SearchResultList extends Component {
             };
       args.error = this._handleError;
 
-      const runningQuery = Sefaria.search.execute_query(args);
+      const runningQuery = Mekoros.search.execute_query(args);
       this.updateRunningQuery(type, runningQuery);
     }
     _getQueryArgs(props, type) {
@@ -402,7 +402,7 @@ class SearchResultList extends Component {
           this.updateRunningQuery(type, null);
         };
 
-      const runningNextPageQuery = Sefaria.search.execute_query(args);
+      const runningNextPageQuery = Mekoros.search.execute_query(args);
       this.updateRunningQuery(type, runningNextPageQuery, false);
     }
     _handleError(jqXHR, textStatus, errorThrown) {
@@ -430,7 +430,7 @@ class SearchResultList extends Component {
         let results       = [];
 
         if (tab == "text") {
-          results = Sefaria.search.mergeTextResultsVersions(this.state.hits.text);
+          results = Mekoros.search.mergeTextResultsVersions(this.state.hits.text);
           results = results.filter(result => !!result._source.version).map(result =>
             <SearchTextResult
               data={result}
@@ -441,7 +441,7 @@ class SearchResultList extends Component {
           );
           if (this.state.topics.length > 0) {
               let topics = this.state.topics.map(t => {
-                  Sefaria.track.event("Search", "topic in search display", t.analyticCat+"|"+t.title);
+                  Mekoros.track.event("Search", "topic in search display", t.analyticCat+"|"+t.title);
                   return <SearchTopic topic={t}/>
               });
               if (results.length > 0) {
@@ -482,7 +482,7 @@ class SearchResultList extends Component {
                 sheetTotal={this.state.totals["sheet"]}
                 currentTab={tab} /> : null
               }
-              {Sefaria.multiPanel && !this.props.compare ?
+              {Mekoros.multiPanel && !this.props.compare ?
               <SearchSortBox
                 type={tab}
                 updateAppliedOptionSort={this.props.updateAppliedOptionSort}

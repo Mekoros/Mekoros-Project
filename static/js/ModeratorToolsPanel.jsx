@@ -1,7 +1,7 @@
 import React  from 'react';
 import PropTypes  from 'prop-types';
-import Sefaria  from './sefaria/sefaria';
-import $  from './sefaria/sefariaJquery';
+import Mekoros  from './mekoros/mekoros';
+import $  from './mekoros/mekorosJquery';
 import Component from 'react-class';
 import Cookies from 'js-cookie';
 import { saveAs } from 'file-saver';
@@ -158,7 +158,7 @@ class ModeratorToolsPanel extends Component {
       <div className="modToolsSection">
           <GetLinks/>
       </div>);
-    return (Sefaria.is_moderator)?
+    return (Mekoros.is_moderator)?
         <div className="modTools"> {downloadSection}{uploadForm}{wflowyUpl}{uploadLinksFromCSV}{getLinks} </div> :
         <div className="modTools"> Tools are only available to logged in moderators.</div>;
   }
@@ -465,7 +465,7 @@ function GetLinks() {
       }
       else {
           try {
-              const response = await Sefaria.getName(value);
+              const response = await Mekoros.getName(value);
               setErrors(prev => ({...prev, [name]: !response.is_ref}));
           } catch (error) {
               console.error(error);
@@ -479,7 +479,7 @@ function GetLinks() {
     const name = event.target.name;
     if (refs[name]) {
       try {
-        const response = await Sefaria.getName(refs[name]);
+        const response = await Mekoros.getName(refs[name]);
         setErrors(prev => ({ ...prev, [name]: !response.is_ref }));
       } catch (error) {
         console.error(error);

@@ -1,13 +1,13 @@
 ---
 apiVersion: v2
-name: sefaria
+name: mekoros
 # Dummy value, will be populated by release action automtically
 version: 0.0.0
-description: Chart to deploy complete Sefaria environment
-icon: https://raw.githubusercontent.com/Sefaria/Sefaria-Project/e757b59968adbc0d6845eaa1b420f934ad864d32/static/img/logo/icon.svg
-home: https://sefaria.org
+description: Chart to deploy complete Mekoros environment
+icon: https://raw.githubusercontent.com/Mekoros/Mekoros-Project/e757b59968adbc0d6845eaa1b420f934ad864d32/static/img/logo/icon.svg
+home: https://mekoros.com
 maintainers:
-  - name: Sefaria
+  - name: Mekoros
 sources:
-  - https://github.com/Sefaria/Sefaria-Project
+  - https://github.com/Mekoros/Mekoros-Project
 ...

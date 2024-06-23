@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Component from 'react-class';
-import $ from './sefaria/sefariaJquery';
-import Sefaria from './sefaria/sefaria';
+import $ from './mekoros/mekorosJquery';
+import Mekoros from './mekoros/mekoros';
 import PropTypes from 'prop-types';
 import classNames  from 'classnames';
 import { NavSidebar, Modules } from './NavSidebar';
@@ -17,26 +17,26 @@ import {
 
 const CommunityPage = ({multiPanel, toggleSignUpModal, initialWidth}) => {
 
-  const [dataLoaded, setDataLoaded] = useState(!!Sefaria.community);
+  const [dataLoaded, setDataLoaded] = useState(!!Mekoros.community);
 
   const sidebarModules = [
     {type: "JoinTheConversation"},
     {type: dataLoaded ? "WhoToFollow" : null, props: {toggleSignUpModal}},
     {type: "Promo"},
     {type: "ExploreCollections"},
-    {type: "SupportSefaria", props: {blue: true}},
+    {type: "SupportMekoros", props: {blue: true}},
     {type: "StayConnected"},
   ];
 
   useEffect(() => {
     if (!dataLoaded) {
-      Sefaria.getBackgroundData().then(() => { setDataLoaded(true); });
+      Mekoros.getBackgroundData().then(() => { setDataLoaded(true); });
     }
   }, []);
 
   let featuredContent;
   if (dataLoaded) {
-    const {parashah, calendar, discover, featured} = Sefaria.community;
+    const {parashah, calendar, discover, featured} = Mekoros.community;
     const sheets = [parashah, calendar, discover, featured].filter(x => !!x)
       .map(x => x.sheet ? <FeaturedSheet sheet={x.sheet} key={x.sheet.id} toggleSignUpModal={toggleSignUpModal} trackClicks={true}/> : null);
     featuredContent = (
@@ -55,7 +55,7 @@ const CommunityPage = ({multiPanel, toggleSignUpModal, initialWidth}) => {
         <div className="sidebarLayout">
           <div className="contentInner mainColumn">
             
-            <h1><InterfaceText>Today on Sefaria</InterfaceText></h1>
+            <h1><InterfaceText>Today on Mekoros</InterfaceText></h1>
 
             {featuredContent}
             
@@ -75,12 +75,12 @@ CommunityPage.propTypes = {
 
 
 const RecentlyPublished = ({multiPanel, toggleSignUpModal}) => {
-  const options = Sefaria.interfaceLang === "hebrew" ? {"lang": "hebrew"} : {};
+  const options = Mekoros.interfaceLang === "hebrew" ? {"lang": "hebrew"} : {};
   options["filtered"] = 1;
   const pageSize = 18;
   const [nSheetsLoaded, setNSheetsLoded] = useState(0); // counting sheets loaded from the API, may be different than sheets displayed
   // Start with recent sheets in the cache, if any
-  const [recentSheets, setRecentSheets] = useState(collapseSheets(Sefaria.sheets.publicSheets(0, pageSize, options)));
+  const [recentSheets, setRecentSheets] = useState(collapseSheets(Mekoros.sheets.publicSheets(0, pageSize, options)));
 
   // But also make an API call immeditately to check for updates
   useEffect(() => {
@@ -88,7 +88,7 @@ const RecentlyPublished = ({multiPanel, toggleSignUpModal}) => {
   }, []);
 
   const loadMore = (e, until=pageSize) => {
-    Sefaria.sheets.publicSheets(nSheetsLoaded, pageSize, options, true, (data) => {
+    Mekoros.sheets.publicSheets(nSheetsLoaded, pageSize, options, true, (data) => {
       const collapsedSheets = collapseSheets(data);
       const newSheets = recentSheets ? recentSheets.concat(collapsedSheets) : collapsedSheets;
       setRecentSheets(newSheets);
@@ -152,16 +152,16 @@ const FeaturedSheet = ({sheet, showDate, trackClicks, toggleSignUpModal}) => {
     image: sheet.ownerImageUrl,
     name: sheet.ownerName,
     organization: sheet.ownerOrganization,
-    is_followed: Sefaria._uid ? Sefaria.following.indexOf(uid) !== -1 : false,
+    is_followed: Mekoros._uid ? Mekoros.following.indexOf(uid) !== -1 : false,
     toggleSignUpModal: toggleSignUpModal,
   };
 
   const now = new Date();
   const published = new Date(sheet.published);
-  const naturalPublished = Sefaria.util.naturalTime(published.getTime()/1000, {short:true});
+  const naturalPublished = Mekoros.util.naturalTime(published.getTime()/1000, {short:true});
 
   const trackClick = () => {
-    Sefaria.track.event("Community Page Featured Click", title, `/sheets/${id}`);
+    Mekoros.track.event("Community Page Featured Click", title, `/sheets/${id}`);
   };
 
   return (
@@ -214,7 +214,7 @@ const FeaturedSheet = ({sheet, showDate, trackClicks, toggleSignUpModal}) => {
             <HomepageRow 
               biTitles={{
                 en: "Discover " + discover.about.category.en,
-                he: Sefaria._("Discover ") + discover.about.category.he
+                he: Mekoros._("Discover ") + discover.about.category.he
               }}
               aboutContent={discover.about}
               sheet={discover.sheet}
@@ -262,7 +262,7 @@ const AboutParashah = ({content}) => {
     en: primaryTitle.en.replace("Parashat ", ""),
     he: primaryTitle.he.replace("פרשת ", ""),
   }
-  const style = {"borderColor": Sefaria.palette.categoryColor("Tanakh")};
+  const style = {"borderColor": Mekoros.palette.categoryColor("Tanakh")};
   return (
     <div className="navBlock withColorLine" style={style}>
       <a href={`/topics/${slug}`} className="navBlockTitle serif">
@@ -324,8 +324,8 @@ const AboutCalendar = ({content}) => {
 const AboutDiscover = ({content}) => {
   if (!content) { return null; }
   const {title, description, ref} = content;
-  const cat   = Sefaria.refCategories(ref.url)[0]; 
-  const style = {"borderColor": Sefaria.palette.categoryColor(cat)};
+  const cat   = Mekoros.refCategories(ref.url)[0]; 
+  const style = {"borderColor": Mekoros.palette.categoryColor(cat)};
 
   return (
     <div className="navBlock withColorLine" style={style}>

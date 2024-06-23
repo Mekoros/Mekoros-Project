@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% load sefaria_tags %}
+{% load mekoros_tags %}
 {% load i18n static %}
 
-{% block title %}{% trans "Edit Your Profile on Sefaria" %}{% endblock %}
+{% block title %}{% trans "Edit Your Profile on Mekoros" %}{% endblock %}
 
 {% block content %}
 <div id="editProfilePage" class="static biReady">
@@ -144,8 +144,8 @@
             </div>
             <div class="field control-elem">
                 <label>
-                    <span class="int-en">Profile URL <span class="sub">www.sefaria.org/profile/{{ profile.slug }}</span></span>
-                    <span class="int-he">כתובת לחשבון משתמש<span class="sub">www.sefaria.org/profile/{{ profile.slug }}</span></span>
+                    <span class="int-en">Profile URL <span class="sub">www.mekoros.com/profile/{{ profile.slug }}</span></span>
+                    <span class="int-he">כתובת לחשבון משתמש<span class="sub">www.mekoros.com/profile/{{ profile.slug }}</span></span>
                 </label>
                 <input id="slug"  value="{{ profile.slug }}">
             </div>
@@ -280,8 +280,8 @@
 					if ("error" in data) {
 						alert(data.error);
 					} else {
-						if (Sefaria) {
-							Sefaria.track.event("Settings", "Profile Edit", "");
+						if (Mekoros) {
+							Mekoros.track.event("Settings", "Profile Edit", "");
 						}
 						window.location = "/my/profile";
 					}

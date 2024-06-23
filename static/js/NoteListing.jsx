@@ -1,6 +1,6 @@
 import React  from 'react';
-import $  from './sefaria/sefariaJquery';
-import Sefaria  from './sefaria/sefaria';
+import $  from './mekoros/mekorosJquery';
+import Mekoros  from './mekoros/mekoros';
 import TextRange  from './TextRange';
 import { AddToSourceSheetWindow } from './AddToSourceSheet';
 import { Note } from './Misc';
@@ -29,13 +29,13 @@ class NoteListing extends Component {
     $(".addToSourceSheetModal").position({my: "center center-40", at: "center center", of: window});
   }
   deleteNote() {
-    if (!confirm(Sefaria._("Are you sure you want to delete this note?"))) { return; }
+    if (!confirm(Mekoros._("Are you sure you want to delete this note?"))) { return; }
     const resolve = this.props.onDeleteNote || (()=>{});
-    Sefaria.deleteNote(this.props.data._id).then(resolve);
+    Mekoros.deleteNote(this.props.data._id).then(resolve);
   }
   render() {
     var data = this.props.data;
-    var url  = "/" + Sefaria.normRef(data.ref) + "?with=Notes";
+    var url  = "/" + Mekoros.normRef(data.ref) + "?with=Notes";
 
     return (<div className="noteListing">
               <div className="actionButtons">

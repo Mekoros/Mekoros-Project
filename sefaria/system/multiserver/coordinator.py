@@ -3,7 +3,7 @@ import uuid
 
 from django.core.exceptions import MiddlewareNotUsed
 
-from sefaria.settings import MULTISERVER_ENABLED, MULTISERVER_REDIS_EVENT_CHANNEL, MULTISERVER_REDIS_CONFIRM_CHANNEL
+from mekoros.settings import MULTISERVER_ENABLED, MULTISERVER_REDIS_EVENT_CHANNEL, MULTISERVER_REDIS_CONFIRM_CHANNEL
 
 from .messaging import MessagingNode
 
@@ -103,10 +103,10 @@ class ServerCoordinator(MessagingNode):
 
 
         # A list of all of the objects that be referenced
-        from sefaria.model import library
-        import sefaria.system.cache as scache
-        import sefaria.model.text as text
-        from sefaria.system.cache import in_memory_cache
+        from mekoros.model import library
+        import mekoros.system.cache as scache
+        import mekoros.model.text as text
+        from mekoros.system.cache import in_memory_cache
 
         import socket
         import os

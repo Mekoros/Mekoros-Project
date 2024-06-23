@@ -6,9 +6,9 @@ Uses MongoDB collections: apikeys, sheets, notes, profiles, notifications
 from django.contrib.auth.models import User
 import structlog
 
-import sefaria.model as model
-from sefaria.system.database import db
-from sefaria.helper.crm.crm_mediator import CrmMediator
+import mekoros.model as model
+from mekoros.system.database import db
+from mekoros.helper.crm.crm_mediator import CrmMediator
 
 logger = structlog.get_logger(__name__)
 

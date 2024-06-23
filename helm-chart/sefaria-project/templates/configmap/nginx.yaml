@@ -4,7 +4,7 @@ metadata:
   name: nginx-conf-{{ .Values.deployEnv }}
   labels:
     deployEnv: "{{ .Values.deployEnv }}"
-    {{- include "sefaria.labels" . | nindent 4 }}
+    {{- include "mekoros.labels" . | nindent 4 }}
 data:
   {{- if .Values.instrumentation.enabled }}
   opentracing.json: |-
@@ -81,7 +81,7 @@ data:
       server {
         listen 80;
         listen [::]:80;
-        server_name sefaria.org sefaria.org.il;
+        server_name mekoros.com mekoros.com;
         return 301 https://www.$host$request_uri;
       }
 
@@ -137,14 +137,14 @@ data:
           access_log off;
           autoindex on;
           default_type application/json;
-          return 200 '{"applinks": {"apps": [], "details": [{"appID": "2626EW4BML.org.sefaria.sefariaApp", "paths": ["*"]}]}}';
+          return 200 '{"applinks": {"apps": [], "details": [{"appID": "2626EW4BML.org.mekoros.mekorosApp", "paths": ["*"]}]}}';
         }
 
         location /.well-known/apple-app-site-association {
           access_log off;
           autoindex on;
           default_type application/json;
-          return 200 '{"applinks": {"apps": [], "details": [{"appID": "2626EW4BML.org.sefaria.sefariaApp", "paths": ["*"]}]}}';
+          return 200 '{"applinks": {"apps": [], "details": [{"appID": "2626EW4BML.org.mekoros.mekorosApp", "paths": ["*"]}]}}';
         }
 
         location / {
@@ -178,7 +178,7 @@ data:
 
         location /static/sitemaps/ {
           access_log off;
-          proxy_pass https://storage.googleapis.com/sefaria-sitemaps$request_uri;
+          proxy_pass https://storage.googleapis.com/mekoros-sitemaps$request_uri;
         }
 
         {{- if .Values.linker.enabled }}

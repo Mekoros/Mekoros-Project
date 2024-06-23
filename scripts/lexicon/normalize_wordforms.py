@@ -4,7 +4,7 @@ import unicodedata
 import django
 django.setup()
 
-from sefaria.model import *
+from mekoros.model import *
 
 
 print("Normalizing Word Forms")

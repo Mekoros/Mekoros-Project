@@ -1,10 +1,10 @@
 # coding=utf-8
 import regex as re
-from sefaria.system.exceptions import InputError
+from mekoros.system.exceptions import InputError
 
 from . import abstract as abst
 from . import text
-from sefaria.model.text import Ref
+from mekoros.model.text import Ref
 
 import structlog
 logger = structlog.get_logger(__name__)

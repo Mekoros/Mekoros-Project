@@ -5,7 +5,7 @@ import re
 import unicodecsv as csv
 from fuzzywuzzy import process, fuzz
 from fuzzywuzzy import utils as fuzzyutils
-from sefaria.model import *
+from mekoros.model import *
 
 
 with open("data/tmp/laaz-rashi-adjust.csv", 'wb+') as outfile:

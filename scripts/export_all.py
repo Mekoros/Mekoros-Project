@@ -5,7 +5,7 @@ import sys
 import os
 import csv
 
-import sefaria.export as export
+import mekoros.export as export
 
 export.export_all()
 

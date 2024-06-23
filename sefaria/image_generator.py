@@ -126,7 +126,7 @@ def generate_image(text="", category="System", ref_str="", lang="he", platform="
     draw.line((0, height-1, width, height-1), fill="#666666", width=1)
 
 
-    #add sefaria logo
+    #add mekoros logo
     logo = Image.open(logo_url)
     logo.thumbnail((width, int(height*.06)))
     logo_padded = Image.new('RGBA', (width, height))

@@ -9,8 +9,8 @@ args = parser.parse_args()
 
 
 
-from sefaria.model import *
-from sefaria.helper.schema import merge_default_into_parent
+from mekoros.model import *
+from mekoros.helper.schema import merge_default_into_parent
 
 ins = library.all_index_records()
 for i in ins:

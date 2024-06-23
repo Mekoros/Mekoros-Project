@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from sefaria.model import *
-from sefaria.tracker import add
+from mekoros.model import *
+from mekoros.tracker import add
 
 
 

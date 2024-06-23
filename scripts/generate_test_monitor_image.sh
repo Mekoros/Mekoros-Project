@@ -20,14 +20,14 @@ while getopts "b:i:" opt; do
   esac
 done
 
-SEFARIA_GITHUB="https://github.com/Sefaria/Sefaria-Project.git"
+SEFARIA_GITHUB="https://github.com/Mekoros/Mekoros-Project.git"
 if [ -z $BRANCH ]; then
     CLONE_CMD=$SEFARIA_GITHUB
 else
     CLONE_CMD="-b $BRANCH $SEFARIA_GITHUB"
 fi
 
-# dont copy sefaria-project. instead clone it. less bandwidth to upload to gcloud
+# dont copy mekoros-project. instead clone it. less bandwidth to upload to gcloud
 sed -e "s,COPY . /app/,RUN git clone $CLONE_CMD /app," Dockerfile-old > Dockerfile
 rm Dockerfile-old
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Component from 'react-class';
-import Sefaria from "./sefaria/sefaria";
+import Mekoros from "./mekoros/mekoros";
 import TextRange from "./TextRange";
 import {AiInfoTooltip} from './Misc';
 
@@ -47,7 +47,7 @@ const QuestionBox = ({ prompt, onClick }) => {
  */
 const SummaryBox = ({ prompt, onClick }) => {
   const title = (commentaryRef) => {
-    const index = Sefaria.parseRef(commentaryRef)?.index;
+    const index = Mekoros.parseRef(commentaryRef)?.index;
     return index ? index : commentaryRef; //todo: handle removal of "on Y" from "X on Y" when the base text is Y. 
   }
 
@@ -72,10 +72,10 @@ const SummaryBox = ({ prompt, onClick }) => {
 class GuideBox extends Component {
   constructor(props) {
     super(props);
-    const guides = Sefaria.guidesByRef(props.sref);
+    const guides = Mekoros.guidesByRef(props.sref);
     const guide = guides[0];
     this.state = {
-      guideLanguage: Sefaria.interfaceLang,
+      guideLanguage: Mekoros.interfaceLang,
       guide: guide,
       livePrompt: guide.questions,
       questionPosition: 0,
@@ -87,7 +87,7 @@ class GuideBox extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.sref !== prevProps.sref) {
-      const guides = Sefaria.guidesByRef(this.props.sref);
+      const guides = Mekoros.guidesByRef(this.props.sref);
       if (guides.length) {
         const guide = guides[0];
         this.setState({ guide: guide, livePrompt: guide.questions, questionPosition: 0, promptState: QUESTIONS });
@@ -130,7 +130,7 @@ class GuideBox extends Component {
   }
 
   onClickQuestion = (p, i) => {
-    const parsedRef = Sefaria.parseRef(this.props.sref);
+    const parsedRef = Mekoros.parseRef(this.props.sref);
     gtag("event", "guide_question_clicked", {
       panel_type: "sidebar",
       panel_number: 1.5,  // Theoretically, this could be 2.5, 3.5, etc.
@@ -153,7 +153,7 @@ class GuideBox extends Component {
 
 
   onClickSummary = (commentaryRef, i) => {
-    const parsedRef = Sefaria.parseRef(this.props.sref);
+    const parsedRef = Mekoros.parseRef(this.props.sref);
     gtag("event", "guide_answer_clicked", {
       panel_type: "sidebar",
       panel_number: 1.5,  // Theoretically, this could be 2.5, 3.5, etc.

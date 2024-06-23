@@ -3,9 +3,9 @@
 import django
 django.setup()
 import pytest
-from sefaria.system.exceptions import InputError
+from mekoros.system.exceptions import InputError
 
-import sefaria.model as m
+import mekoros.model as m
 
 #todo: simplify this file
 

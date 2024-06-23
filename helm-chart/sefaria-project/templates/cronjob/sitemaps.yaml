@@ -5,7 +5,7 @@ kind: CronJob
 metadata:
   name: {{ .Values.deployEnv }}-sitemaps
   labels:
-    {{- include "sefaria.labels" . | nindent 4 }}
+    {{- include "mekoros.labels" . | nindent 4 }}
 spec:
   schedule: "0 5 * * *"
   jobTemplate:
@@ -45,7 +45,7 @@ spec:
             volumeMounts:
               - name: shared-volume
                 mountPath: /storage
-              - mountPath: /app/sefaria/local_settings.py
+              - mountPath: /app/mekoros/local_settings.py
                 name: local-settings
                 subPath: local_settings.py
                 readOnly: true

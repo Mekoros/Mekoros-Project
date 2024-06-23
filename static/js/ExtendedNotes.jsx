@@ -5,12 +5,12 @@ import {
 import React  from 'react';
 import PropTypes  from 'prop-types';
 import Component   from 'react-class';
-import Sefaria from "./sefaria/sefaria";
+import Mekoros from "./mekoros/mekoros";
 
 class ExtendedNotes extends Component {
   constructor(props) {
     super(props);
-    this.state = {'notesLanguage': Sefaria.interfaceLang, 'extendedNotes': '', 'langToggle': false};
+    this.state = {'notesLanguage': Mekoros.interfaceLang, 'extendedNotes': '', 'langToggle': false};
   }
   getVersionData(versionList){
     const versionTitle = this.props.currVersions['en'] ? this.props.currVersions['en'] : this.props.currVersions['he'];
@@ -31,8 +31,8 @@ class ExtendedNotes extends Component {
     }
   }
   componentDidMount() {
-    // use Sefaria.getVersions(ref, cb), where cb will invoke setState
-    Sefaria.getVersions(this.props.title).then(versions => {
+    // use Mekoros.getVersions(ref, cb), where cb will invoke setState
+    Mekoros.getVersions(this.props.title).then(versions => {
       this.getVersionData(Object.values(versions).flat());
     });
   }
@@ -62,7 +62,7 @@ class ExtendedNotes extends Component {
     }
       return <div className="extendedNotes">
         {this.props.backFromExtendedNotes ?<a onClick={this.goBack} href={`${this.props.title}`}>
-          {Sefaria.interfaceLang==="hebrew" ? "חזור" : "Back"}
+          {Mekoros.interfaceLang==="hebrew" ? "חזור" : "Back"}
         </a> : ""}
         {this.state.extendedNotes
           ? <div className="extendedNotesText" dangerouslySetInnerHTML={ {__html: notes} }></div>

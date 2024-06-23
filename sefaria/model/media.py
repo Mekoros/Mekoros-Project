@@ -6,8 +6,8 @@ from collections import defaultdict
 
 from . import abstract as abst
 from . import text
-from sefaria.system.database import db
-from sefaria.model.text import Ref
+from mekoros.system.database import db
+from mekoros.model.text import Ref
 
 import structlog
 logger = structlog.get_logger(__name__)
@@ -41,7 +41,7 @@ class Media(abst.AbstractMongoRecord):
         t["source_he"]   = d["source_he"]
         t['start_time'] = ref['start_time']
         t['end_time'] = ref['end_time']
-        t['anchorRef'] = ref['sefaria_ref']
+        t['anchorRef'] = ref['mekoros_ref']
         t['license'] = d['license']
         t['source_site'] = d['source_site']
         t['description'] = d['description']
@@ -54,7 +54,7 @@ class MediaSet(abst.AbstractMongoSet):
 def get_media_for_ref(tref):
     oref = text.Ref(tref)
     regex_list = oref.regex(as_list=True)
-    ref_clauses = [{"ref.sefaria_ref": {"$regex": r}} for r in regex_list]
+    ref_clauses = [{"ref.mekoros_ref": {"$regex": r}} for r in regex_list]
     query = {"$or": ref_clauses }
     results = MediaSet(query=query)
     client_results = []
@@ -62,7 +62,7 @@ def get_media_for_ref(tref):
     matched_ref = []
     for media in results:
         for r in media.ref:
-            if re.match(ref_re, r['sefaria_ref']):
+            if re.match(ref_re, r['mekoros_ref']):
                 r['media_url'] = media.media_url
                 matched_ref.append(r)
     for ref in matched_ref:

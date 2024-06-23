@@ -2,13 +2,13 @@
 import csv
 import sys
 import os
-os.environ['DJANGO_SETTINGS_MODULE'] = "sefaria.settings"
-from sefaria.system.database import db
+os.environ['DJANGO_SETTINGS_MODULE'] = "mekoros.settings"
+from mekoros.system.database import db
 
 __author__ = 'stevenkaplan'
-from sefaria.helper.schema import *
-from sefaria.model import *
-from sefaria.system.exceptions import InputError
+from mekoros.helper.schema import *
+from mekoros.model import *
+from mekoros.system.exceptions import InputError
 
 def map_(x, map_array):
     return map_array[x.sections[1]-1]
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     for ref in refs:
         swap_text(ref, "Rabbi Mike Feuer, Jerusalem Anthology")
     for ref in refs:
-        swap_text(ref, "Sefaria Community Translation")
+        swap_text(ref, "Mekoros Community Translation")
     cascade("Midrash Tanchuma", rewriter, needs_rewrite)
 
     #make it complex

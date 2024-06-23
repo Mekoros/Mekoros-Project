@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import pytest
-from sefaria.model import *
+from mekoros.model import *
 
 
 class Test_Lexicon_Lookup(object):

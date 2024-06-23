@@ -180,7 +180,7 @@
 				$this.addClass("on").attr("tabIndex","0").attr("ariaChecked","true");
 				if ($this.attr("data-name") === "reading-history") {
 				    if ($this.attr("data-value") == "false") {
-				        $('#readingHistory #reading-history-warning').text(Sefaria._("Turning this feature off will permanently delete your reading history.")).addClass('on');
+				        $('#readingHistory #reading-history-warning').text(Mekoros._("Turning this feature off will permanently delete your reading history.")).addClass('on');
                     } else {
 				        $('#readingHistory #reading-history-warning').removeClass('on');
                     }
@@ -214,14 +214,14 @@
 					if ("error" in data) {
 						alert(data.error);
 					} else {
-						alert(Sefaria._("Settings Saved"));
-						Sefaria.track.event("Settings", "Settings Save", $("#emailNotifications input:checked").val());
+						alert(Mekoros._("Settings Saved"));
+						Mekoros.track.event("Settings", "Settings Save", $("#emailNotifications input:checked").val());
 						const $newLang = $("#siteLanguage .toggleOption.on").attr("data-value");
 						if($newLang != $curLang){
-						    Sefaria.track.setInterfaceLanguage("interface language account settings", $newLang);
+						    Mekoros.track.setInterfaceLanguage("interface language account settings", $newLang);
                         }
 						if ($newTransLangPref !== "{{ translation_language_preference }}") {
-                            Sefaria.track.event("Reader", "Set Translation Language Preference", $newTransLangPref);
+                            Mekoros.track.event("Reader", "Set Translation Language Preference", $newTransLangPref);
                         }
 						window.location = "/my/profile";
 					}
@@ -258,7 +258,7 @@
 						$("#username-change-edit #email-edit-errors").text(data.error);
 					} else {
                         $("#username-change-display #email-edit-ok").show();
-					    $("#username-change-display #email-edit-ok").text(Sefaria._("Email was successfully changed!")).show();
+					    $("#username-change-display #email-edit-ok").text(Mekoros._("Email was successfully changed!")).show();
                         $("#username-change-display #email-display").val(user_details["email"]);
                         $("#username-change-display").toggle();
                         $("#username-change-edit").toggle();

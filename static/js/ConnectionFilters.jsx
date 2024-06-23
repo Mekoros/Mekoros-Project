@@ -1,5 +1,5 @@
 import React from 'react';
-import Sefaria from './sefaria/sefaria';
+import Mekoros from './mekoros/mekoros';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Component      from 'react-class';
@@ -14,10 +14,10 @@ class CategoryFilter extends Component {
     e.preventDefault();
     if (this.props.showBooks) { // 2nd level
       this.props.setFilter(this.props.category, this.props.updateRecent);
-      if (Sefaria.site) { Sefaria.track.event("Reader", "Category Filter Click", this.props.category); }
+      if (Mekoros.site) { Mekoros.track.event("Reader", "Category Filter Click", this.props.category); }
     } else { // top level
       this.props.setConnectionsCategory(this.props.category);
-      if (Sefaria.site) { Sefaria.track.event("Reader", "Connections Category Click", this.props.category); }
+      if (Mekoros.site) { Mekoros.track.event("Reader", "Connections Category Click", this.props.category); }
     }
   }
   render() {
@@ -38,18 +38,18 @@ class CategoryFilter extends Component {
                 setFilter={this.props.setFilter}
                 description={book.enShortDesc ? book.enShortDesc: textMissingDescription}
                 heDescription={book.heShortDesc ? book.heShortDesc: textMissingDescription}
-                on={Sefaria.util.inArray(book.book, this.props.filter) !== -1} />);
+                on={Mekoros.util.inArray(book.book, this.props.filter) !== -1} />);
     }.bind(this)) : null;
 
-    const color        = Sefaria.palette.categoryColor(this.props.category);
+    const color        = Mekoros.palette.categoryColor(this.props.category);
     const style       = {"--category-color":color}
     let innerClasses = classNames({categoryFilter: 1, withBooks: this.props.showBooks, on: this.props.on});
     let handleClick  = this.handleClick;
     const categoryForUrl = !this.props.showBooks ? this.props.category + " ConnectionsList" : this.props.category;
-    const url = (this.props.srefs && this.props.srefs.length > 0)?"/" + Sefaria.normRef(this.props.srefs[0]) + "?with=" + categoryForUrl :"";
+    const url = (this.props.srefs && this.props.srefs.length > 0)?"/" + Mekoros.normRef(this.props.srefs[0]) + "?with=" + categoryForUrl :"";
     const classesDesc = classNames({ sidebarDescription: 1, lowlight: this.props.count === 0, title:1});
     let outerClasses = classNames({categoryFilterGroup: 1, withBooks: this.props.showBooks});
-    const catDesc = Sefaria.getDescriptionDict(this.props.category, []);
+    const catDesc = Mekoros.getDescriptionDict(this.props.category, []);
     const catEnDesc = catDesc[0];
     const catHeDesc = catDesc[1];
     return (
@@ -62,7 +62,7 @@ class CategoryFilter extends Component {
                 <span className="connectionsCount"> ({this.props.count})</span>
               </span>
               <span className="en">
-                {this.props.hasEnglish && Sefaria._siteSettings.TORAH_SPECIFIC ? <EnglishAvailableTag /> : null}
+                {this.props.hasEnglish && Mekoros._siteSettings.TORAH_SPECIFIC ? <EnglishAvailableTag /> : null}
               </span>
             </span>
           <div className={classesDesc}>{catEnDesc || catHeDesc ?
@@ -97,19 +97,19 @@ class TextFilter extends Component {
     const name = "enDisplayText" in this.props ? this.props["enDisplayText"] : this.props.book;
     let filter = this.props.filterSuffix ? name + "|" + this.props.filterSuffix : name;
     this.props.setFilter(filter, this.props.updateRecent);
-    if (Sefaria.site) {
-      if (this.props.inRecentFilters) { Sefaria.track.event("Reader", "Text Filter in Recent Click", filter); }
-      else { Sefaria.track.event("Reader", "Text Filter Click", filter); }
+    if (Mekoros.site) {
+      if (this.props.inRecentFilters) { Mekoros.track.event("Reader", "Text Filter in Recent Click", filter); }
+      else { Mekoros.track.event("Reader", "Text Filter Click", filter); }
     }
   }
   render() {
     const classes = classNames({textFilter: 1, on: this.props.on, lowlight: this.props.count == 0});
     const classesDesc = classNames({ sidebarDescription: 1, lowlight: this.props.count == 0});
-    const color = this.props.filterSuffix === "Essay" ? "var(--essay-links-green)" : Sefaria.palette.categoryColor(this.props.category);
+    const color = this.props.filterSuffix === "Essay" ? "var(--essay-links-green)" : Mekoros.palette.categoryColor(this.props.category);
     const style = {"--category-color": color};
     const enBook = this.props.book == this.props.category ? this.props.book.toUpperCase() : this.props.book;
     const showCount = !this.props.hideCounts && !!this.props.count;
-    const url = (this.props.srefs && this.props.srefs.length > 0)?"/" + Sefaria.normRef(this.props.srefs[0]) + "?with=" + enBook:"";
+    const url = (this.props.srefs && this.props.srefs.length > 0)?"/" + Mekoros.normRef(this.props.srefs[0]) + "?with=" + enBook:"";
     const upperClass = classNames({uppercase: this.props.book === this.props.category});
     const name = "enDisplayText" in this.props ? this.props["enDisplayText"] : enBook;
     const heName = "heDisplayText" in this.props ? this.props["heDisplayText"] : this.props.heBook;
@@ -126,7 +126,7 @@ class TextFilter extends Component {
                     {showCount ? <span className="connectionsCount">&nbsp;({this.props.count})</span> : null}
                   </span>
                   <span className="en">
-                    {this.props.hasEnglish && Sefaria._siteSettings.TORAH_SPECIFIC ? <EnglishAvailableTag /> : null}
+                    {this.props.hasEnglish && Mekoros._siteSettings.TORAH_SPECIFIC ? <EnglishAvailableTag /> : null}
                   </span>
                 </span>
               {showDescription ?<div className={classesDesc}>{enDesc || heDesc ?
@@ -170,12 +170,12 @@ class RecentFilterSet extends Component {
       let filterAndSuffix = filter.split("|");
       filter              = filterAndSuffix[0];
       let filterSuffix    = filterAndSuffix.length == 2 ? filterAndSuffix[1] : null;
-      let index           = Sefaria.index(filter);
+      let index           = Mekoros.index(filter);
       const filterKey       = filter + (filterSuffix ? `|${filterSuffix}` : '');
       return {
         book: filter,
         filterSuffix,
-        heBook: index ? index.heTitle : Sefaria.hebrewTerm(filter),
+        heBook: index ? index.heTitle : Mekoros.hebrewTerm(filter),
         category: index ? (index.primary_category ? index.primary_category : index.categories[0]) : filter,
         filterKey,
       };
@@ -190,7 +190,7 @@ class RecentFilterSet extends Component {
             recentFilters[i].category == filter ) { break; }
       }
       if (i == recentFilters.length) {
-        let index = Sefaria.index(filter);
+        let index = Mekoros.index(filter);
         let annotatedFilter;
         if (index) {
           annotatedFilter = {book: filter, heBook: index.heTitle, category: index.primary_category };
@@ -217,7 +217,7 @@ class RecentFilterSet extends Component {
                 updateRecent={false}
                 inRecentFilters={true}
                 setFilter={this.props.setFilter}
-                on={Sefaria.util.inArray(book.filterKey, this.props.filter) !== -1} />);
+                on={Mekoros.util.inArray(book.filterKey, this.props.filter) !== -1} />);
     }.bind(this));
 
     let classes = classNames({recentFilterSet: 1, topFilters: this.props.asHeader, filterSet: 1});

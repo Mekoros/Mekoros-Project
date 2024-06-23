@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import sefaria.utils.calendars as c
+import mekoros.utils.calendars as c
 from datetime import date
-from sefaria.system.database import db
+from mekoros.system.database import db
 
 
 def setup_module(module): 

@@ -6,8 +6,8 @@ import ReactDOM  from 'react-dom';
 import classNames  from 'classnames';
 import PropTypes  from 'prop-types';
 import TextRange  from './TextRange';
-import $  from './sefaria/sefariaJquery';
-import Sefaria  from './sefaria/sefaria';
+import $  from './mekoros/mekorosJquery';
+import Mekoros  from './mekoros/mekoros';
 import Component from 'react-class';
 import {ContentText} from "./ContentText";
 
@@ -19,7 +19,7 @@ class TextColumn extends Component {
     this.state = {
       showScrollPlaceholders: false
     };
-    this.debouncedAdjustHighlightedAndVisible = Sefaria.util.debounce(this.adjustHighlightedAndVisible, 100);
+    this.debouncedAdjustHighlightedAndVisible = Mekoros.util.debounce(this.adjustHighlightedAndVisible, 100);
     this.scrollPlaceholderHeight = 90;
     this.scrollPlaceholderMargin = 30;
     this.highlightThreshhold = props.multiPanel ? 140 : 70;
@@ -35,7 +35,7 @@ class TextColumn extends Component {
     this.setState({showScrollPlaceholders: true});
 
        const params = {
-         content_type: Sefaria.index(this.props.bookTitle).primary_category,
+         content_type: Mekoros.index(this.props.bookTitle).primary_category,
          item_id: this.props.bookTitle
        }
       console.log(params)
@@ -64,8 +64,8 @@ class TextColumn extends Component {
       this.setInitialScrollPosition();
 
     } else if (this.props.srefs.length === 1 &&
-        Sefaria.util.inArray(this.props.srefs[0], prevProps.srefs) === -1 &&
-        !prevProps.srefs.some(r => Sefaria.refContains(this.props.srefs[0], r))) {
+        Mekoros.util.inArray(this.props.srefs[0], prevProps.srefs) === -1 &&
+        !prevProps.srefs.some(r => Mekoros.refContains(this.props.srefs[0], r))) {
       // If we are switching to a single ref not in the current TextColumn,
       // treat it as a fresh open.
       // console.log("setting initialScroll for brand new ref")
@@ -128,8 +128,8 @@ class TextColumn extends Component {
     let refs = [];
     if (selection.type === "Range") {
       //console.log("handling range");
-      const $start  = $(Sefaria.util.getSelectionBoundaryElement(true)).closest(".segment");
-      const $end    = $(Sefaria.util.getSelectionBoundaryElement(false)).closest(".segment");
+      const $start  = $(Mekoros.util.getSelectionBoundaryElement(true)).closest(".segment");
+      const $end    = $(Mekoros.util.getSelectionBoundaryElement(false)).closest(".segment");
       let $segments = this.$container.find(".segment");
       let start     = $segments.index($start);
       let end       = $segments.index($end);
@@ -149,7 +149,7 @@ class TextColumn extends Component {
       }
     }
     //const selectedWords = selection.toString(); //this doesnt work in Chrome, as it does not skip elements marked with css `user-select: none` as it should.
-    const selectedWords = Sefaria.util.getNormalizedSelectionString(); //this gets around the above issue
+    const selectedWords = Mekoros.util.getNormalizedSelectionString(); //this gets around the above issue
     if (selectedWords !== this.props.selectedWords) {
       //console.log("setting selecting words")
       this.props.setSelectedWords(selectedWords);
@@ -273,7 +273,7 @@ class TextColumn extends Component {
       // UP: add the previous section above then adjust scroll position so page doesn't jump
       // console.log("Inifite Scroll UP");
       let topRef = refs[0];
-      data   = Sefaria.ref(topRef);   // data for current ref
+      data   = Mekoros.ref(topRef);   // data for current ref
       if (data && data.prev) {
         refs.splice(refs, 0, data.prev);  // Splice in at least the previous one (-1)
         this.numSectionsLoadedAtTop = 1;
@@ -281,14 +281,14 @@ class TextColumn extends Component {
         let prevData, earlierData;
 
         // Now, only add sources if we have data for them
-        if(prevData = Sefaria.ref(data.prev)) {
-          earlierData = Sefaria.ref(prevData.prev);
+        if(prevData = Mekoros.ref(data.prev)) {
+          earlierData = Mekoros.ref(prevData.prev);
         }
 
         while(earlierData && this.numSectionsLoadedAtTop < 10) {
           refs.splice(refs, 0, earlierData.ref);
           this.numSectionsLoadedAtTop += 1;
-          earlierData = Sefaria.ref(earlierData.prev);
+          earlierData = Mekoros.ref(earlierData.prev);
         }
 
         //console.log("Up! Add previous section. Windowtop is: " + windowTop);
@@ -303,20 +303,20 @@ class TextColumn extends Component {
       }
       //console.log("Down! Add next section");
       let currentRef = refs.slice(-1)[0];
-      data       = Sefaria.ref(currentRef);
+      data       = Mekoros.ref(currentRef);
       if (data && data.next) {
         refs.push(data.next); // Append at least the next one
         let numSectionsAddToBottom = 1;
         let nextData, laterData;
 
         // Now, only add sources if we have data for them
-        if(nextData = Sefaria.ref(data.next)) {
-          laterData = Sefaria.ref(nextData.next);
+        if(nextData = Mekoros.ref(data.next)) {
+          laterData = Mekoros.ref(nextData.next);
         }
 
         while(laterData && numSectionsAddToBottom < 10) {
           refs.push(laterData.ref);
-          laterData = Sefaria.ref(laterData.next);
+          laterData = Mekoros.ref(laterData.next);
           numSectionsAddToBottom += 1;
         }
 
@@ -363,10 +363,10 @@ class TextColumn extends Component {
   }
   render() {
     let classes = classNames({textColumn: 1, connectionsOpen: this.props.mode === "TextAndConnections"});
-    const index = Sefaria.index(Sefaria.parseRef(this.props.srefs[0]).index);
+    const index = Mekoros.index(Mekoros.parseRef(this.props.srefs[0]).index);
     const isDictionary = (index && index.categories[0] === "Reference");
     let content =  this.props.srefs.map((sref) => {
-      const oref = Sefaria.getRefFromCache(sref);
+      const oref = Mekoros.getRefFromCache(sref);
       const isCurrentlyVisible = oref && this.props.currentlyVisibleRef === oref.sectionRef;
       return (<TextRange
         panelPosition ={this.props.panelPosition}
@@ -403,8 +403,8 @@ class TextColumn extends Component {
     let pre, post, bookTitle;
     if (content.length) {
       // Add Next and Previous loading indicators
-      const first   = Sefaria.ref(this.props.srefs[0]);
-      const last    = Sefaria.ref(this.props.srefs.slice(-1)[0]);
+      const first   = Mekoros.ref(this.props.srefs[0]);
+      const last    = Mekoros.ref(this.props.srefs.slice(-1)[0]);
       const hasPrev = first && first.prev;
       const noPrev  = first && !first.prev; // first is loaded, so we actually know there's nothing prev
       const hasNext = last && last.next;

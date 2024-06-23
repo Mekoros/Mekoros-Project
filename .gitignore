@@ -62,12 +62,12 @@ node_modules
 # pystest cache #
 #####################
 /.pytest_cache
-/sefaria/tests/.pytest_cache
+/mekoros/tests/.pytest_cache
 
 
-# Sefaria Local Settings files #
+# Mekoros Local Settings files #
 ################################
-/sefaria/local_settings.py
+/mekoros/local_settings.py
 
 # Site specific templates and urls #
 ####################################

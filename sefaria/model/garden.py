@@ -2,8 +2,8 @@
 
 import copy
 from itertools import groupby
-from sefaria.system.exceptions import InputError
-from sefaria.system.database import db
+from mekoros.system.exceptions import InputError
+from mekoros.system.database import db
 from . import abstract as abst
 from . import text
 from . import place
@@ -212,7 +212,7 @@ class Garden(abst.AbstractMongoRecord):
             self.import_sheet(sheet["id"])
 
     def import_sheets_by_tag(self, tag):
-        from sefaria.sheets import get_sheets_by_topic
+        from mekoros.sheets import get_sheets_by_topic
 
         self.updateFilter("Sheet Author", {"en": "Sheet Author", "he": "מחבר דף"})
         self.updateSort("weight", {"type": "Int", "en": "Weight", "he": "משקל"})
@@ -247,7 +247,7 @@ class Garden(abst.AbstractMongoRecord):
         return links
 
     def import_search(self, q):
-        from sefaria.search import query
+        from mekoros.search import query
         res = query(q)
 
         self.updateFilter("default", {"en": "Categories", "he": "קטגוריות"})
@@ -293,7 +293,7 @@ class Garden(abst.AbstractMongoRecord):
         return self
 
     def import_sheet(self, sheet_id, remove_tags=None):
-        from sefaria.sheets import Sheet, refine_ref_by_text
+        from mekoros.sheets import Sheet, refine_ref_by_text
 
         sheet = Sheet().load({"id": sheet_id})
         if not sheet:

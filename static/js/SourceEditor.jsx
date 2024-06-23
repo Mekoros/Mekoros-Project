@@ -1,5 +1,5 @@
-import Sefaria from "./sefaria/sefaria";
-import $ from "./sefaria/sefariaJquery";
+import Mekoros from "./mekoros/mekoros";
+import $ from "./mekoros/mekorosJquery";
 import {AdminEditor} from "./AdminEditor";
 import {requestWithCallBack, Autocompleter, InterfaceText} from "./Misc";
 import React, {useState} from "react";
@@ -9,7 +9,7 @@ const SourceEditor = ({topic, close, origData={}}) => {
     const isNew = !origData.ref;
     const [displayRef, setDisplayRef] = useState(origData.lang === 'he' ?
                                                             (origData.heRef || "") :  (origData.ref || "") );
-    const langKey = Sefaria.interfaceLang === 'english' ? 'en' : 'he';
+    const langKey = Mekoros.interfaceLang === 'english' ? 'en' : 'he';
     const { title = '', prompt = '', ai_context = '' } = origData?.descriptions?.[langKey] || {};
 
     const [data, setData] = useState({enTitle: title,  // use enTitle for hebrew or english case
@@ -29,15 +29,15 @@ const SourceEditor = ({topic, close, origData={}}) => {
             return false;
         }
         if (displayRef.length === 0) {
-          alert(Sefaria._("Ref must be provided."));
+          alert(Mekoros._("Ref must be provided."));
           return false;
         }
-        let refInCache = Sefaria.getRefFromCache(displayRef);
+        let refInCache = Mekoros.getRefFromCache(displayRef);
         if (!refInCache) {
-            refInCache = await Sefaria.getRef(displayRef);
+            refInCache = await Mekoros.getRef(displayRef);
         }
         if (!refInCache?.ref) {
-          alert(Sefaria._("Valid ref must be provided."));
+          alert(Mekoros._("Valid ref must be provided."));
           return false;
         }
         await save();
@@ -46,8 +46,8 @@ const SourceEditor = ({topic, close, origData={}}) => {
     const save = async function () {
         setSavingStatus(true);
         let refInUrl = isNew ? displayRef : origData.ref;
-        let url = `/api/ref-topic-links/${Sefaria.normRef(refInUrl)}`;
-        let postData = {"topic": topic, "is_new": isNew, 'new_ref': displayRef, 'interface_lang': Sefaria.interfaceLang};
+        let url = `/api/ref-topic-links/${Mekoros.normRef(refInUrl)}`;
+        let postData = {"topic": topic, "is_new": isNew, 'new_ref': displayRef, 'interface_lang': Mekoros.interfaceLang};
         postData['description'] = {"title": data.enTitle, "prompt": data.prompt, "ai_context": data.ai_context, "review_state": "edited"};
         requestWithCallBack({url, data: postData, setSavingStatus, redirect: () => window.location.href = "/topics/"+topic});
     }
@@ -65,7 +65,7 @@ const SourceEditor = ({topic, close, origData={}}) => {
         if (input === "") {  // this occurs when there was text in the inputbox and user just erased it
             return results;
         }
-        const d = await Sefaria.getName(input, true, 5);
+        const d = await Mekoros.getName(input, true, 5);
         if (d.is_section || d.is_segment) {
             results.helperPromptText = null;
             results.currentSuggestions = null;
@@ -80,13 +80,13 @@ const SourceEditor = ({topic, close, origData={}}) => {
             .map(suggestion => ({
                 name: suggestion.title,
                 key: suggestion.key,
-                border_color: Sefaria.palette.refColor(suggestion.key)
+                border_color: Mekoros.palette.refColor(suggestion.key)
             }))
         return results;
     }
 
     const deleteTopicSource = function() {
-        const url = `/api/ref-topic-links/${origData.ref}?topic=${topic}&interface_lang=${Sefaria.interfaceLang}`;
+        const url = `/api/ref-topic-links/${origData.ref}?topic=${topic}&interface_lang=${Mekoros.interfaceLang}`;
         requestWithCallBack({url, type: "DELETE", redirect: () => window.location.href = `/topics/${topic}`});
     }
     const previousTitleItemRef = useRef(data.enTitle ? "Previous Title" : null); //use useRef to make value null even if component re-renders

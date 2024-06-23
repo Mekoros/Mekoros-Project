@@ -9,9 +9,9 @@ import json
 import time
 from pymongo.errors import AutoReconnect
 from collections import defaultdict, OrderedDict
-from sefaria.model import *
-from sefaria.system.exceptions import InputError, NoVersionFoundError
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.system.exceptions import InputError, NoVersionFoundError
+from mekoros.system.database import db
 from .settings import STATICFILES_DIRS
 from functools import reduce
 

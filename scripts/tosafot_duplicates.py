@@ -1,6 +1,6 @@
 __author__ = 'stevenkaplan'
-from sefaria.model import *
-from sefaria.model.schema import AddressTalmud
+from mekoros.model import *
+from mekoros.model.schema import AddressTalmud
 import os
 def print_out_refs(daf, line, segment, prev_daf, prev_line, prev_segment):
     second = "{} {}:{}:{}".format(title, AddressTalmud.toStr("en", daf+1), line+1, segment+1)

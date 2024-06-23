@@ -5,8 +5,8 @@ import hashlib
 
 from django.contrib.auth.models import User
 
-from sefaria.system.database import db
-from sefaria.model.user_profile import UserProfile
+from mekoros.system.database import db
+from mekoros.model.user_profile import UserProfile
 
 contenders = db.profiles.find({"bio": {"$ne": ""}, "jewish_education": {"$ne": []}})
 points = {}
@@ -29,6 +29,6 @@ for i in range(contenders.count()):
     for person in points:
         count += points[person]
         if count > winner:
-            print("%d. %s, %s" % (i+1, "www.sefaria.org/profile/" + users[person].slug, users[person].email))
+            print("%d. %s, %s" % (i+1, "www.mekoros.com/profile/" + users[person].slug, users[person].email))
             del points[person]
             break

@@ -2,8 +2,8 @@
 
 import os
 import unicodecsv
-from sefaria.model import *
-from sefaria.system import exceptions
+from mekoros.model import *
+from mekoros.system import exceptions
 
 filename = os.path.join(os.path.dirname(__file__), '../data/tmp/Version Titles - versionTitles.tsv')
 with open(filename) as infile:

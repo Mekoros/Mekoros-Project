@@ -2,11 +2,11 @@ import json
 import django
 django.setup()
 from collections import defaultdict
-from sefaria.model import *
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.system.database import db
 from pymongo import UpdateOne
 
-from sefaria.utils.hebrew import has_hebrew
+from mekoros.utils.hebrew import has_hebrew
 with open('data/sheet_mapping.json', 'r') as fin:
     tag_topic = json.load(fin)
 

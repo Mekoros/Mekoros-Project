@@ -1,7 +1,7 @@
 import React  from 'react';
 import ReactDOM  from 'react-dom';
-import $  from './sefaria/sefariaJquery';
-import Sefaria  from './sefaria/sefaria';
+import $  from './mekoros/mekorosJquery';
+import Mekoros  from './mekoros/mekoros';
 import classNames  from 'classnames';
 import PropTypes  from 'prop-types';
 import Footer  from './Footer';
@@ -25,7 +25,7 @@ class SearchPage extends Component {
   }
   render () {
     const classes        = classNames({readerNavMenu: 1, compare: this.props.compare});
-    const isQueryHebrew  = Sefaria.hebrew.isHebrew(this.props.query);
+    const isQueryHebrew  = Mekoros.hebrew.isHebrew(this.props.query);
     return (
       <div className={classes} key={this.props.query}>
         {this.props.compare ?
@@ -69,8 +69,8 @@ class SearchPage extends Component {
               />
             </div>
 
-            {(Sefaria.multiPanel && !this.props.compare) || this.state.mobileFiltersOpen ?
-            <div className={Sefaria.multiPanel && !this.props.compare ? "navSidebar" : "mobileSearchFilters"}>
+            {(Mekoros.multiPanel && !this.props.compare) || this.state.mobileFiltersOpen ?
+            <div className={Mekoros.multiPanel && !this.props.compare ? "navSidebar" : "mobileSearchFilters"}>
               {this.state.totalResults?.getValue() > 0 ?
               <SearchFilters
                 query={this.props.query}

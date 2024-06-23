@@ -5,8 +5,8 @@ Writes to MongoDB Collection: layers
 from bson.objectid import ObjectId
 
 from . import abstract as abst
-from sefaria.model.text import Ref
-from sefaria.model.note import Note, NoteSet
+from mekoros.model.text import Ref
+from mekoros.model.note import Note, NoteSet
 
 
 class Layer(abst.AbstractMongoRecord):

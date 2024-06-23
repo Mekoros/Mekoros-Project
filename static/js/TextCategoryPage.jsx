@@ -1,7 +1,7 @@
 import React, { useContext, useState }  from 'react';
 import classNames  from 'classnames';
 import PropTypes  from 'prop-types';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 import { ContentLanguageContext } from './context';
 import { NavSidebar } from './NavSidebar';
 import Footer  from './Footer';
@@ -35,20 +35,20 @@ const TextCategoryPage = ({category, categories, setCategories, toggleLanguage,
   if ((cats[0] === "Talmud" || cats[0] === "Tosefta") && cats.length === 2) {
     category   = cats[0]; 
     catTitle   = cats[0];
-    heCatTitle = Sefaria.hebrewTerm(cats[0]);
+    heCatTitle = Mekoros.hebrewTerm(cats[0]);
   } else {
     if (category === "Commentary") {
       const onCat = cats.slice(-2)[0];
       catTitle   = onCat + " Commentary";
-      heCatTitle = Sefaria.hebrewTerm(onCat) + " " + Sefaria.hebrewTerm("Commentary");
+      heCatTitle = Mekoros.hebrewTerm(onCat) + " " + Mekoros.hebrewTerm("Commentary");
     } else {
       catTitle   = category;
-      heCatTitle = Sefaria.hebrewTerm(category);
+      heCatTitle = Mekoros.hebrewTerm(category);
     }
   }
 
-  const tocObject = Sefaria.tocObjectByCategories(cats);
-  const catContents = Sefaria.tocItemsByCategories(cats);
+  const tocObject = Mekoros.tocObjectByCategories(cats);
+  const catContents = Mekoros.tocItemsByCategories(cats);
   const nestLevel   = category === "Commentary" ? 1 : 0;
   const aboutModule = [
     multiPanel ? {type: "AboutTextCategory", props: {cats: aboutCats}} : {type: null},
@@ -64,7 +64,7 @@ const TextCategoryPage = ({category, categories, setCategories, toggleLanguage,
             </h1>
         </CategoryHeader>
       {categoryToggle}
-      {multiPanel && Sefaria.interfaceLang !== "hebrew"  && Sefaria._siteSettings.TORAH_SPECIFIC ? 
+      {multiPanel && Mekoros.interfaceLang !== "hebrew"  && Mekoros._siteSettings.TORAH_SPECIFIC ? 
       <LanguageToggleButton toggleLanguage={toggleLanguage} /> : null }
     </div>;
 
@@ -294,7 +294,7 @@ const TextMenuItem = ({item, categories, nestLevel, onClick}) => {
   const [title, heTitle] = getRenderedTextTitleString(item.title, item.heTitle, categories);
   return (
     <MenuItem
-      href        = {"/" + Sefaria.normRef(item.title)}
+      href        = {"/" + Mekoros.normRef(item.title)}
       onClick     = {onClick}
       nestLevel   = {nestLevel}
       title       = {title}
@@ -355,7 +355,7 @@ const getRenderedTextTitleString = (title, heTitle, categories) => {
 
     const replaceTitles = {
         "en": ['Jerusalem Talmud', 'Tosefta Kifshutah'].concat(categories),
-        "he": ['תלמוד ירושלמי', 'תוספתא כפשוטה'].concat(categories.map(Sefaria.hebrewTerm))
+        "he": ['תלמוד ירושלמי', 'תוספתא כפשוטה'].concat(categories.map(Mekoros.hebrewTerm))
     };
     const replaceOther = {
         "en" : [", ", "; ", " on ", " to ", " of "],
@@ -370,7 +370,7 @@ const getRenderedTextTitleString = (title, heTitle, categories) => {
     const titleRe = new RegExp(`^(${replaceTitles['en'].join("|")})(${replaceOther['en'].join("|")})?`);
     const heTitleRe = new RegExp(`^(${replaceTitles['he'].join("|")})(${replaceOther['he'].join("|")})?`);
     title   = categories.indexOf(title) > -1 ? title : title.replace(titleRe, "");
-    const heCategories = categories.map(c => Sefaria.hebrewTerm(c));
+    const heCategories = categories.map(c => Mekoros.hebrewTerm(c));
     heTitle = heCategories.indexOf(heTitle) > -1 ? heTitle : heTitle.replace(heTitleRe, "");
 
     //couldnt get this to work in one regex (eliminating both prefix stuff above and the suffix stuff below),
@@ -437,7 +437,7 @@ const getSidebarModules = (categories) => {
   const defaultModules = [
     {type: "Promo"},
     {type: "Visualizations", props: {categories}},
-    {type: "SupportSefaria"},
+    {type: "SupportMekoros"},
   ]; 
 
   return customModules.concat(defaultModules);

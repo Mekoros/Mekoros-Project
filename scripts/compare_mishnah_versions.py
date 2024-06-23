@@ -4,9 +4,9 @@ import sys
 import os, errno
 import re
 
-from sefaria.model import *
-from sefaria.helper.text import *
-from sefaria.helper.link import *
+from mekoros.model import *
+from mekoros.helper.text import *
+from mekoros.helper.link import *
 
 strip_cantillation_vowel_regex = re.compile(r"[\u0591-\u05bd\u05bf-\u05c5\u05c7]", re.UNICODE)
 

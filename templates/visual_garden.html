@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load sefaria_tags static %}
+{% load mekoros_tags static %}
 
 
 {% block title %}{{ title }}{% endblock %}
@@ -136,7 +136,7 @@
         function pushHistory(replaceHistory) {
             // Get applied filters on this page, serialize to URL and title, and push to the history stack
             var filters = getFilters();
-            //Sefaria.site.track...
+            //Mekoros.site.track...
             var url;
             var title = document.title.split(", ")[0];
             if (filters) {
@@ -585,7 +585,7 @@
             var container = document.getElementById('add-to-source-sheet-box');
             var component;
             if (data.ref) {
-                component = React.createElement(Sefaria.AddToSourceSheetWindow,
+                component = React.createElement(Mekoros.AddToSourceSheetWindow,
                     {
                         srefs: [data.ref],
                         he: data.heText,
@@ -594,7 +594,7 @@
                     }
                 );
             } else {
-                component = React.createElement(Sefaria.AddToSourceSheetWindow,
+                component = React.createElement(Mekoros.AddToSourceSheetWindow,
                     {
                         he: "<b>" + data.heTitle + "</b><br/>" + data.heText,
                         en: "<b>" + data.title + "</b><br/>" + data.enText,

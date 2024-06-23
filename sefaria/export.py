@@ -17,13 +17,13 @@ from collections import Counter
 from copy import deepcopy
 import django
 django.setup()
-from sefaria.model import *
-from sefaria.model.text import AbstractIndex
+from mekoros.model import *
+from mekoros.model.text import AbstractIndex
 
-from sefaria.utils.talmud import section_to_daf
-from sefaria.system.exceptions import InputError
+from mekoros.utils.talmud import section_to_daf
+from mekoros.system.exceptions import InputError
 from .settings import SEFARIA_EXPORT_PATH
-from sefaria.system.database import db
+from mekoros.system.database import db
 
 
 lang_codes = {
@@ -388,7 +388,7 @@ def prepare_merged_text_for_export(title, lang=None):
         "title": title,
         "language": lang,
         "versionTitle": "merged",
-        "versionSource": "https://www.sefaria.org/%s" % title.replace(" ", "_"),
+        "versionSource": "https://www.mekoros.com/%s" % title.replace(" ", "_"),
     }
     text_docs = db.texts.find({"title": title, "language": lang}).sort([["priority", -1], ["_id", 1]])
 
@@ -479,7 +479,7 @@ def export_toc():
 
 def export_links():
     """
-    Creates a single CSV file containing all links known to Sefaria.
+    Creates a single CSV file containing all links known to Mekoros.
     """
     print("Exporting links...")
     links_by_book = Counter()
@@ -723,7 +723,7 @@ def import_versions_from_file(csv_filename, columns):
 
 
 def _import_versions_from_csv(rows, columns, user_id):
-    from sefaria.tracker import modify_bulk_text
+    from mekoros.tracker import modify_bulk_text
 
     index_title = rows[0][columns[0]]  # assume the same index title for all
     index_node = Ref(index_title).index_node

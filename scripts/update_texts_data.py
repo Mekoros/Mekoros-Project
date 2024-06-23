@@ -6,8 +6,8 @@ import csv
 import requests
 from io import StringIO
 
-from sefaria.model import *
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.system.database import db
 
 
 """

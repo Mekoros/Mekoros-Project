@@ -12,14 +12,14 @@ import sys
 import os
 import pymongo
 from helper.link import add_links_from_text
-from sefaria.utils.talmud import section_to_daf
+from mekoros.utils.talmud import section_to_daf
 
 p = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #sys.path.insert(0, p)
-sys.path.insert(0, p + "/sefaria")
+sys.path.insert(0, p + "/mekoros")
 
-import sefaria.model.text as txt
-from sefaria.system.database import db
+import mekoros.model.text as txt
+from mekoros.system.database import db
 
 user = 28
 texts = db.texts.find({"language": "he"})

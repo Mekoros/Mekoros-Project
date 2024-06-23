@@ -5,7 +5,7 @@ kind: CronJob
 metadata:
   name: {{ .Values.deployEnv }}-daily-email-notifications
   labels:
-    {{- include "sefaria.labels" . | nindent 4 }}
+    {{- include "mekoros.labels" . | nindent 4 }}
 spec:
   schedule: "13 6 * * *"
   jobTemplate:
@@ -33,7 +33,7 @@ spec:
             - configMapRef:
                 name: local-settings-{{ .Values.deployEnv }}
             volumeMounts:
-              - mountPath: /app/sefaria/local_settings.py
+              - mountPath: /app/mekoros/local_settings.py
                 name: local-settings
                 subPath: local_settings.py
                 readOnly: true

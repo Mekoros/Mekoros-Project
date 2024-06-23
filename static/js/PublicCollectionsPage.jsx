@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes  from 'prop-types';
 import classNames  from 'classnames';
 import Footer  from './Footer';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 import Component from 'react-class';
 import { NavSidebar, Modules } from './NavSidebar';
 import {
@@ -12,17 +12,17 @@ import {
 } from './Misc';
 
 const PublicCollectionsPage = ({multiPanel, initialWidth}) => {
-  const [collectionsList, setCollectionsList] = useState(Sefaria.getCollectionsListFromCache());
+  const [collectionsList, setCollectionsList] = useState(Mekoros.getCollectionsListFromCache());
   
   const sortCollectionList = d => {
     // Sort alphabetically, ignoring punctuation, putting numbers at the end, with collections in the current interface lang first.
     d.public.sort((a, b) => {
       const [strippedA, strippedB] = [a.name, b.name].map(x => x.stripPunctuation());
-      const [aHe, bHe] = [strippedA, strippedB].map(Sefaria.hebrew.isHebrew);
+      const [aHe, bHe] = [strippedA, strippedB].map(Mekoros.hebrew.isHebrew);
       const [aNum, bNum] = [strippedA, strippedB].map(x => /^\d/.test(x));
 
       if (aHe !== bHe) {
-        return (Sefaria.interfaceLang === "hebrew" ? aHe : bHe) ? -1 : 1; 
+        return (Mekoros.interfaceLang === "hebrew" ? aHe : bHe) ? -1 : 1; 
       } else if (aNum !== bNum) {
         return aNum ? 1 : -1;
       } else {
@@ -37,7 +37,7 @@ const PublicCollectionsPage = ({multiPanel, initialWidth}) => {
   }
 
   useEffect(() => {
-    Sefaria.getCollectionsList()
+    Mekoros.getCollectionsList()
       .then(d => sortCollectionList(d))
       .then(d => setCollectionsList(d));
   });
@@ -49,8 +49,8 @@ const PublicCollectionsPage = ({multiPanel, initialWidth}) => {
 
   let enCollections, heCollections, enCollBox, heCollBox;  
   if (collectionsList) {
-    enCollections = collectionsList.public.filter(c => !Sefaria.hebrew.isHebrew(c.name));
-    heCollections = collectionsList.public.filter(c => Sefaria.hebrew.isHebrew(c.name));
+    enCollections = collectionsList.public.filter(c => !Mekoros.hebrew.isHebrew(c.name));
+    heCollections = collectionsList.public.filter(c => Mekoros.hebrew.isHebrew(c.name));
 
     [enCollBox, heCollBox] = [enCollections, heCollections].map(coll => (
       <ResponsiveNBox 
@@ -75,7 +75,7 @@ const PublicCollectionsPage = ({multiPanel, initialWidth}) => {
             <div className="collectionsList">
               { !!collectionsList ?
               (collectionsList.public.length ?
-                (Sefaria.interfaceLang === "hebrew" ?
+                (Mekoros.interfaceLang === "hebrew" ?
                 <>
                   <div className="heCollections">{heCollBox}</div>
                   <div className="enCollections">{enCollBox}</div>

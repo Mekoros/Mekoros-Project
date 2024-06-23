@@ -6,7 +6,7 @@ import csv
 import requests
 from io import StringIO
 
-from sefaria.model import *
+from mekoros.model import *
 
 """
 0 Category

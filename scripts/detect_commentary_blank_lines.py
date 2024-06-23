@@ -1,7 +1,7 @@
 import argparse
-from sefaria.model import *
-from sefaria.system.database import db
-from sefaria.helper.link import *
+from mekoros.model import *
+from mekoros.system.database import db
+from mekoros.helper.link import *
 
 
 commentary_texts = library.get_commentary_versions()

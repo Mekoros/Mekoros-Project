@@ -1,6 +1,6 @@
 import re
-from sefaria.model import *
-from sefaria.helper.schema import *
+from mekoros.model import *
+from mekoros.helper.schema import *
 
 def get_ftnotes(sec_ref, title):
     # get footnotes on text found in sec_ref

@@ -1,8 +1,8 @@
 import pytest
-from sefaria.model.portal import Portal  # Replace with your actual validation function
-from sefaria.model.topic import Topic
-from sefaria.system.exceptions import SluggedMongoRecordMissingError
-from sefaria.system.database import db
+from mekoros.model.portal import Portal  # Replace with your actual validation function
+from mekoros.model.topic import Topic
+from mekoros.system.exceptions import SluggedMongoRecordMissingError
+from mekoros.system.database import db
 
 valids = [
     {

@@ -1,16 +1,16 @@
 import django, csv, json, re
 from tqdm import tqdm
 from pymongo import InsertOne
-from sefaria.model import *
+from mekoros.model import *
 from collections import defaultdict
-from sefaria.system.database import db
-from sefaria.model.abstract import SluggedAbstractMongoRecord
-from sefaria.utils.hebrew import has_hebrew
+from mekoros.system.database import db
+from mekoros.model.abstract import SluggedAbstractMongoRecord
+from mekoros.utils.hebrew import has_hebrew
 
 django.setup()
 
-# RESEARCH_NAMED_ENTITY_LOC = "/home/nss/sefaria/data/research/knowledge_graph/named_entity_recognition"
-# DATASETS_NAMED_ENTITY_LOC = "/home/nss/sefaria/datasets/ner/sefaria"
+# RESEARCH_NAMED_ENTITY_LOC = "/home/nss/mekoros/data/research/knowledge_graph/named_entity_recognition"
+# DATASETS_NAMED_ENTITY_LOC = "/home/nss/mekoros/datasets/ner/mekoros"
 RESEARCH_NAMED_ENTITY_LOC = "data"
 DATASETS_NAMED_ENTITY_LOC = "data"
 
@@ -146,7 +146,7 @@ def import_rabi_rav_rabbis_into_topics():
         itl = IntraTopicLink(link_json)
         try:
             itl.save()
-        except sefaria.system.exceptions.DuplicateRecordError:
+        except mekoros.system.exceptions.DuplicateRecordError:
             print("Duplicate", t.slug, toTopic)
 
     with open(f"{DATASETS_NAMED_ENTITY_LOC}/Fix Rabi and Rav Errors - rav_rabbi_errors.csv", "r") as fin:
@@ -235,7 +235,7 @@ def add_ambiguous_topics():
                 "fromTopic": other_slug,
                 "toTopic": topic.slug,
                 "linkType": "possibility-for",
-                "dataSource": "sefaria",
+                "dataSource": "mekoros",
                 "generatedBy": "add_ambiguous_topics",
             })
             itl.save()
@@ -280,7 +280,7 @@ def add_mentions(title_list=None):
         mention_link = {
             "toTopic": id_match,
             "linkType": "mention",
-            "dataSource": "sefaria",
+            "dataSource": "mekoros",
             "class": "refTopic",
             "is_sheet": False,
             "ref": ne["ref"],
@@ -357,23 +357,23 @@ if __name__ == "__main__":
 """
 kubectl cp commands
 POD=devpod-noah-846cdffc8b-8l5wl
-kubectl cp /home/nss/sefaria/datasets/ner/sefaria/ner_output_bavli.json $POD:/app/data
-kubectl cp /home/nss/sefaria/datasets/ner/sefaria/ner_output_yerushalmi.json $POD:/app/data
-kubectl cp /home/nss/sefaria/datasets/ner/sefaria/ner_output_mishnah.json $POD:/app/data
-kubectl cp /home/nss/sefaria/project/scripts/import_named_entities.py $POD:/app/scripts
+kubectl cp /home/nss/mekoros/datasets/ner/mekoros/ner_output_bavli.json $POD:/app/data
+kubectl cp /home/nss/mekoros/datasets/ner/mekoros/ner_output_yerushalmi.json $POD:/app/data
+kubectl cp /home/nss/mekoros/datasets/ner/mekoros/ner_output_mishnah.json $POD:/app/data
+kubectl cp /home/nss/mekoros/project/scripts/import_named_entities.py $POD:/app/scripts
 
 # not relevant anymore
-kubectl cp /home/nss/sefaria/data/research/knowledge_graph/named_entity_recognition/sperling_named_entities.json $POD:/app/data
-kubectl cp /home/nss/sefaria/datasets/ner/sefaria/new_rabbis.json $POD:/app/data
-kubectl cp "/home/nss/sefaria/datasets/ner/sefaria/Fix Rabi and Rav Errors - rav_rabbi_errors.csv" $POD:/app/data
-kubectl cp /home/nss/sefaria/datasets/ner/sefaria/new_alt_titles.json $POD:/app/data
-kubectl cp /home/nss/sefaria/datasets/ner/sefaria/swap_rabbis.json $POD:/app/data
+kubectl cp /home/nss/mekoros/data/research/knowledge_graph/named_entity_recognition/sperling_named_entities.json $POD:/app/data
+kubectl cp /home/nss/mekoros/datasets/ner/mekoros/new_rabbis.json $POD:/app/data
+kubectl cp "/home/nss/mekoros/datasets/ner/mekoros/Fix Rabi and Rav Errors - rav_rabbi_errors.csv" $POD:/app/data
+kubectl cp /home/nss/mekoros/datasets/ner/mekoros/new_alt_titles.json $POD:/app/data
+kubectl cp /home/nss/mekoros/datasets/ner/mekoros/swap_rabbis.json $POD:/app/data
 
 for yerushalmi launch
 kubectl cp "/home/nss/Downloads/Yerushalmi People Deduplication - English Titles.csv" $POD:/app/data
 kubectl cp "/home/nss/Downloads/Yerushalmi People Deduplication - Hebrew Titles.csv" $POD:/app/data
 kubectl cp "/home/nss/Downloads/Yerushalmi People Deduplication - New Titles for Existing Topics.csv" $POD:/app/data
-kubectl cp /home/nss/sefaria/datasets/ner/michael-sperling/sperling_en_and_he.csv $POD:/app/data
-kubectl cp /home/nss/sefaria/data/research/knowledge_graph/named_entity_recognition/sperling_named_entities.json $POD:/app/data
-kubectl cp /home/nss/sefaria/data/research/knowledge_graph/named_entity_recognition/import_yerushalmi_rabbis.py $POD:/app/scripts
+kubectl cp /home/nss/mekoros/datasets/ner/michael-sperling/sperling_en_and_he.csv $POD:/app/data
+kubectl cp /home/nss/mekoros/data/research/knowledge_graph/named_entity_recognition/sperling_named_entities.json $POD:/app/data
+kubectl cp /home/nss/mekoros/data/research/knowledge_graph/named_entity_recognition/import_yerushalmi_rabbis.py $POD:/app/scripts
 """

@@ -10,10 +10,10 @@ from pprint import pprint
 
 p = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, p)
-sys.path.insert(0, p + "/sefaria")
+sys.path.insert(0, p + "/mekoros")
 os.environ['DJANGO_SETTINGS_MODULE'] = "settings"
 
-from sefaria.system.database import db
+from mekoros.system.database import db
 
 
 keepers = []

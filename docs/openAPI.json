@@ -1,12 +1,12 @@
 {
   "openapi": "3.0.2",
   "info": {
-    "title": "Sefaria API",
+    "title": "Mekoros API",
     "version": "1.0.0",
-    "description": "The Sefaria API endpoints allows live access to Sefaria's structured database of Jewish texts and their interconnections.",
+    "description": "The Mekoros API endpoints allows live access to Mekoros's structured database of Jewish texts and their interconnections.",
     "contact": {
-      "url": "https://www.sefaria.org",
-      "email": "developers@sefaria.org"
+      "url": "https://www.mekoros.com",
+      "email": "developers@mekoros.com"
     },
     "license": {
       "name": "GNU AGPLv3",
@@ -15,14 +15,14 @@
   },
   "servers": [
     {
-      "url": "https://www.sefaria.org/",
+      "url": "https://www.mekoros.com/",
       "description": ""
     }
   ],
   "paths": {
     "/api/v3/texts/{tref}": {
       "summary": "v3 Texts",
-      "description": "The most up-to-date way to retrieve Sefaria texts, with language data that can handle displaying a right-to-left text with a right-to-left translation. ",
+      "description": "The most up-to-date way to retrieve Mekoros texts, with language data that can handle displaying a right-to-left text with a right-to-left translation. ",
       "get": {
         "tags": [
           "Text"
@@ -44,7 +44,7 @@
                           "license": "CC-BY-SA",
                           "versionNotes": "<i>Miqra According to the Masorah</i> (MAM) is a digital Hebrew edition of the Tanakh based on the Aleppo Codex and related manuscripts. It is designed for readers, and as such it contains added elements to aid vocalization of the text. For instance: When an accent is marked in an unstressed syllable, an extra accent is added in the proper place (<i>pashta</i>, <i>zarqa</i>, <i>segol</i>, <i>telisha</i>). <i>Legarmeih</i> and <i>paseq</i> are visibly distinguished. <i>Qamaz qatan</i> is indicated by its designated Unicode character (alternatives are documented where traditions differ about its application).<br>The text of MAM is fully documented. The <a href=\"https://he.wikisource.org/wiki/%D7%9E%D7%A9%D7%AA%D7%9E%D7%A9:Dovi/%D7%9E%D7%A7%D7%A8%D7%90_%D7%A2%D7%9C_%D7%A4%D7%99_%D7%94%D7%9E%D7%A1%D7%95%D7%A8%D7%94/%D7%9E%D7%99%D7%93%D7%A2_%D7%A2%D7%9C_%D7%9E%D7%94%D7%93%D7%95%D7%A8%D7%94_%D7%96%D7%95\">complete introduction</a> to the edition (Hebrew) explains the types of editorial decisions that have been made and the reasons for them (<a href=\"https://en.wikisource.org/wiki/User:Dovi/Miqra_according_to_the_Masorah#About_this_Edition_(English_Abstract)\">English abstract</a>). In addition, every word in the Bible about which there is some textual concern or ambiguity includes a documentation note; these notes can be viewed conveniently <a href=\"https://bdenckla.github.io/MAM-with-doc/\">here</a>. If an error is discovered, it may be reported to <a href=\"https://he.wikisource.org/wiki/%D7%A9%D7%99%D7%97%D7%AA_%D7%9E%D7%A9%D7%AA%D7%9E%D7%A9:Dovi\">User:Dovi</a> at Hebrew Wikisource. Please check the documentation notes before reporting an error.",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -76,7 +76,7 @@
                           "license": "CC-BY-SA",
                           "versionNotes": "<i>Miqra According to the Masorah</i> (MAM) is a digital Hebrew edition of the Tanakh based on the Aleppo Codex and related manuscripts. It is designed for readers, and as such it contains added elements to aid vocalization of the text. For instance: When an accent is marked in an unstressed syllable, an extra accent is added in the proper place (<i>pashta</i>, <i>zarqa</i>, <i>segol</i>, <i>telisha</i>). <i>Legarmeih</i> and <i>paseq</i> are visibly distinguished. <i>Qamaz qatan</i> is indicated by its designated Unicode character (alternatives are documented where traditions differ about its application).<br>The text of MAM is fully documented. The <a href=\"https://he.wikisource.org/wiki/%D7%9E%D7%A9%D7%AA%D7%9E%D7%A9:Dovi/%D7%9E%D7%A7%D7%A8%D7%90_%D7%A2%D7%9C_%D7%A4%D7%99_%D7%94%D7%9E%D7%A1%D7%95%D7%A8%D7%94/%D7%9E%D7%99%D7%93%D7%A2_%D7%A2%D7%9C_%D7%9E%D7%94%D7%93%D7%95%D7%A8%D7%94_%D7%96%D7%95\">complete introduction</a> to the edition (Hebrew) explains the types of editorial decisions that have been made and the reasons for them (<a href=\"https://en.wikisource.org/wiki/User:Dovi/Miqra_according_to_the_Masorah#About_this_Edition_(English_Abstract)\">English abstract</a>). In addition, every word in the Bible about which there is some textual concern or ambiguity includes a documentation note; these notes can be viewed conveniently <a href=\"https://bdenckla.github.io/MAM-with-doc/\">here</a>. If an error is discovered, it may be reported to <a href=\"https://he.wikisource.org/wiki/%D7%A9%D7%99%D7%97%D7%AA_%D7%9E%D7%A9%D7%AA%D7%9E%D7%A9:Dovi\">User:Dovi</a> at Hebrew Wikisource. Please check the documentation notes before reporting an error.",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -106,7 +106,7 @@
                           "license": "CC-BY-NC",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -116,7 +116,7 @@
                           "shortVersionTitleInHebrew": "",
                           "extendedNotes": "",
                           "extendedNotesHebrew": "",
-                          "purchaseInformationImage": "https://storage.googleapis.com/sefaria-physical-editions/JPS_1985.png",
+                          "purchaseInformationImage": "https://storage.googleapis.com/mekoros-physical-editions/JPS_1985.png",
                           "purchaseInformationURL": "https://www.nebraskapress.unl.edu/jps/9780827602526/",
                           "hasManuallyWrappedRefs": "",
                           "actualLanguage": "en",
@@ -134,9 +134,9 @@
                           "status": "locked",
                           "priority": 1,
                           "license": "Public Domain",
-                          "versionNotes": "This 1917 translation by the Jewish Publication Society is in the public domain. JPS graciously shared digital images of this text with the Open Siddur Project, from which the text was imported by Sefaria.",
+                          "versionNotes": "This 1917 translation by the Jewish Publication Society is in the public domain. JPS graciously shared digital images of this text with the Open Siddur Project, from which the text was imported by Mekoros.",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -166,7 +166,7 @@
                           "license": "Public Domain",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -196,7 +196,7 @@
                           "license": "Public Domain",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -226,7 +226,7 @@
                           "license": "Public Domain",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -256,7 +256,7 @@
                           "license": "",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -277,8 +277,8 @@
                           "direction": "ltr",
                           "language": "en",
                           "title": "Esther",
-                          "versionSource": "https://www.sefaria.org",
-                          "versionTitle": "Sefaria Community Translation"
+                          "versionSource": "https://www.mekoros.com",
+                          "versionTitle": "Mekoros Community Translation"
                         },
                         {
                           "status": "locked",
@@ -286,7 +286,7 @@
                           "license": "CC-BY",
                           "versionNotes": "To enhance the quality of this text, obvious translation errors were corrected in accordance with the Hebrew source",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -307,7 +307,7 @@
                           "direction": "ltr",
                           "language": "en",
                           "title": "Esther",
-                          "versionSource": "http://www.sefaria.org/shraga-silverstein",
+                          "versionSource": "http://www.mekoros.com/shraga-silverstein",
                           "versionTitle": "The Rashi Ketuvim by Rabbi Shraga Silverstein"
                         },
                         {
@@ -316,7 +316,7 @@
                           "license": "CC-BY-NC",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -326,7 +326,7 @@
                           "shortVersionTitleInHebrew": "",
                           "extendedNotes": "",
                           "extendedNotesHebrew": "",
-                          "purchaseInformationImage": "https://storage.googleapis.com/sefaria-physical-editions/9f4b3fedfe5a8889a3a7b3b7f3022091.png",
+                          "purchaseInformationImage": "https://storage.googleapis.com/mekoros-physical-editions/9f4b3fedfe5a8889a3a7b3b7f3022091.png",
                           "purchaseInformationURL": "https://korenpub.com/collections/tanakh",
                           "hasManuallyWrappedRefs": "",
                           "actualLanguage": "en",
@@ -346,7 +346,7 @@
                           "license": "CC-BY",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -356,7 +356,7 @@
                           "shortVersionTitleInHebrew": "",
                           "extendedNotes": "",
                           "extendedNotesHebrew": "",
-                          "purchaseInformationImage": "https://storage.googleapis.com/sefaria-physical-editions/958565938f3a7ed617834d467ac93c9f.png",
+                          "purchaseInformationImage": "https://storage.googleapis.com/mekoros-physical-editions/958565938f3a7ed617834d467ac93c9f.png",
                           "purchaseInformationURL": "https://www.israelbookshoppublications.com/store/pc/Metsudah-Five-Megilloth-w-Rashi-26p309.htm",
                           "hasManuallyWrappedRefs": "",
                           "actualLanguage": "en",
@@ -376,7 +376,7 @@
                           "license": "CC-BY",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -386,7 +386,7 @@
                           "shortVersionTitleInHebrew": "",
                           "extendedNotes": "",
                           "extendedNotesHebrew": "",
-                          "purchaseInformationImage": "https://storage.googleapis.com/sefaria-physical-editions/232433ac3323606604f21e0c70f0c061.png",
+                          "purchaseInformationImage": "https://storage.googleapis.com/mekoros-physical-editions/232433ac3323606604f21e0c70f0c061.png",
                           "purchaseInformationURL": "https://www.israelbookshoppublications.com/store/pc/Metsudah-Five-Megilloth-w-Rashi-26p309.htm",
                           "hasManuallyWrappedRefs": "",
                           "actualLanguage": "he",
@@ -406,7 +406,7 @@
                           "license": "",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -427,7 +427,7 @@
                           "direction": "rtl",
                           "language": "he",
                           "title": "Esther",
-                          "versionSource": "https://www.sefaria.org",
+                          "versionSource": "https://www.mekoros.com",
                           "versionTitle": "Megillat Esther - Purim Edition!!"
                         },
                         {
@@ -436,7 +436,7 @@
                           "license": "Public Domain",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -466,7 +466,7 @@
                           "license": "CC0",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -487,7 +487,7 @@
                           "direction": "rtl",
                           "language": "he",
                           "title": "Esther",
-                          "versionSource": "https://www.sefaria.org",
+                          "versionSource": "https://www.mekoros.com",
                           "versionTitle": "Emoji Megillah"
                         },
                         {
@@ -496,7 +496,7 @@
                           "license": "CC0",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -517,7 +517,7 @@
                           "direction": "ltr",
                           "language": "en",
                           "title": "Esther",
-                          "versionSource": "https://www.sefaria.org",
+                          "versionSource": "https://www.mekoros.com",
                           "versionTitle": "Emoji Megillah"
                         },
                         {
@@ -526,7 +526,7 @@
                           "license": "Public Domain",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -556,7 +556,7 @@
                           "license": "Public Domain",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -586,7 +586,7 @@
                           "license": "",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -616,7 +616,7 @@
                           "license": "",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -644,9 +644,9 @@
                           "status": "",
                           "priority": "",
                           "license": "Public Domain",
-                          "versionNotes": "This 1941 translation published by Yehoʼash Farlag Gezelshaft is in the public domain. A transcribed digitized version was produced by Itsik \"Robert\" Goldenberg, et al, by the Yehoyesh Project (1998-2006) under the direction of Leonard Prager. That version was graciously shared with the Open Siddur Project, from which the text was imported by Sefaria.",
+                          "versionNotes": "This 1941 translation published by Yehoʼash Farlag Gezelshaft is in the public domain. A transcribed digitized version was produced by Itsik \"Robert\" Goldenberg, et al, by the Yehoyesh Project (1998-2006) under the direction of Leonard Prager. That version was graciously shared with the Open Siddur Project, from which the text was imported by Mekoros.",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -676,7 +676,7 @@
                           "license": "",
                           "versionNotes": "<b>Translator:</b> Marion Kaufmann, based on german translations of Tur-Sinai, Martín Buber and Franz Rosenzwig<br><b>Review and correction:</b> Manes Kogan<br><b>Final Review:</b> Batia Dorfman",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -706,7 +706,7 @@
                           "license": "",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -736,7 +736,7 @@
                           "license": "Public Domain",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -766,7 +766,7 @@
                           "license": "",
                           "versionNotes": "Digitized by Chajm Guski and Marina Struse",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -796,7 +796,7 @@
                           "license": "PD",
                           "versionNotes": "",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": true,
+                          "digitizedByMekoros": true,
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -824,9 +824,9 @@
                           "status": "",
                           "priority": "",
                           "license": "",
-                          "versionNotes": "<a href=\"http://purl.org/jps/rjps-preface\">Read the Preface to the Revised JPS Edition</a>\n<br><br>\n<a href=\"http://purl.org/jps/gender\">Read the Notes on Gender in Translation for the Revised JPS Edition</a>\n<br><br>\n<a href=\"https://www.sefaria.org/collections/commentary-on-the-usage-and-rendering-of-%D7%90%D7%99%D7%A9?tab=sheets\">Read a Commentary on the Hebrew word 'ish in the Revised JPS Edition</a>",
+                          "versionNotes": "<a href=\"http://purl.org/jps/rjps-preface\">Read the Preface to the Revised JPS Edition</a>\n<br><br>\n<a href=\"http://purl.org/jps/gender\">Read the Notes on Gender in Translation for the Revised JPS Edition</a>\n<br><br>\n<a href=\"https://www.mekoros.com/collections/commentary-on-the-usage-and-rendering-of-%D7%90%D7%99%D7%A9?tab=sheets\">Read a Commentary on the Hebrew word 'ish in the Revised JPS Edition</a>",
                           "formatAsPoetry": "",
-                          "digitizedBySefaria": "",
+                          "digitizedByMekoros": "",
                           "method": "",
                           "heversionSource": "",
                           "versionUrl": "",
@@ -836,7 +836,7 @@
                           "shortVersionTitleInHebrew": "",
                           "extendedNotes": "",
                           "extendedNotesHebrew": "",
-                          "purchaseInformationImage": "https://storage.googleapis.com/sefaria-physical-editions/JPS-Tanakh-Gender-Sensitive-Edition-Cover-300x450.jpg",
+                          "purchaseInformationImage": "https://storage.googleapis.com/mekoros-physical-editions/JPS-Tanakh-Gender-Sensitive-Edition-Cover-300x450.jpg",
                           "purchaseInformationURL": "https://jps.org/books/the-jps-tanakh-gender-sensitive-edition/",
                           "hasManuallyWrappedRefs": "",
                           "actualLanguage": "en",
@@ -926,7 +926,7 @@
           }
         },
         "summary": "Texts (v3)",
-        "description": "The most up-to-date way to retrieve texts from Sefaria via the API, with enhanced control over language, language direction, and other parameters. "
+        "description": "The most up-to-date way to retrieve texts from Mekoros via the API, with enhanced control over language, language direction, and other parameters. "
       },
       "parameters": [
         {
@@ -939,7 +939,7 @@
             }
           },
           "name": "version",
-          "description": "There are two possible forms for the string passed as the `version`:\n1. `language`\n2. `language|versionTitle`\n\nWhen in the form of `language`, the primary version of that language is returned in the `versions` field of the response object. When in the form of `language>|<versionTitle`, only that specific version is returned in the `versions` field. \n\n\n**Notes**: \n- `language` is the full English name of the language. In cases of dialectics with varying sub-specifities, please pass the ‘mother’ language (so for example, `arabic` rather than `judeo-arabic`). This field is NOT case sensitive.\n- `versionTitle` is the exact English `versionTitle` of the given `version` in the Sefaria database. \n- When only `language` is passed, the response will return a single version of the text in that language, the one that is highest priority in the Sefaria database.\n- Requests can have more than one `version` param. If no `version` was passed, the API defaults to `version=primary`.\n\n-----\n\n**Special Values**\nThe following values can be passed in as special values to the `version` parameter. \n- `source`: When `version=source` is passed, it retrieves the text in its \"source\" language (i.e. the original language the text was written in, versus a translation).\n- `translation`: When `version=translation`is passed, it retrieves a translation of the text. \n- `primary`: When `version=primary` is passed, it retrieves the primary text as per the Sefaria database (i.e. the `isPrimary` field on the `version` in the database is set to `True`). Usually the text returned is identical to what is returned with the special value of `source`, but it can also include other languages (e.g. Hebrew for the _Kuzari_, which was originally written in Judeo-Arabic)\n- `all`: get all texts in the required language.\n\n\nIf a required version is missing that information will be under the field warnings of the response.\n",
+          "description": "There are two possible forms for the string passed as the `version`:\n1. `language`\n2. `language|versionTitle`\n\nWhen in the form of `language`, the primary version of that language is returned in the `versions` field of the response object. When in the form of `language>|<versionTitle`, only that specific version is returned in the `versions` field. \n\n\n**Notes**: \n- `language` is the full English name of the language. In cases of dialectics with varying sub-specifities, please pass the ‘mother’ language (so for example, `arabic` rather than `judeo-arabic`). This field is NOT case sensitive.\n- `versionTitle` is the exact English `versionTitle` of the given `version` in the Mekoros database. \n- When only `language` is passed, the response will return a single version of the text in that language, the one that is highest priority in the Mekoros database.\n- Requests can have more than one `version` param. If no `version` was passed, the API defaults to `version=primary`.\n\n-----\n\n**Special Values**\nThe following values can be passed in as special values to the `version` parameter. \n- `source`: When `version=source` is passed, it retrieves the text in its \"source\" language (i.e. the original language the text was written in, versus a translation).\n- `translation`: When `version=translation`is passed, it retrieves a translation of the text. \n- `primary`: When `version=primary` is passed, it retrieves the primary text as per the Mekoros database (i.e. the `isPrimary` field on the `version` in the database is set to `True`). Usually the text returned is identical to what is returned with the special value of `source`, but it can also include other languages (e.g. Hebrew for the _Kuzari_, which was originally written in Judeo-Arabic)\n- `all`: get all texts in the required language.\n\n\nIf a required version is missing that information will be under the field warnings of the response.\n",
           "schema": {
             "type": "string"
           },
@@ -967,7 +967,7 @@
             }
           },
           "name": "tref",
-          "description": "A Sefaria-specific reference, `Ref`. This should be a segment `Ref` (the most specific reference possible), or bottom level section `Ref` (i.e.  a section of text on level up, a section is an array of segments). If a `Ref` is passed in which is not a segment level or a bottom level section, the response will be to the first bottom level section `Ref` (e.g. `Genesis` will resolve to the bottom level section `Ref` of `Genesis 1`)",
+          "description": "A Mekoros-specific reference, `Ref`. This should be a segment `Ref` (the most specific reference possible), or bottom level section `Ref` (i.e.  a section of text on level up, a section is an array of segments). If a `Ref` is passed in which is not a segment level or a bottom level section, the response will be to the first bottom level section `Ref` (e.g. `Genesis` will resolve to the bottom level section `Ref` of `Genesis 1`)",
           "schema": {
             "type": "string"
           },
@@ -996,7 +996,7 @@
             }
           },
           "name": "return_format",
-          "description": "This parameter formats the text that will be returned from the `v3` `texts/` API. It can have one of four values:\n1. `text_only` - This strips footnotes, inline references and all html tags from the returned text\n2. `strip_only_footnotes` - This only strips the footnotes and commentator <i> tags without stripping the other HTML tags.This is useful for the native app, where we do not display footnotes.\n3. `wrap_all_entities` - This wraps the HTML for links and topic links\n4. `default` - This returns the basic text as it’s saved in Sefaria’s DB\n",
+          "description": "This parameter formats the text that will be returned from the `v3` `texts/` API. It can have one of four values:\n1. `text_only` - This strips footnotes, inline references and all html tags from the returned text\n2. `strip_only_footnotes` - This only strips the footnotes and commentator <i> tags without stripping the other HTML tags.This is useful for the native app, where we do not display footnotes.\n3. `wrap_all_entities` - This wraps the HTML for links and topic links\n4. `default` - This returns the basic text as it’s saved in Mekoros’s DB\n",
           "schema": {
             "enum": [
               "default",
@@ -1073,7 +1073,7 @@
           },
           {
             "name": "firstAvailableRef",
-            "description": "If a given text reference doesn't return any content, setting this to `1` will return the first reference that does. \n\nSometimes this occurs when a text reference may pass our ref checking logic, but doesn't exist e.g. `https://www.sefaria.org/api/texts/Berakhot 1a?firstAvailableRef=1`, and sometimes this occurs when a translation is incomplete. Defaults to `0`",
+            "description": "If a given text reference doesn't return any content, setting this to `1` will return the first reference that does. \n\nSometimes this occurs when a text reference may pass our ref checking logic, but doesn't exist e.g. `https://www.mekoros.com/api/texts/Berakhot 1a?firstAvailableRef=1`, and sometimes this occurs when a translation is incomplete. Defaults to `0`",
             "schema": {
               "enum": [
                 "0",
@@ -1134,7 +1134,7 @@
           },
           {
             "name": "stripItags",
-            "description": "Sefaria texts include footnotes and other `iTags` in the response. This param defaults to `0` which leaves them in. Changing it to `1` will remove them.",
+            "description": "Mekoros texts include footnotes and other `iTags` in the response. This param defaults to `0` which leaves them in. Changing it to `1` will remove them.",
             "schema": {
               "enum": [
                 "0",
@@ -1185,7 +1185,7 @@
           },
           {
             "name": "sheets",
-            "description": "The `sheets` param defaults to `0`, which turns off user-generated Sefaria Sheet data from being returned in the response. When you explicitly set `sheets=1` all of the user-generated sheet content to that specific connection is returned in list of JSON objects.\n\n_This usage is deprecated. Instead you should use the `Related API`._",
+            "description": "The `sheets` param defaults to `0`, which turns off user-generated Mekoros Sheet data from being returned in the response. When you explicitly set `sheets=1` all of the user-generated sheet content to that specific connection is returned in list of JSON objects.\n\n_This usage is deprecated. Instead you should use the `Related API`._",
             "schema": {
               "enum": [
                 "0",
@@ -1214,7 +1214,7 @@
               }
             },
             "name": "tref",
-            "description": "A valid textual `Ref` to a Sefaria text.",
+            "description": "A valid textual `Ref` to a Mekoros text.",
             "schema": {
               "$ref": "#/components/schemas/ref"
             },
@@ -1270,20 +1270,20 @@
                       "extendedNotes": "",
                       "extendedNotesHebrew": "",
                       "versionNotesInHebrew": "תרגום אנגלי של תלמוד מהדורת ויליאם דיוידסון מתוך מהדורת <a href='https://korenpub.com/collections/the-noe-edition-koren-talmud-bavli-1'>Noé</a> עם פירוש <a href='/adin-even-israel-steinsaltz'>הרב עדין אבן ישראל שטיינזלץ</a>, בהוצאת קורן ירושלים",
-                      "digitizedBySefaria": false,
+                      "digitizedByMekoros": false,
                       "license": "CC-BY-NC",
                       "formatEnAsPoetry": false,
                       "heVersionTitle": "William Davidson Edition - Vocalized Aramaic",
                       "heVersionTitleInHebrew": "מהדורת וויליאם דייוידסון - ארמית המנוקד",
                       "heShortVersionTitle": "",
                       "heShortVersionTitleInHebrew": "",
-                      "heVersionSource": "https://www.sefaria.org",
+                      "heVersionSource": "https://www.mekoros.com",
                       "heVersionStatus": "locked",
                       "heVersionNotes": "Aramaic from The William Davidson digital edition of the <a href='https://www.korenpub.com/koren_en_usd/koren/talmud/koren-talmud-bavli-no.html'>Koren Noé Talmud</a>, with commentary by <a href='/adin-even-israel-steinsaltz'>Rabbi Adin Even-Israel Steinsaltz</a>\nNikud (vocalization) by <a href='https://dicta.org.il/'>Dicta - the Israel Center for Text Analysis</a>",
                       "heExtendedNotes": "",
                       "heExtendedNotesHebrew": "",
                       "heVersionNotesInHebrew": "הטקסט הארמי של מהדורת וויליאם דייוידסון הדיגיטלית מתוך <a href='https://www.korenpub.com/koren_en_usd/koren/talmud/koren-talmud-bavli-no.html'>תלמוד קורן מהדורת נאה</a>, עם באור מאת <a href='/adin-even-israel-steinsaltz'>הרב אבן־ישראל (שטיינזלץ)</a>\nמנוקד על ידי <a href='https://dicta.org.il/'>דיקטה - המרכז הישראלי לניתוח טקסטים</a>",
-                      "heDigitizedBySefaria": false,
+                      "heDigitizedByMekoros": false,
                       "heLicense": "CC-BY-NC",
                       "formatHeAsPoetry": false,
                       "title": "Shabbat 22a",
@@ -1305,7 +1305,7 @@
         },
         "deprecated": true,
         "summary": "Texts (v1)",
-        "description": "Retrieve the text and some additional metadata for a specific Sefaria textual `Ref`"
+        "description": "Retrieve the text and some additional metadata for a specific Mekoros textual `Ref`"
       },
       "parameters": [
         {
@@ -1327,7 +1327,7 @@
             }
           },
           "name": "tref",
-          "description": "A valid textual `Ref` to a Sefaria text.",
+          "description": "A valid textual `Ref` to a Mekoros text.",
           "schema": {
             "$ref": "#/components/schemas/ref"
           },
@@ -1364,13 +1364,13 @@
                         "status": "locked",
                         "license": "CC-BY",
                         "versionNotes": "",
-                        "digitizedBySefaria": "",
+                        "digitizedByMekoros": "",
                         "priority": 2,
                         "versionTitleInHebrew": "",
                         "versionNotesInHebrew": "",
                         "extendedNotes": "",
                         "extendedNotesHebrew": "",
-                        "purchaseInformationImage": "https://storage.googleapis.com/sefaria-physical-editions/ba0b4357b240eff4b28b7fcfc4669d56.png",
+                        "purchaseInformationImage": "https://storage.googleapis.com/mekoros-physical-editions/ba0b4357b240eff4b28b7fcfc4669d56.png",
                         "purchaseInformationURL": "https://www.israelbookshoppublications.com/store/pc/Metsudah-Five-Megilloth-w-Rashi-26p309.htm",
                         "shortVersionTitle": "",
                         "shortVersionTitleInHebrew": "",
@@ -1385,13 +1385,13 @@
                         "status": "locked",
                         "license": "CC-BY",
                         "versionNotes": "",
-                        "digitizedBySefaria": "",
+                        "digitizedByMekoros": "",
                         "priority": 2,
                         "versionTitleInHebrew": "",
                         "versionNotesInHebrew": "",
                         "extendedNotes": "",
                         "extendedNotesHebrew": "",
-                        "purchaseInformationImage": "https://storage.googleapis.com/sefaria-physical-editions/00c61bd3103f9398bf080832c4a0221f.png",
+                        "purchaseInformationImage": "https://storage.googleapis.com/mekoros-physical-editions/00c61bd3103f9398bf080832c4a0221f.png",
                         "purchaseInformationURL": "https://www.israelbookshoppublications.com/store/pc/Metsudah-Five-Megilloth-w-Rashi-26p309.htm",
                         "shortVersionTitle": "",
                         "shortVersionTitleInHebrew": "",
@@ -1406,7 +1406,7 @@
                         "status": "locked",
                         "license": "Public Domain",
                         "versionNotes": "",
-                        "digitizedBySefaria": "",
+                        "digitizedByMekoros": "",
                         "priority": 1,
                         "versionTitleInHebrew": "ובלכתך בדרך",
                         "versionNotesInHebrew": "",
@@ -1421,13 +1421,13 @@
                       },
                       {
                         "title": "Rashi on Ecclesiastes",
-                        "versionTitle": "Sefaria Community Translation",
-                        "versionSource": "https://www.sefaria.org",
+                        "versionTitle": "Mekoros Community Translation",
+                        "versionSource": "https://www.mekoros.com",
                         "language": "en",
                         "status": "",
                         "license": "",
                         "versionNotes": "",
-                        "digitizedBySefaria": "",
+                        "digitizedByMekoros": "",
                         "priority": "",
                         "versionTitleInHebrew": "תרגום קהילת ספריא",
                         "versionNotesInHebrew": "",
@@ -1448,7 +1448,7 @@
                         "status": "locked",
                         "license": "CC-BY",
                         "versionNotes": "",
-                        "digitizedBySefaria": "",
+                        "digitizedByMekoros": "",
                         "priority": "",
                         "versionTitleInHebrew": "",
                         "versionNotesInHebrew": "",
@@ -1470,7 +1470,7 @@
           }
         },
         "summary": "Versions",
-        "description": "The versions API takes a title of a valid Sefaria `index` as a parameter, and will return all available versions of the text in the Sefaria database, alongside metadata for each version. A version can be a translation of the text, an alternative language, or any other text associated with that index. \n\n*Note:* In order to see the expected results, you need to make sure you are passing a recognized `index`. For example, `Rashi on Genesis` is a valid `index` but `Rashi` is not. To see the entire list of valid Sefaria indices, click [here](https://www.sefaria.org/api/index/)"
+        "description": "The versions API takes a title of a valid Mekoros `index` as a parameter, and will return all available versions of the text in the Mekoros database, alongside metadata for each version. A version can be a translation of the text, an alternative language, or any other text associated with that index. \n\n*Note:* In order to see the expected results, you need to make sure you are passing a recognized `index`. For example, `Rashi on Genesis` is a valid `index` but `Rashi` is not. To see the entire list of valid Mekoros indices, click [here](https://www.mekoros.com/api/index/)"
       },
       "parameters": [
         {
@@ -1489,7 +1489,7 @@
             }
           },
           "name": "index",
-          "description": "A valid Sefaria Index",
+          "description": "A valid Mekoros Index",
           "schema": {
             "type": "string"
           },
@@ -1558,11 +1558,11 @@
                   "type": "object",
                   "properties": {
                     "title": {
-                      "description": "Title of the book on Sefaria",
+                      "description": "Title of the book on Mekoros",
                       "type": "string"
                     },
                     "url": {
-                      "description": "Base URL of the book on Sefaria",
+                      "description": "Base URL of the book on Mekoros",
                       "type": "string"
                     },
                     "versionTitle": {
@@ -1585,7 +1585,7 @@
           }
         },
         "summary": "Translations",
-        "description": "Returns a dictionary of texts translated into `lang`, organized by the Sefaria category & secondary category of each title."
+        "description": "Returns a dictionary of texts translated into `lang`, organized by the Mekoros category & secondary category of each title."
       },
       "parameters": [
         {
@@ -1636,7 +1636,7 @@
               }
             },
             "name": "tref",
-            "description": "The `tref` parameter must a valid Sefaria ref to a text.",
+            "description": "The `tref` parameter must a valid Mekoros ref to a text.",
             "schema": {
               "type": "string"
             },
@@ -1660,8 +1660,8 @@
                       {
                         "manuscript_slug": "leningrad-codex-(1008-ce)",
                         "page_id": "LC_Folio_435r",
-                        "image_url": "https://manuscripts.sefaria.org/leningrad-color/BIB_LENCDX_F435A.jpg",
-                        "thumbnail_url": "https://manuscripts.sefaria.org/leningrad-color/BIB_LENCDX_F435A_thumbnail.jpg",
+                        "image_url": "https://manuscripts.mekoros.com/leningrad-color/BIB_LENCDX_F435A.jpg",
+                        "thumbnail_url": "https://manuscripts.mekoros.com/leningrad-color/BIB_LENCDX_F435A_thumbnail.jpg",
                         "anchorRef": "Esther 4:17-6:2",
                         "anchorRefExpanded": [
                           "Esther 5:14"
@@ -1678,8 +1678,8 @@
                       {
                         "manuscript_slug": "megilat-ester-or-1047-(17th-century)",
                         "page_id": "Esther",
-                        "image_url": "https://storage.googleapis.com/sefaria-manuscripts/misc/Megilat%20Ester%2C%20Or%201047%20-%20mid.jpg",
-                        "thumbnail_url": "https://storage.googleapis.com/sefaria-manuscripts/misc/Megilat%20Ester%2C%20Or%201047%20-%20thumb.png",
+                        "image_url": "https://storage.googleapis.com/mekoros-manuscripts/misc/Megilat%20Ester%2C%20Or%201047%20-%20mid.jpg",
+                        "thumbnail_url": "https://storage.googleapis.com/mekoros-manuscripts/misc/Megilat%20Ester%2C%20Or%201047%20-%20thumb.png",
                         "anchorRef": "Esther",
                         "anchorRefExpanded": [
                           "Esther 5:14"
@@ -1702,7 +1702,7 @@
           }
         },
         "summary": "Manuscripts",
-        "description": "This call retrieves all associated manuscript data and metadata for a given Sefaria `tref`. "
+        "description": "This call retrieves all associated manuscript data and metadata for a given Mekoros `tref`. "
       },
       "parameters": [
         {
@@ -1715,7 +1715,7 @@
             }
           },
           "name": "tref",
-          "description": "A valid Sefaria ref",
+          "description": "A valid Mekoros ref",
           "schema": {
             "type": "string"
           },
@@ -1732,7 +1732,7 @@
         "parameters": [
           {
             "name": "titles",
-            "description": "A string of book titles from the Sefaria library separated with the character `|`. If it exists it will limit the random selection to those titles.",
+            "description": "A string of book titles from the Mekoros library separated with the character `|`. If it exists it will limit the random selection to those titles.",
             "schema": {
               "type": "string"
             },
@@ -1740,7 +1740,7 @@
           },
           {
             "name": "categories",
-            "description": "A string of categories from the Sefaria library separated with the character `|`. If it exists it will limit the random selection to those categories.",
+            "description": "A string of categories from the Mekoros library separated with the character `|`. If it exists it will limit the random selection to those categories.",
             "schema": {
               "type": "string"
             },
@@ -1760,7 +1760,7 @@
           }
         },
         "summary": "Random Text",
-        "description": "Returns a random text reference from the Sefaria library. Results can be limited to a specific category or from a selection of titles given the correct query params."
+        "description": "Returns a random text reference from the Mekoros library. Results can be limited to a specific category or from a selection of titles given the correct query params."
       }
     },
     "/api/v2/raw/index/{index_title}": {
@@ -2447,7 +2447,7 @@
             }
           },
           "name": "index_title",
-          "description": "A title of a valid Sefaria `Index`. For a complete list of works in the [Sefaria](sefaria.org) library, as well as their index titles, query the [api/index](https://www.sefaria.org/api/index/) endpoint. ",
+          "description": "A title of a valid Mekoros `Index`. For a complete list of works in the [Mekoros](mekoros.com) library, as well as their index titles, query the [api/index](https://www.mekoros.com/api/index/) endpoint. ",
           "schema": {
             "type": "string"
           },
@@ -2474,12 +2474,12 @@
           }
         },
         "summary": "Table of Contents",
-        "description": "This API endpoint returns the titles of all the books in the Sefaria Library arranged by their category along with some additional metadata. This is a large and rarely changing request and should be cached locally if you utilize it."
+        "description": "This API endpoint returns the titles of all the books in the Mekoros Library arranged by their category along with some additional metadata. This is a large and rarely changing request and should be cached locally if you utilize it."
       }
     },
     "/api/shape/{title}": {
       "summary": "Shape",
-      "description": "The shape API allows one to retrieve information about the shape of an Index on Sefaria. The shape refers some basic statistics about the Index, mostly the number of chapters, and the number of segments per chapter.",
+      "description": "The shape API allows one to retrieve information about the shape of an Index on Mekoros. The shape refers some basic statistics about the Index, mostly the number of chapters, and the number of segments per chapter.",
       "get": {
         "tags": [
           "Index"
@@ -2904,11 +2904,11 @@
                 }
               }
             },
-            "description": "Retrieve basic statistics and information about the \"shape\" of an `Index` on Sefaria. "
+            "description": "Retrieve basic statistics and information about the \"shape\" of an `Index` on Mekoros. "
           }
         },
         "summary": "Shape",
-        "description": "Retrieve basic statistics and information about the \"shape\" of an `Index` on Sefaria. "
+        "description": "Retrieve basic statistics and information about the \"shape\" of an `Index` on Mekoros. "
       },
       "parameters": [
         {
@@ -2927,7 +2927,7 @@
             }
           },
           "name": "title",
-          "description": "The title of a valid Sefaria `Index`, or the path of a valid Sefaria category. ",
+          "description": "The title of a valid Mekoros `Index`, or the path of a valid Mekoros category. ",
           "schema": {
             "type": "string"
           },
@@ -3377,7 +3377,7 @@
                           },
                           "ownerName": "Rabbi Yossi Orkin",
                           "ownerProfileUrl": "/profile/yossi-orkin",
-                          "ownerImageUrl": "https://storage.googleapis.com/sefaria-profile-pictures/yossi-orkin-1626415935-small.png",
+                          "ownerImageUrl": "https://storage.googleapis.com/mekoros-profile-pictures/yossi-orkin-1626415935-small.png",
                           "status": "public",
                           "views": 398,
                           "topics": [
@@ -3502,7 +3502,7 @@
             }
           },
           "name": "tref",
-          "description": "A valid Sefaria textual `Ref`. ",
+          "description": "A valid Mekoros textual `Ref`. ",
           "schema": {
             "$ref": "#/components/schemas/ref"
           },
@@ -3531,7 +3531,7 @@
           },
           {
             "name": "with_sheet_links",
-            "description": "`with_sheet_links` is an optional parameter that determines whether or not the API response will include links to user generated source sheets from Sefaria. It's default is `0`",
+            "description": "`with_sheet_links` is an optional parameter that determines whether or not the API response will include links to user generated source sheets from Mekoros. It's default is `0`",
             "schema": {
               "enum": [
                 "0",
@@ -3568,7 +3568,7 @@
             }
           },
           "name": "tref",
-          "description": "A valid Sefaria textual `Ref`.",
+          "description": "A valid Mekoros textual `Ref`.",
           "schema": {
             "$ref": "#/components/schemas/ref"
           },
@@ -3654,7 +3654,7 @@
             }
           },
           "name": "tref",
-          "description": "A valid Sefaria textual `Ref`",
+          "description": "A valid Mekoros textual `Ref`",
           "schema": {
             "$ref": "#/components/schemas/ref"
           },
@@ -3938,7 +3938,7 @@
           }
         },
         "summary": "Lexicon",
-        "description": "Searches Sefaria lexicon entries (i.e. dictionaries) for the query string passed as `word` to the endpoint."
+        "description": "Searches Mekoros lexicon entries (i.e. dictionaries) for the query string passed as `word` to the endpoint."
       },
       "parameters": [
         {
@@ -3989,7 +3989,7 @@
               }
             },
             "name": "lexicon",
-            "description": "An optional text string matching the name of one of Sefaria's lexicons to limit the search.",
+            "description": "An optional text string matching the name of one of Mekoros's lexicons to limit the search.",
             "schema": {
               "type": "string"
             },
@@ -4076,7 +4076,7 @@
       "parameters": [
         {
           "name": "word",
-          "description": "An arbitrary text string to match against Sefaria's lexicon collections.",
+          "description": "An arbitrary text string to match against Mekoros's lexicon collections.",
           "schema": {
             "type": "string"
           },
@@ -4221,7 +4221,7 @@
                       "numSources": 1767,
                       "good_to_promote": true,
                       "description_published": true,
-                      "data_source": "sefaria",
+                      "data_source": "mekoros",
                       "primaryTitle": {
                         "en": "Moses",
                         "he": "משה"
@@ -4286,7 +4286,7 @@
         },
         {
           "name": "group_related",
-          "description": "Values can be `1` or `0`. \n\nIf `1`, groups link types with the `groupRelated` key set to true. This will simulate how the sidebar looks on the Sefaria site.",
+          "description": "Values can be `1` or `0`. \n\nIf `1`, groups link types with the `groupRelated` key set to true. This will simulate how the sidebar looks on the Mekoros site.",
           "schema": {
             "type": "integer"
           },
@@ -4382,11 +4382,11 @@
                       "properties": {
                         "heNliLink": {
                           "value": "https://www.nli.org.il/he/discover/judaism/holidays/sukkot",
-                          "dataSource": "sefaria"
+                          "dataSource": "mekoros"
                         },
                         "enNliLink": {
                           "value": "https://www.nli.org.il/en/discover/judaism/holidays/sukkot",
-                          "dataSource": "sefaria"
+                          "dataSource": "mekoros"
                         }
                       },
                       "description": {
@@ -4397,9 +4397,9 @@
                       "displayOrder": 4,
                       "numSources": 831,
                       "description_published": true,
-                      "data_source": "sefaria",
+                      "data_source": "mekoros",
                       "image": {
-                        "image_uri": "https://storage.googleapis.com/img.sefaria.org/topics/sukkot.jpg",
+                        "image_uri": "https://storage.googleapis.com/img.mekoros.com/topics/sukkot.jpg",
                         "image_caption": {
                           "en": "Detail of a painting of a sukkah. Image taken from f. 316v of Forli Siddur. 1383, Italian rite. The British Library",
                           "he": "פרט ציור של סוכה עם שולחן פרוש ושלוש דמויות. דימוי מתוך סידור פורלי, 1383 איטליה"
@@ -4442,7 +4442,7 @@
             }
           },
           "name": "topic_slug",
-          "description": "The slug of a topic in the Sefaria system. (To find all of the slugs, you can run `api/topics` without a path parameter to see the data for each topic in our database).",
+          "description": "The slug of a topic in the Mekoros system. (To find all of the slugs, you can run `api/topics` without a path parameter to see the data for each topic in our database).",
           "schema": {
             "type": "string"
           },
@@ -4468,7 +4468,7 @@
         },
         {
           "name": "group_related",
-          "description": "`1` or `0`. If `1`, groups link types with the `groupRelated` key set to true. This will simulate how the sidebar looks on the Sefaria site.",
+          "description": "`1` or `0`. If `1`, groups link types with the `groupRelated` key set to true. This will simulate how the sidebar looks on the Mekoros site.",
           "schema": {
             "type": "integer"
           },
@@ -4492,7 +4492,7 @@
     },
     "/api/topics": {
       "summary": "The Topics API",
-      "description": "The topics API returns a list of JSON objects containing metadata for every topic in the Sefaria database. ",
+      "description": "The topics API returns a list of JSON objects containing metadata for every topic in the Mekoros database. ",
       "get": {
         "tags": [
           "Topic"
@@ -4715,11 +4715,11 @@
                         "properties": {
                           "heNliLink": {
                             "value": "https://www.nli.org.il/he/discover/judaism/holidays/passover",
-                            "dataSource": "sefaria"
+                            "dataSource": "mekoros"
                           },
                           "enNliLink": {
                             "value": "https://www.nli.org.il/en/discover/judaism/holidays/passover",
-                            "dataSource": "sefaria"
+                            "dataSource": "mekoros"
                           }
                         },
                         "description": {
@@ -4800,7 +4800,7 @@
                         "numSources": 1967,
                         "good_to_promote": true,
                         "description_published": true,
-                        "data_source": "sefaria",
+                        "data_source": "mekoros",
                         "primaryTitle": {
                           "en": "Teshuvah",
                           "he": "תשובה"
@@ -4829,11 +4829,11 @@
                 }
               }
             },
-            "description": "A list of JSON objects, each object representing a topic in the Sefaria database. Please note, since this list is over 30,000 topics long, in the example we only presented the first several topics that are returned in the array. "
+            "description": "A list of JSON objects, each object representing a topic in the Mekoros database. Please note, since this list is over 30,000 topics long, in the example we only presented the first several topics that are returned in the array. "
           }
         },
         "summary": "All Topics",
-        "description": "The topics API returns a list of JSON objects, each object containing all of the metadata for each topic in the Sefaria database. "
+        "description": "The topics API returns a list of JSON objects, each object containing all of the metadata for each topic in the Mekoros database. "
       }
     },
     "/api/topics-graph/{topic_slug}": {
@@ -4891,7 +4891,7 @@
                           "properties": {
                             "heNliLink": {
                               "value": "https://www.nli.org.il/he/discover/judaism/traditions/shabbat",
-                              "dataSource": "sefaria"
+                              "dataSource": "mekoros"
                             }
                           },
                           "description": {
@@ -4903,9 +4903,9 @@
                           "numSources": 1662,
                           "good_to_promote": true,
                           "description_published": true,
-                          "data_source": "sefaria",
+                          "data_source": "mekoros",
                           "image": {
-                            "image_uri": "https://storage.googleapis.com/img.sefaria.org/topics/shabbat.jpg",
+                            "image_uri": "https://storage.googleapis.com/img.mekoros.com/topics/shabbat.jpg",
                             "image_caption": {
                               "en": "Friday Evening, Isidor Kaufmann, Austria c. 1920. The Jewish Museum, Gift of Mr. and Mrs. M. R. Schweitzer",
                               "he": "שישי בערב, איזידור קאופמן, וינה 1920. המוזיאון היהודי בניו יורק, מתנת  מר וגברת מ.ר. שוויצר"
@@ -4957,7 +4957,7 @@
                           "displayOrder": 230,
                           "numSources": 57,
                           "description_published": true,
-                          "data_source": "sefaria",
+                          "data_source": "mekoros",
                           "primaryTitle": {
                             "en": "Shabbat Hagadol",
                             "he": "שבת הגדול"
@@ -4969,7 +4969,7 @@
                           "toTopic": "shabbat",
                           "linkType": "is-a",
                           "class": "intraTopic",
-                          "dataSource": "aspaklaria-edited-by-sefaria",
+                          "dataSource": "aspaklaria-edited-by-mekoros",
                           "fromTopic": "shabbat-shuvah",
                           "order": {
                             "linksInCommon": 0,
@@ -4981,7 +4981,7 @@
                           "toTopic": "shabbat",
                           "linkType": "is-a",
                           "class": "intraTopic",
-                          "dataSource": "aspaklaria-edited-by-sefaria",
+                          "dataSource": "aspaklaria-edited-by-mekoros",
                           "fromTopic": "shabbat-hagadol",
                           "order": {
                             "linksInCommon": 1,
@@ -5012,7 +5012,7 @@
             }
           },
           "name": "topic_slug",
-          "description": "A valid Sefaria slug for a topic in the database. ",
+          "description": "A valid Mekoros slug for a topic in the database. ",
           "schema": {
             "type": "string"
           },
@@ -5285,7 +5285,7 @@
             }
           },
           "name": "name",
-          "description": "The English name of a valid Sefaria term. ",
+          "description": "The English name of a valid Mekoros term. ",
           "schema": {
             "type": "string"
           },
@@ -5295,7 +5295,7 @@
       ]
     },
     "/api/name/{name}": {
-      "description": "Serves primarily as an autocompleter, returning potential keyword matches for `Ref`s, book titles, authors, topics, and collections available on Sefaria",
+      "description": "Serves primarily as an autocompleter, returning potential keyword matches for `Ref`s, book titles, authors, topics, and collections available on Mekoros",
       "get": {
         "tags": [
           "Term"
@@ -5335,12 +5335,12 @@
           }
         },
         "summary": "Name",
-        "description": "Serves primarily as an autocompleter, returning potential keyword matches for `Ref`s, book titles, authors, topics, and collections available on Sefaria."
+        "description": "Serves primarily as an autocompleter, returning potential keyword matches for `Ref`s, book titles, authors, topics, and collections available on Mekoros."
       },
       "parameters": [
         {
           "name": "name",
-          "description": "An arbitrary text string to match against Sefaria's data collections.",
+          "description": "An arbitrary text string to match against Mekoros's data collections.",
           "schema": {
             "type": "string"
           },
@@ -5389,7 +5389,7 @@
           }
         },
         "summary": "Find Refs",
-        "description": "Initially designed to find links on websites using [Sefaria's Linker](https://www.sefaria.org/linker), the Find Refs API can identify textual refernces in any arbitrary text that gets sent to it via a structured POST request and returns a response object identifying each located reference including its start and end position within the submitted text."
+        "description": "Initially designed to find links on websites using [Mekoros's Linker](https://www.mekoros.com/linker), the Find Refs API can identify textual refernces in any arbitrary text that gets sent to it via a structured POST request and returns a response object identifying each located reference including its start and end position within the submitted text."
       }
     },
     "/api/search-wrapper": {
@@ -5420,7 +5420,7 @@
           }
         },
         "summary": "Search",
-        "description": "An [elastic search](https://www.elastic.co/guide/en/elasticsearch/reference/current/) endpoint for Sefaria's data. Given a properly formated POST request this endpoint will return search results for appropriate Sefaria records."
+        "description": "An [elastic search](https://www.elastic.co/guide/en/elasticsearch/reference/current/) endpoint for Mekoros's data. Given a properly formated POST request this endpoint will return search results for appropriate Mekoros records."
       }
     },
     "/api/img-gen/{tref}": {
@@ -5489,7 +5489,7 @@
           }
         },
         "summary": "Social Media Image",
-        "description": "Given a Sefaria text `Ref` and some other optional parameters, this endpoint returns a .png image ready to share on social media. At Sefaria.org we use it primarily to auto-generate social media images for any page."
+        "description": "Given a Mekoros text `Ref` and some other optional parameters, this endpoint returns a .png image ready to share on social media. At Mekoros.com we use it primarily to auto-generate social media images for any page."
       },
       "parameters": [
         {
@@ -5502,7 +5502,7 @@
             }
           },
           "name": "tref",
-          "description": "A valid Sefaria textual `Ref`.",
+          "description": "A valid Mekoros textual `Ref`.",
           "schema": {
             "$ref": "#/components/schemas/ref"
           },
@@ -5567,7 +5567,7 @@
             }
           },
           "name": "category_path",
-          "description": "A valid Sefaria Category path",
+          "description": "A valid Mekoros Category path",
           "schema": {
             "type": "string"
           },
@@ -5580,7 +5580,7 @@
   "components": {
     "schemas": {
       "ref": {
-        "description": "A string representing a citation to a Jewish text. \n\nA valid `Ref` consists of a title string followed optionally by a section string or a segment string. \n\nA title string is any one of the known text titles or title variants in the Sefaria Database.",
+        "description": "A string representing a citation to a Jewish text. \n\nA valid `Ref` consists of a title string followed optionally by a section string or a segment string. \n\nA title string is any one of the known text titles or title variants in the Mekoros Database.",
         "type": "string",
         "example": "Mishnah Peah 4:2"
       },
@@ -5610,7 +5610,7 @@
           "versionNotes": {
             "type": "string"
           },
-          "digitizedBySefaria": {
+          "digitizedByMekoros": {
             "type": "string"
           },
           "priority": {
@@ -5655,8 +5655,8 @@
           "language": "en",
           "status": "locked",
           "license": "CC-BY-NC",
-          "versionNotes": "Dedicated by an anonymous donor in honor of all women and girls who study, teach, and transform Torah.\n<br><br>\n<a href=\"https://www.sefaria.org/sheets/382047\">Read the preface to The Contemporary Torah</a>\n<br><br>\n<a href=\"https://www.sefaria.org/sheets/380713\"> See the Dictionary of Gender in the Torah</a>",
-          "digitizedBySefaria": "",
+          "versionNotes": "Dedicated by an anonymous donor in honor of all women and girls who study, teach, and transform Torah.\n<br><br>\n<a href=\"https://www.mekoros.com/sheets/382047\">Read the preface to The Contemporary Torah</a>\n<br><br>\n<a href=\"https://www.mekoros.com/sheets/380713\"> See the Dictionary of Gender in the Torah</a>",
+          "digitizedByMekoros": "",
           "priority": 7,
           "versionTitleInHebrew": "",
           "versionNotesInHebrew": "תרומה אלמונית לכבוד כל הנשים והבנות שלומדות, מלמדות ונותנות צורה חדשה לתורה",
@@ -5684,7 +5684,7 @@
             "type": "string"
           },
           "is_ref": {
-            "description": "Returns `true` if the submitted text is a valid Sefaria textual reference",
+            "description": "Returns `true` if the submitted text is a valid Mekoros textual reference",
             "type": "boolean"
           },
           "completions": {
@@ -5718,7 +5718,7 @@
                 }
               }
             },
-            "example": "[{\n    \"title\": \"Ruth\",\n    \"key\": \"Ruth\",\n    \"type\": \"ref\",\n    \"is_primary\": true,\n    \"order\": 1000000\n  }, {\n    \"title\": \"Ruth Rabbah\",\n    \"key\": \"Ruth Rabbah\",\n    \"type\": \"ref\",\n    \"is_primary\": true,\n    \"order\": 1000000\n  }, {\n    \"title\": \"Ruth\",\n    \"type\": \"PersonTopic\",\n    \"key\": \"ruth\",\n    \"is_primary\": true,\n    \"order\": 4999550\n  }, {\n    \"title\": \"Ruach Hakodesh\",\n    \"type\": \"Topic\",\n    \"key\": \"ruach-hakodesh1\",\n    \"is_primary\": true,\n    \"order\": 4999902\n  }, {\n    \"title\": \"Ruach\",\n    \"type\": \"Topic\",\n    \"key\": \"ruach1\",\n    \"is_primary\": true,\n    \"order\": 4999949\n  }, {\n    \"title\": \"Rubissa Sharona Hassan\",\n    \"type\": \"User\",\n    \"key\": \"sharona-hassan\",\n    \"pic\": \"https://storage.googleapis.com/sefaria-profile-pictures/sharona-hassan-1622999139-small.png\",\n    \"order\": 6999998,\n    \"is_primary\": true\n  }]"
+            "example": "[{\n    \"title\": \"Ruth\",\n    \"key\": \"Ruth\",\n    \"type\": \"ref\",\n    \"is_primary\": true,\n    \"order\": 1000000\n  }, {\n    \"title\": \"Ruth Rabbah\",\n    \"key\": \"Ruth Rabbah\",\n    \"type\": \"ref\",\n    \"is_primary\": true,\n    \"order\": 1000000\n  }, {\n    \"title\": \"Ruth\",\n    \"type\": \"PersonTopic\",\n    \"key\": \"ruth\",\n    \"is_primary\": true,\n    \"order\": 4999550\n  }, {\n    \"title\": \"Ruach Hakodesh\",\n    \"type\": \"Topic\",\n    \"key\": \"ruach-hakodesh1\",\n    \"is_primary\": true,\n    \"order\": 4999902\n  }, {\n    \"title\": \"Ruach\",\n    \"type\": \"Topic\",\n    \"key\": \"ruach1\",\n    \"is_primary\": true,\n    \"order\": 4999949\n  }, {\n    \"title\": \"Rubissa Sharona Hassan\",\n    \"type\": \"User\",\n    \"key\": \"sharona-hassan\",\n    \"pic\": \"https://storage.googleapis.com/mekoros-profile-pictures/sharona-hassan-1622999139-small.png\",\n    \"order\": 6999998,\n    \"is_primary\": true\n  }]"
           },
           "is_book": {
             "description": "Returns `true` if the submitted text is a book level reference. e.g. (Genesis)",
@@ -5755,7 +5755,7 @@
             "type": "string"
           },
           "url": {
-            "description": "If `is_ref` is `true`, this returns the URL path to link to the submitted text on [Sefaria.org](sefaria.org)",
+            "description": "If `is_ref` is `true`, this returns the URL path to link to the submitted text on [Mekoros.com](mekoros.com)",
             "type": "string"
           },
           "index": {
@@ -5974,7 +5974,7 @@
       },
       "dictionaryEntry": {
         "title": "Root Type for dictionaryEntry",
-        "description": "A single dictionary entry on Sefaria.",
+        "description": "A single dictionary entry on Mekoros.",
         "type": "object",
         "properties": {
           "headword": {
@@ -6278,7 +6278,7 @@
             "type": "string"
           },
           "refs": {
-            "description": "Cross references to selections in the Sefaria library.",
+            "description": "Cross references to selections in the Mekoros library.",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ref"
@@ -6329,7 +6329,7 @@
             "description": ""
           },
           "refs": {
-            "description": "Cross references to selections in the Sefaria library.",
+            "description": "Cross references to selections in the Mekoros library.",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ref"
@@ -6377,7 +6377,7 @@
       },
       "textAPIReponse": {
         "title": "Root Type for textAPIReponse",
-        "description": "Expected reponse data from Sefaria's Text API",
+        "description": "Expected reponse data from Mekoros's Text API",
         "type": "object",
         "properties": {
           "ref": {
@@ -6388,7 +6388,7 @@
             "description": "The Hebrew `Ref`."
           },
           "isComplex": {
-            "description": "Whether or not the text is a \"complex\" text or not.\n\nIn Sefaria, a complex text is any text which has a more complicated index structure beyond Chapters/Verses, (e.g. the Talmud). There are a variety of structural differences for a complex text, having to do primarily with its `Index`, and the way the data is stored. For more on complex texts, see the documentation here.",
+            "description": "Whether or not the text is a \"complex\" text or not.\n\nIn Mekoros, a complex text is any text which has a more complicated index structure beyond Chapters/Verses, (e.g. the Talmud). There are a variety of structural differences for a complex text, having to do primarily with its `Index`, and the way the data is stored. For more on complex texts, see the documentation here.",
             "type": "boolean"
           },
           "text": {
@@ -6568,8 +6568,8 @@
           "versionNotesInHebrew": {
             "type": "string"
           },
-          "digitizedBySefaria": {
-            "description": "Was the `text` response initially digitized by Sefaria `1` or was it initially generated by another digital publisher `0`",
+          "digitizedByMekoros": {
+            "description": "Was the `text` response initially digitized by Mekoros `1` or was it initially generated by another digital publisher `0`",
             "type": "boolean"
           },
           "license": {
@@ -6608,8 +6608,8 @@
           "heVersionNotesInHebrew": {
             "type": "string"
           },
-          "heDigitizedBySefaria": {
-            "description": "Was the `he` response initially digitized by Sefaria `1` or was it initially generated by another digital publisher `0`",
+          "heDigitizedByMekoros": {
+            "description": "Was the `he` response initially digitized by Mekoros `1` or was it initially generated by another digital publisher `0`",
             "type": "boolean"
           },
           "heLicense": {
@@ -6687,7 +6687,7 @@
               "status": "locked",
               "license": "Public Domain",
               "versionNotes": "",
-              "digitizedBySefaria": "",
+              "digitizedByMekoros": "",
               "priority": 3,
               "versionTitleInHebrew": "תורת אמת 357",
               "versionNotesInHebrew": "",
@@ -6707,7 +6707,7 @@
               "status": "locked",
               "license": "Public Domain",
               "versionNotes": "",
-              "digitizedBySefaria": true,
+              "digitizedByMekoros": true,
               "priority": 2,
               "versionTitleInHebrew": "משנה, מהדורת בית דפוס ראם, וילנא 1913",
               "versionNotesInHebrew": "",
@@ -6727,7 +6727,7 @@
               "status": "locked",
               "license": "CC-BY",
               "versionNotes": "",
-              "digitizedBySefaria": "",
+              "digitizedByMekoros": "",
               "priority": 1,
               "versionTitleInHebrew": "",
               "versionNotesInHebrew": "",
@@ -6747,7 +6747,7 @@
               "status": "locked",
               "license": "Public Domain",
               "versionNotes": "Ordnung Seraïm, übers. und erklärt von Ascher Samter. 1887.<br>Ordnung Moed, von Eduard Baneth. 1887-1927.<br>Ordnung Naschim, von Marcus Petuchowski u. Simon Schlesinger. 1896-1933.<br>Ordnung Nesikin, von David Hoffmann. 1893-1898.<br>Ordnung Kodaschim, von John Cohn. 1910-1925.<br>Ordnung Toharot, von David Hoffmann, John Cohn und Moses Auerbach. 1910-1933.",
-              "digitizedBySefaria": true,
+              "digitizedByMekoros": true,
               "priority": 0.5,
               "versionTitleInHebrew": "",
               "versionNotesInHebrew": "",
@@ -6767,7 +6767,7 @@
               "status": "locked",
               "license": "Public Domain",
               "versionNotes": "",
-              "digitizedBySefaria": true,
+              "digitizedByMekoros": true,
               "priority": 0.25,
               "versionTitleInHebrew": "",
               "versionNotesInHebrew": "",
@@ -6787,7 +6787,7 @@
               "status": "locked",
               "license": "CC-BY-SA",
               "versionNotes": "",
-              "digitizedBySefaria": "",
+              "digitizedByMekoros": "",
               "priority": "",
               "versionTitleInHebrew": "משנה פתוחה",
               "versionNotesInHebrew": "",
@@ -6807,7 +6807,7 @@
               "status": "locked",
               "license": "Public Domain",
               "versionNotes": "",
-              "digitizedBySefaria": "",
+              "digitizedByMekoros": "",
               "priority": "",
               "versionTitleInHebrew": "",
               "versionNotesInHebrew": "",
@@ -6827,7 +6827,7 @@
               "status": "locked",
               "license": "PD",
               "versionNotes": "",
-              "digitizedBySefaria": true,
+              "digitizedByMekoros": true,
               "priority": "",
               "versionTitleInHebrew": "",
               "versionNotesInHebrew": "",
@@ -6906,7 +6906,7 @@
           "extendedNotes": "",
           "extendedNotesHebrew": "",
           "versionNotesInHebrew": "",
-          "digitizedBySefaria": false,
+          "digitizedByMekoros": false,
           "license": "CC-BY",
           "formatEnAsPoetry": false,
           "heVersionTitle": "Torat Emet 357",
@@ -6919,7 +6919,7 @@
           "heExtendedNotes": "",
           "heExtendedNotesHebrew": "",
           "heVersionNotesInHebrew": "",
-          "heDigitizedBySefaria": false,
+          "heDigitizedByMekoros": false,
           "heLicense": "Public Domain",
           "formatHeAsPoetry": false,
           "alts": [],
@@ -6978,7 +6978,7 @@
             "description": "The trailing end of the dictionary entry, after the formal definition - may have comparisons to cognates or similar notes"
           },
           "derivatives": {
-            "description": "HTML - list of derivate words - <a> tag wrapped with links to Sefaria entries"
+            "description": "HTML - list of derivate words - <a> tag wrapped with links to Mekoros entries"
           },
           "content": {
             "description": "",
@@ -7158,14 +7158,14 @@
             "example": "LC_Folio_435r"
           },
           "image_url": {
-            "description": "The URL to the image of the manuscript, hosted by Sefaria. All URLs will be prefaced by `https://manuscripts.sefaria.org/`",
+            "description": "The URL to the image of the manuscript, hosted by Mekoros. All URLs will be prefaced by `https://manuscripts.mekoros.com/`",
             "type": "string",
-            "example": "https://manuscripts.sefaria.org/leningrad-color/BIB_LENCDX_F434B_thumbnail.jpg"
+            "example": "https://manuscripts.mekoros.com/leningrad-color/BIB_LENCDX_F434B_thumbnail.jpg"
           },
           "thumbnail_url": {
             "description": "The url to the thumbnail image of the manuscript. ",
             "type": "string",
-            "example": "https://manuscripts.sefaria.org/leningrad-color/BIB_LENCDX_F434B_thumbnail.jpg"
+            "example": "https://manuscripts.mekoros.com/leningrad-color/BIB_LENCDX_F434B_thumbnail.jpg"
           },
           "anchorRef": {
             "description": "A manuscript image will in most cases be associated with a range of `refs` (i.e. an image of a page of Tanakh will display multiple verses). The `anchorRef` is that complete range the manuscript is associated with, and will contain within it the specific textual `Ref` passed in as a parameter. ",
@@ -7211,8 +7211,8 @@
         "example": {
           "manuscript_slug": "leningrad-codex-(1008-ce)",
           "page_id": "LC_Folio_434v",
-          "image_url": "https://manuscripts.sefaria.org/leningrad-color/BIB_LENCDX_F434B.jpg",
-          "thumbnail_url": "https://manuscripts.sefaria.org/leningrad-color/BIB_LENCDX_F434B_thumbnail.jpg",
+          "image_url": "https://manuscripts.mekoros.com/leningrad-color/BIB_LENCDX_F434B.jpg",
+          "thumbnail_url": "https://manuscripts.mekoros.com/leningrad-color/BIB_LENCDX_F434B_thumbnail.jpg",
           "anchorRef": "Esther 3:15-4:17",
           "anchorRefExpanded": [
             "Esther 4:14"
@@ -7314,7 +7314,7 @@
           },
           "language": {
             "$ref": "#/components/schemas/LanguageCode",
-            "description": "The language of the version. The versions on Sefaria are grouped into two language buckets, `en` for languages which read left-to-right (i.e. English, Spanish, German) and `he` for languages which read right-to-left (i.e. Hebrew, Arabic)",
+            "description": "The language of the version. The versions on Mekoros are grouped into two language buckets, `en` for languages which read left-to-right (i.e. English, Spanish, German) and `he` for languages which read right-to-left (i.e. Hebrew, Arabic)",
             "example": "'en'\n'he'"
           },
           "status": {
@@ -7332,13 +7332,13 @@
             "type": "string",
             "example": "\"English from The William Davidson digital edition of the <a href='https://korenpub.com/collections/the-noe-edition-koren-talmud-bavli-1'>Koren Noé Talmud</a>, with commentary by <a href='/adin-even-israel-steinsaltz'>Rabbi Adin Even-Israel Steinsaltz</a>\","
           },
-          "digitizedBySefaria": {
-            "description": "Whether or not the text was digitized by Sefaria. We have some texts we've been able to add to our database from digital sources, and other texts that we've transfered from print to a digital medium ourselves. This field indicates if Sefaria did the digitization. ",
+          "digitizedByMekoros": {
+            "description": "Whether or not the text was digitized by Mekoros. We have some texts we've been able to add to our database from digital sources, and other texts that we've transfered from print to a digital medium ourselves. This field indicates if Mekoros did the digitization. ",
             "type": "boolean",
             "example": "True"
           },
           "priority": {
-            "description": "The priority field is a number which indicates the priority of a version relative to all other existing versions of the same text. A value of `1` indicates the lowest priority, while the highest value among all versions of the text indicate the highest priority. \n\nPriority values can also be floating point numbers. The priority field determines how the various available versions of a text will be displayed on the Sefaria website. The texts are displayed to the user in a highest-to-lowest priority order, in many cases offering more complete or higher quality versions of the text before ones of inferior quality. ",
+            "description": "The priority field is a number which indicates the priority of a version relative to all other existing versions of the same text. A value of `1` indicates the lowest priority, while the highest value among all versions of the text indicate the highest priority. \n\nPriority values can also be floating point numbers. The priority field determines how the various available versions of a text will be displayed on the Mekoros website. The texts are displayed to the user in a highest-to-lowest priority order, in many cases offering more complete or higher quality versions of the text before ones of inferior quality. ",
             "type": "number",
             "example": "7"
           },
@@ -7362,7 +7362,7 @@
           "purchaseInformationImage": {
             "description": "A URL pointing to an image of the hard copy of the version associated with the digital copy, for those who would like to purchase a hard copy. ",
             "type": "string",
-            "example": "\"https://storage.googleapis.com/sefaria-physical-editions/4fc4b6d5b144eb3915d250d743eaf2e8.png\""
+            "example": "\"https://storage.googleapis.com/mekoros-physical-editions/4fc4b6d5b144eb3915d250d743eaf2e8.png\""
           },
           "purchaseInformationURL": {
             "description": "The URL pointing to a website where on can buy a physical copy of the given text version. ",
@@ -7397,7 +7397,7 @@
           "status": "",
           "license": "CC-BY-SA",
           "versionNotes": "",
-          "digitizedBySefaria": "",
+          "digitizedByMekoros": "",
           "priority": "",
           "versionTitleInHebrew": "שולחן ערוך (ויקיטקסט)",
           "versionNotesInHebrew": "",
@@ -7412,7 +7412,7 @@
         }
       },
       "LanguageCode": {
-        "description": "The texts on Sefaria are grouped into two language buckets, `en` for languages which read left-to-right (i.e. English, Spanish, German) and `he` for languages which read right-to-left (i.e. Hebrew, Arabic). This field is only ever populated by a string containing the value of either `en` or `he`. ",
+        "description": "The texts on Mekoros are grouped into two language buckets, `en` for languages which read left-to-right (i.e. English, Spanish, German) and `he` for languages which read right-to-left (i.e. Hebrew, Arabic). This field is only ever populated by a string containing the value of either `en` or `he`. ",
         "type": "string",
         "example": "'en'\n'he'"
       },
@@ -7468,11 +7468,11 @@
                         "type": "string"
                       },
                       "url": {
-                        "description": "The URL this ref can be found at on Sefaria",
+                        "description": "The URL this ref can be found at on Mekoros",
                         "type": "string"
                       },
                       "primaryCategory": {
-                        "description": "The primary category this ref belongs to on Sefaria",
+                        "description": "The primary category this ref belongs to on Mekoros",
                         "type": "string"
                       }
                     }
@@ -7528,11 +7528,11 @@
                         "type": "string"
                       },
                       "url": {
-                        "description": "The URL this ref can be found at on Sefaria",
+                        "description": "The URL this ref can be found at on Mekoros",
                         "type": "string"
                       },
                       "primaryCategory": {
-                        "description": "The primary category this ref belongs to on Sefaria",
+                        "description": "The primary category this ref belongs to on Mekoros",
                         "type": "string"
                       }
                     }
@@ -7646,7 +7646,7 @@
                   "example": "Vayishlach"
                 },
                 "url": {
-                  "description": "The url path on Sefaria where this selection can be found",
+                  "description": "The url path on Mekoros where this selection can be found",
                   "type": "string"
                 },
                 "ref": {
@@ -7658,7 +7658,7 @@
                 },
                 "order": {
                   "format": "int32",
-                  "description": "This is used internally on Sefaria to arrange the learning schedules in the manner we choose.",
+                  "description": "This is used internally on Mekoros to arrange the learning schedules in the manner we choose.",
                   "type": "integer"
                 },
                 "category": {
@@ -7936,7 +7936,7 @@
             "example": "\"titles\": [\n    {\n        \"text\": \"Tabernacles\",\n        \"lang\": \"en\"\n    },\n    {\n        \"text\": \"Succot\",\n        \"lang\": \"en\"\n    },\n    {\n        \"text\": \"Sukkos\",\n        \"lang\": \"en\"\n    },\n    {\n        \"text\": \"Succos\",\n        \"lang\": \"en\"\n    },\n    {\n        \"text\": \"Booths\",\n        \"lang\": \"en\"\n    },\n    {\n        \"text\": \"sukkot\",\n        \"lang\": \"en\"\n    },\n    {\n        \"text\": \"succot\",\n        \"lang\": \"en\"\n    },\n    {\n        \"text\": \"Succoth\",\n        \"lang\": \"en\"\n    },\n    {\n        \"text\": \"Sukkoth\",\n        \"lang\": \"en\"\n    },\n    {\n        \"text\": \"חג הסוכות\",\n        \"lang\": \"he\"\n    },\n    {\n        \"text\": \"סכות\",\n        \"lang\": \"he\"\n    },\n    {\n        \"text\": \"Sukkot\",\n        \"lang\": \"en\",\n        \"primary\": true\n    },\n    {\n        \"text\": \"סוכות\",\n        \"lang\": \"he\",\n        \"primary\": true\n    }\n]"
           },
           "alt_ids": {
-            "description": "This is a dictionary containing the keys of naming schemes, and ids of this topic represented in that naming scheme.  It’s used both for canonical names in other naming schemes and temporary storage of names when renaming slugs. All of the data here is for internal use, with the exception of the values `bfo` and `wikidata`. `bfo` refers to [basic formal ontology](https://developers.sefaria.org/docs/topic-ontology), and `wikidata` to the wikidata ontology of topics. ",
+            "description": "This is a dictionary containing the keys of naming schemes, and ids of this topic represented in that naming scheme.  It’s used both for canonical names in other naming schemes and temporary storage of names when renaming slugs. All of the data here is for internal use, with the exception of the values `bfo` and `wikidata`. `bfo` refers to [basic formal ontology](https://developers.mekoros.com/docs/topic-ontology), and `wikidata` to the wikidata ontology of topics. ",
             "type": "object",
             "properties": {
               "_temp_id": {
@@ -7972,7 +7972,7 @@
                 }
               }
             },
-            "example": "\"properties\": {\n    \"heNliLink\": {\n        \"value\": \"https://www.nli.org.il/he/discover/judaism/holidays/sukkot\",\n        \"dataSource\": \"sefaria\"\n    },\n    \"enNliLink\": {\n        \"value\": \"https://www.nli.org.il/en/discover/judaism/holidays/sukkot\",\n        \"dataSource\": \"sefaria\"\n    }\n}"
+            "example": "\"properties\": {\n    \"heNliLink\": {\n        \"value\": \"https://www.nli.org.il/he/discover/judaism/holidays/sukkot\",\n        \"dataSource\": \"mekoros\"\n    },\n    \"enNliLink\": {\n        \"value\": \"https://www.nli.org.il/en/discover/judaism/holidays/sukkot\",\n        \"dataSource\": \"mekoros\"\n    }\n}"
           },
           "description": {
             "$ref": "#/components/schemas/BillingualJSON",
@@ -7993,7 +7993,7 @@
           },
           "displayOrder": {
             "format": "int32",
-            "description": "The order in which topics are displayed on the Sefaria website, relative to other topics within their same category. ",
+            "description": "The order in which topics are displayed on the Mekoros website, relative to other topics within their same category. ",
             "type": "integer",
             "example": "1"
           },
@@ -8009,9 +8009,9 @@
             "example": "true"
           },
           "data_source": {
-            "description": "How the topic was generated, whether by Sefaria, a user on a source sheet, or some other source. ",
+            "description": "How the topic was generated, whether by Mekoros, a user on a source sheet, or some other source. ",
             "type": "string",
-            "example": "`sefaria`"
+            "example": "`mekoros`"
           },
           "image": {
             "$ref": "#/components/schemas/TopicImgJSON",
@@ -8032,7 +8032,7 @@
                 }
               }
             },
-            "example": "\"image\": {\n    \"image_uri\": \"https://storage.googleapis.com/img.sefaria.org/topics/sukkot.jpg\",\n    \"image_caption\": {\n        \"en\": \"Detail of a painting of a sukkah. Image taken from f. 316v of Forli Siddur. 1383, Italian rite. The British Library\",\n        \"he\": \"פרט ציור של סוכה עם שולחן פרוש ושלוש דמויות. דימוי מתוך סידור פורלי, 1383 איטליה\"\n    }\n}"
+            "example": "\"image\": {\n    \"image_uri\": \"https://storage.googleapis.com/img.mekoros.com/topics/sukkot.jpg\",\n    \"image_caption\": {\n        \"en\": \"Detail of a painting of a sukkah. Image taken from f. 316v of Forli Siddur. 1383, Italian rite. The British Library\",\n        \"he\": \"פרט ציור של סוכה עם שולחן פרוש ושלוש דמויות. דימוי מתוך סידור פורלי, 1383 איטליה\"\n    }\n}"
           },
           "primaryTitle": {
             "$ref": "#/components/schemas/BillingualJSON",
@@ -8125,11 +8125,11 @@
           "properties": {
             "heNliLink": {
               "value": "https://www.nli.org.il/he/discover/judaism/holidays/sukkot",
-              "dataSource": "sefaria"
+              "dataSource": "mekoros"
             },
             "enNliLink": {
               "value": "https://www.nli.org.il/en/discover/judaism/holidays/sukkot",
-              "dataSource": "sefaria"
+              "dataSource": "mekoros"
             }
           },
           "description": {
@@ -8140,9 +8140,9 @@
           "displayOrder": 4,
           "numSources": 831,
           "description_published": true,
-          "data_source": "sefaria",
+          "data_source": "mekoros",
           "image": {
-            "image_uri": "https://storage.googleapis.com/img.sefaria.org/topics/sukkot.jpg",
+            "image_uri": "https://storage.googleapis.com/img.mekoros.com/topics/sukkot.jpg",
             "image_caption": {
               "en": "Detail of a painting of a sukkah. Image taken from f. 316v of Forli Siddur. 1383, Italian rite. The British Library",
               "he": "פרט ציור של סוכה עם שולחן פרוש ושלוש דמויות. דימוי מתוך סידור פורלי, 1383 איטליה"
@@ -8164,9 +8164,9 @@
         "type": "object",
         "properties": {
           "image_uri": {
-            "description": "The URL pointing to the image as hosted by Sefaria. ",
+            "description": "The URL pointing to the image as hosted by Mekoros. ",
             "type": "string",
-            "example": "https://storage.googleapis.com/img.sefaria.org/topics/sukkot.jpg"
+            "example": "https://storage.googleapis.com/img.mekoros.com/topics/sukkot.jpg"
           },
           "image_caption": {
             "$ref": "#/components/schemas/BillingualJSON",
@@ -8183,7 +8183,7 @@
           }
         },
         "example": {
-          "image_uri": "https://storage.googleapis.com/img.sefaria.org/topics/sukkot.jpg",
+          "image_uri": "https://storage.googleapis.com/img.mekoros.com/topics/sukkot.jpg",
           "image_caption": {
             "en": "Detail of a painting of a sukkah. Image taken from f. 316v of Forli Siddur. 1383, Italian rite. The British Library",
             "he": "פרט ציור של סוכה עם שולחן פרוש ושלוש דמויות. דימוי מתוך סידור פורלי, 1383 איטליה"
@@ -8227,7 +8227,7 @@
                 "type": "string"
               }
             },
-            "example": " \"heNliLink\": {\n        \"value\": \"https://www.nli.org.il/he/discover/judaism/holidays/sukkot\",\n        \"dataSource\": \"sefaria\"\n}"
+            "example": " \"heNliLink\": {\n        \"value\": \"https://www.nli.org.il/he/discover/judaism/holidays/sukkot\",\n        \"dataSource\": \"mekoros\"\n}"
           },
           "enNliLink": {
             "$ref": "#/components/schemas/NLILinkJSON",
@@ -8240,23 +8240,23 @@
                 "type": "string"
               }
             },
-            "example": "\"enNliLink\": {\n    \"value\": \"https://www.nli.org.il/en/discover/judaism/holidays/sukkot\",\n    \"dataSource\": \"sefaria\"\n}"
+            "example": "\"enNliLink\": {\n    \"value\": \"https://www.nli.org.il/en/discover/judaism/holidays/sukkot\",\n    \"dataSource\": \"mekoros\"\n}"
           }
         },
         "example": {
           "heNliLink": {
             "value": "https://www.nli.org.il/he/discover/judaism/holidays/sukkot",
-            "dataSource": "sefaria"
+            "dataSource": "mekoros"
           },
           "enNliLink": {
             "value": "https://www.nli.org.il/en/discover/judaism/holidays/sukkot",
-            "dataSource": "sefaria"
+            "dataSource": "mekoros"
           }
         }
       },
       "NLILinkJSON": {
         "title": "Root Type for NLILinkJSON",
-        "description": "JSON for storing NLI links related to data in the Sefaria database. ",
+        "description": "JSON for storing NLI links related to data in the Mekoros database. ",
         "type": "object",
         "properties": {
           "value": {
@@ -8265,14 +8265,14 @@
             "example": "https://www.nli.org.il/en/discover/judaism/holidays/sukkot"
           },
           "dataSource": {
-            "description": "The source of the topic data, whether user-created or Sefaria-created. ",
+            "description": "The source of the topic data, whether user-created or Mekoros-created. ",
             "type": "string",
-            "example": "`sefaria`"
+            "example": "`mekoros`"
           }
         },
         "example": {
           "value": "https://www.nli.org.il/en/discover/judaism/holidays/sukkot",
-          "dataSource": "sefaria"
+          "dataSource": "mekoros"
         }
       },
       "CalendarNextReadAPI": {
@@ -8310,7 +8310,7 @@
                 "example": "Vayishlach"
               },
               "url": {
-                "description": "The url path on Sefaria where this selection can be found",
+                "description": "The url path on Mekoros where this selection can be found",
                 "type": "string"
               },
               "ref": {
@@ -8322,7 +8322,7 @@
               },
               "order": {
                 "format": "int32",
-                "description": "This is used internally on Sefaria to arrange the learning schedules in the manner we choose.",
+                "description": "This is used internally on Mekoros to arrange the learning schedules in the manner we choose.",
                 "type": "integer"
               },
               "category": {
@@ -8388,7 +8388,7 @@
                   "example": "Vayishlach"
                 },
                 "url": {
-                  "description": "The url path on Sefaria where this selection can be found",
+                  "description": "The url path on Mekoros where this selection can be found",
                   "type": "string"
                 },
                 "ref": {
@@ -8396,7 +8396,7 @@
                 },
                 "order": {
                   "format": "int32",
-                  "description": "This is used internally on Sefaria to arrange the learning schedules in the manner we choose.",
+                  "description": "This is used internally on Mekoros to arrange the learning schedules in the manner we choose.",
                   "type": "integer"
                 },
                 "category": {
@@ -8505,7 +8505,7 @@
                         },
                         "order": {
                           "format": "int32",
-                          "description": "This is used to order the texts on the Sefaria website.",
+                          "description": "This is used to order the texts on the Mekoros website.",
                           "type": "integer"
                         },
                         "primary_category": {
@@ -8537,7 +8537,7 @@
                   },
                   "order": {
                     "format": "int32",
-                    "description": "This is used to order the texts on the Sefaria website.",
+                    "description": "This is used to order the texts on the Mekoros website.",
                     "type": "integer"
                   },
                   "enComplete": {
@@ -8576,7 +8576,7 @@
             },
             "order": {
               "format": "int32",
-              "description": "This is used to order the categories on the Sefaria website.",
+              "description": "This is used to order the categories on the Mekoros website.",
               "type": "integer"
             },
             "enComplete": {
@@ -8797,12 +8797,12 @@
               {
                 "_index": "text-b",
                 "_type": "text",
-                "_id": "Shabbat 73b:7 (Sefaria Community Translation [en])",
+                "_id": "Shabbat 73b:7 (Mekoros Community Translation [en])",
                 "_score": 16692.562,
                 "_source": {
                   "ref": "Shabbat 73b:7",
                   "heRef": "שבת ע״ג ב:ז׳",
-                  "version": "Sefaria Community Translation",
+                  "version": "Mekoros Community Translation",
                   "lang": "en",
                   "version_priority": 1,
                   "titleVariants": [
@@ -8839,12 +8839,12 @@
               {
                 "_index": "text-b",
                 "_type": "text",
-                "_id": "II Samuel 18:12 (Sefaria Community Translation [en])",
+                "_id": "II Samuel 18:12 (Mekoros Community Translation [en])",
                 "_score": 6415.7573,
                 "_source": {
                   "ref": "II Samuel 18:12",
                   "heRef": "שמואל ב י״ח:י״ב",
-                  "version": "Sefaria Community Translation",
+                  "version": "Mekoros Community Translation",
                   "lang": "en",
                   "version_priority": 8,
                   "titleVariants": [
@@ -9089,7 +9089,7 @@
             "items": {
               "$ref": "#/components/schemas/v3TextVersionsJSON"
             },
-            "example": "{\n\"status\": \"locked\",\n\"priority\": 2,\n\"license\": \"CC-BY-SA\",\n\"versionNotes\": \"<i>Miqra According to the Masorah</i> (MAM) is a digital Hebrew edition of the Tanakh based on the Aleppo Codex and related manuscripts. It is designed for readers, and as such it contains added elements to aid vocalization of the text. For instance: When an accent is marked in an unstressed syllable, an extra accent is added in the proper place (<i>pashta</i>, <i>zarqa</i>, <i>segol</i>, <i>telisha</i>). <i>Legarmeih</i> and <i>paseq</i> are visibly distinguished. <i>Qamaz qatan</i> is indicated by its designated Unicode character (alternatives are documented where traditions differ about its application).<br>The text of MAM is fully documented. The <a href=\\\"https://he.wikisource.org/wiki/%D7%9E%D7%A9%D7%AA%D7%9E%D7%A9:Dovi/%D7%9E%D7%A7%D7%A8%D7%90_%D7%A2%D7%9C_%D7%A4%D7%99_%D7%94%D7%9E%D7%A1%D7%95%D7%A8%D7%94/%D7%9E%D7%99%D7%93%D7%A2_%D7%A2%D7%9C_%D7%9E%D7%94%D7%93%D7%95%D7%A8%D7%94_%D7%96%D7%95\\\">complete introduction</a> to the edition (Hebrew) explains the types of editorial decisions that have been made and the reasons for them (<a href=\\\"https://en.wikisource.org/wiki/User:Dovi/Miqra_according_to_the_Masorah#About_this_Edition_(English_Abstract)\\\">English abstract</a>). In addition, every word in the Bible about which there is some textual concern or ambiguity includes a documentation note; these notes can be viewed conveniently <a href=\\\"https://bdenckla.github.io/MAM-with-doc/\\\">here</a>. If an error is discovered, it may be reported to <a href=\\\"https://he.wikisource.org/wiki/%D7%A9%D7%99%D7%97%D7%AA_%D7%9E%D7%A9%D7%AA%D7%9E%D7%A9:Dovi\\\">User:Dovi</a> at Hebrew Wikisource. Please check the documentation notes before reporting an error.\",\n\"formatAsPoetry\": \"\",\n\"digitizedBySefaria\": \"\",\n\"method\": \"\",\n\"heversionSource\": \"\",\n\"versionUrl\": \"\",\n\"versionTitleInHebrew\": \"מקרא על פי המסורה\",\n\"versionNotesInHebrew\": \"\",\n\"shortVersionTitle\": \"\",\n\"shortVersionTitleInHebrew\": \"\",\n\"extendedNotes\": \"\",\n\"extendedNotesHebrew\": \"\",\n\"purchaseInformationImage\": \"\",\n\"purchaseInformationURL\": \"\",\n\"hasManuallyWrappedRefs\": \"\",\n\"actualLanguage\": \"he\",\n\"languageFamilyName\": \"hebrew\",\n\"isBaseText\": true,\n\"isSource\": true,\n\"isPrimary\": true,\n\"direction\": \"rtl\",\n\"language\": \"he\",\n\"versionSource\": \"https://he.wikisource.org/wiki/%D7%9E%D7%A9%D7%AA%D7%9E%D7%A9:Dovi/%D7%9E%D7%A7%D7%A8%D7%90_%D7%A2%D7%9C_%D7%A4%D7%99_%D7%94%D7%9E%D7%A1%D7%95%D7%A8%D7%94\",\n\"versionTitle\": \"Miqra according to the Masorah\",\n\"text\": [\n[\n\"חֲז֖וֹן עֹֽבַדְיָ֑ה כֹּֽה־אָמַר֩ אֲדֹנָ֨י יֱהֹוִ֜ה לֶאֱד֗וֹם שְׁמוּעָ֨ה שָׁמַ֜עְנוּ מֵאֵ֤ת יְהֹוָה֙ וְצִיר֙ בַּגּוֹיִ֣ם שֻׁלָּ֔ח ק֛וּמוּ וְנָק֥וּמָה עָלֶ֖יהָ לַמִּלְחָמָֽה׃\",\n\"הִנֵּ֥ה קָטֹ֛ן נְתַתִּ֖יךָ בַּגּוֹיִ֑ם בָּז֥וּי אַתָּ֖ה מְאֹֽד׃\",\n\"זְד֤וֹן לִבְּךָ֙ הִשִּׁיאֶ֔ךָ שֹׁכְנִ֥י בְחַגְוֵי־סֶ֖לַע מְר֣וֹם שִׁבְתּ֑וֹ אֹמֵ֣ר בְּלִבּ֔וֹ מִ֥י יוֹרִדֵ֖נִי אָֽרֶץ׃\",\n\"אִם־תַּגְבִּ֣יהַּ כַּנֶּ֔שֶׁר וְאִם־בֵּ֥ין כּֽוֹכָבִ֖ים שִׂ֣ים קִנֶּ֑ךָ מִשָּׁ֥ם אוֹרִֽידְךָ֖ נְאֻם־יְהֹוָֽה׃\",\n\"אִם־גַּנָּבִ֤ים בָּאֽוּ־לְךָ֙ אִם־שׁ֣וֹדְדֵי לַ֔יְלָה אֵ֣יךְ נִדְמֵ֔יתָה הֲל֥וֹא יִגְנְב֖וּ דַּיָּ֑ם אִם־בֹּֽצְרִים֙ בָּ֣אוּ לָ֔ךְ הֲל֖וֹא יַשְׁאִ֥ירוּ עֹלֵלֽוֹת׃\",\n\"אֵ֚יךְ נֶחְפְּשׂ֣וּ עֵשָׂ֔ו נִבְע֖וּ מַצְפֻּנָֽיו׃\",\n\"עַֽד־הַגְּב֣וּל שִׁלְּח֗וּךָ כֹּ֚ל אַנְשֵׁ֣י בְרִיתֶ֔ךָ הִשִּׁיא֛וּךָ יָכְל֥וּ לְךָ֖ אַנְשֵׁ֣י שְׁלֹמֶ֑ךָ לַחְמְךָ֗ יָשִׂ֤ימוּ מָזוֹר֙ תַּחְתֶּ֔יךָ אֵ֥ין תְּבוּנָ֖ה בּֽוֹ׃\",\n\"הֲל֛וֹא בַּיּ֥וֹם הַה֖וּא נְאֻם־יְהֹוָ֑ה וְהַאֲבַדְתִּ֤י חֲכָמִים֙ מֵֽאֱד֔וֹם וּתְבוּנָ֖ה מֵהַ֥ר עֵשָֽׂו׃\",\n\"וְחַתּ֥וּ גִבּוֹרֶ֖יךָ תֵּימָ֑ן לְמַ֧עַן יִכָּֽרֶת־אִ֛ישׁ מֵהַ֥ר עֵשָׂ֖ו מִקָּֽטֶל׃\",\n\"מֵחֲמַ֛ס אָחִ֥יךָ יַעֲקֹ֖ב תְּכַסְּךָ֣ בוּשָׁ֑ה וְנִכְרַ֖תָּ לְעוֹלָֽם׃\",\n\"בְּיוֹם֙ עֲמׇֽדְךָ֣ מִנֶּ֔גֶד בְּי֛וֹם שְׁב֥וֹת זָרִ֖ים חֵיל֑וֹ וְנׇכְרִ֞ים בָּ֣אוּ <span class=\\\"mam-kq-trivial\\\">שְׁעָרָ֗ו</span> וְעַל־יְרוּשָׁלַ֙͏ִם֙ יַדּ֣וּ גוֹרָ֔ל גַּם־אַתָּ֖ה כְּאַחַ֥ד מֵהֶֽם׃\",\n\"וְאַל־תֵּ֤רֶא בְיוֹם־אָחִ֙יךָ֙ בְּי֣וֹם נׇכְר֔וֹ וְאַל־תִּשְׂמַ֥ח לִבְנֵֽי־יְהוּדָ֖ה בְּי֣וֹם אׇבְדָ֑ם וְאַל־תַּגְדֵּ֥ל פִּ֖יךָ בְּי֥וֹם צָרָֽה׃\",\n\"אַל־תָּב֤וֹא בְשַֽׁעַר־עַמִּי֙ בְּי֣וֹם אֵידָ֔ם אַל־תֵּ֧רֶא גַם־אַתָּ֛ה בְּרָעָת֖וֹ בְּי֣וֹם אֵיד֑וֹ וְאַל־תִּשְׁלַ֥חְנָה בְחֵיל֖וֹ בְּי֥וֹם אֵידֽוֹ׃\",\n\"וְאַֽל־תַּעֲמֹד֙ עַל־הַפֶּ֔רֶק לְהַכְרִ֖ית אֶת־פְּלִיטָ֑יו וְאַל־תַּסְגֵּ֥ר שְׂרִידָ֖יו בְּי֥וֹם צָרָֽה׃\",\n\"כִּֽי־קָר֥וֹב יוֹם־יְהֹוָ֖ה עַל־כׇּל־הַגּוֹיִ֑ם כַּאֲשֶׁ֤ר עָשִׂ֙יתָ֙ יֵעָ֣שֶׂה לָּ֔ךְ גְּמֻלְךָ֖ יָשׁ֥וּב בְּרֹאשֶֽׁךָ׃\",\n\"כִּ֗י כַּֽאֲשֶׁ֤ר שְׁתִיתֶם֙ עַל־הַ֣ר קׇדְשִׁ֔י יִשְׁתּ֥וּ כׇֽל־הַגּוֹיִ֖ם תָּמִ֑יד וְשָׁת֣וּ וְלָע֔וּ וְהָי֖וּ כְּל֥וֹא הָיֽוּ׃\",\n\"וּבְהַ֥ר צִיּ֛וֹן תִּהְיֶ֥ה פְלֵיטָ֖ה וְהָ֣יָה קֹ֑דֶשׁ וְיָֽרְשׁוּ֙ בֵּ֣ית יַֽעֲקֹ֔ב אֵ֖ת מוֹרָֽשֵׁיהֶֽם׃\",\n\"וְהָיָה֩ בֵית־יַעֲקֹ֨ב אֵ֜שׁ וּבֵ֧ית יוֹסֵ֣ף לֶהָבָ֗ה וּבֵ֤ית עֵשָׂו֙ לְקַ֔שׁ וְדָלְק֥וּ בָהֶ֖ם וַאֲכָל֑וּם וְלֹֽא־יִֽהְיֶ֤ה שָׂרִיד֙ לְבֵ֣ית עֵשָׂ֔ו כִּ֥י יְהֹוָ֖ה דִּבֵּֽר׃\",\n\"וְיָרְשׁ֨וּ הַנֶּ֜גֶב אֶת־הַ֣ר עֵשָׂ֗ו וְהַשְּׁפֵלָה֙ אֶת־פְּלִשְׁתִּ֔ים וְיָרְשׁוּ֙ אֶת־שְׂדֵ֣ה אֶפְרַ֔יִם וְאֵ֖ת שְׂדֵ֣ה שֹׁמְר֑וֹן וּבִנְיָמִ֖ן אֶת־הַגִּלְעָֽד׃\",\n\"וְגָלֻ֣ת הַֽחֵל־הַ֠זֶּ֠ה לִבְנֵ֨י יִשְׂרָאֵ֤ל אֲשֶֽׁר־כְּנַעֲנִים֙ עַד־צָ֣רְפַ֔ת וְגָלֻ֥ת יְרוּשָׁלַ֖͏ִם אֲשֶׁ֣ר בִּסְפָרַ֑ד יִֽרְשׁ֕וּ אֵ֖ת עָרֵ֥י הַנֶּֽגֶב׃\",\n\"וְעָל֤וּ מֽוֹשִׁעִים֙ בְּהַ֣ר צִיּ֔וֹן לִשְׁפֹּ֖ט אֶת־הַ֣ר עֵשָׂ֑ו וְהָיְתָ֥ה לַֽיהֹוָ֖ה הַמְּלוּכָֽה׃\"\n]\n],\n\"firstSectionRef\": \"Obadiah 1\"}\n"
+            "example": "{\n\"status\": \"locked\",\n\"priority\": 2,\n\"license\": \"CC-BY-SA\",\n\"versionNotes\": \"<i>Miqra According to the Masorah</i> (MAM) is a digital Hebrew edition of the Tanakh based on the Aleppo Codex and related manuscripts. It is designed for readers, and as such it contains added elements to aid vocalization of the text. For instance: When an accent is marked in an unstressed syllable, an extra accent is added in the proper place (<i>pashta</i>, <i>zarqa</i>, <i>segol</i>, <i>telisha</i>). <i>Legarmeih</i> and <i>paseq</i> are visibly distinguished. <i>Qamaz qatan</i> is indicated by its designated Unicode character (alternatives are documented where traditions differ about its application).<br>The text of MAM is fully documented. The <a href=\\\"https://he.wikisource.org/wiki/%D7%9E%D7%A9%D7%AA%D7%9E%D7%A9:Dovi/%D7%9E%D7%A7%D7%A8%D7%90_%D7%A2%D7%9C_%D7%A4%D7%99_%D7%94%D7%9E%D7%A1%D7%95%D7%A8%D7%94/%D7%9E%D7%99%D7%93%D7%A2_%D7%A2%D7%9C_%D7%9E%D7%94%D7%93%D7%95%D7%A8%D7%94_%D7%96%D7%95\\\">complete introduction</a> to the edition (Hebrew) explains the types of editorial decisions that have been made and the reasons for them (<a href=\\\"https://en.wikisource.org/wiki/User:Dovi/Miqra_according_to_the_Masorah#About_this_Edition_(English_Abstract)\\\">English abstract</a>). In addition, every word in the Bible about which there is some textual concern or ambiguity includes a documentation note; these notes can be viewed conveniently <a href=\\\"https://bdenckla.github.io/MAM-with-doc/\\\">here</a>. If an error is discovered, it may be reported to <a href=\\\"https://he.wikisource.org/wiki/%D7%A9%D7%99%D7%97%D7%AA_%D7%9E%D7%A9%D7%AA%D7%9E%D7%A9:Dovi\\\">User:Dovi</a> at Hebrew Wikisource. Please check the documentation notes before reporting an error.\",\n\"formatAsPoetry\": \"\",\n\"digitizedByMekoros\": \"\",\n\"method\": \"\",\n\"heversionSource\": \"\",\n\"versionUrl\": \"\",\n\"versionTitleInHebrew\": \"מקרא על פי המסורה\",\n\"versionNotesInHebrew\": \"\",\n\"shortVersionTitle\": \"\",\n\"shortVersionTitleInHebrew\": \"\",\n\"extendedNotes\": \"\",\n\"extendedNotesHebrew\": \"\",\n\"purchaseInformationImage\": \"\",\n\"purchaseInformationURL\": \"\",\n\"hasManuallyWrappedRefs\": \"\",\n\"actualLanguage\": \"he\",\n\"languageFamilyName\": \"hebrew\",\n\"isBaseText\": true,\n\"isSource\": true,\n\"isPrimary\": true,\n\"direction\": \"rtl\",\n\"language\": \"he\",\n\"versionSource\": \"https://he.wikisource.org/wiki/%D7%9E%D7%A9%D7%AA%D7%9E%D7%A9:Dovi/%D7%9E%D7%A7%D7%A8%D7%90_%D7%A2%D7%9C_%D7%A4%D7%99_%D7%94%D7%9E%D7%A1%D7%95%D7%A8%D7%94\",\n\"versionTitle\": \"Miqra according to the Masorah\",\n\"text\": [\n[\n\"חֲז֖וֹן עֹֽבַדְיָ֑ה כֹּֽה־אָמַר֩ אֲדֹנָ֨י יֱהֹוִ֜ה לֶאֱד֗וֹם שְׁמוּעָ֨ה שָׁמַ֜עְנוּ מֵאֵ֤ת יְהֹוָה֙ וְצִיר֙ בַּגּוֹיִ֣ם שֻׁלָּ֔ח ק֛וּמוּ וְנָק֥וּמָה עָלֶ֖יהָ לַמִּלְחָמָֽה׃\",\n\"הִנֵּ֥ה קָטֹ֛ן נְתַתִּ֖יךָ בַּגּוֹיִ֑ם בָּז֥וּי אַתָּ֖ה מְאֹֽד׃\",\n\"זְד֤וֹן לִבְּךָ֙ הִשִּׁיאֶ֔ךָ שֹׁכְנִ֥י בְחַגְוֵי־סֶ֖לַע מְר֣וֹם שִׁבְתּ֑וֹ אֹמֵ֣ר בְּלִבּ֔וֹ מִ֥י יוֹרִדֵ֖נִי אָֽרֶץ׃\",\n\"אִם־תַּגְבִּ֣יהַּ כַּנֶּ֔שֶׁר וְאִם־בֵּ֥ין כּֽוֹכָבִ֖ים שִׂ֣ים קִנֶּ֑ךָ מִשָּׁ֥ם אוֹרִֽידְךָ֖ נְאֻם־יְהֹוָֽה׃\",\n\"אִם־גַּנָּבִ֤ים בָּאֽוּ־לְךָ֙ אִם־שׁ֣וֹדְדֵי לַ֔יְלָה אֵ֣יךְ נִדְמֵ֔יתָה הֲל֥וֹא יִגְנְב֖וּ דַּיָּ֑ם אִם־בֹּֽצְרִים֙ בָּ֣אוּ לָ֔ךְ הֲל֖וֹא יַשְׁאִ֥ירוּ עֹלֵלֽוֹת׃\",\n\"אֵ֚יךְ נֶחְפְּשׂ֣וּ עֵשָׂ֔ו נִבְע֖וּ מַצְפֻּנָֽיו׃\",\n\"עַֽד־הַגְּב֣וּל שִׁלְּח֗וּךָ כֹּ֚ל אַנְשֵׁ֣י בְרִיתֶ֔ךָ הִשִּׁיא֛וּךָ יָכְל֥וּ לְךָ֖ אַנְשֵׁ֣י שְׁלֹמֶ֑ךָ לַחְמְךָ֗ יָשִׂ֤ימוּ מָזוֹר֙ תַּחְתֶּ֔יךָ אֵ֥ין תְּבוּנָ֖ה בּֽוֹ׃\",\n\"הֲל֛וֹא בַּיּ֥וֹם הַה֖וּא נְאֻם־יְהֹוָ֑ה וְהַאֲבַדְתִּ֤י חֲכָמִים֙ מֵֽאֱד֔וֹם וּתְבוּנָ֖ה מֵהַ֥ר עֵשָֽׂו׃\",\n\"וְחַתּ֥וּ גִבּוֹרֶ֖יךָ תֵּימָ֑ן לְמַ֧עַן יִכָּֽרֶת־אִ֛ישׁ מֵהַ֥ר עֵשָׂ֖ו מִקָּֽטֶל׃\",\n\"מֵחֲמַ֛ס אָחִ֥יךָ יַעֲקֹ֖ב תְּכַסְּךָ֣ בוּשָׁ֑ה וְנִכְרַ֖תָּ לְעוֹלָֽם׃\",\n\"בְּיוֹם֙ עֲמׇֽדְךָ֣ מִנֶּ֔גֶד בְּי֛וֹם שְׁב֥וֹת זָרִ֖ים חֵיל֑וֹ וְנׇכְרִ֞ים בָּ֣אוּ <span class=\\\"mam-kq-trivial\\\">שְׁעָרָ֗ו</span> וְעַל־יְרוּשָׁלַ֙͏ִם֙ יַדּ֣וּ גוֹרָ֔ל גַּם־אַתָּ֖ה כְּאַחַ֥ד מֵהֶֽם׃\",\n\"וְאַל־תֵּ֤רֶא בְיוֹם־אָחִ֙יךָ֙ בְּי֣וֹם נׇכְר֔וֹ וְאַל־תִּשְׂמַ֥ח לִבְנֵֽי־יְהוּדָ֖ה בְּי֣וֹם אׇבְדָ֑ם וְאַל־תַּגְדֵּ֥ל פִּ֖יךָ בְּי֥וֹם צָרָֽה׃\",\n\"אַל־תָּב֤וֹא בְשַֽׁעַר־עַמִּי֙ בְּי֣וֹם אֵידָ֔ם אַל־תֵּ֧רֶא גַם־אַתָּ֛ה בְּרָעָת֖וֹ בְּי֣וֹם אֵיד֑וֹ וְאַל־תִּשְׁלַ֥חְנָה בְחֵיל֖וֹ בְּי֥וֹם אֵידֽוֹ׃\",\n\"וְאַֽל־תַּעֲמֹד֙ עַל־הַפֶּ֔רֶק לְהַכְרִ֖ית אֶת־פְּלִיטָ֑יו וְאַל־תַּסְגֵּ֥ר שְׂרִידָ֖יו בְּי֥וֹם צָרָֽה׃\",\n\"כִּֽי־קָר֥וֹב יוֹם־יְהֹוָ֖ה עַל־כׇּל־הַגּוֹיִ֑ם כַּאֲשֶׁ֤ר עָשִׂ֙יתָ֙ יֵעָ֣שֶׂה לָּ֔ךְ גְּמֻלְךָ֖ יָשׁ֥וּב בְּרֹאשֶֽׁךָ׃\",\n\"כִּ֗י כַּֽאֲשֶׁ֤ר שְׁתִיתֶם֙ עַל־הַ֣ר קׇדְשִׁ֔י יִשְׁתּ֥וּ כׇֽל־הַגּוֹיִ֖ם תָּמִ֑יד וְשָׁת֣וּ וְלָע֔וּ וְהָי֖וּ כְּל֥וֹא הָיֽוּ׃\",\n\"וּבְהַ֥ר צִיּ֛וֹן תִּהְיֶ֥ה פְלֵיטָ֖ה וְהָ֣יָה קֹ֑דֶשׁ וְיָֽרְשׁוּ֙ בֵּ֣ית יַֽעֲקֹ֔ב אֵ֖ת מוֹרָֽשֵׁיהֶֽם׃\",\n\"וְהָיָה֩ בֵית־יַעֲקֹ֨ב אֵ֜שׁ וּבֵ֧ית יוֹסֵ֣ף לֶהָבָ֗ה וּבֵ֤ית עֵשָׂו֙ לְקַ֔שׁ וְדָלְק֥וּ בָהֶ֖ם וַאֲכָל֑וּם וְלֹֽא־יִֽהְיֶ֤ה שָׂרִיד֙ לְבֵ֣ית עֵשָׂ֔ו כִּ֥י יְהֹוָ֖ה דִּבֵּֽר׃\",\n\"וְיָרְשׁ֨וּ הַנֶּ֜גֶב אֶת־הַ֣ר עֵשָׂ֗ו וְהַשְּׁפֵלָה֙ אֶת־פְּלִשְׁתִּ֔ים וְיָרְשׁוּ֙ אֶת־שְׂדֵ֣ה אֶפְרַ֔יִם וְאֵ֖ת שְׂדֵ֣ה שֹׁמְר֑וֹן וּבִנְיָמִ֖ן אֶת־הַגִּלְעָֽד׃\",\n\"וְגָלֻ֣ת הַֽחֵל־הַ֠זֶּ֠ה לִבְנֵ֨י יִשְׂרָאֵ֤ל אֲשֶֽׁר־כְּנַעֲנִים֙ עַד־צָ֣רְפַ֔ת וְגָלֻ֥ת יְרוּשָׁלַ֖͏ִם אֲשֶׁ֣ר בִּסְפָרַ֑ד יִֽרְשׁ֕וּ אֵ֖ת עָרֵ֥י הַנֶּֽגֶב׃\",\n\"וְעָל֤וּ מֽוֹשִׁעִים֙ בְּהַ֣ר צִיּ֔וֹן לִשְׁפֹּ֖ט אֶת־הַ֣ר עֵשָׂ֑ו וְהָיְתָ֥ה לַֽיהֹוָ֖ה הַמְּלוּכָֽה׃\"\n]\n],\n\"firstSectionRef\": \"Obadiah 1\"}\n"
           },
           "available_versions": {
             "type": "array",
@@ -9171,7 +9171,7 @@
             "type": "string"
           },
           "isComplex": {
-            "description": "Whether or not the text is a \"complex\" text or not.\n\nIn Sefaria, a complex text is any text which has a more complicated index structure beyond Chapters/Verses, (e.g. the Talmud). There are a variety of structural differences for a complex text, having to do primarily with its Index, and the way the data is stored. For more on complex texts, see the documentation here.",
+            "description": "Whether or not the text is a \"complex\" text or not.\n\nIn Mekoros, a complex text is any text which has a more complicated index structure beyond Chapters/Verses, (e.g. the Talmud). There are a variety of structural differences for a complex text, having to do primarily with its Index, and the way the data is stored. For more on complex texts, see the documentation here.",
             "type": "boolean"
           },
           "isDependant": {
@@ -9259,7 +9259,7 @@
               "license": "CC-BY-SA",
               "versionNotes": "<i>Miqra According to the Masorah</i> (MAM) is a digital Hebrew edition of the Tanakh based on the Aleppo Codex and related manuscripts. It is designed for readers, and as such it contains added elements to aid vocalization of the text. For instance: When an accent is marked in an unstressed syllable, an extra accent is added in the proper place (<i>pashta</i>, <i>zarqa</i>, <i>segol</i>, <i>telisha</i>). <i>Legarmeih</i> and <i>paseq</i> are visibly distinguished. <i>Qamaz qatan</i> is indicated by its designated Unicode character (alternatives are documented where traditions differ about its application).<br>The text of MAM is fully documented. The <a href=\"https://he.wikisource.org/wiki/%D7%9E%D7%A9%D7%AA%D7%9E%D7%A9:Dovi/%D7%9E%D7%A7%D7%A8%D7%90_%D7%A2%D7%9C_%D7%A4%D7%99_%D7%94%D7%9E%D7%A1%D7%95%D7%A8%D7%94/%D7%9E%D7%99%D7%93%D7%A2_%D7%A2%D7%9C_%D7%9E%D7%94%D7%93%D7%95%D7%A8%D7%94_%D7%96%D7%95\">complete introduction</a> to the edition (Hebrew) explains the types of editorial decisions that have been made and the reasons for them (<a href=\"https://en.wikisource.org/wiki/User:Dovi/Miqra_according_to_the_Masorah#About_this_Edition_(English_Abstract)\">English abstract</a>). In addition, every word in the Bible about which there is some textual concern or ambiguity includes a documentation note; these notes can be viewed conveniently <a href=\"https://bdenckla.github.io/MAM-with-doc/\">here</a>. If an error is discovered, it may be reported to <a href=\"https://he.wikisource.org/wiki/%D7%A9%D7%99%D7%97%D7%AA_%D7%9E%D7%A9%D7%AA%D7%9E%D7%A9:Dovi\">User:Dovi</a> at Hebrew Wikisource. Please check the documentation notes before reporting an error.",
               "formatAsPoetry": "",
-              "digitizedBySefaria": "",
+              "digitizedByMekoros": "",
               "method": "",
               "heversionSource": "",
               "versionUrl": "",
@@ -9373,7 +9373,7 @@
               "formatAsPoetry": {
                 "type": "string"
               },
-              "digitizedBySefaria": {
+              "digitizedByMekoros": {
                 "type": "string"
               },
               "method": {
@@ -9455,9 +9455,9 @@
           "status": "locked",
           "priority": 3,
           "license": "CC-BY-NC",
-          "versionNotes": "<a href=\"http://purl.org/jps/rjps-preface\">Read the Preface to the Revised JPS Edition</a>\n<br><br>\n<a href=\"http://purl.org/jps/gender\">Read the Notes on Gender in Translation for the Revised JPS Edition</a>\n<br><br>\n<a href=\"https://www.sefaria.org/collections/commentary-on-the-usage-and-rendering-of-%D7%90%D7%99%D7%A9?tab=sheets\">Read a Commentary on the Hebrew word ’ish in the Revised JPS Edition</a>",
+          "versionNotes": "<a href=\"http://purl.org/jps/rjps-preface\">Read the Preface to the Revised JPS Edition</a>\n<br><br>\n<a href=\"http://purl.org/jps/gender\">Read the Notes on Gender in Translation for the Revised JPS Edition</a>\n<br><br>\n<a href=\"https://www.mekoros.com/collections/commentary-on-the-usage-and-rendering-of-%D7%90%D7%99%D7%A9?tab=sheets\">Read a Commentary on the Hebrew word ’ish in the Revised JPS Edition</a>",
           "formatAsPoetry": "",
-          "digitizedBySefaria": "",
+          "digitizedByMekoros": "",
           "method": "",
           "heversionSource": "",
           "versionUrl": "",
@@ -9467,7 +9467,7 @@
           "shortVersionTitleInHebrew": "",
           "extendedNotes": "",
           "extendedNotesHebrew": "",
-          "purchaseInformationImage": "https://storage.googleapis.com/sefaria-physical-editions/JPS-Tanakh-Gender-Sensitive-Edition-Cover-300x450.jpg",
+          "purchaseInformationImage": "https://storage.googleapis.com/mekoros-physical-editions/JPS-Tanakh-Gender-Sensitive-Edition-Cover-300x450.jpg",
           "purchaseInformationURL": "https://jps.org/books/the-jps-tanakh-gender-sensitive-edition/",
           "hasManuallyWrappedRefs": "",
           "actualLanguage": "en",
@@ -9493,7 +9493,7 @@
           },
           "priority": {
             "format": "float",
-            "description": "The priority assigned to a version of the text. A higher number will have the text appear higher within the listing of available versions for a specific text on the Sefaria website. (i.e. `Esther A` with a priority of `2`, will appear before `Esther B`, with a priority of `1`)",
+            "description": "The priority assigned to a version of the text. A higher number will have the text appear higher within the listing of available versions for a specific text on the Mekoros website. (i.e. `Esther A` with a priority of `2`, will appear before `Esther B`, with a priority of `1`)",
             "type": "number"
           },
           "license": {
@@ -9510,8 +9510,8 @@
             "description": "A boolean indicating whether or not the text (or portions of it) are formatted as poetry.",
             "type": "boolean"
           },
-          "digitizedBySefaria": {
-            "description": "An indicator of whether or not Sefaria digitized the text, versus acquiring an already digital copy of a text. ",
+          "digitizedByMekoros": {
+            "description": "An indicator of whether or not Mekoros digitized the text, versus acquiring an already digital copy of a text. ",
             "type": "boolean"
           },
           "method": {
@@ -9545,7 +9545,7 @@
           "purchaseInformationImage": {
             "description": "A URL pointing to an image of the hardcopy text available for purchase.",
             "type": "string",
-            "example": "https://storage.googleapis.com/sefaria-physical-editions/touger-mishneh-torah-hilkhot-teshuvah-purchase-img.png"
+            "example": "https://storage.googleapis.com/mekoros-physical-editions/touger-mishneh-torah-hilkhot-teshuvah-purchase-img.png"
           },
           "purchaseInformationURL": {
             "description": "A URL pointing to where one can purchase a hardcopy of this text. ",
@@ -9572,7 +9572,7 @@
             "type": "boolean"
           },
           "isPrimary": {
-            "description": "Indicates whether or not this version of the text is determined as the primary version in the Sefaria database.",
+            "description": "Indicates whether or not this version of the text is determined as the primary version in the Mekoros database.",
             "type": "boolean"
           },
           "direction": {
@@ -9614,7 +9614,7 @@
           "license": "CC-BY-SA",
           "versionNotes": "<i>Miqra According to the Masorah</i> (MAM) is a digital Hebrew edition of the Tanakh based on the Aleppo Codex and related manuscripts. It is designed for readers, and as such it contains added elements to aid vocalization of the text. For instance: When an accent is marked in an unstressed syllable, an extra accent is added in the proper place (<i>pashta</i>, <i>zarqa</i>, <i>segol</i>, <i>telisha</i>). <i>Legarmeih</i> and <i>paseq</i> are visibly distinguished. <i>Qamaz qatan</i> is indicated by its designated Unicode character (alternatives are documented where traditions differ about its application).<br>The text of MAM is fully documented. The <a href=\"https://he.wikisource.org/wiki/%D7%9E%D7%A9%D7%AA%D7%9E%D7%A9:Dovi/%D7%9E%D7%A7%D7%A8%D7%90_%D7%A2%D7%9C_%D7%A4%D7%99_%D7%94%D7%9E%D7%A1%D7%95%D7%A8%D7%94/%D7%9E%D7%99%D7%93%D7%A2_%D7%A2%D7%9C_%D7%9E%D7%94%D7%93%D7%95%D7%A8%D7%94_%D7%96%D7%95\">complete introduction</a> to the edition (Hebrew) explains the types of editorial decisions that have been made and the reasons for them (<a href=\"https://en.wikisource.org/wiki/User:Dovi/Miqra_according_to_the_Masorah#About_this_Edition_(English_Abstract)\">English abstract</a>). In addition, every word in the Bible about which there is some textual concern or ambiguity includes a documentation note; these notes can be viewed conveniently <a href=\"https://bdenckla.github.io/MAM-with-doc/\">here</a>. If an error is discovered, it may be reported to <a href=\"https://he.wikisource.org/wiki/%D7%A9%D7%99%D7%97%D7%AA_%D7%9E%D7%A9%D7%AA%D7%9E%D7%A9:Dovi\">User:Dovi</a> at Hebrew Wikisource. Please check the documentation notes before reporting an error.",
           "formatAsPoetry": "",
-          "digitizedBySefaria": "",
+          "digitizedByMekoros": "",
           "method": "",
           "heversionSource": "",
           "versionUrl": "",
@@ -9649,11 +9649,11 @@
             "type": "string"
           },
           "index_title": {
-            "description": "The cannonical title of the text in the Sefaria library.",
+            "description": "The cannonical title of the text in the Mekoros library.",
             "type": "string"
           },
           "category": {
-            "description": "The primary category this ref belongs to on Sefaria.",
+            "description": "The primary category this ref belongs to on Mekoros.",
             "type": "string"
           },
           "type": {
@@ -9811,7 +9811,7 @@
               "properties": {
                 "heNliLink": {
                   "value": "https://www.nli.org.il/he/discover/judaism/traditions/shabbat",
-                  "dataSource": "sefaria"
+                  "dataSource": "mekoros"
                 }
               },
               "description": {
@@ -9823,9 +9823,9 @@
               "numSources": 1662,
               "good_to_promote": true,
               "description_published": true,
-              "data_source": "sefaria",
+              "data_source": "mekoros",
               "image": {
-                "image_uri": "https://storage.googleapis.com/img.sefaria.org/topics/shabbat.jpg",
+                "image_uri": "https://storage.googleapis.com/img.mekoros.com/topics/shabbat.jpg",
                 "image_caption": {
                   "en": "Friday Evening, Isidor Kaufmann, Austria c. 1920. The Jewish Museum, Gift of Mr. and Mrs. M. R. Schweitzer",
                   "he": "שישי בערב, איזידור קאופמן, וינה 1920. המוזיאון היהודי בניו יורק, מתנת  מר וגברת מ.ר. שוויצר"
@@ -9897,7 +9897,7 @@
               "displayOrder": 230,
               "numSources": 57,
               "description_published": true,
-              "data_source": "sefaria",
+              "data_source": "mekoros",
               "primaryTitle": {
                 "en": "Shabbat Hagadol",
                 "he": "שבת הגדול"
@@ -9909,7 +9909,7 @@
               "toTopic": "shabbat",
               "linkType": "is-a",
               "class": "intraTopic",
-              "dataSource": "aspaklaria-edited-by-sefaria",
+              "dataSource": "aspaklaria-edited-by-mekoros",
               "fromTopic": "shabbat-shuvah",
               "order": {
                 "linksInCommon": 0,
@@ -9921,7 +9921,7 @@
               "toTopic": "shabbat",
               "linkType": "is-a",
               "class": "intraTopic",
-              "dataSource": "aspaklaria-edited-by-sefaria",
+              "dataSource": "aspaklaria-edited-by-mekoros",
               "fromTopic": "shabbat-hagadol",
               "order": {
                 "linksInCommon": 1,
@@ -9942,7 +9942,7 @@
             "type": "string"
           },
           "linkType": {
-            "description": "The type of the link, based on the relationship within our ontology. Many links has an `is-a` relationship (such as `Genesis` `is-a` `Book`), but other topic-to-topic links have a variety of other types documented  [here](https://developers.sefaria.org/docs/topic-ontology#overview-of-sefaria-link-types). \n\nSome examples include `child-of`, `parent-of`, `sibling-of` etc. ",
+            "description": "The type of the link, based on the relationship within our ontology. Many links has an `is-a` relationship (such as `Genesis` `is-a` `Book`), but other topic-to-topic links have a variety of other types documented  [here](https://developers.mekoros.com/docs/topic-ontology#overview-of-mekoros-link-types). \n\nSome examples include `child-of`, `parent-of`, `sibling-of` etc. ",
             "type": "string"
           },
           "class": {
@@ -9985,7 +9985,7 @@
           "toTopic": "shabbat",
           "linkType": "is-a",
           "class": "intraTopic",
-          "dataSource": "aspaklaria-edited-by-sefaria",
+          "dataSource": "aspaklaria-edited-by-mekoros",
           "fromTopic": "shabbat-shuvah",
           "order": {
             "linksInCommon": 0,
@@ -10245,9 +10245,9 @@
             "example": "false"
           },
           "data_source": {
-            "description": "How the topic was generated, whether by Sefaria, a user on a source sheet, or some other source. ",
+            "description": "How the topic was generated, whether by Mekoros, a user on a source sheet, or some other source. ",
             "type": "string",
-            "example": "sefaria"
+            "example": "mekoros"
           },
           "primary_title": {
             "$ref": "#/components/schemas/BillingualJSON",
@@ -10284,7 +10284,7 @@
           "numSources": 120,
           "good_to_promote": true,
           "description_published": true,
-          "data_source": "sefaria",
+          "data_source": "mekoros",
           "primaryTitle": {
             "en": "Mezuzah",
             "he": "מזוזה"
@@ -10297,7 +10297,7 @@
         "type": "object",
         "properties": {
           "linkType": {
-            "description": "The type of the link, based on the relationship within our ontology. Many links has an `is-a` relationship (such as `Genesis` `is-a` `Book`), but other topic-to-topic links have a variety of other types documented  [here](https://developers.sefaria.org/docs/topic-ontology#overview-of-sefaria-link-types). \n\nSome examples include `child-of`, `parent-of`, `sibling-of` etc. ",
+            "description": "The type of the link, based on the relationship within our ontology. Many links has an `is-a` relationship (such as `Genesis` `is-a` `Book`), but other topic-to-topic links have a variety of other types documented  [here](https://developers.mekoros.com/docs/topic-ontology#overview-of-mekoros-link-types). \n\nSome examples include `child-of`, `parent-of`, `sibling-of` etc. ",
             "type": "string",
             "example": "about"
           },
@@ -10312,7 +10312,7 @@
           },
           "dataSource": {
             "$ref": "#/components/schemas/DataSourceJSON",
-            "description": "Where the topic link originated from (i.e. was it added to a sheet and generated by Sefaria users, or was it created by the Sefaria learning team?)",
+            "description": "Where the topic link originated from (i.e. was it added to a sheet and generated by Mekoros users, or was it created by the Mekoros learning team?)",
             "properties": {
               "en": {
                 "type": "string"
@@ -10324,7 +10324,7 @@
                 "type": "string"
               }
             },
-            "example": "{\n\"en\": \"Sheets by Sefaria users\",\n\"he\": \"דפי מקורות ממשתמשי ספריא\",\n\"slug\": \"sefaria-users\"\n}"
+            "example": "{\n\"en\": \"Sheets by Mekoros users\",\n\"he\": \"דפי מקורות ממשתמשי ספריא\",\n\"slug\": \"mekoros-users\"\n}"
           },
           "is_sheet": {
             "description": "Is this ref-to-topic link one that was generated by a user-created source sheet?",
@@ -10333,7 +10333,7 @@
           },
           "order": {
             "$ref": "#/components/schemas/OrderTopicLinkJSON",
-            "description": "This JSON includes the various metrics that are relevant for ordering the link on a topics page. We use these metrics at [Sefaria.org](sefaria.org) to change the order on the topics page.",
+            "description": "This JSON includes the various metrics that are relevant for ordering the link on a topics page. We use these metrics at [Mekoros.com](mekoros.com) to change the order on the topics page.",
             "properties": {
               "tfidf": {
                 "format": "double",
@@ -10472,14 +10472,14 @@
           }
         },
         "example": {
-          "en": "Sheets by Sefaria users",
+          "en": "Sheets by Mekoros users",
           "he": "דפי מקורות ממשתמשי ספריא",
-          "slug": "sefaria-users"
+          "slug": "mekoros-users"
         }
       },
       "OrderTopicLinkJSON": {
         "title": "Root Type for OrderTopicLinkJSON",
-        "description": "This JSON includes the various metrics that are relevant for ordering the link on a topics page. We use these metrics at [Sefaria.org](sefaria.org) to change the order on the topics page.",
+        "description": "This JSON includes the various metrics that are relevant for ordering the link on a topics page. We use these metrics at [Mekoros.com](mekoros.com) to change the order on the topics page.",
         "type": "object",
         "properties": {
           "tfidf": {
@@ -10490,7 +10490,7 @@
           },
           "numDatasource": {
             "format": "int32",
-            "description": "The number of datasources which connect this `Ref` to the topic. A value of `2` will occur when two sources (i.e. `aspaklaria` and `sefaria sheets` both have connections between this `Ref` and this topic.)",
+            "description": "The number of datasources which connect this `Ref` to the topic. A value of `2` will occur when two sources (i.e. `aspaklaria` and `mekoros sheets` both have connections between this `Ref` and this topic.)",
             "type": "integer",
             "example": "3"
           },
@@ -10515,7 +10515,7 @@
           },
           "pr": {
             "format": "double",
-            "description": "`PageRank`. Sefaria calculates `PageRank` for the sources on a given topic page using the internal Sefaria links to create a link graph and then running the [PageRank algorithm](https://en.wikipedia.org/wiki/PageRank) on that. Sources with higher `PageRank` are considered to be more centrally linked and more relevant.",
+            "description": "`PageRank`. Mekoros calculates `PageRank` for the sources on a given topic page using the internal Mekoros links to create a link graph and then running the [PageRank algorithm](https://en.wikipedia.org/wiki/PageRank) on that. Sources with higher `PageRank` are considered to be more centrally linked and more relevant.",
             "type": "number",
             "example": "5.15330629652094"
           },
@@ -10585,7 +10585,7 @@
           },
           "ref": {
             "$ref": "#/components/schemas/ref",
-            "description": "For a _Parasha_, this is the Sefaria `Ref` which correlates to this _Parasha_ in the text. For example, _Parshat Noah_ corresponds to the ranged `Ref` of `\"Genesis 6:9-11:32\"`. ",
+            "description": "For a _Parasha_, this is the Mekoros `Ref` which correlates to this _Parasha_ in the text. For example, _Parshat Noah_ corresponds to the ranged `Ref` of `\"Genesis 6:9-11:32\"`. ",
             "example": "\"Genesis 6:9-11:32\""
           },
           "category": {
@@ -10676,7 +10676,7 @@
             "items": {
               "$ref": "#/components/schemas/SheetsJSON"
             },
-            "example": "{\n\"owner\": 65000,\n\"_id\": \"5ec3a6f7c73d4d278311782e\",\n\"id\": \"238181\",\n\"public\": true,\n\"title\": \"סדר תיקון ליל שבועות\",\n\"sheetUrl\": \"/sheets/238181\",\n\"anchorRef\": \"Deuteronomy 1\",\n\"anchorRefExpanded\": [\n\"Deuteronomy 1:2\"\n],\n\"options\": {\n\"numbered\": 0,\n\"boxed\": 0,\n\"assignable\": 0,\n\"bsd\": 1,\n\"language\": \"hebrew\",\n\"layout\": \"stacked\",\n\"langLayout\": \"heRight\",\n\"divineNames\": \"ykvk\",\n\"highlightMode\": 0,\n\"collaboration\": \"none\"\n},\n\"collectionTOC\": null,\n\"ownerName\": \"יותם גונן\",\n\"via\": null,\n\"viaOwnerName\": null,\n\"assignerName\": null,\n\"viaOwnerProfileUrl\": null,\n\"assignerProfileUrl\": null,\n\"ownerProfileUrl\": \"/profile/-2977\",\n\"ownerImageUrl\": \"https://storage.googleapis.com/sefaria-profile-pictures/-2977-1626800304-small.png\",\n\"status\": \"public\",\n\"views\": 8509,\n\"topics\": [],\n\"likes\": [],\n\"summary\": \"\",\n\"attribution\": null,\n\"is_featured\": false,\n\"category\": \"Sheets\",\n\"type\": \"sheet\"\n}"
+            "example": "{\n\"owner\": 65000,\n\"_id\": \"5ec3a6f7c73d4d278311782e\",\n\"id\": \"238181\",\n\"public\": true,\n\"title\": \"סדר תיקון ליל שבועות\",\n\"sheetUrl\": \"/sheets/238181\",\n\"anchorRef\": \"Deuteronomy 1\",\n\"anchorRefExpanded\": [\n\"Deuteronomy 1:2\"\n],\n\"options\": {\n\"numbered\": 0,\n\"boxed\": 0,\n\"assignable\": 0,\n\"bsd\": 1,\n\"language\": \"hebrew\",\n\"layout\": \"stacked\",\n\"langLayout\": \"heRight\",\n\"divineNames\": \"ykvk\",\n\"highlightMode\": 0,\n\"collaboration\": \"none\"\n},\n\"collectionTOC\": null,\n\"ownerName\": \"יותם גונן\",\n\"via\": null,\n\"viaOwnerName\": null,\n\"assignerName\": null,\n\"viaOwnerProfileUrl\": null,\n\"assignerProfileUrl\": null,\n\"ownerProfileUrl\": \"/profile/-2977\",\n\"ownerImageUrl\": \"https://storage.googleapis.com/mekoros-profile-pictures/-2977-1626800304-small.png\",\n\"status\": \"public\",\n\"views\": 8509,\n\"topics\": [],\n\"likes\": [],\n\"summary\": \"\",\n\"attribution\": null,\n\"is_featured\": false,\n\"category\": \"Sheets\",\n\"type\": \"sheet\"\n}"
           },
           "notes": {
             "description": "Any notes a user has on a given `Ref`. **Note:** This data is only available for logged-in users to view their own notes on a text. This field will always present as an empty array for third party developers. ",
@@ -10697,7 +10697,7 @@
             "items": {
               "$ref": "#/components/schemas/RelatedTopicJSON"
             },
-            "example": "{\n\"linkType\": \"about\",\n\"class\": \"refTopic\",\n\"dataSource\": {\n\"en\": \"Sheets by Sefaria users\",\n\"he\": \"דפי מקורות ממשתמשי ספריא\",\n\"slug\": \"sefaria-users\"\n},\n\"is_sheet\": false,\n\"generatedBy\": \"sheet-topic-aggregator\",\n\"order\": {\n\"user_votes\": 14,\n\"tfidf\": 10.783834565585545,\n\"numDatasource\": 1,\n\"availableLangs\": [\n\"en\",\n\"he\"\n],\n\"comp_date\": -1400,\n\"order_id\": \"A00000000400010001-00010011\",\n\"pr\": 8.083013483888324,\n\"numSources\": 143\n},\n\"topic\": \"parashat-devarim\",\n\"title\": {\n\"en\": \"Parashat Devarim\",\n\"he\": \"פרשת דברים\"\n},\n\"titleIsTransliteration\": {\n\"en\": false,\n\"he\": false\n},\n\"description\": {\n\"en\": \"Devarim (“Words”) is the first Torah portion in the Book of Deuteronomy, the final book of the Torah. In it, Moses recounts events from the Israelites’ travels in the desert, like the appointment of judges, the sin of the spies, and the wars with the Emorite kings Sihon and Og.\",\n\"he\": \"דברים היא הפרשה הראשונה בספר דברים, החומש החמישי והאחרון בתורה. בספר מובאים נאומי משה, שבהם הוא מזכיר אירועים מהעבר, סוקר מצוות שכבר ניתנו ומצווה מצוות חדשות. בפרשה משה מספר על הצורך במינוי שופטים להנהגת העם. הוא גם מזכיר את חטא המרגלים, שבו התלונן העם על הכניסה העתידית לארץ כנען, את העונש שהוטל על העם לנדוד במדבר ארבעים שנה ואת מלחמות ישראל במדבר.\"\n},\n\"anchorRef\": \"Deuteronomy 1:1-11\",\n\"anchorRefExpanded\": [\n\"Deuteronomy 1:1\",\n\"Deuteronomy 1:2\",\n\"Deuteronomy 1:3\",\n\"Deuteronomy 1:4\",\n\"Deuteronomy 1:5\",\n\"Deuteronomy 1:6\",\n\"Deuteronomy 1:7\",\n\"Deuteronomy 1:8\",\n\"Deuteronomy 1:9\",\n\"Deuteronomy 1:10\",\n\"Deuteronomy 1:11\"\n]\n}"
+            "example": "{\n\"linkType\": \"about\",\n\"class\": \"refTopic\",\n\"dataSource\": {\n\"en\": \"Sheets by Mekoros users\",\n\"he\": \"דפי מקורות ממשתמשי ספריא\",\n\"slug\": \"mekoros-users\"\n},\n\"is_sheet\": false,\n\"generatedBy\": \"sheet-topic-aggregator\",\n\"order\": {\n\"user_votes\": 14,\n\"tfidf\": 10.783834565585545,\n\"numDatasource\": 1,\n\"availableLangs\": [\n\"en\",\n\"he\"\n],\n\"comp_date\": -1400,\n\"order_id\": \"A00000000400010001-00010011\",\n\"pr\": 8.083013483888324,\n\"numSources\": 143\n},\n\"topic\": \"parashat-devarim\",\n\"title\": {\n\"en\": \"Parashat Devarim\",\n\"he\": \"פרשת דברים\"\n},\n\"titleIsTransliteration\": {\n\"en\": false,\n\"he\": false\n},\n\"description\": {\n\"en\": \"Devarim (“Words”) is the first Torah portion in the Book of Deuteronomy, the final book of the Torah. In it, Moses recounts events from the Israelites’ travels in the desert, like the appointment of judges, the sin of the spies, and the wars with the Emorite kings Sihon and Og.\",\n\"he\": \"דברים היא הפרשה הראשונה בספר דברים, החומש החמישי והאחרון בתורה. בספר מובאים נאומי משה, שבהם הוא מזכיר אירועים מהעבר, סוקר מצוות שכבר ניתנו ומצווה מצוות חדשות. בפרשה משה מספר על הצורך במינוי שופטים להנהגת העם. הוא גם מזכיר את חטא המרגלים, שבו התלונן העם על הכניסה העתידית לארץ כנען, את העונש שהוטל על העם לנדוד במדבר ארבעים שנה ואת מלחמות ישראל במדבר.\"\n},\n\"anchorRef\": \"Deuteronomy 1:1-11\",\n\"anchorRefExpanded\": [\n\"Deuteronomy 1:1\",\n\"Deuteronomy 1:2\",\n\"Deuteronomy 1:3\",\n\"Deuteronomy 1:4\",\n\"Deuteronomy 1:5\",\n\"Deuteronomy 1:6\",\n\"Deuteronomy 1:7\",\n\"Deuteronomy 1:8\",\n\"Deuteronomy 1:9\",\n\"Deuteronomy 1:10\",\n\"Deuteronomy 1:11\"\n]\n}"
           },
           "manuscripts": {
             "description": "An array of manuscript objects containing data of related manuscripts. ",
@@ -10705,7 +10705,7 @@
             "items": {
               "$ref": "#/components/schemas/ManuscriptJSON"
             },
-            "example": "[\n{\n\"manuscript_slug\": \"leningrad-codex-(1008-ce)\",\n\"page_id\": \"LC_Folio_98v\",\n\"image_url\": \"https://manuscripts.sefaria.org/leningrad-color/BIB_LENCDX_F098B.jpg\",\n\"thumbnail_url\": \"https://manuscripts.sefaria.org/leningrad-color/BIB_LENCDX_F098B_thumbnail.jpg\",\n\"anchorRef\": \"Deuteronomy 1:1-21\",\n\"anchorRefExpanded\": [\n\"Deuteronomy 1:2\"\n],\n\"manuscript\": {\n\"slug\": \"leningrad-codex-(1008-ce)\",\n\"title\": \"Leningrad Codex (1008 CE)\",\n\"he_title\": \"כתב יד לנינגרד (1008)\",\n\"source\": \"https://dornsife.usc.edu/wsrp/biblical-manuscripts\",\n\"description\": \"Bruce Zuckerman, West Semitic Research, in collaboration with the Ancient Biblical Manuscript Center; courtesy Russian National Library, Saltykov-Schedrin\",\n\"he_description\": \"\"\n}\n}\n]"
+            "example": "[\n{\n\"manuscript_slug\": \"leningrad-codex-(1008-ce)\",\n\"page_id\": \"LC_Folio_98v\",\n\"image_url\": \"https://manuscripts.mekoros.com/leningrad-color/BIB_LENCDX_F098B.jpg\",\n\"thumbnail_url\": \"https://manuscripts.mekoros.com/leningrad-color/BIB_LENCDX_F098B_thumbnail.jpg\",\n\"anchorRef\": \"Deuteronomy 1:1-21\",\n\"anchorRefExpanded\": [\n\"Deuteronomy 1:2\"\n],\n\"manuscript\": {\n\"slug\": \"leningrad-codex-(1008-ce)\",\n\"title\": \"Leningrad Codex (1008 CE)\",\n\"he_title\": \"כתב יד לנינגרד (1008)\",\n\"source\": \"https://dornsife.usc.edu/wsrp/biblical-manuscripts\",\n\"description\": \"Bruce Zuckerman, West Semitic Research, in collaboration with the Ancient Biblical Manuscript Center; courtesy Russian National Library, Saltykov-Schedrin\",\n\"he_description\": \"\"\n}\n}\n]"
           },
           "media": {
             "description": "An array of JSON containing any media related to the `Ref`. ",
@@ -11120,7 +11120,7 @@
               },
               "ownerName": "Rabbi Yossi Orkin",
               "ownerProfileUrl": "/profile/yossi-orkin",
-              "ownerImageUrl": "https://storage.googleapis.com/sefaria-profile-pictures/yossi-orkin-1626415935-small.png",
+              "ownerImageUrl": "https://storage.googleapis.com/mekoros-profile-pictures/yossi-orkin-1626415935-small.png",
               "status": "public",
               "views": 398,
               "topics": [
@@ -11230,7 +11230,7 @@
       },
       "MediaJSON": {
         "title": "Root Type for MediaJSON",
-        "description": "JSON containing metadata for media linked to `Ref`s on [Sefaria](sefaria.org)",
+        "description": "JSON containing metadata for media linked to `Ref`s on [Mekoros](mekoros.com)",
         "type": "object",
         "properties": {
           "media_url": {
@@ -11299,7 +11299,7 @@
       },
       "WebPagesJSON": {
         "title": "Root Type for WebPagesJSON",
-        "description": "A JSON object containing the metadata for external webpages linked to this Sefaria `Ref`.",
+        "description": "A JSON object containing the metadata for external webpages linked to this Mekoros `Ref`.",
         "type": "object",
         "properties": {
           "url": {
@@ -11313,7 +11313,7 @@
             "example": "The Mission of the Spies | vbm haretzion"
           },
           "refs": {
-            "description": "All textual references found on this webpage which link to various Sefaria `Ref`s.",
+            "description": "All textual references found on this webpage which link to various Mekoros `Ref`s.",
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ref"
@@ -11327,7 +11327,7 @@
           },
           "linkerHits": {
             "format": "int32",
-            "description": "Number of hits by the Sefaria linker. ",
+            "description": "Number of hits by the Mekoros linker. ",
             "type": "integer"
           },
           "domain": {
@@ -11406,12 +11406,12 @@
       },
       "SheetsJSON": {
         "title": "Root Type for SheetsJSON",
-        "description": "JSON containing metadata relating for a given source sheet on [Sefaria](sefaria.org).",
+        "description": "JSON containing metadata relating for a given source sheet on [Mekoros](mekoros.com).",
         "type": "object",
         "properties": {
           "owner": {
             "format": "int32",
-            "description": "the Sefaria User ID of the sheet's owner.",
+            "description": "the Mekoros User ID of the sheet's owner.",
             "type": "integer"
           },
           "_id": {
@@ -11419,7 +11419,7 @@
             "type": "string"
           },
           "id": {
-            "description": "The `id` of the sheet. This is used in the URL to retrieve sheets, for example, a sheet with an `id` of 1, would be accessible on [Sefaria](sefaria.org) at [sefaria.org/sheets/1](sefaria.org/sheets/1).",
+            "description": "The `id` of the sheet. This is used in the URL to retrieve sheets, for example, a sheet with an `id` of 1, would be accessible on [Mekoros](mekoros.com) at [mekoros.com/sheets/1](mekoros.com/sheets/1).",
             "type": "string"
           },
           "public": {
@@ -11439,7 +11439,7 @@
           },
           "anchorRef": {
             "$ref": "#/components/schemas/ref",
-            "description": "The Sefaria reference that connects this sheet to the submitted `ref`",
+            "description": "The Mekoros reference that connects this sheet to the submitted `ref`",
             "example": "Deuteronomy 1"
           },
           "anchorRefExpanded": {
@@ -11450,27 +11450,27 @@
             }
           },
           "options": {
-            "description": "A JSON object containing document level options related to how this source sheet should be displayed in Sefaria's Source Sheet editor.",
+            "description": "A JSON object containing document level options related to how this source sheet should be displayed in Mekoros's Source Sheet editor.",
             "type": "object",
             "properties": {
               "numbered": {
-                "description": "Should the sources be automatically numbered in the Sefaria editor view",
+                "description": "Should the sources be automatically numbered in the Mekoros editor view",
                 "type": "boolean"
               },
               "boxed": {
-                "description": "Should the sources be boxed o the page in the Sefaria editor view",
+                "description": "Should the sources be boxed o the page in the Mekoros editor view",
                 "type": "boolean"
               },
               "assignable": {
-                "description": "Is this source sheet an assignment for students in the Sefaria editor view",
+                "description": "Is this source sheet an assignment for students in the Mekoros editor view",
                 "type": "boolean"
               },
               "bsd": {
-                "description": "Should the source sheet include בס\"ד at the top of the page in the Sefaria editor view",
+                "description": "Should the source sheet include בס\"ד at the top of the page in the Mekoros editor view",
                 "type": "boolean"
               },
               "language": {
-                "description": "Default display language of the source sheet in the Sefaria editor view",
+                "description": "Default display language of the source sheet in the Mekoros editor view",
                 "enum": [
                   "blingual",
                   "hebrew",
@@ -11479,11 +11479,11 @@
                 "type": "string"
               },
               "layout": {
-                "description": "Default display layout of the source sheet in the Sefaria editor view",
+                "description": "Default display layout of the source sheet in the Mekoros editor view",
                 "type": "string"
               },
               "langLayout": {
-                "description": "Default display side of the language in a bilingual side-by-side view in the Sefaria editor view",
+                "description": "Default display side of the language in a bilingual side-by-side view in the Mekoros editor view",
                 "type": "string"
               },
               "divineNames": {
@@ -11529,7 +11529,7 @@
             "type": "string"
           },
           "ownerProfileUrl": {
-            "description": "The URL Path that will link to a user's profile on the Sefaria site.",
+            "description": "The URL Path that will link to a user's profile on the Mekoros site.",
             "type": "string"
           },
           "ownerImageUrl": {
@@ -11610,7 +11610,7 @@
           },
           "ownerName": "יותם גונן",
           "ownerProfileUrl": "/profile/-2977",
-          "ownerImageUrl": "https://storage.googleapis.com/sefaria-profile-pictures/-2977-1626800304-small.png",
+          "ownerImageUrl": "https://storage.googleapis.com/mekoros-profile-pictures/-2977-1626800304-small.png",
           "status": "public",
           "views": 8509,
           "topics": [],
@@ -11772,7 +11772,7 @@
         "type": "object",
         "properties": {
           "linkType": {
-            "description": "The type of link between the topic and the `Ref`. For more on Sefaria's topic ontology, see [here](https://developers.sefaria.org/docs/topic-ontology). ",
+            "description": "The type of link between the topic and the `Ref`. For more on Mekoros's topic ontology, see [here](https://developers.mekoros.com/docs/topic-ontology). ",
             "type": "string",
             "example": "about"
           },
@@ -11787,7 +11787,7 @@
           "dataSource": {
             "$ref": "#/components/schemas/DataSourceJSON",
             "description": "JSON containing the information as to the source of the data for a given ref-to-topic link.",
-            "example": " {\n\"en\": \"Sheets by Sefaria users\",\n\"he\": \"דפי מקורות ממשתמשי ספריא\",\n\"slug\": \"sefaria-users\"\n}"
+            "example": " {\n\"en\": \"Sheets by Mekoros users\",\n\"he\": \"דפי מקורות ממשתמשי ספריא\",\n\"slug\": \"mekoros-users\"\n}"
           },
           "is_sheet": {
             "description": "Is this ref-to-topic link one that was generated by a user-created source sheet?",
@@ -11795,13 +11795,13 @@
             "example": "True"
           },
           "generatedBy": {
-            "description": "How the topic was generated (i.e. by a user, aspaklaria, Sefaria staff)",
+            "description": "How the topic was generated (i.e. by a user, aspaklaria, Mekoros staff)",
             "type": "string",
             "example": "sheet-topic-aggregator"
           },
           "order": {
             "$ref": "#/components/schemas/OrderTopicLinkJSON",
-            "description": "This JSON includes the various metrics that are relevant for ordering the link on a topics page. We use these metrics at [Sefaria.org](sefaria.org) to change the order on the topics page.",
+            "description": "This JSON includes the various metrics that are relevant for ordering the link on a topics page. We use these metrics at [Mekoros.com](mekoros.com) to change the order on the topics page.",
             "properties": {
               "user_votes": {
                 "format": "int32",
@@ -11900,7 +11900,7 @@
       },
       "RawIndexJSON": {
         "title": "Root Type for RawIndexJSON",
-        "description": "The full mongo record JSON from the database for a given Sefaria `Index`. ",
+        "description": "The full mongo record JSON from the database for a given Mekoros `Index`. ",
         "type": "object",
         "properties": {
           "title": {
@@ -11918,7 +11918,7 @@
           },
           "schema": {
             "$ref": "#/components/schemas/RawIndexSchemaJSON",
-            "description": "The structure of the Index within the Sefaria specific schema for texts. ",
+            "description": "The structure of the Index within the Mekoros specific schema for texts. ",
             "properties": {
               "nodeType": {
                 "type": "string"
@@ -12806,7 +12806,7 @@
         "type": "object",
         "properties": {
           "nodeType": {
-            "description": "The type of node. Nodes can either be `SchemaNodes` or `JaggedArray` nodes. A `JaggedArray` is a nested array (2D or 3D), whereas a `SchemaNode` is a node with children of either type. All tree leaves in the Sefaria text tree must be `JaggedArray` nodes.",
+            "description": "The type of node. Nodes can either be `SchemaNodes` or `JaggedArray` nodes. A `JaggedArray` is a nested array (2D or 3D), whereas a `SchemaNode` is a node with children of either type. All tree leaves in the Mekoros text tree must be `JaggedArray` nodes.",
             "enum": [
               "JaggedArrayNode",
               "SchemaNode"
@@ -13104,7 +13104,7 @@
             "items": {}
           },
           "filters": {
-            "description": "A list of filters to filter results. These filters cannot include RegEx. Any RegEx characters will be escaped. Each filter is applied to the corresponding field in the `filter_fields` list. E.g. if filters is `[\"Passover\", \"Torah Talks\"]` and `filter_fields` is `[\"topics_en\", \"collections\"]` then the `\"Passover\"` filter will be applied to the `\"topics_en\"` field and the `\"Torah Talks\"` filter will be applied to the `\"collections\"` field. For `text` queries, filters always applies to the `path` field of documents. This essentially corresponds to the category path of the book in Sefaria's table of contents (there are some differences with regards to commentary paths). For `sheet` queries, filters can be applied to `collections`, `topics_en` or `topics_he`. These fields are explained in `filter_fields` param.",
+            "description": "A list of filters to filter results. These filters cannot include RegEx. Any RegEx characters will be escaped. Each filter is applied to the corresponding field in the `filter_fields` list. E.g. if filters is `[\"Passover\", \"Torah Talks\"]` and `filter_fields` is `[\"topics_en\", \"collections\"]` then the `\"Passover\"` filter will be applied to the `\"topics_en\"` field and the `\"Torah Talks\"` filter will be applied to the `\"collections\"` field. For `text` queries, filters always applies to the `path` field of documents. This essentially corresponds to the category path of the book in Mekoros's table of contents (there are some differences with regards to commentary paths). For `sheet` queries, filters can be applied to `collections`, `topics_en` or `topics_he`. These fields are explained in `filter_fields` param.",
             "type": "array",
             "items": {}
           },
@@ -13123,7 +13123,7 @@
             "type": "integer"
           },
           "sort_fields": {
-            "description": "List of fields to sort on. If `sort_method = 'score'` this list should have exactly one item. Common fields to sort on are `comp_date` (which list results from titles published chronologically), `order` (which list results based on Sefaria's table of contents structure), `pagesheetrank` (most relevant results based on the Sheet Rank algorithm), `dateCreated` (for sheet results returned chronologically), `views` (for sheet results based on popularity).",
+            "description": "List of fields to sort on. If `sort_method = 'score'` this list should have exactly one item. Common fields to sort on are `comp_date` (which list results from titles published chronologically), `order` (which list results based on Mekoros's table of contents structure), `pagesheetrank` (most relevant results based on the Sheet Rank algorithm), `dateCreated` (for sheet results returned chronologically), `views` (for sheet results based on popularity).",
             "type": "array",
             "items": {
               "type": "string"
@@ -13151,7 +13151,7 @@
             "type": "boolean"
           },
           "type": {
-            "description": "The ElasticSearch index you want to query, and the results you expect to get back. `sheet` returns results from Sefaria's user generated source sheets, while `text` returns results from the library.",
+            "description": "The ElasticSearch index you want to query, and the results you expect to get back. `sheet` returns results from Mekoros's user generated source sheets, while `text` returns results from the library.",
             "enum": [
               "text",
               "sheet"
@@ -13180,7 +13180,7 @@
         }
       },
       "ShapeJSON": {
-        "description": "The shape API allows one to retrieve information about the shape of an Index on Sefaria. The shape refers some basic statistics about the Index, mostly the number of chapters, and the number of segments per chapter.",
+        "description": "The shape API allows one to retrieve information about the shape of an Index on Mekoros. The shape refers some basic statistics about the Index, mostly the number of chapters, and the number of segments per chapter.",
         "required": [
           "Book",
           "heBook",

@@ -4,7 +4,7 @@ import React  from 'react';
 import ReactDOM  from 'react-dom';
 import ReactTags from 'react-tag-autocomplete'
 import DjangoCSRF  from './lib/django-csrf';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 
 class SheetCategorizer extends React.Component {
   constructor(props) {
@@ -51,7 +51,7 @@ class SheetCategorizer extends React.Component {
 
   updateSuggestedTags(input) {
     if (input == "") return;
-    Sefaria.getName(input, false, 0)
+    Mekoros.getName(input, false, 0)
       .then((d) => {
         const topics = d.completion_objects
           .filter((obj) => obj.type === "Topic")
@@ -110,7 +110,7 @@ class SheetCategorizer extends React.Component {
   }
 
   getSheet() {
-    Sefaria.sheets.loadSheetByID(
+    Mekoros.sheets.loadSheetByID(
       this.state.sheetId,
       this.updateStateWithNewSheet.bind(this)
       );
@@ -189,7 +189,7 @@ class SheetCategorizer extends React.Component {
               suggestions={this.state.suggestions}
               onDelete={this.onTagDelete.bind(this)}
               onAddition={this.onTagAddition.bind(this)}
-              placeholderText={Sefaria._("Add a topic...")}
+              placeholderText={Mekoros._("Add a topic...")}
               delimiters={["Enter", "Tab", ","]}
               onInput={this.updateSuggestedTags.bind(this)}
             />

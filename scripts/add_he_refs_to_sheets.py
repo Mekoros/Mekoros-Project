@@ -2,8 +2,8 @@
 """
 Annotates every source in all source sheets with a Hebrew Ref.
 """
-from sefaria.model import *
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.system.database import db
 
 
 def add_he_ref_to_source(source):

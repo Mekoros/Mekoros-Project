@@ -10,13 +10,13 @@ from datetime import datetime
 from copy import deepcopy
 import argparse
 import glob
-import sefaria.model as model
-from sefaria.system.database import db
+import mekoros.model as model
+from mekoros.system.database import db
 
 """path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, path)
-sys.path.insert(0, path + "/sefaria")
-parashiot_file = "/var/data/Sefaria-Data/misc/parshiot.csv"
+sys.path.insert(0, path + "/mekoros")
+parashiot_file = "/var/data/Mekoros-Data/misc/parshiot.csv"
 """
 
 #path="/path/to/csv/parashot" #no slash at the end

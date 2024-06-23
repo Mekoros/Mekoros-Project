@@ -24,11 +24,11 @@ sandboxSubdomain=${SANDBOX_SUBDOMAIN:?Set SANDBOX_SUBDOMAIN and re-run.}
 gitCommit=${GITHUB_SHA:?Set GITHUB_SHA and re-run.}
 gkeNamespace=${GKE_NAMESPACE:?Set GKE_NAMESPACE and re-run.}
 postgresHostName=${POSTGRES_HOST:?Set POSTGRES_HOST and re-run.}
-gitRepoName=${GITHUB_REPOSITORY:-'Sefaria/Sefaria-Project'}
+gitRepoName=${GITHUB_REPOSITORY:-'Mekoros/Mekoros-Project'}
 envName=${gitCommit:0:6}
 mongoLoad="true"
 mongoDumpName="latest"
-mongoDatabaseName="sefaria-$envName"
+mongoDatabaseName="mekoros-$envName"
 isSandbox="true"
 resourceAllocation="small"
 randSlug="slug"  # $(cat /dev/urandom | LC_ALL=C tr -dc 'a-z0-9' | fold -w 10 | head -n 1)

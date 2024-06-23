@@ -6,11 +6,11 @@ import urllib.request, urllib.error, urllib.parse
 from urllib.error import URLError, HTTPError
 import json
 
-sys.path.append("C:\\Users\\Izzy\\git\\Sefaria-Project")
-from sefaria.model import *
+sys.path.append("C:\\Users\\Izzy\\git\\Mekoros-Project")
+from mekoros.model import *
 
 apikey = ''
-server = 'dev.sefaria.org'
+server = 'dev.mekoros.com'
 
 def post_texts_api(text_obj, ref):
     url = 'http://' + server + '/api/v2/raw/index/{}'.format(ref)

@@ -9,11 +9,11 @@ from django.utils import translation
 from django.shortcuts import redirect
 from django.http import HttpResponse
 
-from sefaria.settings import *
-from sefaria.site.site_settings import SITE_SETTINGS
-from sefaria.model.user_profile import UserProfile
-from sefaria.utils.util import short_to_long_lang_code, get_lang_codes_for_territory
-from sefaria.system.cache import get_shared_cache_elem, set_shared_cache_elem
+from mekoros.settings import *
+from mekoros.site.site_settings import SITE_SETTINGS
+from mekoros.model.user_profile import UserProfile
+from mekoros.utils.util import short_to_long_lang_code, get_lang_codes_for_territory
+from mekoros.system.cache import get_shared_cache_elem, set_shared_cache_elem
 from django.utils.deprecation import MiddlewareMixin
 
 
@@ -35,7 +35,7 @@ class LocationSettingsMiddleware(MiddlewareMixin):
         loc = request.META.get("HTTP_CF_IPCOUNTRY", None)
         if not loc:
             try:
-                from sefaria.settings import PINNED_IPCOUNTRY
+                from mekoros.settings import PINNED_IPCOUNTRY
                 loc = PINNED_IPCOUNTRY
             except:
                 loc = "us"
@@ -76,7 +76,7 @@ class LanguageSettingsMiddleware(MiddlewareMixin):
             # For crawlers, don't redirect -- just return the pinned language
             no_direct = ("Googlebot", "Bingbot", "Slurp", "DuckDuckBot", "Baiduspider", 
                             "YandexBot", "Facebot", "facebookexternalhit", "ia_archiver", "Sogou",
-                            "python-request", "curl", "Wget", "sefaria-node")
+                            "python-request", "curl", "Wget", "mekoros-node")
             if any([bot in request.META.get('HTTP_USER_AGENT', '') for bot in no_direct]):
                 interface = domain_lang
             else:

@@ -2,9 +2,9 @@
 
 import argparse
 
-from sefaria.model import *
-from sefaria.datatype.jagged_array import JaggedTextArray, JaggedArray
-from sefaria.utils.talmud import daf_to_section
+from mekoros.model import *
+from mekoros.datatype.jagged_array import JaggedTextArray, JaggedArray
+from mekoros.utils.talmud import daf_to_section
 import copy
 
 def pad_moved_ja(ja, padding_values):

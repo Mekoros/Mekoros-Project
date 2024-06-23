@@ -1,6 +1,6 @@
 {% load cache %}
 {% load humanize %}
-{% load sefaria_tags %}
+{% load mekoros_tags %}
 {% load static %}
 
 <!DOCTYPE html>
@@ -2208,8 +2208,8 @@ a {
 		<!-- <div id="printFooter">
 			<img src="{% static 'img/fb-og-image.png' %}">
 			<div>
-				Made with the Sefaria Source Sheet Builder<br>
-				www.sefaria.org/sheets
+				Made with the Mekoros Source Sheet Builder<br>
+				www.mekoros.com/sheets
 			</div>
 		</div> -->
 	</div>
@@ -2218,7 +2218,7 @@ a {
 
 	{% if author %}
 	<div id="bottomAuthor">
-		Source Sheet created on Sefaria by {{ sheet.owner|user_link|absolute_link }}
+		Source Sheet created on Mekoros by {{ sheet.owner|user_link|absolute_link }}
 		{% if sheet.via %}
 		<div id="bottomVia">Based on {{ sheet.via|sheet_via_absolute_link }} by {{ sheet.viaOwner|user_link|absolute_link }}</div>
 		{% endif %}

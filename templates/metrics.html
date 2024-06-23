@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% load i18n cache humanize sefaria_tags %}
+{% load i18n cache humanize mekoros_tags %}
 {% load i18n %}
 {% load static %}
-{% block title %}{% trans "Sefaria Metrics" %}{% endblock %}
+{% block title %}{% trans "Mekoros Metrics" %}{% endblock %}
 
-{% block description %}{% trans "See graphs charting Sefaria's progress since 2013 across metrics including word counts, number of links and number of source sheets." %}{% endblock %}
+{% block description %}{% trans "See graphs charting Mekoros's progress since 2013 across metrics including word counts, number of links and number of source sheets." %}{% endblock %}
 
 {% block content %}
 <div class="superAbout">
@@ -42,7 +42,7 @@
 			"totalWords": "{% trans "Total Words in Library" %}",
 			"heWords": "{% trans "Words in Hebrew & Aramaic" %}",
 			"transWords": "{% trans "Words in Translation" %}",
-			"sctWords": "{% trans "Words of Original Translation created by Sefaria Volunteers" %}",
+			"sctWords": "{% trans "Words of Original Translation created by Mekoros Volunteers" %}",
 			"contributors": "{% trans "Number of Public Contributors" %}",
 			"links": "{% trans "Number of Intertextual Links" %}",
 			"sheets": "{% trans "Number of Source Sheets" %}"

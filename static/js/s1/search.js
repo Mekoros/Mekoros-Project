@@ -1,13 +1,13 @@
-Sefaria = Sefaria || {};
+Mekoros = Mekoros || {};
 
-Sefaria.pageSize = 100;
+Mekoros.pageSize = 100;
 
-$.extend(Sefaria, {
+$.extend(Mekoros, {
     currentPage: "search",
     currentFacet: null,
 
     FilterTree: function() {
-        Sefaria.search.FilterNode.call(this); //Inherits from FilterNode
+        Mekoros.search.FilterNode.call(this); //Inherits from FilterNode
         this.path = "_root";
         this.title = "All Sources";
         this.heTitle = "כל המקורות";
@@ -17,8 +17,8 @@ $.extend(Sefaria, {
     }
 });
 
-Sefaria.search = Sefaria.search || {};
-$.extend(Sefaria.search, {
+Mekoros.search = Mekoros.search || {};
+$.extend(Mekoros.search, {
         filters_rendered: false,
         filter_tree: {},
         query_context: 1,
@@ -45,8 +45,8 @@ $.extend(Sefaria.search, {
             }
 
             var state = event.state;
-            Sefaria.search.clear_available_filters();
-            Sefaria.search.filter_tree = new Sefaria.FilterTree();
+            Mekoros.search.clear_available_filters();
+            Mekoros.search.filter_tree = new Mekoros.FilterTree();
 
             if ("lang" in state) {
                 if (state["lang"] == "he") {
@@ -59,32 +59,32 @@ $.extend(Sefaria.search, {
                 }
             }
             if (!("q" in state)) {
-                Sefaria.search.show_empty();
+                Mekoros.search.show_empty();
                 return;
             }
 
             if ("page" in state) {
-                Sefaria.search.page = parseInt(vars["page"])
+                Mekoros.search.page = parseInt(vars["page"])
             }
             /*
              if ("pctx" in state) {
-             Sefaria.search.set_presentation_context(parseInt(state["pctx"]));
+             Mekoros.search.set_presentation_context(parseInt(state["pctx"]));
              }
              if ("qctx" in state) {
-             Sefaria.search.set_query_context(state["qctx"]);
+             Mekoros.search.set_query_context(state["qctx"]);
              }
              */
             if ("q" in state) {
                 var query = state["q"].replace(/\+/g, " ");
                 $(".searchInput").val(query);
-                Sefaria.search.query = query;
+                Mekoros.search.query = query;
             }
 
             if ("filters" in state) {
                 var f = state["filters"].split("|");
-                Sefaria.search.filter_tree.setAppliedFilters(f);
+                Mekoros.search.filter_tree.setAppliedFilters(f);
             }
-            Sefaria.search.post();
+            Mekoros.search.post();
         },
         get_lang: function () {
             if ($("body").hasClass("english")) {
@@ -95,7 +95,7 @@ $.extend(Sefaria.search, {
             }
         },
         updateUrlParams: function (push) {
-            //Note that this is different than Sefaria.updateUrlParams, which is used for the reader
+            //Note that this is different than Mekoros.updateUrlParams, which is used for the reader
             var params = {};
             params["lang"] = this.get_lang();
 
@@ -135,7 +135,7 @@ $.extend(Sefaria.search, {
             var cats = this.get_category_string();
 
             if (!(this.query)) {
-                return (lang == "en") ? "Search Jewish Texts | Sefaria.org" : "חיפוש מקורות בספריא";
+                return (lang == "en") ? "Search Jewish Texts | Mekoros.com" : "חיפוש מקורות בספריא";
             }
 
             var line = '"' + this.query + '" ';
@@ -146,7 +146,7 @@ $.extend(Sefaria.search, {
             } else {
                 line += '(' + String(this.hits.total) + ')';
                 if (lang == 'en') {
-                    line += ' | Sefaria Search';
+                    line += ' | Mekoros Search';
                 } else if (lang == 'he') {
                     line += ' | חיפוש מקורות';
                 }
@@ -227,7 +227,7 @@ $.extend(Sefaria.search, {
             }
             if (results.length == 0) {
                 html = "<div id='emptySearch' class='well'>" +
-                    "<b>Sefaria Search is still under development.</b><br />" +
+                    "<b>Mekoros Search is still under development.</b><br />" +
                     "Hebrew words are searched exactly as entered; different forms of the same word may produce different results." +
                     "</div>";
             }
@@ -273,11 +273,11 @@ $.extend(Sefaria.search, {
 
                 $("#searchFilters .filter").change(function (e) {
                     if (this.checked) {
-                        Sefaria.search.filter_tree.getChild(this.id).setSelected(true);
+                        Mekoros.search.filter_tree.getChild(this.id).setSelected(true);
                     } else {
-                        Sefaria.search.filter_tree.getChild(this.id).setUnselected(true);
+                        Mekoros.search.filter_tree.getChild(this.id).setUnselected(true);
                     }
-                    Sefaria.search.post(true, true)
+                    Mekoros.search.post(true, true)
                 });
                 $(".filter-parent span").click(function (e) {  // If text is clicked, propgate click to checkbox
                     $(this).closest("li").find(".filter").first().trigger('click');
@@ -308,8 +308,8 @@ $.extend(Sefaria.search, {
         },
 
         show_empty: function () {
-            Sefaria.search.$results.empty();
-            Sefaria.search.$results.append("<div id='search-instructions' class='well'>" +
+            Mekoros.search.$results.empty();
+            Mekoros.search.$results.append("<div id='search-instructions' class='well'>" +
                 "<span class='en'>Enter a word or words to search for in the box above. Enclose phrases with quotes.  You can enter your search in either Hebrew or English.  After submitting a search, you can filter your search to specific categories or books.</span>" +
                 "<span class='he'>" +
                 'הקלידו מילה/ים לחיפוש בתיבה מעל. ניתן להקליד ביטויים ע"י הקפתם במרכאות. החיפוש יכול להיעשות באנגלית או בעברית. אחרי ביצוע החיפוש, ניתן לסנן את התוצאות לקטגוריות או ספרים מסויימים.'
@@ -332,7 +332,7 @@ $.extend(Sefaria.search, {
                 }
             }
             var results = this.resultsHtml(this.hits.hits);
-            if (this.hits.hits.length == (hold_results ? Sefaria.pageSize : Sefaria.pageSize * (this.page + 1))) {
+            if (this.hits.hits.length == (hold_results ? Mekoros.pageSize : Mekoros.pageSize * (this.page + 1))) {
                 results += "<div class='moreResults'><span class='en'>More results</span><span class='he'>תוצאות נוספות</span></div>"
             }
             this.$desc.text(this.get_description_line());
@@ -342,32 +342,32 @@ $.extend(Sefaria.search, {
             });
             $(".moreResults").click(function () {
                 $(".moreResults").off("click").css("color", "grey");
-                Sefaria.search.page = Sefaria.search.page + 1;
-                Sefaria.search.post(true, false, false, true);
+                Mekoros.search.page = Mekoros.search.page + 1;
+                Mekoros.search.post(true, false, false, true);
             });
         },
         query_object: function () {
-            return Sefaria.search.get_query_object(this.query, !this.filters_rendered, this.filter_tree.hasAppliedFilters() && this.filter_tree.getAppliedFilters())
+            return Mekoros.search.get_query_object(this.query, !this.filters_rendered, this.filter_tree.hasAppliedFilters() && this.filter_tree.getAppliedFilters())
         },
         post: function (updateurl, push, leave_alive, hold_results) {
-            if (Sefaria.search.active_post && !(leave_alive)) {
-                Sefaria.search.active_post.abort(); //Kill any earlier query
+            if (Mekoros.search.active_post && !(leave_alive)) {
+                Mekoros.search.active_post.abort(); //Kill any earlier query
             }
 
             this.$header.html("Searching <img src='/static/img/ajax-loader.gif' />");
 
             var qobj = this.query_object();
 
-            var url = Sefaria.search.baseUrl;
+            var url = Mekoros.search.baseUrl;
             if (!hold_results)
-                url += "?size=" + ((this.page + 1) * Sefaria.pageSize);
+                url += "?size=" + ((this.page + 1) * Mekoros.pageSize);
             else {
-                url += "?size=" + Sefaria.pageSize;
+                url += "?size=" + Mekoros.pageSize;
                 if (this.page) {
-                    url += "&from=" + (this.page * Sefaria.pageSize);
+                    url += "&from=" + (this.page * Mekoros.pageSize);
                 }
             }
-            Sefaria.search.active_post = $.ajax({
+            Mekoros.search.active_post = $.ajax({
                 url: url,
                 type: 'POST',
                 data: JSON.stringify(qobj),
@@ -375,31 +375,31 @@ $.extend(Sefaria.search, {
                 processData: false,
                 dataType: 'json',
                 success: function (data) {
-                    Sefaria.search.hits = data.hits;
+                    Mekoros.search.hits = data.hits;
                     if (data.aggregations && data.aggregations.category) {
-                        //Sefaria.search.aggs = data.aggregations;
-                        Sefaria.search.filter_tree.updateAvailableFilters(data.aggregations.category.buckets);
+                        //Mekoros.search.aggs = data.aggregations;
+                        Mekoros.search.filter_tree.updateAvailableFilters(data.aggregations.category.buckets);
                     }
-                    Sefaria.search.render(hold_results);
-                    if (updateurl) Sefaria.search.updateUrlParams(push);
-                    Sefaria.search.active_post = false;
+                    Mekoros.search.render(hold_results);
+                    if (updateurl) Mekoros.search.updateUrlParams(push);
+                    Mekoros.search.active_post = false;
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     if (textStatus == "abort") {
                         return;
                     }
                     var html = "<div id='emptySearch' class='well'>" +
-                        "<b>Sefaria Search encountered an error.</b><br />" +
+                        "<b>Mekoros Search encountered an error.</b><br />" +
                         "This feature is still in development. We're currently working to make our search experience both robust and useful. Please try your search again later." +
                         "</div>";
-                    Sefaria.search.$results.html(html);
-                    Sefaria.search.active_post = false;
+                    Mekoros.search.$results.html(html);
+                    Mekoros.search.active_post = false;
                 }
             });
 
             $(".searchInput").blur();
 
-            Sefaria.track.event("Search","Search",this.query);
+            Mekoros.track.event("Search","Search",this.query);
         }
     }
 );
@@ -409,7 +409,7 @@ $.extend(Sefaria.search, {
 2) _build
 */
 
-$.extend(Sefaria.search.FilterNode.prototype, {
+$.extend(Mekoros.search.FilterNode.prototype, {
     //Extend the 'set...' methods to also mutate DOM
     $el : function() {
         var selector = ".filter#" + this.getId();
@@ -474,13 +474,13 @@ $.extend(Sefaria.search.FilterNode.prototype, {
         return html;
     }
 });
-Sefaria.FilterTree.prototype = Object.create(Sefaria.search.FilterNode.prototype);
-Sefaria.FilterTree.prototype.constructor = Sefaria.FilterTree;
-$.extend(Sefaria.FilterTree.prototype, {
+Mekoros.FilterTree.prototype = Object.create(Mekoros.search.FilterNode.prototype);
+Mekoros.FilterTree.prototype.constructor = Mekoros.FilterTree;
+$.extend(Mekoros.FilterTree.prototype, {
 
     setUnselected: function(propogateParent, noPropogateChild) {
-        Sefaria.search.filter_tree.orphanFilters = [];
-        Sefaria.search.FilterNode.prototype.setUnselected.call(this, propogateParent, noPropogateChild);
+        Mekoros.search.filter_tree.orphanFilters = [];
+        Mekoros.search.FilterNode.prototype.setUnselected.call(this, propogateParent, noPropogateChild);
     },
     updateAvailableFilters: function(filters) {
         this.orphanFilters = this.getAppliedFilters();
@@ -545,7 +545,7 @@ $.extend(Sefaria.FilterTree.prototype, {
     },
 
     _build: function() {
-        //Aggregate counts, then sort rawTree into FilterNodes and add Hebrew using Sefaria.toc as reference
+        //Aggregate counts, then sort rawTree into FilterNodes and add Hebrew using Mekoros.toc as reference
         //Nod to http://stackoverflow.com/a/17546800/213042
         this._aggregate();
         this.doc_count = this.rawTree.doc_count;
@@ -555,7 +555,7 @@ $.extend(Sefaria.FilterTree.prototype, {
         var path = [];
 
         //Manually add base commentary branch
-        var commentaryNode = new Sefaria.search.FilterNode();
+        var commentaryNode = new Mekoros.search.FilterNode();
         var rnode = ftree.rawTree["Commentary"];
         if (rnode) {
             $.extend(commentaryNode, {
@@ -569,14 +569,14 @@ $.extend(Sefaria.FilterTree.prototype, {
 
         //End commentary base hack
 
-        for(var j = 0; j < Sefaria.toc.length; j++) {
-            var b = walk(Sefaria.toc[j]);
+        for(var j = 0; j < Mekoros.toc.length; j++) {
+            var b = walk(Mekoros.toc[j]);
             if (b) this.append(b)
         }
         if (rnode) this.append(commentaryNode);
 
         function walk(branch, parentNode) {
-            var node = new Sefaria.search.FilterNode();
+            var node = new Mekoros.search.FilterNode();
 
             if("category" in branch) { // Category node
                 if(branch["category"] == "Commentary") { // Special case commentary
@@ -690,43 +690,43 @@ $(function() {
 
     $("#languageToggle").show();
     $("#languageToggle #bilingual").hide();
-	$("#hebrew, #english").on("click", function() { Sefaria.search.updateUrlParams(true); });
+	$("#hebrew, #english").on("click", function() { Mekoros.search.updateUrlParams(true); });
 
-    window.addEventListener('popstate', Sefaria.search.handleStateChange);
+    window.addEventListener('popstate', Mekoros.search.handleStateChange);
 
 	var vars = getUrlVars();
-    Sefaria.search.filter_tree = new Sefaria.FilterTree();
+    Mekoros.search.filter_tree = new Mekoros.FilterTree();
 
     if (!("q" in vars)) {  //empty page
-        Sefaria.search.show_empty();
-        Sefaria.search.updateUrlParams();
+        Mekoros.search.show_empty();
+        Mekoros.search.updateUrlParams();
         return
     }
     var query = decodeURIComponent(vars["q"]).replace(/\+/g, " ");
     $(".searchInput").val(query);
-    Sefaria.search.query = query;
+    Mekoros.search.query = query;
 
     if ("lang" in vars) {
         if (vars["lang"] == "he") { $("body").addClass("hebrew"); $("body").removeClass("english"); }
         else if (vars["lang"] == "en") { $("body").addClass("english"); $("body").removeClass("hebrew"); }
     }
     if ("page" in vars) {
-        Sefaria.search.page = parseInt(vars["page"])
+        Mekoros.search.page = parseInt(vars["page"])
     }
     /*
     if ("pctx" in vars) {
-        Sefaria.search.set_presentation_context(parseInt(vars["pctx"]));
+        Mekoros.search.set_presentation_context(parseInt(vars["pctx"]));
     }
     if ("qctx" in vars) {
-        Sefaria.search.set_query_context(vars["qctx"]);
+        Mekoros.search.set_query_context(vars["qctx"]);
     }
     */
 
     if ("filters" in vars) {
         var f = vars["filters"].split("|");
-        Sefaria.search.filter_tree.setAppliedFilters(f);
+        Mekoros.search.filter_tree.setAppliedFilters(f);
     }
 
-    Sefaria.search.post(true);
+    Mekoros.search.post(true);
 
 });

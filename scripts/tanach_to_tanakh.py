@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from sefaria.model import *
+from mekoros.model import *
 
 indices = library.get_indexes_in_category('Tanach', include_dependant=True, full_records=True)
 

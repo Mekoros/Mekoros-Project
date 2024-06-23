@@ -1,5 +1,5 @@
-from sefaria.model import *
-from sefaria.helper.schema import *
+from mekoros.model import *
+from mekoros.helper.schema import *
 if __name__ == "__main__":
     index = library.get_index("Pesach Haggadah Edot Hamizrah")
     node = index.nodes.children[-1]

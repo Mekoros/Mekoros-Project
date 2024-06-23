@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from sefaria.utils import hebrew as h
+from mekoros.utils import hebrew as h
 import pytest
 
 def setup_module(module):

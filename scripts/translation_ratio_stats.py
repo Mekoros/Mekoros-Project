@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from sefaria.model import *
+from mekoros.model import *
 
 torah =    library.get_indexes_in_category(["Tanakh", "Torah"])
 prophets = library.get_indexes_in_category(["Tanakh", "Prophets"])

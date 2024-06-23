@@ -59,7 +59,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            us-east1-docker.pkg.dev/${{ secrets.DEV_PROJECT }}/containers/sefaria-${{ matrix.app }}-${{ steps.branch-name.outputs.current_branch }}
+            us-east1-docker.pkg.dev/${{ secrets.DEV_PROJECT }}/containers/mekoros-${{ matrix.app }}-${{ steps.branch-name.outputs.current_branch }}
           # generate Docker tags based on the following events/attributes
           tags: |
             type=ref,event=branch
@@ -70,8 +70,8 @@ jobs:
       - name: build and push
         uses: docker/build-push-action@v3
         with:
-#         cache-from: type=registry,ref=gcr.io/${{ secrets.DEV_PROJECT }}/sefaria-${{ matrix.app }}/cache
-#         cache-to: type=registry,ref=gcr.io/${{ secrets.DEV_PROJECT }}/sefaria-${{ matrix.app }}/cache, mode=max
+#         cache-from: type=registry,ref=gcr.io/${{ secrets.DEV_PROJECT }}/mekoros-${{ matrix.app }}/cache
+#         cache-to: type=registry,ref=gcr.io/${{ secrets.DEV_PROJECT }}/mekoros-${{ matrix.app }}/cache, mode=max
           context: .
           push: true
           build-args: |
@@ -129,7 +129,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            us-east1-docker.pkg.dev/${{ secrets.DEV_PROJECT }}/containers/sefaria-${{ matrix.app }}-${{ steps.branch-name.outputs.current_branch }}
+            us-east1-docker.pkg.dev/${{ secrets.DEV_PROJECT }}/containers/mekoros-${{ matrix.app }}-${{ steps.branch-name.outputs.current_branch }}
           # generate Docker tags based on the following events/attributes
           tags: |
             type=ref,event=branch
@@ -143,12 +143,12 @@ jobs:
       - name: build and push
         uses: docker/build-push-action@v3
         with:
-#         cache-from: type=registry,ref=gcr.io/${{ secrets.DEV_PROJECT }}/sefaria-${{ matrix.app }}/cache
-#         cache-to: type=registry,ref=gcr.io/${{ secrets.DEV_PROJECT }}/sefaria-${{ matrix.app }}/cache,mode=max
+#         cache-from: type=registry,ref=gcr.io/${{ secrets.DEV_PROJECT }}/mekoros-${{ matrix.app }}/cache
+#         cache-to: type=registry,ref=gcr.io/${{ secrets.DEV_PROJECT }}/mekoros-${{ matrix.app }}/cache,mode=max
           context: .
           push: true
           build-args: |
-            SRC_IMG=us-east1-docker.pkg.dev/${{ secrets.DEV_PROJECT }}/containers/sefaria-web-${{ steps.branch-name.outputs.current_branch }}:sha-${{ steps.get-sha.outputs.sha_short }}
+            SRC_IMG=us-east1-docker.pkg.dev/${{ secrets.DEV_PROJECT }}/containers/mekoros-web-${{ steps.branch-name.outputs.current_branch }}:sha-${{ steps.get-sha.outputs.sha_short }}
           file: ./build/${{ matrix.app }}/Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

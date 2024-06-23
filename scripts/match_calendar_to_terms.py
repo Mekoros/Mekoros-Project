@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from sefaria.model import *
-from sefaria.system.database import db
-from sefaria.utils.hebrew import hebrew_parasha_name, is_all_hebrew
+from mekoros.model import *
+from mekoros.system.database import db
+from mekoros.utils.hebrew import hebrew_parasha_name, is_all_hebrew
 import pprint
 
 

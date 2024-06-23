@@ -2,14 +2,14 @@
 import argparse
 import django
 django.setup()
-from sefaria.system.database import db
-from sefaria.model import *
-from sefaria.system.cache import django_cache
-from sefaria.model.link import get_book_link_collection, get_link_counts
-from sefaria.settings import USE_VARNISH
+from mekoros.system.database import db
+from mekoros.model import *
+from mekoros.system.cache import django_cache
+from mekoros.model.link import get_book_link_collection, get_link_counts
+from mekoros.settings import USE_VARNISH
 if USE_VARNISH:
-    from sefaria.system.varnish.common import purge_url
-    from sefaria.settings import FRONT_END_URL
+    from mekoros.system.varnish.common import purge_url
+    from mekoros.settings import FRONT_END_URL
 
 
 def regenerate_version_status_tree():

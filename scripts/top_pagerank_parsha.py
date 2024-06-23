@@ -8,8 +8,8 @@ import math as mathy
 import django
 django.setup()
 
-from sefaria.model import *
-from sefaria.system.exceptions import InputError
+from mekoros.model import *
+from mekoros.system.exceptions import InputError
 
 
 def argmax(iterable, n=1):

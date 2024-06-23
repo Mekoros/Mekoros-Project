@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
 from itertools import product
 from typing import List
-from sefaria.model.schema import AddressInteger
-from sefaria.model.linker.referenceable_book_node import ReferenceableBookNode, NumberedReferenceableBookNode, NamedReferenceableBookNode, DiburHamatchilNodeSet
-from sefaria.model.linker.ref_part import RawRefPart, SectionContext, RefPartType
-from sefaria.system.exceptions import InputError
-from sefaria.model.text import Ref
+from mekoros.model.schema import AddressInteger
+from mekoros.model.linker.referenceable_book_node import ReferenceableBookNode, NumberedReferenceableBookNode, NamedReferenceableBookNode, DiburHamatchilNodeSet
+from mekoros.model.linker.ref_part import RawRefPart, SectionContext, RefPartType
+from mekoros.system.exceptions import InputError
+from mekoros.model.text import Ref
 
 
 def subref(ref: Ref, section: int):

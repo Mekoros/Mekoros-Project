@@ -5,11 +5,11 @@ import sys
 import os
 import csv
 
-import sefaria.model.text as txt
+import mekoros.model.text as txt
 
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, path)
-sys.path.insert(0, path + "/sefaria")
+sys.path.insert(0, path + "/mekoros")
 
 
 

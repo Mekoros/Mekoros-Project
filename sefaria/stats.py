@@ -3,12 +3,12 @@ from datetime import datetime
 from collections import defaultdict
 from random import randrange
 
-from sefaria.model import *
+from mekoros.model import *
 from django.contrib.auth.models import User
-from sefaria.system.exceptions import InputError
-from sefaria.sheets import save_sheet, sheet_topics_counts
-from sefaria.utils.util import strip_tags
-from sefaria.system.database import db
+from mekoros.system.exceptions import InputError
+from mekoros.sheets import save_sheet, sheet_topics_counts
+from mekoros.utils.util import strip_tags
+from mekoros.system.database import db
 
 
 class SheetStats(object):

@@ -30,7 +30,7 @@ It will be easiest to just hardcode the segment numbers that contain the footnot
 """
 
 import re
-from sefaria.model import *
+from mekoros.model import *
 import requests
 
 
@@ -209,7 +209,7 @@ def update_from_prod(ref):
     :return:
     """
     vtitle = ref.version_list()[0]['versionTitle']
-    url = 'https://www.sefaria.org/api/texts/{}/he/{}'.format(ref.url(), vtitle)
+    url = 'https://www.mekoros.com/api/texts/{}/he/{}'.format(ref.url(), vtitle)
     result = requests.get(url, params={'commentary': 0, 'pad': 0})
     he = result.json()['he']
     tc = ref.text('he', vtitle)

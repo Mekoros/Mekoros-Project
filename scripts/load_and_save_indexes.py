@@ -1,5 +1,5 @@
 
-from sefaria.model import *
+from mekoros.model import *
 
 for indx in IndexSet():
     try:

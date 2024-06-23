@@ -1,5 +1,5 @@
-from sefaria.model import *
-from sefaria.system.exceptions import BookNameError
+from mekoros.model import *
+from mekoros.system.exceptions import BookNameError
 
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@ kind: CronJob
 metadata:
   name: {{ .Values.deployEnv }}-rambi-update
   labels:
-    {{- include "sefaria.labels" . | nindent 4 }}
+    {{- include "mekoros.labels" . | nindent 4 }}
 spec:
   schedule: "0 0 * * 6"
   jobTemplate:
@@ -41,7 +41,7 @@ spec:
             - configMapRef:
                 name: local-settings-{{ .Values.deployEnv }}
             volumeMounts:
-              - mountPath: /app/sefaria/local_settings.py
+              - mountPath: /app/mekoros/local_settings.py
                 name: local-settings
                 subPath: local_settings.py
                 readOnly: true
@@ -68,7 +68,7 @@ spec:
                   path: local_settings.py
           - name: backup-manager-secret  # used to access google cloud
             secret:
-              secretName: {{ template "sefaria.secrets.backupManager" . }}
+              secretName: {{ template "mekoros.secrets.backupManager" . }}
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 2
 {{- end }}

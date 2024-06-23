@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% load sefaria_tags %}
+{% load mekoros_tags %}
 {% load humanize %}
 
 {% block title %}Edit Text Info for {{ title }}{% endblock %}
@@ -70,7 +70,7 @@
     <script src="{% static 'js/s1/util.js' %}"></script>
     <div id="newIndex">
 
-        <div id="newIndexMsg">Sefaria doesn't yet know about the text "<span id="textName"></span>".<div class="sub">Please provide some basic information about this text.</div></div>
+        <div id="newIndexMsg">Mekoros doesn't yet know about the text "<span id="textName"></span>".<div class="sub">Please provide some basic information about this text.</div></div>
 
         <div class="fieldSet">
             <span class="fieldLabel">
@@ -622,8 +622,8 @@
     {% else %}
 
     $(function() {
-        if (typeof Sefaria !== "undefined") {
-            sjs._uid = Sefaria._uid;
+        if (typeof Mekoros !== "undefined") {
+            sjs._uid = Mekoros._uid;
         }
         if (!sjs._uid) {
             return sjs.loginPrompt();
@@ -801,7 +801,7 @@
         }
 
         if ("categories" in index && index.categories === "locked") {
-            sjs.alert.message("Adding new texts to Tanakh, Mishnah and Talmud is currently locked. Please email hello@sefaria.org if you need to add a text to these categories.");
+            sjs.alert.message("Adding new texts to Tanakh, Mishnah and Talmud is currently locked. Please email hello@mekoros.com if you need to add a text to these categories.");
             return false;
         }
 

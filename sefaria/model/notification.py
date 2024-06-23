@@ -13,10 +13,10 @@ from django.template.loader import render_to_string
 
 from . import abstract as abst
 from . import user_profile
-from sefaria.model.collection import Collection
-from sefaria.utils.util import strip_tags
-from sefaria.system.database import db
-from sefaria.system.exceptions import InputError
+from mekoros.model.collection import Collection
+from mekoros.utils.util import strip_tags
+from mekoros.system.database import db
+from mekoros.system.exceptions import InputError
 
 import structlog
 logger = structlog.get_logger(__name__)
@@ -54,13 +54,13 @@ class GlobalNotification(abst.AbstractMongoRecord):
     ]
 
     def _normalize(self):
-        from sefaria.model.text import library
+        from mekoros.model.text import library
         if self.type == "index" or self.type == "version":
             i = library.get_index(self.content.get("index"))
             self.content["index"] = i.title
 
     def _validate(self):
-        from sefaria.model.text import library, Version
+        from mekoros.model.text import library, Version
         if self.type == "index":
             assert self.content.get("index")
             assert library.get_index(self.content.get("index"))
@@ -262,8 +262,8 @@ class Notification(abst.AbstractMongoRecord):
         Returns contents of notification in format usable by client, including needed merged
         data from profiles, sheets, etc
         """
-        from sefaria.sheets import get_sheet_metadata
-        from sefaria.model.following import FollowRelationship
+        from mekoros.sheets import get_sheet_metadata
+        from mekoros.model.following import FollowRelationship
 
         n = super(Notification, self).contents(with_string_id=True)
         n["date"] = n["date"].timestamp()

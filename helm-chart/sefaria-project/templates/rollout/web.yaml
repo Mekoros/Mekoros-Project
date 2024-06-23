@@ -71,12 +71,12 @@ spec:
                 - "web-{{ .Values.deployEnv }}"
             topologyKey: kubernetes.io/hostname
         nodeAffinity:
-          {{- include "sefaria.nodeAffinities" . | nindent 10 }}
+          {{- include "mekoros.nodeAffinities" . | nindent 10 }}
       containers:
       - name: web
         image: "{{ .Values.web.containerImage.imageRegistry }}:{{ .Values.web.containerImage.tag }}"
         imagePullPolicy: Always
-        args: [ "python manage.py migrate && gunicorn sefaria.wsgi --access-logfile - --error-logfile - --timeout 300 --threads {{ .Values.web.resources.web.gunicornThreadCount }} --worker-tmp-dir /dev/shm -b 0.0.0.0:80" ]
+        args: [ "python manage.py migrate && gunicorn mekoros.wsgi --access-logfile - --error-logfile - --timeout 300 --threads {{ .Values.web.resources.web.gunicornThreadCount }} --worker-tmp-dir /dev/shm -b 0.0.0.0:80" ]
         env:
           # WEB_CONCURRENCY is used for determining the number of server workers
           - name: WEB_CONCURRENCY
@@ -125,7 +125,7 @@ spec:
               name: {{ .Values.tasks.redis.redisPassword.ref }}
           {{- end }}
           - secretRef:
-              name: {{ template "sefaria.secrets.elasticUser" . }}  
+              name: {{ template "mekoros.secrets.elasticUser" . }}  
           - secretRef:
               name: {{ .Values.secrets.localSettings.ref }}
               optional: true
@@ -168,7 +168,7 @@ spec:
           timeoutSeconds: 60
         volumeMounts:
         # https://stackoverflow.com/questions/53491603/kubernetes-volumemounts-a-file-not-a-directory
-        - mountPath: /app/sefaria/local_settings.py
+        - mountPath: /app/mekoros/local_settings.py
           name: local-settings
           subPath: local_settings.py
           readOnly: true
@@ -205,24 +205,24 @@ spec:
                 path: local_settings.py
         - name: elastic-cert
           secret:
-            secretName: {{ template "sefaria.secrets.elasticCertificate" . }}
+            secretName: {{ template "mekoros.secrets.elasticCertificate" . }}
             optional: true
         - name: client-secret
           secret:
-            secretName: {{ template "sefaria.secrets.googleClient" . }} # needs to be checked if it's a reference object or the data object we created.
+            secretName: {{ template "mekoros.secrets.googleClient" . }} # needs to be checked if it's a reference object or the data object we created.
         - name: backup-manager-secret  # used to access google cloud
           secret:
-            secretName: {{ template "sefaria.secrets.backupManager" . }}
+            secretName: {{ template "mekoros.secrets.backupManager" . }}
         - name: logging-secret
           secret:
-            secretName: {{ template "sefaria.secrets.logging" . }}
+            secretName: {{ template "mekoros.secrets.logging" . }}
             optional: true
         - name: varnish-secret
           secret:
-            secretName: {{ template "sefaria.secrets.varnish" . }}
+            secretName: {{ template "mekoros.secrets.varnish" . }}
         - name: school-lookup-data
           secret:
-            secretName: {{ template "sefaria.secrets.schoolLookup" . }}
+            secretName: {{ template "mekoros.secrets.schoolLookup" . }}
             optional: true
         - name: gunicorn-config
           configMap:

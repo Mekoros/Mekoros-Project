@@ -9,7 +9,7 @@ from datetime import datetime
 from django.utils.translation import ugettext as _, ungettext_lazy
 from random import randint
 
-from sefaria.system.exceptions import InputError, SheetNotFoundError
+from mekoros.system.exceptions import InputError, SheetNotFoundError
 from functools import reduce
 
 if not hasattr(sys, '_doc_build'):
@@ -22,11 +22,11 @@ if not hasattr(sys, '_doc_build'):
     from anymail.exceptions import AnymailRecipientsRefused
 
 from . import abstract as abst
-from sefaria.model.following import FollowersSet, FolloweesSet, general_follow_recommendations
-from sefaria.model.blocking import BlockersSet, BlockeesSet
-from sefaria.model.text import Ref, TextChunk
-from sefaria.system.database import db
-from sefaria.utils.util import epoch_time
+from mekoros.model.following import FollowersSet, FolloweesSet, general_follow_recommendations
+from mekoros.model.blocking import BlockersSet, BlockeesSet
+from mekoros.model.text import Ref, TextChunk
+from mekoros.system.database import db
+from mekoros.utils.util import epoch_time
 from django.utils import translation
 
 import structlog
@@ -132,7 +132,7 @@ class UserHistory(abst.AbstractMongoRecord):
             pass
 
     def contents(self, **kwargs):
-        from sefaria.sheets import get_sheet_listing_data
+        from mekoros.sheets import get_sheet_listing_data
         d = super(UserHistory, self).contents(**kwargs)
         if kwargs.get("for_api", False):
             keys = {
@@ -336,7 +336,7 @@ class UserProfile(object):
             # if the Django User records are missing (for testing)
             self.first_name        = "User"
             self.last_name         = str(id)
-            self.email             = "test@sefaria.org"
+            self.email             = "test@mekoros.com"
             self.date_joined       = None
             self.user              = None
 
@@ -410,7 +410,7 @@ class UserProfile(object):
         elif self.exists() and not user_registration:
             # If we encounter a user that has a Django user record but not a profile document
             # create a profile for them. This allows two enviornments to share a user database,
-            # while maintaining separate profiles (e.g. Sefaria and S4D).
+            # while maintaining separate profiles (e.g. Mekoros and S4D).
             self.assign_slug()
             self.save()
 
@@ -430,10 +430,10 @@ class UserProfile(object):
     @staticmethod
     def transformOldRecents(uid, recents):
         from dateutil import parser
-        from sefaria.system.exceptions import InputError
+        from mekoros.system.exceptions import InputError
         import pytz
         default_epoch_time = epoch_time(
-            datetime(2017, 12, 1))  # the Sefaria epoch. approx time since we added time stamps to recent items
+            datetime(2017, 12, 1))  # the Mekoros epoch. approx time since we added time stamps to recent items
 
         def xformer(recent):
             try:
@@ -470,7 +470,7 @@ class UserProfile(object):
         for dict_key in ("settings", "version_preferences_by_corpus"):
             # merge these keys separately since they are themselves dicts.
             # want to allow partial updates to be passed to update.
-            from sefaria.utils.util import deep_update
+            from mekoros.utils.util import deep_update
             if dict_key in obj and dict_key in self.__dict__:
                 obj[dict_key] = deep_update(self.__dict__[dict_key], obj[dict_key])
         self.__dict__.update(obj)
@@ -578,7 +578,7 @@ class UserProfile(object):
         """
         Add this user as a editor of any collections for which there is an outstanding invitation.
         """
-        from sefaria.model import CollectionSet
+        from mekoros.model import CollectionSet
         collections = CollectionSet({"invitations.email": self.email})
         for collection in collections:
             collection.add_member(self.id)
@@ -593,11 +593,11 @@ class UserProfile(object):
         return uid in self.followers.uids
 
     def recent_notifications(self):
-        from sefaria.model.notification import NotificationSet
+        from mekoros.model.notification import NotificationSet
         return NotificationSet().recent_for_user(self.id)
 
     def unread_notification_count(self):
-        from sefaria.model.notification import NotificationSet
+        from mekoros.model.notification import NotificationSet
         return NotificationSet().unread_for_user(self.id).count()
 
     def process_history_item(self, hist, time_stamp):
@@ -773,7 +773,7 @@ def email_unread_notifications(timeframe):
     * 'weekly' - only send to users who have the weekly email setting
     * 'all'    - send all notifications
     """
-    from sefaria.model.notification import NotificationSet
+    from mekoros.model.notification import NotificationSet
 
     detect_potential_spam_message_notifications()
 
@@ -799,11 +799,11 @@ def email_unread_notifications(timeframe):
         # TODO Hebrew subjects
         if actors_string:
             verb      = "have" if " and " in actors_string else "has"
-            subject   = "%s %s new activity on Sefaria" % (actors_string, verb)
+            subject   = "%s %s new activity on Mekoros" % (actors_string, verb)
         elif notifications.like_count() > 0:
             noun      = "likes" if notifications.like_count() > 1 else "like"
             subject   = "%d new %s on your Source Sheet" % (notifications.like_count(), noun)
-        from_email    = "Sefaria Notifications <notifications@sefaria.org>"
+        from_email    = "Mekoros Notifications <notifications@mekoros.com>"
         to            = user.email
 
         msg = EmailMultiAlternatives(subject, message_html, from_email, [to])

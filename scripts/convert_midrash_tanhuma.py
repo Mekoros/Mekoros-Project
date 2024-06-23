@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 __author__ = 'stevenkaplan'
-from sefaria.model import *
+from mekoros.model import *
 import csv
 import sys
 sys.path.append("./scripts")
 from convert_to_complex_text import *
-from sefaria.system.exceptions import InputError
+from mekoros.system.exceptions import InputError
 
 en_he_parshiot = []
 en_parshiot = []

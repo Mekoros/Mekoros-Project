@@ -2,9 +2,9 @@
 
 import pytest
 import re
-from sefaria.model import *
-from sefaria.helper.legacy_ref import legacy_ref_parser_handler, MappingLegacyRefParser, NoLegacyRefParserError, LegacyRefParsingData, LegacyRefParserMappingKeyError
-from sefaria.system.exceptions import PartialRefInputError
+from mekoros.model import *
+from mekoros.helper.legacy_ref import legacy_ref_parser_handler, MappingLegacyRefParser, NoLegacyRefParserError, LegacyRefParsingData, LegacyRefParserMappingKeyError
+from mekoros.system.exceptions import PartialRefInputError
 
 
 @pytest.fixture(scope="module", autouse=True)

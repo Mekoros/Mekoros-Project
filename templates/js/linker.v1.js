@@ -1,5 +1,5 @@
 {% autoescape off %}
-//called as sefaria.tag("#element-id");
+//called as mekoros.tag("#element-id");
 
 (function(ns){
 
@@ -23,7 +23,7 @@
     function escapeRegex(string) {return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');}
 
 
-    var base_url = '{% if DEBUG %}http://localhost:8000/{% else %}https://www.sefaria.org/{% endif %}';
+    var base_url = '{% if DEBUG %}http://localhost:8000/{% else %}https://www.mekoros.com/{% endif %}';
     var bookTitles = {{ book_titles }};
     var popUpElem;
     var heBox;
@@ -37,12 +37,12 @@
 
     var setupPopup = function(styles, mode) {
         popUpElem = document.createElement("div");
-        popUpElem.id = "sefaria-popup";
+        popUpElem.id = "mekoros-popup";
 
         var html = "";
         // Set default content for the popup
         html += '<style scoped>' +
-                '#sefaria-popup {'+
+                '#mekoros-popup {'+
                     'max-width: 400px;'+
                     'font-size: 16px;'+
                     'border: 1px black solid;'+
@@ -50,10 +50,10 @@
                     'color: #222222;'+
                     'padding: 10px 20px 5px 20px;'+
                 '}'+
-            '.sefaria-text {' +
+            '.mekoros-text {' +
                 'padding-top: 10px;' +
             '}' +
-            '#sefaria-title {' +
+            '#mekoros-title {' +
                 'font-weight: bold;' +
                 'font-size: 16px;'+
                 'text-align: center;' +
@@ -63,7 +63,7 @@
             '}';
 
         if (mode == "popup-click") {
-            html += '#sefaria-close {' +
+            html += '#mekoros-close {' +
                 '    font-family: Helvetica,Arial,sans-serif;' +
                 '    font-size: 14px;' +
                 '    font-weight: 700;' +
@@ -79,23 +79,23 @@
                 '    background: #c74c3c;' +
                 '}' +
             '</style>' +
-            '<div id="sefaria-close">X</div>';
+            '<div id="mekoros-close">X</div>';
         } else {
             html += '</style>'
         }
 
-        html += '<h1 id="sefaria-title"><span class="he" dir="rtl"></span><span class="en"></span></h1>' +
-            '<div class="sefaria-text he" dir="rtl"></div>' +
-            '<div class="sefaria-text en"></div>' +
-            '<div class = "sefaria-notice" style="font-size: 10px; margin-top: 10px;">';
+        html += '<h1 id="mekoros-title"><span class="he" dir="rtl"></span><span class="en"></span></h1>' +
+            '<div class="mekoros-text he" dir="rtl"></div>' +
+            '<div class="mekoros-text en"></div>' +
+            '<div class = "mekoros-notice" style="font-size: 10px; margin-top: 10px;">';
 
         if (mode == "popup-click") {
-            html += '<div class="en">Text from Sefaria.org.  <a class = "sefaria-popup-ref" target="_blank" href = "">Click here</a> for full context and commentary.</div>' +
+            html += '<div class="en">Text from Mekoros.com.  <a class = "mekoros-popup-ref" target="_blank" href = "">Click here</a> for full context and commentary.</div>' +
             '<div class="he" dir="rtl">תוכן מספריא. ' +
-                ' <a class = "sefaria-popup-ref" href = "">' + 'ליחצו' + '</a> ' + 'לראות הקשר ופרושים' +
+                ' <a class = "mekoros-popup-ref" href = "">' + 'ליחצו' + '</a> ' + 'לראות הקשר ופרושים' +
             '</div>';
         } else {
-            html += '<div class="en">Text from Sefaria.org.  Click the reference for full context and commentary.</div>' +
+            html += '<div class="en">Text from Mekoros.com.  Click the reference for full context and commentary.</div>' +
             '<div class="he" dir="rtl">תוכן מספריא. תלחץ לראות הקשר ופרושים</div>';
         }
 
@@ -124,16 +124,16 @@
 
         popUpElem = document.body.appendChild(popUpElem);
 
-        heBox = popUpElem.querySelector(".sefaria-text.he");
-        enBox = popUpElem.querySelector(".sefaria-text.en");
-        heTitle = popUpElem.querySelector("#sefaria-title .he");
-        enTitle = popUpElem.querySelector("#sefaria-title .en");
-        heNotice = popUpElem.querySelector(".sefaria-notice .he");
+        heBox = popUpElem.querySelector(".mekoros-text.he");
+        enBox = popUpElem.querySelector(".mekoros-text.en");
+        heTitle = popUpElem.querySelector("#mekoros-title .he");
+        enTitle = popUpElem.querySelector("#mekoros-title .en");
+        heNotice = popUpElem.querySelector(".mekoros-notice .he");
         heElems = popUpElem.querySelectorAll(".he");
         enElems = popUpElem.querySelectorAll(".en");
 
         if (mode == "popup-click") {
-            popUpElem.querySelector('#sefaria-close').addEventListener('click', hidePopup, false);
+            popUpElem.querySelector('#mekoros-close').addEventListener('click', hidePopup, false);
             popUpElem.addEventListener('keydown', function (e) {
                 var key = e.which || e.keyCode;
                 console.log (key);
@@ -183,7 +183,7 @@
         }
 
         if (mode == "popup-click") {
-            [].forEach.call(popUpElem.querySelectorAll(".sefaria-popup-ref"), function(link) {link.setAttribute('href', e.href);});
+            [].forEach.call(popUpElem.querySelectorAll(".mekoros-popup-ref"), function(link) {link.setAttribute('href', e.href);});
             document.addEventListener("click", function (e) {
               var level = 0;
               for (var element = e.target; element; element = element.parentNode) {
@@ -231,7 +231,7 @@
             });
 
         if (matchedTitles.length == 0) {
-            console.log("No book titles found to link to Sefaria.");
+            console.log("No book titles found to link to Mekoros.");
             ns._trackPage();
             return;
         }
@@ -300,10 +300,10 @@
 
                                 const atag = document.createElement("a");
                                 atag.target = "_blank";
-                                atag.className = "sefaria-ref";
+                                atag.className = "mekoros-ref";
                                 atag.href = base_url + matched_ref;
                                 atag.setAttribute('data-ref', matched_ref);
-                                atag.setAttribute('aria-controls', 'sefaria-popup');
+                                atag.setAttribute('aria-controls', 'mekoros-popup');
                                 atag.textContent = portion.text;
                                 const preText = match[0].substr(0, match[0].indexOf(match[1]));
                                 if (!isFirstPortionInMatch || preText.length === 0) { return atag; }
@@ -326,23 +326,23 @@
                 ns._trackPage();
 
                 if (ns.matches.length == 0) {
-                    // console.log("No references found to link to Sefaria.");
+                    // console.log("No references found to link to Mekoros.");
                     return;
                 }
                 atomic.get(base_url + "api/bulktext/" + ns.matches.join("|"))
                     .success(function (data, xhr) {
-                        //Put text data into sefaria.sources
+                        //Put text data into mekoros.sources
                         ns.sources = data;
 
                         // Bind a click event and a mouseover event to each link
-                        [].forEach.call(document.querySelectorAll('.sefaria-ref'),function(e) {
+                        [].forEach.call(document.querySelectorAll('.mekoros-ref'),function(e) {
                             if ("error" in ns.sources[e.getAttribute('data-ref')]) {
                                 unwrap(e);
                                 return;
                             }
                             var source = ns.sources[e.getAttribute('data-ref')];
                             var utm_source = window.location.hostname ? window.location.hostname.replace(/^www\./, "") : "(not%20set)";
-                            e.setAttribute('href', base_url + source.url + "?lang=" + (source.lang == "en"?"he-en":"he") + "&utm_source=" + utm_source + "&utm_medium=sefaria_linker");
+                            e.setAttribute('href', base_url + source.url + "?lang=" + (source.lang == "en"?"he-en":"he") + "&utm_source=" + utm_source + "&utm_medium=mekoros_linker");
                             if (mode == "popup-hover") {
                                 e.addEventListener('mouseover', function(event) {
                                     showPopup(this, mode);
@@ -353,7 +353,7 @@
                                     showPopup(this, mode);
                                     event.preventDefault();
                                     event.stopPropagation();
-                                    document.getElementById("sefaria-popup").focus();
+                                    document.getElementById("mekoros-popup").focus();
                                 }, false);
                             }
                         });
@@ -393,6 +393,6 @@
     }
 
 
-}(this.sefaria = this.sefaria || {}));
+}(this.mekoros = this.mekoros || {}));
 
 {% endautoescape %}

@@ -4,7 +4,7 @@ django.setup()
 import sys
 import datetime
 
-from sefaria.stats import SheetStats
+from mekoros.stats import SheetStats
 
 action = sys.argv[1] if len(sys.argv) > 1 else None
 

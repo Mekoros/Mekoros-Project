@@ -4,8 +4,8 @@ import django
 django.setup()
 import pytest
 import regex as re
-from sefaria.utils.hebrew import has_hebrew
-import sefaria.model as m
+from mekoros.utils.hebrew import has_hebrew
+import mekoros.model as m
 
 
 

@@ -8,10 +8,10 @@ import requests
 from io import StringIO
 from collections import defaultdict
 
-from sefaria.system.database import db
-from sefaria.model import *
-from sefaria.system.exceptions import DuplicateRecordError
-from sefaria.model.abstract import SluggedAbstractMongoRecord
+from mekoros.system.database import db
+from mekoros.model import *
+from mekoros.system.exceptions import DuplicateRecordError
+from mekoros.model.abstract import SluggedAbstractMongoRecord
 
 """
 0 key
@@ -96,7 +96,7 @@ db.topic_links.delete_many(link_query)
 
 def _(p: Topic, attr, value):
     if value:
-        p.set_property(attr, value, "sefaria")
+        p.set_property(attr, value, "mekoros")
 
 print("\n*** Updating authorTopic records ***\n")
 for irow, l in enumerate(rows):
@@ -154,7 +154,7 @@ for irow, l in enumerate(rows):
             "toTopic": 'authors',
             "fromTopic": p.slug,
             "generatedBy": "update_authors_data",
-            "dataSource": "sefaria",
+            "dataSource": "mekoros",
             "linkType": "displays-under"
         }).save()
     except DuplicateRecordError as e:
@@ -166,7 +166,7 @@ for irow, l in enumerate(rows):
             "toTopic": to_topic,
             "fromTopic": p.slug,
             "linkType": "is-a",
-            "dataSource": "sefaria",
+            "dataSource": "mekoros",
             "generatedBy": "update_authors_data"
         })
         try:
@@ -203,7 +203,7 @@ for l in rows:
                             "toTopic": to_slug,
                             "fromTopic": from_slug,
                             "linkType": link_type_slug,
-                            "dataSource": "sefaria",
+                            "dataSource": "mekoros",
                             "generatedBy" : "update_authors_data",
                         }).save()
                     except DuplicateRecordError:

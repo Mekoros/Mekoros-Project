@@ -7,7 +7,7 @@ from optparse import OptionParser
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF, LatentDirichletAllocation
 
-from sefaria.model import *
+from mekoros.model import *
 
 
 n_topics = 10

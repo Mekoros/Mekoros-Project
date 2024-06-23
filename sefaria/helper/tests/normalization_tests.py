@@ -1,6 +1,6 @@
 import django
 django.setup()
-from sefaria.helper.normalization import *
+from mekoros.helper.normalization import *
 
 
 def test_itag_normalizer():

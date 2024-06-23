@@ -1,8 +1,8 @@
 import pytest
-from sefaria.model.topic import Topic, TopicSet, IntraTopicLink, RefTopicLink, TopicLinkHelper, IntraTopicLinkSet, RefTopicLinkSet
-from sefaria.model.text import Ref
-from sefaria.system.database import db
-from sefaria.system.exceptions import SluggedMongoRecordMissingError
+from mekoros.model.topic import Topic, TopicSet, IntraTopicLink, RefTopicLink, TopicLinkHelper, IntraTopicLinkSet, RefTopicLinkSet
+from mekoros.model.text import Ref
+from mekoros.system.database import db
+from mekoros.system.exceptions import SluggedMongoRecordMissingError
 
 
 def make_topic(slug):
@@ -15,13 +15,13 @@ def make_topic(slug):
 
 
 def make_it_link(a, b, type):
-    l = IntraTopicLink({'fromTopic': a, 'toTopic': b, 'linkType': type, 'dataSource': 'sefaria'})
+    l = IntraTopicLink({'fromTopic': a, 'toTopic': b, 'linkType': type, 'dataSource': 'mekoros'})
     l.save()
     return l
 
 
 def make_rt_link(a, tref):
-    l = RefTopicLink({'toTopic': a, 'ref': tref, 'linkType': 'about', 'dataSource': 'sefaria'})
+    l = RefTopicLink({'toTopic': a, 'ref': tref, 'linkType': 'about', 'dataSource': 'mekoros'})
     l.save()
     return l
 
@@ -189,13 +189,13 @@ class TestTopicLinkHelper(object):
 class TestIntraTopicLink(object):
 
     def test_validate(self, topic_graph):
-        from sefaria.system.exceptions import DuplicateRecordError, InputError
+        from mekoros.system.exceptions import DuplicateRecordError, InputError
 
         attrs = {
             'fromTopic': '1',
             'toTopic': '6',
             'linkType': 'is-a',
-            'dataSource': 'sefaria'
+            'dataSource': 'mekoros'
         }
         l = IntraTopicLink(attrs)
         l.save()
@@ -206,7 +206,7 @@ class TestIntraTopicLink(object):
             'fromTopic': '1',
             'toTopic': '2',
             'linkType': 'is-a',
-            'dataSource': 'sefaria'
+            'dataSource': 'mekoros'
         }
         l = IntraTopicLink(attrs)
         with pytest.raises(DuplicateRecordError):
@@ -228,7 +228,7 @@ class TestIntraTopicLink(object):
             'fromTopic': '1',
             'toTopic': '2222',
             'linkType': 'is-a',
-            'dataSource': 'sefaria'
+            'dataSource': 'mekoros'
         }
         l = IntraTopicLink(attrs)
         with pytest.raises(SluggedMongoRecordMissingError):
@@ -239,7 +239,7 @@ class TestIntraTopicLink(object):
             'fromTopic': '11111',
             'toTopic': '2',
             'linkType': 'is-a',
-            'dataSource': 'sefaria'
+            'dataSource': 'mekoros'
         }
         l = IntraTopicLink(attrs)
         with pytest.raises(SluggedMongoRecordMissingError):
@@ -250,7 +250,7 @@ class TestIntraTopicLink(object):
             'fromTopic': '11111',
             'toTopic': '2',
             'linkType': 'is-aaaaaa',
-            'dataSource': 'sefaria'
+            'dataSource': 'mekoros'
         }
         l = IntraTopicLink(attrs)
         with pytest.raises(SluggedMongoRecordMissingError):
@@ -261,7 +261,7 @@ class TestIntraTopicLink(object):
             'fromTopic': '1',
             'toTopic': '2',
             'linkType': 'related-to',
-            'dataSource': 'sefaria'
+            'dataSource': 'mekoros'
         }
         l1 = IntraTopicLink(attrs)
         l1.save()
@@ -280,7 +280,7 @@ class TestRefTopicLink(object):
             'ref': 'Genesis 1:1',
             'toTopic': '6',
             'linkType': 'about',
-            'dataSource': 'sefaria'
+            'dataSource': 'mekoros'
         }
         l = RefTopicLink(attrs)
         l.save()
@@ -292,7 +292,7 @@ class TestRefTopicLink(object):
             'ref': 'Genesis 1:1-3',
             'toTopic': '6',
             'linkType': 'about',
-            'dataSource': 'sefaria'
+            'dataSource': 'mekoros'
         }
         l = RefTopicLink(attrs)
         l.save()
@@ -303,7 +303,7 @@ class TestRefTopicLink(object):
             'ref': 'Genesis 1-2',
             'toTopic': '6',
             'linkType': 'about',
-            'dataSource': 'sefaria'
+            'dataSource': 'mekoros'
         }
         l = RefTopicLink(attrs)
         l.save()
@@ -312,13 +312,13 @@ class TestRefTopicLink(object):
         l.delete()
 
     def test_duplicate(self, topic_graph):
-        from sefaria.system.exceptions import DuplicateRecordError
+        from mekoros.system.exceptions import DuplicateRecordError
 
         attrs = {
             'ref': 'Genesis 1:1',
             'toTopic': '6',
             'linkType': 'about',
-            'dataSource': 'sefaria'
+            'dataSource': 'mekoros'
         }
         l1 = RefTopicLink(attrs)
         l1.save()

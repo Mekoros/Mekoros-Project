@@ -3,9 +3,9 @@
 import re
 import copy
 import argparse
-from sefaria.model import *
+from mekoros.model import *
 from bs4 import BeautifulSoup, Tag, NavigableString
-from sefaria.helper.link import rebuild_links_from_text
+from mekoros.helper.link import rebuild_links_from_text
 
 mesechtot = ["Berakhot", "Shabbat", "Eruvin", "Pesachim", "Beitzah", "Chagigah", "Gittin", "Ketubot", "Kiddushin",
              "Megillah", "Moed Katan", "Nazir", "Nedarim", "Rosh Hashanah", "Sotah", "Sukkah", "Taanit", "Yevamot",

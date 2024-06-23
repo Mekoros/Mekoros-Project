@@ -18,7 +18,7 @@ Ideas:
 
 {% extends "base.html" %}
 
-{% load sefaria_tags %}
+{% load mekoros_tags %}
 {% load i18n %}
 
 {% block title %}{% trans "Student-Teacher Relationships in the Talmud" %}{% endblock %}
@@ -120,7 +120,7 @@ Ideas:
 {% block content %}
 <!--
 <h1>
-    <span class="int-en">Teach with Sefaria</span>
+    <span class="int-en">Teach with Mekoros</span>
     <span class="int-he">לָמדו עם ספריא</span>
 </h1>
 -->
@@ -449,7 +449,7 @@ Ideas:
                 $(function () {
                     $("#search").autocomplete({
                         source: optArray
-                        /*Use Sefaria's source for autocomplete with a
+                        /*Use Mekoros's source for autocomplete with a
                         an autocomplete list of all of the people*/
                     });
                 });

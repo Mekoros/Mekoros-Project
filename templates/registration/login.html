@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Log in to Sefaria" %}{% endblock %}
+{% block title %}{% trans "Log in to Mekoros" %}{% endblock %}
 
-{% block description %}{% trans "Log in to your Sefaria account to make source sheets, write notes, and follow other Sefaria users." %}{% endblock %}
+{% block description %}{% trans "Log in to your Mekoros account to make source sheets, write notes, and follow other Mekoros users." %}{% endblock %}
 
 {% block content %}
 
@@ -28,7 +28,7 @@
         <div class="inner">
             {% if message %}<p id="message">{{ message }}</p>{% endif %}
             <h1>
-                <span class="int-en">Log in to Sefaria</span>
+                <span class="int-en">Log in to Mekoros</span>
                 <span class="int-he">התחברות לספריא</span>
             </h1>
             {% if form.errors %}

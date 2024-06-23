@@ -1,4 +1,4 @@
-{% load i18n humanize sefaria_tags %}
+{% load i18n humanize mekoros_tags %}
 
 <ul id="activityList">
 {% for event in activity %}
@@ -16,7 +16,7 @@
 
         {% elif "text" in event.rev_type %}
 	    	<span class="topline">{{ event.user|user_link }} 
-    		{% if event.rev_type == "add text" and event.version == "Sefaria Community Translation" %}
+    		{% if event.rev_type == "add text" and event.version == "Mekoros Community Translation" %}
     			{% trans "translated" %} 
             {% elif event.rev_type == "add text" %}
                 {% trans "added" %}

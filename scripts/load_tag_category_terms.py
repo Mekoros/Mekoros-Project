@@ -2,7 +2,7 @@
 import django
 django.setup()
 
-from sefaria import model
+from mekoros import model
 
 
 tag_categories = ['Art', 'Authors', 'Tanakh', 'Calendar', 'Education', 'Folklore', 'Food', 'Geography', 'History', 'Holidays', 'Israel', 'Language', 'Law', 'Literature', 'Medicine', 'Philosophy', 'Prayer', 'Religion', 'Ritual Objects', 'Science', 'Society', 'Texts', 'Torah Portions']

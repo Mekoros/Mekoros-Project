@@ -20,18 +20,18 @@ from bs4 import BeautifulSoup, Tag
 import re2 as re
 from . import abstract as abst
 from .schema import deserialize_tree, SchemaNode, VirtualNode, DictionaryNode, JaggedArrayNode, TitledTreeNode, DictionaryEntryNode, SheetNode, AddressTalmud, Term, TermSet, TitleGroup, AddressType
-from sefaria.system.database import db
+from mekoros.system.database import db
 
-import sefaria.system.cache as scache
-from sefaria.system.cache import in_memory_cache
-from sefaria.system.exceptions import InputError, BookNameError, PartialRefInputError, IndexSchemaError, \
+import mekoros.system.cache as scache
+from mekoros.system.cache import in_memory_cache
+from mekoros.system.exceptions import InputError, BookNameError, PartialRefInputError, IndexSchemaError, \
     NoVersionFoundError, DictionaryEntryNotFoundError, MissingKeyError
-from sefaria.utils.hebrew import has_hebrew, is_all_hebrew, hebrew_term
-from sefaria.utils.util import list_depth, truncate_string
-from sefaria.datatype.jagged_array import JaggedTextArray, JaggedArray
-from sefaria.settings import DISABLE_INDEX_SAVE, USE_VARNISH, MULTISERVER_ENABLED, RAW_REF_MODEL_BY_LANG_FILEPATH, RAW_REF_PART_MODEL_BY_LANG_FILEPATH, DISABLE_AUTOCOMPLETER
-from sefaria.system.multiserver.coordinator import server_coordinator
-from sefaria.constants import model as constants
+from mekoros.utils.hebrew import has_hebrew, is_all_hebrew, hebrew_term
+from mekoros.utils.util import list_depth, truncate_string
+from mekoros.datatype.jagged_array import JaggedTextArray, JaggedArray
+from mekoros.settings import DISABLE_INDEX_SAVE, USE_VARNISH, MULTISERVER_ENABLED, RAW_REF_MODEL_BY_LANG_FILEPATH, RAW_REF_PART_MODEL_BY_LANG_FILEPATH, DISABLE_AUTOCOMPLETER
+from mekoros.system.multiserver.coordinator import server_coordinator
+from mekoros.constants import model as constants
 
 """
                 ----------------------------------
@@ -201,7 +201,7 @@ class Index(abst.AbstractMongoRecord, AbstractIndex):
         "era",
         "dependence",           # (str) Values: "Commentary" or "Targum" - to denote commentaries and other potential not standalone texts
         "base_text_titles",     # (list) the base book(s) this one is dependant on
-        "base_text_mapping",    # (str) string that matches a key in sefaria.helper.link.AutoLinkerFactory._class_map
+        "base_text_mapping",    # (str) string that matches a key in mekoros.helper.link.AutoLinkerFactory._class_map
         "collective_title",     # (str) string value for a group of index records - the former commentator name. Requires a matching term.
         "is_cited",             # (bool) only indexes with this attribute set to True will be picked up as a citation in a text by default
         "lexiconName",          # (str) For dictionaries - the name used in the Lexicon collection
@@ -721,7 +721,7 @@ class Index(abst.AbstractMongoRecord, AbstractIndex):
             except BookNameError:
                 raise InputError("Base Text Titles must point to existing texts in the system.")
 
-        from sefaria.model import Category
+        from mekoros.model import Category
         if not Category().load({"path": self.categories}):
             raise InputError("You must create category {} before adding texts to it.".format("/".join(self.categories)))
 
@@ -871,7 +871,7 @@ class Index(abst.AbstractMongoRecord, AbstractIndex):
         return {btitle: self.get_first_ref_in_base_text(btitle) for btitle in self.base_text_titles}
 
     def get_first_ref_in_base_text(self, base_text_title):
-        from sefaria.model.link import Link
+        from mekoros.model.link import Link
         orig_ref = Ref(self.title)
         base_text_ref = Ref(base_text_title)
         first_link = Link().load(
@@ -1310,7 +1310,7 @@ class Version(AbstractTextRecord, abst.AbstractMongoRecord, AbstractSchemaConten
         "license",
         "versionNotes",
         "formatAsPoetry",
-        "digitizedBySefaria",
+        "digitizedByMekoros",
         "method",
         "heversionSource",  # bad data?
         "versionUrl",  # bad data?
@@ -2366,9 +2366,9 @@ class TextFamily(object):
             "en": "versionNotesInHebrew",
             "he": "heVersionNotesInHebrew",
         },
-        "digitizedBySefaria": {
-            "en": "digitizedBySefaria",
-            "he": "heDigitizedBySefaria",
+        "digitizedByMekoros": {
+            "en": "digitizedByMekoros",
+            "he": "heDigitizedByMekoros",
             "default": False,
         },
         "license": {
@@ -2485,7 +2485,7 @@ class TextFamily(object):
             self.spanning = True
         #// todo: should this parameter be renamed? it gets all links, not strictly commentary...
         if commentary:
-            from sefaria.client.wrapper import get_links
+            from mekoros.client.wrapper import get_links
             if not oref.is_spanning():
                 links = get_links(oref.normal())  #todo - have this function accept an object
             else:
@@ -2618,7 +2618,7 @@ class RefCacheType(type):
         return len(cls.__tref_oref_map)
 
     def cache_size_bytes(cls):
-        from sefaria.utils.util import get_size
+        from mekoros.utils.util import get_size
         return get_size(cls.__tref_oref_map)
 
     def cache_dump(cls):
@@ -3182,7 +3182,7 @@ class Ref(object, metaclass=RefCacheType):
         TODO: This function was never adapted to serve for complex refs and only works for Refs that are themselves "section level". More specifically it only works for 
         `supported_classes` and fails otherwise 
         
-        Note: There is a similar function present on class sefaria.model.text.AbstractIndex
+        Note: There is a similar function present on class mekoros.model.text.AbstractIndex
         :return: list of all segment level refs under this Ref.  
         """
         supported_classes = (JaggedArrayNode, DictionaryEntryNode, SheetNode)
@@ -3694,7 +3694,7 @@ class Ref(object, metaclass=RefCacheType):
     #Don't store results on Ref cache - state objects change, and don't yet propogate to this Cache
     def get_state_node(self, meta=None, hint=None):
         """
-        :return: :class:`sefaria.model.version_state.StateNode`
+        :return: :class:`mekoros.model.version_state.StateNode`
         """
         from . import version_state
         return version_state.StateNode(snode=self.index_node, meta=meta, hint=hint)
@@ -3702,7 +3702,7 @@ class Ref(object, metaclass=RefCacheType):
     def get_state_ja(self, lang="all"):
         """
         :param lang: "all", "he", or "en"
-        :return: :class:`sefaria.datatype.jagged_array`
+        :return: :class:`mekoros.datatype.jagged_array`
         """
         #TODO: also does not work with complex texts...
         return self.get_state_node(hint=[(lang, "availableTexts")]).ja(lang)
@@ -4759,7 +4759,7 @@ class Ref(object, metaclass=RefCacheType):
         according to the "base_text_mapping" attr on the Index record.
         :return:
         """
-        from sefaria.helper.link import AutoLinkerFactory
+        from mekoros.helper.link import AutoLinkerFactory
         if self.is_dependant() and getattr(self.index, 'base_text_mapping', None):
             return AutoLinkerFactory.instance_factory(self.index.base_text_mapping, self, **kwargs)
         else:
@@ -4851,7 +4851,7 @@ class Ref(object, metaclass=RefCacheType):
         @param tref: textual ref to parse
         @return: best `Ref` according to rules above
         """
-        from sefaria.helper.legacy_ref import legacy_ref_parser_handler, LegacyRefParserError
+        from mekoros.helper.legacy_ref import legacy_ref_parser_handler, LegacyRefParserError
 
         try:
             oref = Ref(tref)
@@ -4888,7 +4888,7 @@ class Library(object):
     Initialization of the library happens in stages
     1. On load of this file, library instance is created.
         - Terms maps created
-    2. On load of full model with `from sefaria.model import *`
+    2. On load of full model with `from mekoros.model import *`
         - Indexes are built
     3. On load of reader/views
         - toc tree is built (categories loaded)
@@ -5017,7 +5017,7 @@ class Library(object):
     def rebuild_toc(self, skip_toc_tree=False):
         """
         Rebuilds the TocTree representation at startup time upon load of the Library class singleton.
-        The ToC is a tree of nodes that represents the ToC as seen on the Sefaria homepage.
+        The ToC is a tree of nodes that represents the ToC as seen on the Mekoros homepage.
         This function also builds other critical data structures, such as the topics ToC.
         While building these ToC data structures, this function also builds the equivalent JSON structures
         as an API optimization.
@@ -5095,7 +5095,7 @@ class Library(object):
         on mobile until the navigation redesign happens there.
         """
         if rebuild or not self._toc_tree:
-            from sefaria.model.category import TocTree
+            from mekoros.model.category import TocTree
             self._toc_tree = TocTree(self, mobile=mobile)
         self._toc_tree_is_ready = True
         return self._toc_tree
@@ -5214,7 +5214,7 @@ class Library(object):
         """
         Returns TOC, modified  according to `Category.searchRoot` flags to correspond to the filters
         """
-        from sefaria.model.category import TocTree, CategorySet, TocCategory
+        from mekoros.model.category import TocTree, CategorySet, TocCategory
         toctree = TocTree(self)     # Don't use the cached one.  We're going to rejigger it.
         root = toctree.get_root()
         toc_roots = [x.lastPath for x in sorted(library.get_top_categories(full_records=True), key=lambda x: x.order)]
@@ -5585,7 +5585,7 @@ class Library(object):
         :param citing_only: Match only those texts which have is_cited set to True
         :raise: InputError: if lang == "he" and commentary == True
 
-        Uses re2 if available.  See https://github.com/Sefaria/Sefaria-Project/wiki/Regular-Expression-Engines
+        Uses re2 if available.  See https://github.com/Mekoros/Mekoros-Project/wiki/Regular-Expression-Engines
         """
         if citing_only:
             key = "citing_titles_regex_" + lang
@@ -5723,8 +5723,8 @@ class Library(object):
     def build_ref_resolver(self):
         from .linker.match_template import MatchTemplateTrie
         from .linker.ref_resolver import RefResolver, TermMatcher
-        from sefaria.model.schema import NonUniqueTermSet
-        from sefaria.helper.linker import load_spacy_model
+        from mekoros.model.schema import NonUniqueTermSet
+        from mekoros.helper.linker import load_spacy_model
 
         logger.info("Loading Spacy Model")
 
@@ -5773,7 +5773,7 @@ class Library(object):
         :param string title:
         :param lang: "en" or "he"
         :return: a particular SchemaNode that matches the provided title and language
-        :rtype: :class:`sefaria.model.schema.SchemaNode`
+        :rtype: :class:`mekoros.model.schema.SchemaNode`
         """
         if not lang:
             lang = "he" if has_hebrew(title) else "en"
@@ -5908,8 +5908,8 @@ class Library(object):
         if book_title:
             q['base_text_titles'] = book_title
         if structure_match:  # get only indices who's "base_text_mapping" is one that indicates it has the similar underlying schema as the base
-            from sefaria.helper.link import AbstractStructureAutoLinker
-            from sefaria.utils.util import get_all_subclass_attribute
+            from mekoros.helper.link import AbstractStructureAutoLinker
+            from mekoros.utils.util import get_all_subclass_attribute
             q['base_text_mapping'] = {'$in': get_all_subclass_attribute(AbstractStructureAutoLinker, "class_key")}
         return IndexSet(q) if full_records else IndexSet(q).distinct("title")
 
@@ -5955,7 +5955,7 @@ class Library(object):
         if lang is None:
             lang = "he" if has_hebrew(st) else "en"
         if lang == "he":
-            from sefaria.utils.hebrew import strip_nikkud
+            from mekoros.utils.hebrew import strip_nikkud
             st = strip_nikkud(st)
             unique_titles = set(self.get_titles_in_string(st, lang, citing_only))
             for title in unique_titles:
@@ -6090,8 +6090,8 @@ class Library(object):
     def get_regex_string(self, title, lang, for_js=False, anchored=False, capture_title=False, parentheses=False):
         """
         Given a book title, this function returns a regex for a Ref.
-        This works for references not in Sefaria format (i.e. "See Genesis 2 3" as opposed to "Genesis 2:3",
-        as well as for references in Sefaria format.
+        This works for references not in Mekoros format (i.e. "See Genesis 2 3" as opposed to "Genesis 2:3",
+        as well as for references in Mekoros format.
         If the language is 'en', it calls the full_regex() function which returns the regex, whereas for 'he' we
         limit the regex creation to content inside parenthesis to limit false positives (i.e. the phrase שבת לא תעשה
         could be caught by mistake as Shabbat 31)
@@ -6374,7 +6374,7 @@ class Library(object):
 
     @staticmethod
     def get_top_categories(full_records=False):
-        from sefaria.model.category import CategorySet
+        from mekoros.model.category import CategorySet
         return CategorySet({'depth': 1}) if full_records else CategorySet({'depth': 1}).distinct('path')
 
 
@@ -6444,7 +6444,7 @@ def process_index_title_change_in_core_cache(indx, **kwargs):
     if MULTISERVER_ENABLED:
         server_coordinator.publish_event("library", "refresh_index_record_in_cache", [indx.title, old_title])
     elif USE_VARNISH:
-        from sefaria.system.varnish.wrapper import invalidate_title
+        from mekoros.system.varnish.wrapper import invalidate_title
         invalidate_title(old_title)
 
 
@@ -6463,7 +6463,7 @@ def process_index_change_in_core_cache(indx, **kwargs):
         if MULTISERVER_ENABLED:
             server_coordinator.publish_event("library", "refresh_index_record_in_cache", [indx.title])
         elif USE_VARNISH:
-            from sefaria.system.varnish.wrapper import invalidate_title
+            from mekoros.system.varnish.wrapper import invalidate_title
             invalidate_title(indx.title)
 
 
@@ -6489,7 +6489,7 @@ def process_index_delete_in_core_cache(indx, **kwargs):
     if MULTISERVER_ENABLED:
         server_coordinator.publish_event("library", "remove_index_record_from_cache", [indx.title])
     elif USE_VARNISH:
-        from sefaria.system.varnish.wrapper import invalidate_title
+        from mekoros.system.varnish.wrapper import invalidate_title
         invalidate_title(indx.title)
 
 

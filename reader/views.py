@@ -32,63 +32,63 @@ from django.utils import timezone
 from django.utils.html import strip_tags
 from bson.objectid import ObjectId
 
-from sefaria.model import *
-from sefaria.google_storage_manager import GoogleStorageManager
-from sefaria.model.user_profile import UserProfile, user_link, public_user_data, UserWrapper
-from sefaria.model.collection import CollectionSet
-from sefaria.model.webpage import get_webpages_for_ref
-from sefaria.model.media import get_media_for_ref
-from sefaria.model.schema import SheetLibraryNode
-from sefaria.model.following import general_follow_recommendations
-from sefaria.model.trend import user_stats_data, site_stats_data
-from sefaria.client.wrapper import format_object_for_client, format_note_object_for_client, get_notes, get_links
-from sefaria.client.util import jsonResponse
-from sefaria.history import text_history, get_maximal_collapsed_activity, top_contributors, text_at_revision, record_version_deletion, record_index_deletion
-from sefaria.sheets import get_sheets_for_ref, get_sheet_for_panel, annotate_user_links, trending_topics
-from sefaria.utils.util import text_preview, short_to_long_lang_code, epoch_time
-from sefaria.utils.hebrew import hebrew_term, has_hebrew
-from sefaria.utils.calendars import get_all_calendar_items, get_todays_calendar_items, get_keyed_calendar_items, get_parasha, get_todays_parasha
-from sefaria.settings import STATIC_URL, USE_VARNISH, USE_NODE, NODE_HOST, DOMAIN_LANGUAGES, MULTISERVER_ENABLED, MULTISERVER_REDIS_SERVER, \
+from mekoros.model import *
+from mekoros.google_storage_manager import GoogleStorageManager
+from mekoros.model.user_profile import UserProfile, user_link, public_user_data, UserWrapper
+from mekoros.model.collection import CollectionSet
+from mekoros.model.webpage import get_webpages_for_ref
+from mekoros.model.media import get_media_for_ref
+from mekoros.model.schema import SheetLibraryNode
+from mekoros.model.following import general_follow_recommendations
+from mekoros.model.trend import user_stats_data, site_stats_data
+from mekoros.client.wrapper import format_object_for_client, format_note_object_for_client, get_notes, get_links
+from mekoros.client.util import jsonResponse
+from mekoros.history import text_history, get_maximal_collapsed_activity, top_contributors, text_at_revision, record_version_deletion, record_index_deletion
+from mekoros.sheets import get_sheets_for_ref, get_sheet_for_panel, annotate_user_links, trending_topics
+from mekoros.utils.util import text_preview, short_to_long_lang_code, epoch_time
+from mekoros.utils.hebrew import hebrew_term, has_hebrew
+from mekoros.utils.calendars import get_all_calendar_items, get_todays_calendar_items, get_keyed_calendar_items, get_parasha, get_todays_parasha
+from mekoros.settings import STATIC_URL, USE_VARNISH, USE_NODE, NODE_HOST, DOMAIN_LANGUAGES, MULTISERVER_ENABLED, MULTISERVER_REDIS_SERVER, \
     MULTISERVER_REDIS_PORT, MULTISERVER_REDIS_DB, DISABLE_AUTOCOMPLETER, ENABLE_LINKER
-from sefaria.site.site_settings import SITE_SETTINGS
-from sefaria.system.multiserver.coordinator import server_coordinator
-from sefaria.system.decorators import catch_error_as_json, sanitize_get_params, json_response_decorator
-from sefaria.system.exceptions import InputError, PartialRefInputError, BookNameError, NoVersionFoundError, DictionaryEntryNotFoundError
-from sefaria.system.cache import django_cache
-from sefaria.system.database import db
-from sefaria.helper.search import get_query_obj
-from sefaria.helper.crm.crm_mediator import CrmMediator
-from sefaria.search import get_search_categories
-from sefaria.helper.topic import get_topic, get_all_topics, get_topics_for_ref, get_topics_for_book, \
+from mekoros.site.site_settings import SITE_SETTINGS
+from mekoros.system.multiserver.coordinator import server_coordinator
+from mekoros.system.decorators import catch_error_as_json, sanitize_get_params, json_response_decorator
+from mekoros.system.exceptions import InputError, PartialRefInputError, BookNameError, NoVersionFoundError, DictionaryEntryNotFoundError
+from mekoros.system.cache import django_cache
+from mekoros.system.database import db
+from mekoros.helper.search import get_query_obj
+from mekoros.helper.crm.crm_mediator import CrmMediator
+from mekoros.search import get_search_categories
+from mekoros.helper.topic import get_topic, get_all_topics, get_topics_for_ref, get_topics_for_book, \
                                 get_bulk_topics, recommend_topics, get_top_topic, get_random_topic, \
                                 get_random_topic_source, edit_topic_source, \
                                 update_order_of_topic_sources, delete_ref_topic_link, update_authors_place_and_time
-from sefaria.helper.community_page import get_community_page_items
-from sefaria.helper.file import get_resized_file
-from sefaria.image_generator import make_img_http_response
-import sefaria.tracker as tracker
+from mekoros.helper.community_page import get_community_page_items
+from mekoros.helper.file import get_resized_file
+from mekoros.image_generator import make_img_http_response
+import mekoros.tracker as tracker
 
-from sefaria.settings import NODE_TIMEOUT, DEBUG
-from sefaria.model.category import TocCollectionNode
-from sefaria.model.abstract import SluggedAbstractMongoRecord
-from sefaria.utils.calendars import parashat_hashavua_and_haftara
-import sefaria.model.story as sefaria_story
+from mekoros.settings import NODE_TIMEOUT, DEBUG
+from mekoros.model.category import TocCollectionNode
+from mekoros.model.abstract import SluggedAbstractMongoRecord
+from mekoros.utils.calendars import parashat_hashavua_and_haftara
+import mekoros.model.story as mekoros_story
 from PIL import Image
 from io import BytesIO
-from sefaria.utils.user import delete_user_account
+from mekoros.utils.user import delete_user_account
 from django.core.mail import EmailMultiAlternatives
 from babel import Locale
-from sefaria.helper.topic import update_topic, update_topic_titles
-from sefaria.helper.category import update_order_of_category_children, check_term
+from mekoros.helper.topic import update_topic, update_topic_titles
+from mekoros.helper.category import update_order_of_category_children, check_term
 
 if USE_VARNISH:
-    from sefaria.system.varnish.wrapper import invalidate_ref, invalidate_linked
+    from mekoros.system.varnish.wrapper import invalidate_ref, invalidate_linked
 
 import structlog
 logger = structlog.get_logger(__name__)
 
 #    #    #
-# Initialized cache library objects that depend on sefaria.model being completely loaded.
+# Initialized cache library objects that depend on mekoros.model being completely loaded.
 logger.info("Initializing library objects.")
 logger.info("Initializing TOC Tree")
 library.get_toc_tree()
@@ -671,9 +671,9 @@ def text_panels(request, ref, version=None, lang=None, sheet=None):
     else:
         sheet = panels[0].get("sheet",{})
         sheet["title"] = unescape(sheet["title"])
-        title = strip_tags(sheet["title"]) + " | " + _("Sefaria")
+        title = strip_tags(sheet["title"]) + " | " + _("Mekoros")
         breadcrumb = sheet_crumbs(request, sheet)
-        desc = unescape(sheet.get("summary", _("A source sheet created with Sefaria's Source Sheet Builder")))
+        desc = unescape(sheet.get("summary", _("A source sheet created with Mekoros's Source Sheet Builder")))
         noindex = sheet.get("noindex", False) or sheet["status"] != "public"
 
     if len(panels) > 0 and panels[0].get("refs") == [] and panels[0].get("mode") == "Text":
@@ -711,7 +711,7 @@ def texts_category_list(request, cats):
 
     if cats == "recent":
         title = _("Recently Viewed")
-        desc  = _("Texts that you've recently viewed on Sefaria.")
+        desc  = _("Texts that you've recently viewed on Mekoros.")
     else:
         cats = cats.split("/")
         tocObject = library.get_toc_tree().lookup(cats)
@@ -721,7 +721,7 @@ def texts_category_list(request, cats):
         catDesc = getattr(tocObject, "enDesc", '') if request.interfaceLang == "english" else getattr(tocObject, "heDesc", '')
         catShortDesc = getattr(tocObject, "enShortDesc", '') if request.interfaceLang == "english" else getattr(tocObject, "heShortDesc", '')
         catDefaultDesc = _("Read %(categories)s texts online with commentaries and connections.") % {'categories': cat_string}
-        title = cat_string + _(" | Sefaria")
+        title = cat_string + _(" | Mekoros")
         desc  = catDesc if len(catDesc) else catShortDesc if len(catShortDesc) else catDefaultDesc
 
     props = {
@@ -754,8 +754,8 @@ def topics_category_page(request, topicCategory):
     }
 
     short_lang = 'en' if request.interfaceLang == 'english' else 'he'
-    title = topic_obj.get_primary_title(short_lang) + " | " + _("Texts & Source Sheets from Torah, Talmud and Sefaria's library of Jewish sources.")
-    desc = _("Jewish texts and source sheets about %(topic)s from Torah, Talmud and other sources in Sefaria's library.") % {'topic': topic_obj.get_primary_title(short_lang)}
+    title = topic_obj.get_primary_title(short_lang) + " | " + _("Texts & Source Sheets from Torah, Talmud and Mekoros's library of Jewish sources.")
+    desc = _("Jewish texts and source sheets about %(topic)s from Torah, Talmud and other sources in Mekoros's library.") % {'topic': topic_obj.get_primary_title(short_lang)}
 
     return render_template(request, 'base.html', props, {
         "title": title,
@@ -849,7 +849,7 @@ def search(request):
         "initialSheetSearchSortType": search_params["sheetSort"]
     }
     return render_template(request,'base.html', props, {
-        "title":     (search_params["query"] + " | " if search_params["query"] else "") + _("Sefaria Search"),
+        "title":     (search_params["query"] + " | " if search_params["query"] else "") + _("Mekoros Search"),
         "desc":      _("Search 3,000 years of Jewish texts in Hebrew and English translation."),
         "noindex": True
     })
@@ -875,7 +875,7 @@ def public_collections(request):
     props.update({
         "collectionListing": CollectionSet.get_collection_listing(request.user.id)
     })
-    title = _("Sefaria Collections")
+    title = _("Mekoros Collections")
     return menu_page(request, props, "collectionsPublic")
 
 
@@ -936,7 +936,7 @@ def collection_page(request, slug):
     del props["collectionData"]["lastModified"]
 
     return render_template(request, 'base.html', props, {
-        "title": collection.name + " | " + _("Sefaria Collections"),
+        "title": collection.name + " | " + _("Mekoros Collections"),
         "desc": props["collectionData"].get("description", ""),
         "noindex": not getattr(collection, "listed", False)
     })
@@ -1034,7 +1034,7 @@ def _get_user_calendar_params(request):
 
 
 def texts_list(request):
-    title = _("Sefaria: a Living Library of Jewish Texts Online")
+    title = _("Mekoros: a Living Library of Jewish Texts Online")
     desc  = _("The largest free library of Jewish texts available to read online in Hebrew and English including Torah, Tanakh, Talmud, Mishnah, Midrash, commentaries and more.")
     props = get_user_history_props(request)
     return menu_page(request, page="navigation", title=title, desc=desc, props=props)
@@ -1048,7 +1048,7 @@ def calendars(request):
 @login_required
 def saved(request):
     title = _("My Saved Content")
-    desc = _("See your saved content on Sefaria")
+    desc = _("See your saved content on Mekoros")
     profile = UserProfile(user_obj=request.user)
     props = {"saved": {"loaded": True, "items": profile.get_history(saved=True, secondary=False, serialized=True, annotate=True, limit=20)}}
     return menu_page(request, props, page="saved", title=title, desc=desc)
@@ -1065,7 +1065,7 @@ def get_user_history_props(request):
 def user_history(request):
     props = get_user_history_props(request)
     title = _("My User History")
-    desc = _("See your user history on Sefaria")
+    desc = _("See your user history on Mekoros")
     return menu_page(request, props, page="history", title=title, desc=desc)
 
 
@@ -1078,7 +1078,7 @@ def user_stats(request):
 @login_required
 def notifications(request):
     # Notifications content is not rendered server side
-    title = _("Sefaria Notifications")
+    title = _("Mekoros Notifications")
     notifications = UserProfile(user_obj=request.user).recent_notifications()
     props = {
         "notifications": notifications.client_contents(),
@@ -1098,11 +1098,11 @@ def canonical_url(request):
 
     path = request.get_full_path()
     if request.interfaceLang == "hebrew":
-        host = "https://www.sefaria.org.il"
+        host = "https://www.mekoros.com"
         # Default params for texts, text toc, and text category
         path = re.sub("\?lang=he(&aliyot=0)?$", "", path)
     else:
-        host = "https://www.sefaria.org"
+        host = "https://www.mekoros.com"
         # Default params for texts, text toc, and text category
         path = re.sub("\?lang=bi(&aliyot=0)?$", "", path)
 
@@ -1254,7 +1254,7 @@ def edit_text_info(request, title=None, new_title=None):
         if not request.user.is_staff:
             return render_template(request,'static/generic.html', None, {
                 "title": "Permission Denied",
-                "content": "The Text Info for %s is locked.<br><br>Please email hello@sefaria.org if you believe edits are needed." % title
+                "content": "The Text Info for %s is locked.<br><br>Please email hello@mekoros.com if you believe edits are needed." % title
             })
         indexJSON = json.dumps(i.contents() if "toc" in request.GET else i.contents())
         versions = VersionSet({"title": title})
@@ -2004,7 +2004,7 @@ def links_api(request, link_id_or_ref=None):
             return jsonResponse({"error": "No link id given for deletion."})
 
         if not user.is_staff:
-            return jsonResponse({"error": "Only Sefaria Moderators can delete links."})
+            return jsonResponse({"error": "Only Mekoros Moderators can delete links."})
 
         try:
             ref = Ref(link_id_or_ref)
@@ -2285,7 +2285,7 @@ def lock_text_api(request, title, lang, version):
     To unlock, include the URL parameter "action=unlock"
     """
     if not request.user.is_staff:
-        return jsonResponse({"error": "Only Sefaria Moderators can lock texts."})
+        return jsonResponse({"error": "Only Mekoros Moderators can lock texts."})
 
     title   = title.replace("_", " ")
     version = version.replace("_", " ")
@@ -2308,7 +2308,7 @@ def flag_text_api(request, title, lang, version):
     versionTitle changes are handled with an attribute called `newVersionTitle`
 
     Non-Identifying attributes handled:
-        versionSource, versionNotes, license, priority, digitizedBySefaria
+        versionSource, versionNotes, license, priority, digitizedByMekoros
 
     `language` attributes are not handled.
     """
@@ -2323,7 +2323,7 @@ def flag_text_api(request, title, lang, version):
             return jsonResponse({"error": "Unrecognized API key."})
         user = User.objects.get(id=apikey["uid"])
         if not user.is_staff:
-            return jsonResponse({"error": "Only Sefaria Moderators can flag texts."})
+            return jsonResponse({"error": "Only Mekoros Moderators can flag texts."})
 
         flags = json.loads(request.POST.get("json"))
         title   = title.replace("_", " ")
@@ -2427,7 +2427,7 @@ def category_api(request, path=None):
                 return jsonResponse({"error": "Unrecognized API key."})
             user = User.objects.get(id=apikey["uid"])
             if not user.is_staff:
-                return jsonResponse({"error": "Only Sefaria Moderators can add or delete categories."})
+                return jsonResponse({"error": "Only Mekoros Moderators can add or delete categories."})
             uid = apikey["uid"]
             kwargs = {"method": "API"}
         elif request.user.is_staff:
@@ -2435,7 +2435,7 @@ def category_api(request, path=None):
             kwargs = {}
             _internal_do_post = csrf_protect(_internal_do_post)
         else:
-            return jsonResponse({"error": "Only Sefaria Moderators can add or delete categories."})
+            return jsonResponse({"error": "Only Mekoros Moderators can add or delete categories."})
 
         j = request.POST.get("json")
         if not j:
@@ -2579,7 +2579,7 @@ def terms_api(request, name):
                 return jsonResponse({"error": "Unrecognized API key."})
             user = User.objects.get(id=apikey["uid"])
             if not user.is_staff:
-                return jsonResponse({"error": "Only Sefaria Moderators can add or edit terms."})
+                return jsonResponse({"error": "Only Mekoros Moderators can add or edit terms."})
             uid = apikey["uid"]
             kwargs = {"method": "API"}
         elif request.user.is_staff:
@@ -2587,7 +2587,7 @@ def terms_api(request, name):
             kwargs = {}
             _internal_do_post = csrf_protect(_internal_do_post)
         else:
-            return jsonResponse({"error": "Only Sefaria Moderators can add or edit terms."})
+            return jsonResponse({"error": "Only Mekoros Moderators can add or edit terms."})
 
         return jsonResponse(_internal_do_post(request, uid))
 
@@ -2802,7 +2802,7 @@ def updates_api(request, gid=None):
                 return jsonResponse({"error": "Unrecognized API key."})
             user = User.objects.get(id=apikey["uid"])
             if not user.is_staff:
-                return jsonResponse({"error": "Only Sefaria Moderators can add announcements."})
+                return jsonResponse({"error": "Only Mekoros Moderators can add announcements."})
 
             payload = json.loads(request.POST.get("json"))
             try:
@@ -2985,7 +2985,7 @@ def texts_history_api(request, tref, lang=None, version=None):
             summary["editors"].update([act["user"]])
         elif act["rev_type"] == "review":
             summary["reviewers"].update([act["user"]])
-        elif act["version"] == "Sefaria Community Translation":
+        elif act["version"] == "Mekoros Community Translation":
             summary["translators"].update([act["user"]])
         else:
             summary["copiers"].update([act["user"]])
@@ -3027,8 +3027,8 @@ def topics_page(request):
         "initialTopic": None,
     }
     return render_template(request, 'base.html', props, {
-        "title":          _("Topics") + " | " + _("Sefaria"),
-        "desc":           _("Explore Jewish Texts by Topic on Sefaria"),
+        "title":          _("Topics") + " | " + _("Mekoros"),
+        "desc":           _("Explore Jewish Texts by Topic on Mekoros"),
     })
 
 
@@ -3064,8 +3064,8 @@ def topic_page(request, topic, test_version=None):
         props["topicTestVersion"] = test_version
 
     short_lang = 'en' if request.interfaceLang == 'english' else 'he'
-    title = topic_obj.get_primary_title(short_lang) + " | " + _("Texts & Source Sheets from Torah, Talmud and Sefaria's library of Jewish sources.")
-    desc = _("Jewish texts and source sheets about %(topic)s from Torah, Talmud and other sources in Sefaria's library.") % {'topic': topic_obj.get_primary_title(short_lang)}
+    title = topic_obj.get_primary_title(short_lang) + " | " + _("Texts & Source Sheets from Torah, Talmud and Mekoros's library of Jewish sources.")
+    desc = _("Jewish texts and source sheets about %(topic)s from Torah, Talmud and other sources in Mekoros's library.") % {'topic': topic_obj.get_primary_title(short_lang)}
     topic_desc = getattr(topic_obj, 'description', {}).get(short_lang, '')
     if topic_desc is not None:
         desc += " " + topic_desc
@@ -3090,8 +3090,8 @@ def topics_list_api(request):
 @staff_member_required
 def generate_topic_prompts_api(request, slug: str):
     if request.method == "POST":
-        from sefaria.helper.llm.tasks import generate_and_save_topic_prompts
-        from sefaria.helper.llm.topic_prompt import get_ref_context_hints_by_lang
+        from mekoros.helper.llm.tasks import generate_and_save_topic_prompts
+        from mekoros.helper.llm.topic_prompt import get_ref_context_hints_by_lang
         topic = Topic.init(slug)
         post_body = json.loads(request.body)
         ref_topic_links = post_body.get('ref_topic_links')
@@ -3107,18 +3107,18 @@ def add_new_topic_api(request):
     if request.method == "POST":
         data = json.loads(request.POST["json"])
         isTopLevelDisplay = data["category"] == Topic.ROOT
-        t = Topic({'slug': "", "isTopLevelDisplay": isTopLevelDisplay, "data_source": "sefaria", "numSources": 0})
+        t = Topic({'slug': "", "isTopLevelDisplay": isTopLevelDisplay, "data_source": "mekoros", "numSources": 0})
         update_topic_titles(t, **data)
         t.set_slug_to_primary_title()
         if not isTopLevelDisplay:  # not Top Level so create an IntraTopicLink to category
-            new_link = IntraTopicLink({"toTopic": data["category"], "fromTopic": t.slug, "linkType": "displays-under", "dataSource": "sefaria"})
+            new_link = IntraTopicLink({"toTopic": data["category"], "fromTopic": t.slug, "linkType": "displays-under", "dataSource": "mekoros"})
             new_link.save()
 
         if data["category"] == 'authors':
             t = update_authors_place_and_time(t, **data)
 
         t.description_published = True
-        t.data_source = "sefaria"  # any topic edited manually should display automatically in the TOC and this flag ensures this
+        t.data_source = "mekoros"  # any topic edited manually should display automatically in the TOC and this flag ensures this
         if "description" in data:
             t.change_description(data["description"], data.get("categoryDescription", None))
 
@@ -3171,7 +3171,7 @@ def topics_api(request, topic, v2=False):
         return jsonResponse(response, callback=request.GET.get("callback", None))
     elif request.method == "POST":
         if not request.user.is_staff:
-            return jsonResponse({"error": "Adding topics is locked.<br><br>Please email hello@sefaria.org if you believe edits are needed."})
+            return jsonResponse({"error": "Adding topics is locked.<br><br>Please email hello@mekoros.com if you believe edits are needed."})
         topic_data = json.loads(request.POST["json"])
         topic = Topic().load({'slug': topic_data["origSlug"]})
         topic_data["manual"] = True
@@ -3347,7 +3347,7 @@ def global_activity(request, page=1):
     if page > 40:
         return render_template(request,'static/generic.html', None, {
             "title": "Activity Unavailable",
-            "content": "You have requested a page deep in Sefaria's history.<br><br>For performance reasons, this page is unavailable. If you need access to this information, please <a href='mailto:hello@sefaria.org'>email us</a>."
+            "content": "You have requested a page deep in Mekoros's history.<br><br>For performance reasons, this page is unavailable. If you need access to this information, please <a href='mailto:hello@mekoros.com'>email us</a>."
         })
 
     if "api" in request.GET:
@@ -3390,7 +3390,7 @@ def user_activity(request, slug, page=1):
     if page > 40:
         return render_template(request,'static/generic.html', None, {
             "title": "Activity Unavailable",
-            "content": "You have requested a page deep in Sefaria's history.<br><br>For performance reasons, this page is unavailable. If you need access to this information, please <a href='mailto:hello@sefaria.org'>email us</a>."
+            "content": "You have requested a page deep in Mekoros's history.<br><br>For performance reasons, this page is unavailable. If you need access to this information, please <a href='mailto:hello@mekoros.com'>email us</a>."
         })
 
     q              = {"user": profile.id}
@@ -3502,8 +3502,8 @@ def user_profile(request, username):
         "initialProfile": requested_profile.to_api_dict(),
         "initialTab": tab,
     }
-    title = _("%(full_name)s on Sefaria") % {"full_name": requested_profile.full_name}
-    desc = _('%(full_name)s is on Sefaria. Follow to view their public source sheets, notes and translations.') % {"full_name": requested_profile.full_name}
+    title = _("%(full_name)s on Mekoros") % {"full_name": requested_profile.full_name}
+    desc = _('%(full_name)s is on Mekoros. Follow to view their public source sheets, notes and translations.') % {"full_name": requested_profile.full_name}
     return render_template(request,'base.html', props, {
         "title":          title,
         "desc":           desc,
@@ -3748,7 +3748,7 @@ def profile_sync_api(request):
 @api_view(["DELETE"])
 @permission_classes([IsAuthenticated])
 def delete_user_account_api(request):
-    # Deletes the user and emails sefaria staff for followup
+    # Deletes the user and emails mekoros staff for followup
     if not request.user.is_authenticated:
         return jsonResponse({"error": _("You must be logged in to delete your account.")})
     uid = request.user.id
@@ -3768,7 +3768,7 @@ def delete_user_account_api(request):
         logger.error("User {} deletion failed. {}".format(uid, e))
         response = jsonResponse({"error": "There was an error deleting the account", "user": user_email})
 
-    EmailMultiAlternatives(email_subject, email_msg, from_email="Sefaria System <dev@sefaria.org>", to=["Sefaria <hello@sefaria.org>"], reply_to=[reply_email if reply_email else "hello@sefaria.org"]).send()
+    EmailMultiAlternatives(email_subject, email_msg, from_email="Mekoros System <dev@mekoros.com>", to=["Mekoros <hello@mekoros.com>"], reply_to=[reply_email if reply_email else "hello@mekoros.com"]).send()
     return response
 
 
@@ -3886,8 +3886,8 @@ def community_page(request, props={}):
     """
     Community Page
     """
-    title = _("From the Community: Today on Sefaria")
-    desc  = _("New and featured source sheets, divrei torah, articles, sermons and more created by members of the Sefaria community.")
+    title = _("From the Community: Today on Mekoros")
+    desc  = _("New and featured source sheets, divrei torah, articles, sermons and more created by members of the Mekoros community.")
     data  = community_page_data(request, language=request.interfaceLang)
     data.update(props) # don't overwrite data that was passed n with props
     return menu_page(request, page="community", props=data, title=title, desc=desc)
@@ -4017,12 +4017,12 @@ def metrics(request):
 
 
 @ensure_csrf_cookie
-def digitized_by_sefaria(request):
+def digitized_by_mekoros(request):
     """
     Metrics page. Shows graphs of core metrics.
     """
-    texts = VersionSet({"digitizedBySefaria": True}, sort=[["title", 1]])
-    return render_template(request,'static/digitized-by-sefaria.html', None, {
+    texts = VersionSet({"digitizedByMekoros": True}, sort=[["title", 1]])
+    return render_template(request,'static/digitized-by-mekoros.html', None, {
         "texts": texts,
     })
 
@@ -4044,7 +4044,7 @@ def daf_yomi_redirect(request):
 
 def random_ref(categories=None, titles=None):
     """
-    Returns a valid random ref within the Sefaria library.
+    Returns a valid random ref within the Mekoros library.
     """
 
     # refs = library.ref_list()
@@ -4211,8 +4211,8 @@ def random_by_topic_api(request):
 @csrf_exempt
 def dummy_search_api(request):
     # Thou shalt upgrade thine app or thou shalt not glean the results of search thou seeketh
-    # this api is meant to information users of the old search.sefaria.org to upgrade their apps to get search to work again
-    were_sorry = "We're sorry, but your version of the app is no longer compatible with our new search. We recommend you upgrade the Sefaria app to fully enjoy all it has to offer <br> עמכם הסליחה, אך גרסת האפליקציה הנמצאת במכשירכם איננה תואמת את מנוע החיפוש החדש. אנא עדכנו את אפליקצית ספריא להמשך שימוש בחיפוש"
+    # this api is meant to information users of the old search.mekoros.com to upgrade their apps to get search to work again
+    were_sorry = "We're sorry, but your version of the app is no longer compatible with our new search. We recommend you upgrade the Mekoros app to fully enjoy all it has to offer <br> עמכם הסליחה, אך גרסת האפליקציה הנמצאת במכשירכם איננה תואמת את מנוע החיפוש החדש. אנא עדכנו את אפליקצית ספריא להמשך שימוש בחיפוש"
     resp = jsonResponse({
         "took": 613,
         "timed_out": False,
@@ -4278,7 +4278,7 @@ def search_wrapper_api(request, es6_compat=False):
     @param es6_compat: True to return API response that's compatible with an Elasticsearch 6 compatible client
     @return:
     """
-    from sefaria.helper.search import get_elasticsearch_client
+    from mekoros.helper.search import get_elasticsearch_client
 
     if request.method == "POST":
         if "json" in request.POST:
@@ -4327,10 +4327,10 @@ def serve_static_by_lang(request, page):
 # TODO: This really should be handled by a CMS :)
 def annual_report(request, report_year):
     pdfs = {
-        '2020': STATIC_URL + 'files/Sefaria 2020 Annual Report.pdf',
+        '2020': STATIC_URL + 'files/Mekoros 2020 Annual Report.pdf',
         '2021': 'https://indd.adobe.com/embed/98a016a2-c4d1-4f06-97fa-ed8876de88cf?startpage=1&allowFullscreen=true',
-        '2022': STATIC_URL + 'files/Sefaria_AnnualImpactReport_R14.pdf',
-        '2023': 'https://issuu.com/sefariaimpact/docs/sefaria_2023_impact_report?fr=sMmRkNTcyMzMyNTk',
+        '2022': STATIC_URL + 'files/Mekoros_AnnualImpactReport_R14.pdf',
+        '2023': 'https://issuu.com/mekorosimpact/docs/mekoros_2023_impact_report?fr=sMmRkNTcyMzMyNTk',
     }
     # Assume the most recent year as default when one is not provided
     if not report_year:
@@ -4486,7 +4486,7 @@ def sheet_tag_visual_garden_page(request, key):
 
 
 def custom_visual_garden_page(request, key):
-    g = Garden().load({"key": "sefaria.custom.{}".format(key)})
+    g = Garden().load({"key": "mekoros.custom.{}".format(key)})
     if not g:
         raise Http404
     return visual_garden_page(request, g)
@@ -4567,7 +4567,7 @@ def custom_server_error(request, template_name='500.html'):
 
 def apple_app_site_association(request):
     teamID = "2626EW4BML"
-    bundleID = "org.sefaria.sefariaApp"
+    bundleID = "org.mekoros.mekorosApp"
     return jsonResponse({
         "applinks": {
             "apps": [],
@@ -4586,7 +4586,7 @@ def android_asset_links_json(request):
             "relation": ["delegate_permission/common.handle_all_urls"],
             "target": {
                 "namespace": "android_app",
-                "package_name": "org.sefaria.sefaria",
+                "package_name": "org.mekoros.mekoros",
                 "sha256_cert_fingerprints":
                     ["FD:86:BA:99:63:C2:71:D9:5F:E6:0D:0B:0F:A1:67:EA:26:15:45:BE:0C:D0:DF:69:64:01:F3:AD:D0:EE:C6:87"]
             }
@@ -4645,7 +4645,7 @@ def rollout_health_api(request):
 
     def is_database_reachable():
         try:
-            from sefaria.system.database import db
+            from mekoros.system.database import db
             return True
         except SystemError as ivne:
             return False

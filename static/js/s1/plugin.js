@@ -1,5 +1,5 @@
 (function() {
-    var sefaria = {
+    var mekoros = {
         init: function() {
         	var wrapRefs = function(titles) {
 
@@ -7,11 +7,11 @@
 				var refRe = new RegExp(refReStr, "gi");
 				
 				var wrapTextNode = function(node) {
-					var refText = text.replace(refRe, '<span class="sefariaLink" data-ref="$1.$3$4">$1 $3$4</span>');
+					var refText = text.replace(refRe, '<span class="mekorosLink" data-ref="$1.$3$4">$1 $3$4</span>');
 				};
 				
         	};
-        	$.getJSON("https://www.sefaria.org/api/index/titles", wrapRefs)
+        	$.getJSON("https://www.mekoros.com/api/index/titles", wrapRefs)
         }	
     }; 
     
@@ -22,6 +22,6 @@
         document.body.appendChild(jq);  
     }  
     else {  
-        sefaria.init();  
+        mekoros.init();  
     }	
 })(); 

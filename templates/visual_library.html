@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% load i18n sefaria_tags static %}
+{% load i18n mekoros_tags static %}
 
-{% block title %}{% trans "Visualizing the Sefaria Library" %} {% if lang %} ({{ lang }}){% endif %}{% endblock %}
+{% block title %}{% trans "Visualizing the Mekoros Library" %} {% if lang %} ({{ lang }}){% endif %}{% endblock %}
 
-{% block description %}{% trans "How big is Torah compared to Talmud? This sunburst diagram lets you see the number of words in the texts and categories of Sefaria's library (which is growing every day!)." %}{% endblock %}
+{% block description %}{% trans "How big is Torah compared to Talmud? This sunburst diagram lets you see the number of words in the texts and categories of Mekoros's library (which is growing every day!)." %}{% endblock %}
 
 
 {% block ogimage %}<meta property="og:image" content="{% static 'img/sunburst.png' %}"/>{% endblock %}
@@ -119,7 +119,7 @@
         .attr("height", height)
       .append("g")
         .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
-    svg.append("svg:desc").text("This SVG diagrams the number of words in the texts and categories of Sefaria's library");
+    svg.append("svg:desc").text("This SVG diagrams the number of words in the texts and categories of Mekoros's library");
 
     var x = d3.scale.linear()
         .range([0, 2 * Math.PI]);
@@ -197,7 +197,7 @@
     }
 
     function get_title() {
-        return "Sefaria" + (lang ? lang == "en" ? " English" : " Hebrew" : "") + " Library";
+        return "Mekoros" + (lang ? lang == "en" ? " English" : " Hebrew" : "") + " Library";
     }
     function get_subtitle() {
         return cats.join(" > ")

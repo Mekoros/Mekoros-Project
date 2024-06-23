@@ -2,8 +2,8 @@
 
 import pytest
 import pprint
-from sefaria.model import *
-from sefaria.system.exceptions import InputError
+from mekoros.model import *
+from mekoros.system.exceptions import InputError
 
 class Test_Schema(object):
     # This needs a bunch of hebrew titles to validate

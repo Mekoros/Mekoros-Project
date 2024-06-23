@@ -1,4 +1,4 @@
-var db = connect("localhost:27017/sefaria")
+var db = connect("localhost:27017/mekoros")
 
 // These values may be set form the command line (using --eval)
 // to authenticate. 

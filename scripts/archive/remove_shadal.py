@@ -13,12 +13,12 @@ from pprint import pprint
 
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, path)
-sys.path.insert(0, path + "/sefaria")
+sys.path.insert(0, path + "/mekoros")
 
-from sefaria.database import db
-from sefaria import counts
-from sefaria.clean import remove_old_counts
-from sefaria.texts import parse_ref
+from mekoros.database import db
+from mekoros import counts
+from mekoros.clean import remove_old_counts
+from mekoros.texts import parse_ref
 
 titles = set()
 
@@ -36,7 +36,7 @@ for version in versions:
 		db.texts.save(version)
 
 
-	elif (not version["versionSource"].startswith("http://www.sefaria.org") and
+	elif (not version["versionSource"].startswith("http://www.mekoros.com") and
 		not version["versionSource"].startswith("http://www.archive.org")):
 
 		titles.add(version["title"])

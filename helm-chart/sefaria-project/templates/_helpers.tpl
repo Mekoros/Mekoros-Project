@@ -1,4 +1,4 @@
-{{- define "sefaria.secrets.googleClient" }}
+{{- define "mekoros.secrets.googleClient" }}
 {{- if .Values.web.secrets.googleClient.ref -}}
 {{- .Values.web.secrets.googleClient.ref }}
 {{- else -}}
@@ -6,7 +6,7 @@ google-client-secret-{{ .Values.deployEnv }}
 {{- end }}
 {{- end }}
 
-{{- define "sefaria.secrets.backupManager" }}
+{{- define "mekoros.secrets.backupManager" }}
 {{- if .Values.secrets.backupManager.ref -}}
 {{- .Values.secrets.backupManager.ref }}
 {{- else -}}
@@ -14,7 +14,7 @@ backup-manager-secret-{{ .Values.deployEnv }}
 {{- end }}
 {{- end }}
 
-{{- define "sefaria.secrets.logging" }}
+{{- define "mekoros.secrets.logging" }}
 {{- if .Values.web.secrets.logging.ref -}}
 {{- .Values.web.secrets.logging.ref }}
 {{- else -}}
@@ -22,7 +22,7 @@ logging-secret-{{ .Values.deployEnv }}
 {{- end }}
 {{- end }}
 
-{{- define "sefaria.secrets.varnish" }}
+{{- define "mekoros.secrets.varnish" }}
 {{- if .Values.varnish.secrets.varnish.ref -}}
 {{- .Values.varnish.secrets.varnish.ref }}
 {{- else -}}
@@ -30,7 +30,7 @@ varnish-secret-{{ .Values.deployEnv }}
 {{- end }}
 {{- end }}
 
-{{- define "sefaria.secrets.schoolLookup" }}
+{{- define "mekoros.secrets.schoolLookup" }}
 {{- if .Values.web.secrets.schoolLookup.ref -}}
 {{- .Values.web.secrets.schoolLookup.ref }}
 {{- else -}}
@@ -38,7 +38,7 @@ school-lookup-data-{{ .Values.deployEnv }}
 {{- end }}
 {{- end }}
 
-{{- define "sefaria.secrets.slackWebhook" }}
+{{- define "mekoros.secrets.slackWebhook" }}
 {{- if .Values.secrets.slackWebhook.ref -}}
 {{- .Values.secrets.slackWebhook.ref }}
 {{- else -}}
@@ -46,7 +46,7 @@ slack-webhook-{{ .Values.deployEnv }}
 {{- end }}
 {{- end }}
 
-{{- define "sefaria.secrets.elasticCertificate" }}
+{{- define "mekoros.secrets.elasticCertificate" }}
 {{- if .Values.web.secrets.elasticCertificate.ref -}}
 {{- .Values.web.secrets.elasticCertificate.ref }}
 {{- else -}}
@@ -54,7 +54,7 @@ elastic-certificate-{{ .Values.deployEnv }}
 {{- end }}
 {{- end }}
 
-{{- define "sefaria.secrets.elasticUser" }}
+{{- define "mekoros.secrets.elasticUser" }}
 {{- if .Values.secrets.elasticUser.ref -}}
 {{- .Values.secrets.elasticUser.ref }}
 {{- else -}}
@@ -62,7 +62,7 @@ elastic-user-{{ .Values.deployEnv }}
 {{- end }}
 {{- end }}
 
-{{- define "sefaria.secrets.elasticAdmin" }}
+{{- define "mekoros.secrets.elasticAdmin" }}
 {{- if .Values.secrets.elasticAdmin.ref -}}
 {{- .Values.secrets.elasticAdmin.ref }}
 {{- else -}}
@@ -71,7 +71,7 @@ elastic-admin-{{ .Values.deployEnv }}
 {{- end }}
 
 
-{{- define "sefaria.secrets.originTls" }}
+{{- define "mekoros.secrets.originTls" }}
 {{- if .Values.ingress.secrets.originTls.ref -}}
 {{- .Values.ingress.secrets.originTls.ref }}
 {{- else -}}
@@ -79,7 +79,7 @@ origin-tls-{{ .Values.deployEnv }}
 {{- end }}
 {{- end }}
 
-{{- define "sefaria.secrets.originIlTls" }}
+{{- define "mekoros.secrets.originIlTls" }}
 {{- if .Values.ingress.secrets.originIlTls.ref -}}
 {{- .Values.ingress.secrets.originIlTls.ref }}
 {{- else -}}
@@ -87,7 +87,7 @@ origin-il-tls-{{ .Values.deployEnv }}
 {{- end }}
 {{- end }}
 
-{{- define "sefaria.tarballName" }}
+{{- define "mekoros.tarballName" }}
 {{- if .Values.restore.tarball -}}
 {{- .Values.restore.tarball }}
 {{- else -}}
@@ -98,7 +98,7 @@ private_dump_small_{{ now | date "02.01.06" }}.tar.gz
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "sefaria.name" -}}
+{{- define "mekoros.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -107,7 +107,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "sefaria.fullname" -}}
+{{- define "mekoros.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -123,16 +123,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "sefaria.chart" -}}
+{{- define "mekoros.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "sefaria.labels" -}}
-helm.sh/chart: {{ include "sefaria.chart" . }}
-{{ include "sefaria.selectorLabels" . }}
+{{- define "mekoros.labels" -}}
+helm.sh/chart: {{ include "mekoros.chart" . }}
+{{ include "mekoros.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -142,15 +142,15 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "sefaria.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "sefaria.name" . }}
+{{- define "mekoros.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "mekoros.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Scheduling affinites applied to all pods
 */}}
-{{- define "sefaria.nodeAffinities" }}
+{{- define "mekoros.nodeAffinities" }}
 requiredDuringSchedulingIgnoredDuringExecution:
   nodeSelectorTerms:
     - matchExpressions:
@@ -179,9 +179,9 @@ preferredDuringSchedulingIgnoredDuringExecution:
 {{/*
 Setup complete tasks queue info
 */}}
-{{- define "sefaria.tasks.internalQueues" }}
+{{- define "mekoros.tasks.internalQueues" }}
 tasks: {{ .Values.deployEnv }}-tasks
 {{- end }}
-{{- define "sefaria.tasks.queues" }}
-{{- merge  (fromYaml (include "sefaria.tasks.internalQueues" . )) .Values.tasks.queues | toYaml }}
+{{- define "mekoros.tasks.queues" }}
+{{- merge  (fromYaml (include "mekoros.tasks.internalQueues" . )) .Values.tasks.queues | toYaml }}
 {{- end }}

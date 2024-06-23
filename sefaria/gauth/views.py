@@ -7,13 +7,13 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect
 
-from sefaria.model.user_profile import UserProfile
+from mekoros.model.user_profile import UserProfile
 
 import google.auth
 import google.oauth2
 import google_auth_oauthlib.flow
 
-from sefaria import settings
+from mekoros import settings
 
 # CLIENT_SECRETS, name of a file containing the OAuth 2.0 information for this
 # application, including client_id and client_secret, which are found

@@ -20,7 +20,7 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 EXPOSE 8000
 
 # Define environment variable
-ENV NAME Sefaria-Project
+ENV NAME Mekoros-Project
 
 # Run app.py when the container launches
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

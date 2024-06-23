@@ -3,16 +3,16 @@
 SITE_SETTINGS = {
 	"TORAH_SPECIFIC": True,
 	"SITE_NAME": {
-		"en": "Sefaria",
+		"en": "Mekoros",
 		"he": "ספריא"
 	},
 	"LIBRARY_NAME": {
-		"en": "The Sefaria Library",
+		"en": "The Mekoros Library",
 		"he": "האוסף של ספריא",
 	},
 	"SUPPORTED_TRANSLATION_LANGUAGES": ['en', 'es', 'fr', 'de'],
-	"COLLECTIONS_BUCKET": "sefaria-collection-images",
-	"PROFILES_BUCKET": 'sefaria-profile-pictures',
+	"COLLECTIONS_BUCKET": "mekoros-collection-images",
+	"PROFILES_BUCKET": 'mekoros-profile-pictures',
 	"UGC_BUCKET": 'sheet-user-uploaded-media',
-	"TOPICS_BUCKET": 'img.sefaria.org'
+	"TOPICS_BUCKET": 'img.mekoros.com'
 }

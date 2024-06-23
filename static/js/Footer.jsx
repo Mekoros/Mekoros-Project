@@ -1,7 +1,7 @@
 import React  from 'react';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 import PropTypes from'prop-types';
-import $  from './sefaria/sefariaJquery';
+import $  from './mekoros/mekorosJquery';
 import { InterfaceText, DonateLink } from './Misc';
 import {NewsletterSignUpForm} from "./NewsletterSignUpForm";
 import Component from 'react-class';
@@ -30,19 +30,19 @@ class Footer extends Component {
     this.setState({isClient: true});
   }
   trackLanguageClick(language){
-    Sefaria.track.setInterfaceLanguage('interface language footer', language);
+    Mekoros.track.setInterfaceLanguage('interface language footer', language);
   }
   render() {
-    if (!Sefaria._siteSettings.TORAH_SPECIFIC) { return null; }
+    if (!Mekoros._siteSettings.TORAH_SPECIFIC) { return null; }
 
-    const fbURL = Sefaria.interfaceLang == "hebrew" ? "https://www.facebook.com/sefaria.org.il" : "https://www.facebook.com/sefaria.org";
-    const blgURL = Sefaria.interfaceLang == "hebrew" ? "https://blog.sefaria.org.il/" : "https://blog.sefaria.org/";
-    let next = this.state.isClient ? (encodeURIComponent(Sefaria.util.currentPath())) : "/" ; //try to make sure that a server render of this does not get some weird data in the url that then gets cached
+    const fbURL = Mekoros.interfaceLang == "hebrew" ? "https://www.facebook.com/mekoros.com" : "https://www.facebook.com/mekoros.com";
+    const blgURL = Mekoros.interfaceLang == "hebrew" ? "https://blog.mekoros.com/" : "https://blog.mekoros.com/";
+    let next = this.state.isClient ? (encodeURIComponent(Mekoros.util.currentPath())) : "/" ; //try to make sure that a server render of this does not get some weird data in the url that then gets cached
     return (
       <footer id="footer" className="static sans-serif">
         <div id="footerInner">
             <Section en="About" he="אודות">
-                <Link href="/about" en="What is Sefaria?" he="מהי ספריא" />
+                <Link href="/about" en="What is Mekoros?" he="מהי ספריא" />
                 <Link href="/help" en="Help" he="עזרה" />
                 <Link href="/team" en="Team" he="צוות" />
                 <Link href="/testimonials" en="Testimonials" he="חוות דעת" />
@@ -53,7 +53,7 @@ class Footer extends Component {
             </Section>
 
             <Section en="Tools" he="כלים">
-                <Link href="/educators" en="Teach with Sefaria" he="מלמדים עם ספריא" />
+                <Link href="/educators" en="Teach with Mekoros" he="מלמדים עם ספריא" />
                 <Link href="/calendars" en="Learning Schedules" he="לוח לימוד יומי" />
                 <Link href="/sheets" en="Source Sheets" he="דפי מקורות" />
                 <Link href="/visualizations" en="Visualizations" he="תרשימים גרפיים" />
@@ -67,10 +67,10 @@ class Footer extends Component {
             </Section>
 
             <Section en="Developers" he="מפתחים">
-                <Link href="https://developers.sefaria.org" en="Get Involved" he="הצטרפו אלינו" blank={true} />
-                <Link href="https://developers.sefaria.org/reference" en="API Docs" he="מסמכי API" blank={true} />
-                <Link href="https://github.com/Sefaria/Sefaria-Project" en="Fork us on GitHub" he="Github" blank={true} />
-                <Link href="https://github.com/Sefaria/Sefaria-Export" en="Download our Data" he="בסיס נתונים" blank={true} />
+                <Link href="https://developers.mekoros.com" en="Get Involved" he="הצטרפו אלינו" blank={true} />
+                <Link href="https://developers.mekoros.com/reference" en="API Docs" he="מסמכי API" blank={true} />
+                <Link href="https://github.com/Mekoros/Mekoros-Project" en="Fork us on GitHub" he="Github" blank={true} />
+                <Link href="https://github.com/Mekoros/Mekoros-Export" en="Download our Data" he="בסיס נתונים" blank={true} />
             </Section>
 
             <Section en="Join Us" he="הצטרפו אלינו">
@@ -78,7 +78,7 @@ class Footer extends Component {
                 <Link href="/ways-to-give" en="Ways to Give" he="אפשרויות תרומה" />
                 <Link href="/supporters" en="Supporters" he="תומכים" />
                 <Link href="/jobs" en="Jobs" he="דרושים" />
-                <Link href="https://store.sefaria.org" en="Shop" he="חנות" />
+                <Link href="https://store.mekoros.com" en="Shop" he="חנות" />
             </Section>
 
           <div className="section last connect">
@@ -87,19 +87,19 @@ class Footer extends Component {
               </div>
               <NewsletterSignUpForm contextName="Footer" />
               <div className="socialLinks">
-                  <Link href="https://www.instagram.com/sefariaproject/" en="Instagram" he="אינסטגרם" blank={true} />
+                  <Link href="https://www.instagram.com/mekorosproject/" en="Instagram" he="אינסטגרם" blank={true} />
                   &bull;
                   <Link href={fbURL} en="Facebook" he="פייסבוק" blank={true} />
                   <br />
 
-                  <Link href="https://www.youtube.com/user/SefariaProject" en="YouTube" he="יוטיוב" blank={true} />
+                  <Link href="https://www.youtube.com/user/MekorosProject" en="YouTube" he="יוטיוב" blank={true} />
                   &bull;
                   <Link href={blgURL} en="Blog" he="בלוג" blank={true}/>
                   <br />
 
-                  <Link href="https://www.linkedin.com/company/sefaria/" en="LinkedIn" he="לינקדאין" blank={true} />
+                  <Link href="https://www.linkedin.com/company/mekoros/" en="LinkedIn" he="לינקדאין" blank={true} />
                   &bull;
-                  <Link href="mailto:hello@sefaria.org" en="Email" he="דוא&quot;ל" />
+                  <Link href="mailto:hello@mekoros.com" en="Email" he="דוא&quot;ל" />
               </div>
               <div id="siteLanguageToggle">
                   <div id="siteLanguageToggleLabel">

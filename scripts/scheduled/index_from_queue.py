@@ -8,9 +8,9 @@ django.setup()
 
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, path)
-sys.path.insert(0, path + "/sefaria")
+sys.path.insert(0, path + "/mekoros")
 
-from sefaria.settings import *
-from sefaria.search import index_from_queue
+from mekoros.settings import *
+from mekoros.search import index_from_queue
 
 index_from_queue()

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from sefaria.model import *
-from sefaria.helper.text import *
-from sefaria.helper.link import *
+from mekoros.model import *
+from mekoros.helper.text import *
+from mekoros.helper.link import *
 import re
 
 import argparse
-from sefaria.system.database import db
+from mekoros.system.database import db
 
 """
 normal Index delete takes care of:

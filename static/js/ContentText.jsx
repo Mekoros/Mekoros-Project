@@ -1,6 +1,6 @@
 import React from "react";
 import {useContentLang} from './Hooks';
-import Sefaria from './sefaria/sefaria';
+import Mekoros from './mekoros/mekoros';
 import ReactMarkdown from "react-markdown";
 
 const ContentText = (props) => {
@@ -28,7 +28,7 @@ const VersionContent = (props) => {
   const [languageToFilter, _] = useContentLang(props.defaultToInterfaceOnBilingual, props.overrideLanguage);
   return langAndContentItems.map((item) => {
       const [lang, content] = item;
-      if (Sefaria.isFullSegmentImage(content)){
+      if (Mekoros.isFullSegmentImage(content)){
         return(<VersionImageSpan lang={lang} content={content} languageToFilter={languageToFilter} imageLoadCallback={props.imageLoadCallback}/>);
       }
       return (<ContentSpan lang={lang} content={content} isHTML={true}/>);

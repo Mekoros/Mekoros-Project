@@ -1,4 +1,4 @@
-{% load sefaria_tags %}
+{% load mekoros_tags %}
 {% autoescape off %}
 //all vars in this file will be available in global js scope
 

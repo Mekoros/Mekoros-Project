@@ -1,4 +1,4 @@
-{% load sefaria_tags static%}
+{% load mekoros_tags static%}
 
 <script src="{% static 'js/lib/keyboard.js' %}"></script>
 <script type="text/javascript">
@@ -105,7 +105,7 @@
 			$("#navPanel, #left").click(function(e) {
 				e.stopPropagation();
 			});
-			$("#aboutSefaria").click(function(e){
+			$("#aboutMekoros").click(function(e){
 				$("#navPanelLinks").hide();
 				$("#navPanelAboutLinks").show();
 				e.preventDefault();
@@ -852,12 +852,12 @@
 		// this attempts to create an element and add css3 text shadow to it to it
 		// these are only supported in recent firefox, chrome, safari & ie > 9
 
-		$("#sefaria").css("text-shadow", "2px 2px #ff0000");
-		var sefariaSupportedBrowser = !!$("#alertMessage").css("text-shadow");
-		$("#sefaria").css("text-shadow", "");
+		$("#mekoros").css("text-shadow", "2px 2px #ff0000");
+		var mekorosSupportedBrowser = !!$("#alertMessage").css("text-shadow");
+		$("#mekoros").css("text-shadow", "");
 
-		if (sefariaSupportedBrowser == false) {
-		$("#alertMessage").html('<strong>Warning:</strong> Your browser is out of date and unsupported by Sefaria<br/>Please use a more up to date browser or download one <a href="http://browsehappy.com/" target="_blank">here</a>.').show();
+		if (mekorosSupportedBrowser == false) {
+		$("#alertMessage").html('<strong>Warning:</strong> Your browser is out of date and unsupported by Mekoros<br/>Please use a more up to date browser or download one <a href="http://browsehappy.com/" target="_blank">here</a>.').show();
 		}
 
 	});

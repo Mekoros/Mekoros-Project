@@ -3,8 +3,8 @@
 import argparse
 import django
 django.setup()
-from sefaria.model import *
-from sefaria.clean import *
+from mekoros.model import *
+from mekoros.clean import *
 
 
 

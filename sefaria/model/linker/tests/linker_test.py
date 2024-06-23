@@ -1,9 +1,9 @@
-from sefaria.model.linker.ref_part import RangedRawRefParts, SectionContext, span_inds
-from sefaria.model.linker.referenceable_book_node import DiburHamatchilNodeSet, NumberedReferenceableBookNode
-from sefaria.model.linker.ref_resolver import ResolvedRef, ResolutionThoroughness, RefResolver, IbidHistory
+from mekoros.model.linker.ref_part import RangedRawRefParts, SectionContext, span_inds
+from mekoros.model.linker.referenceable_book_node import DiburHamatchilNodeSet, NumberedReferenceableBookNode
+from mekoros.model.linker.ref_resolver import ResolvedRef, ResolutionThoroughness, RefResolver, IbidHistory
 from .linker_test_utils import *
-from sefaria.model import schema
-from sefaria.settings import ENABLE_LINKER
+from mekoros.model import schema
+from mekoros.settings import ENABLE_LINKER
 
 if not ENABLE_LINKER:
     pytest.skip("Linker not enabled", allow_module_level=True)

@@ -4,10 +4,10 @@ from functools import reduce
 from typing import List
 import django
 django.setup()
-from sefaria.model import *
-from sefaria.utils.hebrew import hebrew_term
-from sefaria.system.exceptions import InputError
-from sefaria.datatype.jagged_array import JaggedTextArray
+from mekoros.model import *
+from mekoros.utils.hebrew import hebrew_term
+from mekoros.system.exceptions import InputError
+from mekoros.datatype.jagged_array import JaggedTextArray
 
 class TextRequestAdapter:
     """

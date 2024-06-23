@@ -3,8 +3,8 @@
 Migration script to convert all old comments to outside texts. Primarily to preserve formating vis a vis s2's new layout for comments.
 """
 
-from sefaria.model import *
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.system.database import db
 
 sheets = db.sheets.find()
 

@@ -1,9 +1,9 @@
 import pytest
 from typing import List
 from functools import reduce
-from sefaria.model.text import Ref, library
-from sefaria.model.linker.ref_part import RefPartType, RawRef, RawRefPart
-from sefaria.settings import ENABLE_LINKER
+from mekoros.model.text import Ref, library
+from mekoros.model.linker.ref_part import RefPartType, RawRef, RawRefPart
+from mekoros.settings import ENABLE_LINKER
 
 if not ENABLE_LINKER:
     pytest.skip("Linker not enabled", allow_module_level=True)

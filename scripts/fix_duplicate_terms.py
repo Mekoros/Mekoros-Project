@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from sefaria.model import *
+from mekoros.model import *
 from bson.objectid import ObjectId
 
-from sefaria.system.database import db
+from mekoros.system.database import db
 from collections import defaultdict
 
 """duplicates = db.term.aggregate(

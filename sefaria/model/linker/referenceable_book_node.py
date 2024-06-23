@@ -1,8 +1,8 @@
 import dataclasses
 from typing import List, Union, Optional
-from sefaria.model import abstract as abst
-from sefaria.model import text
-from sefaria.model import schema
+from mekoros.model import abstract as abst
+from mekoros.model import text
+from mekoros.model import schema
 
 
 class ReferenceableBookNode:
@@ -186,7 +186,7 @@ class DiburHamatchilNode(abst.AbstractMongoRecord, ReferenceableBookNode):
     ]
 
     def fuzzy_match_score(self, lang, raw_ref_part) -> DiburHamatchilMatch:
-        from sefaria.utils.hebrew import hebrew_starts_with
+        from mekoros.utils.hebrew import hebrew_starts_with
         for dh, dh_index in raw_ref_part.get_dh_text_to_match(lang):
             if hebrew_starts_with(self.dibur_hamatchil, dh):
                 return DiburHamatchilMatch(1.0, dh, dh_index)

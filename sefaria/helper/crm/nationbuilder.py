@@ -3,8 +3,8 @@ from rauth import OAuth2Service
 import time
 import json
 
-from sefaria import settings as sls
-from sefaria.helper.crm.crm_connection_manager import CrmConnectionManager
+from mekoros import settings as sls
+from mekoros.helper.crm.crm_connection_manager import CrmConnectionManager
 
 base_url = "https://" + sls.NATIONBUILDER_SLUG + ".nationbuilder.com"
 
@@ -39,7 +39,7 @@ class NationbuilderConnectionManager(CrmConnectionManager):
                 lists.append("Announcements_Edu_Hebrew")
             lists.append("Announcements_General_Hebrew")
         if signup:
-            lists.append("Signed_Up_on_Sefaria")
+            lists.append("Signed_Up_on_Mekoros")
         else:
             lists.append("Newsletter_Sign_Up")
 
@@ -111,7 +111,7 @@ class NationbuilderConnectionManager(CrmConnectionManager):
             tags = [x for x in r.json()["person"]["tags"] if
                     x.lower() not in ["announcements_general_hebrew", "announcements_general",
                                       "announcements_edu_hebrew",
-                                      "announcements_edu", "signed_up_on_sefaria", "spam"]]
+                                      "announcements_edu", "signed_up_on_mekoros", "spam"]]
             if len(tags) == 0:
                 self.session.delete(self.update_person(nationbuilder_id))
             return True

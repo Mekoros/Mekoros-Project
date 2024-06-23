@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load sefaria_tags %}
+{% load mekoros_tags %}
 {% load humanize static %}
 
 {% block head %}
@@ -18,7 +18,7 @@
 
 				{% if not thanks %}
 					<h1>{{ title }}</h1>
-					<p>You don't have to be an expert to help, this is just a first draft. Your contribution will be reviewed and edited by the Sefaria community. This text will be licensed under a <a href="http://creativecommons.org/publicdomain/zero/1.0/" target="_blank">Creative Commons Zero</a> license - free for anyone to use or reuse.</p>
+					<p>You don't have to be an expert to help, this is just a first draft. Your contribution will be reviewed and edited by the Mekoros community. This text will be licensed under a <a href="http://creativecommons.org/publicdomain/zero/1.0/" target="_blank">Creative Commons Zero</a> license - free for anyone to use or reuse.</p>
 					<p id="askAFriendBox">
 						<b>Can't translate Hebrew?</b>&nbsp;&nbsp;
 						<span id="askSomeone">Ask a friend to help.</span>
@@ -268,8 +268,8 @@ var saveTranslation = function() {
 	var postDict = {
 		text: text,
 		language: "en",
-		versionTitle: "Sefaria Community Translation",
-		versionSource: "http://www.sefaria.org"
+		versionTitle: "Mekoros Community Translation",
+		versionSource: "http://www.mekoros.com"
 	};
 	var postJSON = JSON.stringify(postDict);
 
@@ -340,13 +340,13 @@ var checkActivity = function() {
 };
 
 var renewLock = function() {
-	var postUrl = "/api/locks/set/{{ assigned_ref_url }}/en/Sefaria_Community_Translation";
+	var postUrl = "/api/locks/set/{{ assigned_ref_url }}/en/Mekoros_Community_Translation";
 	$.post(postUrl);
 };
 
 
 var releaseLock = function() {
-	var postUrl = "/api/locks/release/{{ assigned_ref_url }}/en/Sefaria_Community_Translation";
+	var postUrl = "/api/locks/release/{{ assigned_ref_url }}/en/Mekoros_Community_Translation";
 	$.ajax({
 	    type: 'POST',
 	    async: false,

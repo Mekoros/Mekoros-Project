@@ -6,7 +6,7 @@ metadata:
   name: local-settings-node-{{ .Values.deployEnv }}
   labels:
     deployEnv: {{ .Values.deployEnv | quote }}
-    {{- include "sefaria.labels" . | nindent 4 }}
+    {{- include "mekoros.labels" . | nindent 4 }}
 data:
     {{ .Values.nodejs.localsettings | toYaml | nindent 2 }}
 {{- end }}

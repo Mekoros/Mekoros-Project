@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from sefaria.model import *
+from mekoros.model import *
 
 
 mh = library.get_index('Meshech Hochma')

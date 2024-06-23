@@ -1,12 +1,12 @@
 import datetime
 
-import sefaria.model as model
+import mekoros.model as model
 
 
 def test_locks():
     ref = "Mishnah Oktzin 1:3"
     lang = "en"
-    version = "Sefaria Community Translation"
+    version = "Mekoros Community Translation"
     user = 0
 
     model.release_lock(ref, lang, version)

@@ -6,7 +6,7 @@ refs. The objective of this script is to migrate the simple depth 1 ArrayMapNode
 alt-struct with multiple ArrayMapNodes, one for each chapter
 """
 
-from sefaria.model import *
+from mekoros.model import *
 import csv
 
 

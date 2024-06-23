@@ -4,8 +4,8 @@ import {
 } from './Misc';
 import React, { useState } from 'react';
 import classNames  from 'classnames';
-import Sefaria  from './sefaria/sefaria';
-import $  from './sefaria/sefariaJquery';
+import Mekoros  from './mekoros/mekoros';
+import $  from './mekoros/mekorosJquery';
 import { NavSidebar, Modules }from './NavSidebar';
 import Footer  from './Footer';
 import Component from 'react-class';
@@ -33,7 +33,7 @@ const CalendarsPage = ({multiPanel, initialWidth}) => {
   const sidebarModules = [
     multiPanel ? {type: "AboutLearningSchedules"} : {type: null},
     {type: "StayConnected"},
-    {type: "SupportSefaria"},
+    {type: "SupportMekoros"},
     {type: "Promo"},
   ];
 
@@ -66,7 +66,7 @@ const CalendarsPage = ({multiPanel, initialWidth}) => {
 
 
 const CalendarListing = ({calendar}) => {
-  const style = {"borderColor": Sefaria.palette.categoryColor(calendar.category)};
+  const style = {"borderColor": Mekoros.palette.categoryColor(calendar.category)};
   return (
     <div className="navBlock withColorLine calendarListing" style={style}>
       <a href={`/${calendar.url}`} className="navBlockTitle">
@@ -99,7 +99,7 @@ const CalendarListing = ({calendar}) => {
 const reformatCalendars = () => {
   // Reformats the calendar data as it is given by the API into the shape we need,
   // combining with descriptions written here.
-  const calendars = Sefaria.util.clone(Sefaria.calendars);
+  const calendars = Mekoros.util.clone(Mekoros.calendars);
   const mergedCalendars = [];
   calendars.map(cal => {
     let calData = calendarDescriptions[cal.title.en.replace(/ \([AS]\)$/, "")]
@@ -110,7 +110,7 @@ const reformatCalendars = () => {
       cal.displayTitle = cal.displayValue;
       cal.displayValue = {en: cal.ref, he: cal.heRef};
     } else {
-      cal.displayTitle = Sefaria.util.clone(cal.title);
+      cal.displayTitle = Mekoros.util.clone(cal.title);
       if (calData && calData.enSubtitle) {
         cal.enSubtitle = calData.enSubtitle;
       }

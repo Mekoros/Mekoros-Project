@@ -4,14 +4,14 @@ arg[1]: id to start at
 
 import django
 django.setup()
-from sefaria.utils.util import epoch_time
-from sefaria.helper.file import get_resized_file
+from mekoros.utils.util import epoch_time
+from mekoros.helper.file import get_resized_file
 import urllib.parse, urllib.request, urllib.error
 from PIL import Image
 import hashlib
-from sefaria.google_storage_manager import GoogleStorageManager
-from sefaria.system.database import db
-from sefaria.model.user_profile import UserProfile
+from mekoros.google_storage_manager import GoogleStorageManager
+from mekoros.system.database import db
+from mekoros.model.user_profile import UserProfile
 from google.cloud.exceptions import GoogleCloudError
 import sys
 

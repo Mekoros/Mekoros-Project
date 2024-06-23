@@ -1,8 +1,8 @@
 import React  from 'react';
 import ReactDOM  from 'react-dom';
 import Component from 'react-class';
-import $  from './sefaria/sefariaJquery';
-import Sefaria  from './sefaria/sefaria';
+import $  from './mekoros/mekorosJquery';
+import Mekoros  from './mekoros/mekoros';
 import classNames  from 'classnames';
 import PropTypes  from 'prop-types';
 import Footer  from './Footer';
@@ -103,7 +103,7 @@ class UpdatesPanel extends Component {
             <div className="contentInner">
               <h1 className="mobileAboutHeader"><InterfaceText>Updates</InterfaceText></h1>
 
-              {Sefaria.is_moderator?<NewUpdateForm handleSubmit={this.handleSubmit} key={this.state.submitCount} error={this.state.error}/>:""}
+              {Mekoros.is_moderator?<NewUpdateForm handleSubmit={this.handleSubmit} key={this.state.submitCount} error={this.state.error}/>:""}
 
               <div className="notificationsList">
               {this.state.updates.map(u =>
@@ -239,7 +239,7 @@ class SingleUpdate extends Component {
   render() {
     return (
       <div className="update">
-        {Sefaria.is_moderator?<i className="fa fa-times-circle delete-update-button" onClick={this.onDelete} aria-hidden="true"/>:""}
+        {Mekoros.is_moderator?<i className="fa fa-times-circle delete-update-button" onClick={this.onDelete} aria-hidden="true"/>:""}
         <Notifications
           type={this.props.type}
           props={this.props} />

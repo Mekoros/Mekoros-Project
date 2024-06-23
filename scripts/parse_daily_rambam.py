@@ -2,8 +2,8 @@
 import csv
 from datetime import datetime
 import argparse
-import sefaria.model as model
-from sefaria.system.database import db
+import mekoros.model as model
+from mekoros.system.database import db
 
 
 

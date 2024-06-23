@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from collections import defaultdict
 
-from sefaria.system.database import db
-from sefaria.model import *
+from mekoros.system.database import db
+from mekoros.model import *
 
 authors        = defaultdict(int)
 public_authors = defaultdict(int)
@@ -21,8 +21,8 @@ sorted_public_authors = sorted(iter(public_authors.items()), key=lambda x: -x[1]
 print("Most Popular Public Sheet Authors")
 for author in sorted_public_authors[:10]:
     profile = UserProfile(id=author[0])
-    print("%s: %d views - www.sefaria.org/profile/%s" % (profile.full_name, author[1], profile.slug))
+    print("%s: %d views - www.mekoros.com/profile/%s" % (profile.full_name, author[1], profile.slug))
 print("Most Popular Total Sheet Authors")
 for author in sorted_authors[:10]:
     profile = UserProfile(id=author[0])
-    print("%s: %d views - www.sefaria.org/profile/%s" % (profile.full_name, author[1], profile.slug))
+    print("%s: %d views - www.mekoros.com/profile/%s" % (profile.full_name, author[1], profile.slug))

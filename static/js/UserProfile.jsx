@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Component from 'react-class';
 import PropTypes  from 'prop-types';
-import Sefaria  from './sefaria/sefaria';
+import Mekoros  from './mekoros/mekoros';
 import NoteListing  from './NoteListing';
 import Footer  from './Footer';
 import {
@@ -15,7 +15,7 @@ import {
   FollowButton,
   InterfaceText,
 } from './Misc';
-import { SignUpModalKind } from './sefaria/signupModalContent';
+import { SignUpModalKind } from './mekoros/signupModalContent';
 
 class UserProfile extends Component {
   constructor(props) {
@@ -29,20 +29,20 @@ class UserProfile extends Component {
     }
   }
   getPrivateTabState(props) {
-    const showNotes = !!props.profile.id && Sefaria._uid === props.profile.id;
+    const showNotes = !!props.profile.id && Mekoros._uid === props.profile.id;
     const showBio = !!props.profile.bio;
     const tabs = [
       { id: "sheets", text: "Sheets", icon: "/static/icons/sheet.svg" },
       { id: "collections", text: "Collections", icon: "/static/icons/collection.svg" },
       { id: "followers", text: "Followers", invisible: true },
       { id: "following", text: "Following", invisible: true },
-      { id: "torah-tracker", text: "Torah Tracker", invisible: Sefaria._uid !== props.profile.id, icon: "/static/icons/chart-icon.svg", href: "/torahtracker", applink: true, justifyright: true}
+      { id: "torah-tracker", text: "Torah Tracker", invisible: Mekoros._uid !== props.profile.id, icon: "/static/icons/chart-icon.svg", href: "/torahtracker", applink: true, justifyright: true}
     ];
     if (showNotes) {
-      tabs.splice(2, 0, { id: "notes", text: Sefaria._("Notes"), icon: "/static/icons/note.svg" });
+      tabs.splice(2, 0, { id: "notes", text: Mekoros._("Notes"), icon: "/static/icons/note.svg" });
     }
     if (showBio) {
-      tabs.push({ id: "about", text: Sefaria._("About"), icon: "/static/icons/info.svg" });
+      tabs.push({ id: "about", text: Mekoros._("About"), icon: "/static/icons/info.svg" });
     }
     return {
       showNotes,
@@ -52,10 +52,10 @@ class UserProfile extends Component {
   }
   _getTabViewRef(ref) { this._tabViewRef = ref; }
   getCollections() {
-    return Sefaria.getUserCollections(this.props.profile.id);
+    return Mekoros.getUserCollections(this.props.profile.id);
   }
   getCollectionsFromCache() {
-    return Sefaria.getUserCollectionsFromCache(this.props.profile.id);
+    return Mekoros.getUserCollectionsFromCache(this.props.profile.id);
   }
   filterCollection(currFilter, collection) {
     const n = text => text.toLowerCase();
@@ -80,7 +80,7 @@ class UserProfile extends Component {
     this.setState({ refreshCollectionsData: Math.random(), refreshSheetData: Math.random() });
   }
   renderEmptyCollectionList() {
-    if (Sefaria._uid !== this.props.profile.id) {
+    if (Mekoros._uid !== this.props.profile.id) {
      return (
         <div className="emptyList">
           <div className="emptyListText">
@@ -92,7 +92,7 @@ class UserProfile extends Component {
     return (
       <div className="emptyList">
         <div className="emptyListText">
-          <InterfaceText>You can use collections to organize your sheets or public sheets you like. Collections can be shared privately or made public on Sefaria.</InterfaceText>
+          <InterfaceText>You can use collections to organize your sheets or public sheets you like. Collections can be shared privately or made public on Mekoros.</InterfaceText>
         </div>
         <a href="/collections/new" className="resourcesLink sans-serif">
           <img src="/static/icons/collection.svg" alt="Collection icon" />
@@ -106,7 +106,7 @@ class UserProfile extends Component {
     );
   }
   renderCollectionHeader() {
-    if (Sefaria._uid !== this.props.profile.id) { return null; }
+    if (Mekoros._uid !== this.props.profile.id) { return null; }
     return (
       <div className="sheet-header">
         <a href="/collections/new" className="resourcesLink sans-serif">
@@ -118,16 +118,16 @@ class UserProfile extends Component {
   }
   getNotes() {
     return new Promise((resolve, reject) => {
-      Sefaria.allPrivateNotes(notes => {
+      Mekoros.allPrivateNotes(notes => {
         resolve(notes);
       });
     });
   }
   getNotesFromCache() {
-    return Sefaria.allPrivateNotes();
+    return Mekoros.allPrivateNotes();
   }
   onDeleteNote() {
-    Sefaria.clearPrivateNotes();
+    Mekoros.clearPrivateNotes();
     this.getNotes().then(() => this.setState({ refreshNoteData: Math.random() }));
   }
   filterNote(currFilter, note) {
@@ -159,13 +159,13 @@ class UserProfile extends Component {
   }
   getSheets() {
     return new Promise((resolve, reject) => {
-      Sefaria.sheets.userSheets(this.props.profile.id, sheets => {
+      Mekoros.sheets.userSheets(this.props.profile.id, sheets => {
         resolve(sheets);
       }, undefined, 0, 0);
     });
   }
   getSheetsFromCache() {
-    return Sefaria.sheets.userSheets(this.props.profile.id, null, undefined, 0, 0);
+    return Mekoros.sheets.userSheets(this.props.profile.id, null, undefined, 0, 0);
   }
   filterSheet(currFilter, sheet) {
     const n = text => text.toLowerCase();
@@ -184,7 +184,7 @@ class UserProfile extends Component {
     }
   }
   renderEmptySheetList() {
-    if (Sefaria._uid !== this.props.profile.id) {
+    if (Mekoros._uid !== this.props.profile.id) {
       return (
         <div className="emptyList">
           <div className="emptyListText">
@@ -214,10 +214,10 @@ class UserProfile extends Component {
     );
   }
   handleSheetDelete() {
-    Sefaria.sheets.clearUserSheets(Sefaria._uid);
+    Mekoros.sheets.clearUserSheets(Mekoros._uid);
     this.getSheets().then(() => this.setState({ refreshSheetData: Math.random() }));
-    Sefaria._collections = {};
-    delete Sefaria._userCollections[Sefaria._uid];
+    Mekoros._collections = {};
+    delete Mekoros._userCollections[Mekoros._uid];
     this.getCollections().then(() => this.setState({refreshCollectionsData: Math.random() }));
   }
   renderSheet(sheet) {
@@ -228,9 +228,9 @@ class UserProfile extends Component {
         hideAuthor={true}
         handleSheetDelete={this.handleSheetDelete}
         handleCollectionsChange={this.handleCollectionsChange}
-        editable={Sefaria._uid === this.props.profile.id}
-        deletable={Sefaria._uid === this.props.profile.id}
-        saveable={Sefaria._uid !== this.props.profile.id}
+        editable={Mekoros._uid === this.props.profile.id}
+        deletable={Mekoros._uid === this.props.profile.id}
+        saveable={Mekoros._uid !== this.props.profile.id}
         collectable={true}
         connectedRefs={[]}
         infoUnderneath={true}
@@ -239,7 +239,7 @@ class UserProfile extends Component {
     );
   }
   renderSheetHeader() {
-    if (Sefaria._uid !== this.props.profile.id) { return null; }
+    if (Mekoros._uid !== this.props.profile.id) { return null; }
     return (
       <div className="sheet-header">
         <a href="/sheets/new" className="resourcesLink sans-serif">
@@ -251,10 +251,10 @@ class UserProfile extends Component {
     );
   }
   getFollowers() {
-    return Sefaria.followAPI(this.props.profile.slug, "followers");
+    return Mekoros.followAPI(this.props.profile.slug, "followers");
   }
   getFollowing() {
-    return Sefaria.followAPI(this.props.profile.slug, "following");
+    return Mekoros.followAPI(this.props.profile.slug, "following");
   }
   filterFollower(currFilter, follower) {
     const n = text => text.toLowerCase();
@@ -284,7 +284,7 @@ class UserProfile extends Component {
         url={`/profile/${item.slug}`}
         name={item.full_name}
         image={item.profile_pic_url}
-        is_followed={Sefaria.following.indexOf(item.id) > -1}
+        is_followed={Mekoros.following.indexOf(item.id) > -1}
         position={item.position}
         organization={item.organization}
         toggleSignUpModal={this.props.toggleSignUpModal}
@@ -327,7 +327,7 @@ class UserProfile extends Component {
     );
   }
   follow() {
-    Sefaria.followAPI(this.props.profile.id);
+    Mekoros.followAPI(this.props.profile.id);
   }
   openFollowers(e) {
     e.preventDefault();
@@ -449,7 +449,7 @@ UserProfile.propTypes = {
 const EditorToggleHeader = ({usesneweditor}) => {
  const [feedbackHeaderState, setFeedbackHeaderState] = useState("hidden")
 
- const text = <InterfaceText>{usesneweditor ? "You are currently testing the new Sefaria editor." : "You are currently using the old Sefaria editor."}</InterfaceText>;
+ const text = <InterfaceText>{usesneweditor ? "You are currently testing the new Mekoros editor." : "You are currently using the old Mekoros editor."}</InterfaceText>;
  const buttonText = <InterfaceText>{usesneweditor ? "Go back to old version" : "Try the new version"}</InterfaceText>;
 
  const sendFeedback = () => {
@@ -459,7 +459,7 @@ const EditorToggleHeader = ({usesneweditor}) => {
        email: null,
        msg: $("#feedbackText").val(),
        url: "",
-       uid: Sefaria._uid || null
+       uid: Mekoros._uid || null
    };
    if (!feedback.msg) {
      setFeedbackHeaderState("thanks")
@@ -474,19 +474,19 @@ const EditorToggleHeader = ({usesneweditor}) => {
        } else {
            console.log(data);
            $("#feedbackText").val("");
-           Sefaria.track.event("New Editor", "Send Feedback", null);
+           Mekoros.track.event("New Editor", "Send Feedback", null);
            setFeedbackHeaderState("thanks")
 
        }
    }.bind(this)).fail(function (xhr, textStatus, errorThrown) {
-       alert(Sefaria._("Unfortunately, there was an error sending this feedback. Please try again or try reloading this page."));
+       alert(Mekoros._("Unfortunately, there was an error sending this feedback. Please try again or try reloading this page."));
    });
  }
 
  const disableOverlayContent = (
    <div class="sans-serif-in-hebrew">
       <h2><InterfaceText>Request for Feedback</InterfaceText></h2>
-      <p><InterfaceText>Thank you for trying the new Sefaria editor! We’d love to hear what you thought. Please take a few minutes to give us feedback on your experience.</InterfaceText></p>
+      <p><InterfaceText>Thank you for trying the new Mekoros editor! We’d love to hear what you thought. Please take a few minutes to give us feedback on your experience.</InterfaceText></p>
       <p><InterfaceText>Did you encounter any issues while using the new editor? For example:</InterfaceText></p>
       <ul>
         <li><InterfaceText>Technical problems</InterfaceText></li>
@@ -495,7 +495,7 @@ const EditorToggleHeader = ({usesneweditor}) => {
       </ul>
 
       <p>
-        <textarea className="feedbackText" placeholder={Sefaria._("Tell us about it...")} id="feedbackText"></textarea>
+        <textarea className="feedbackText" placeholder={Mekoros._("Tell us about it...")} id="feedbackText"></textarea>
       </p>
       <p>
         <a href="#" className="button" role="button" onClick={()=>sendFeedback()}>
@@ -508,14 +508,14 @@ const EditorToggleHeader = ({usesneweditor}) => {
  const enableOverlayContent = (
    <div class="sans-serif-in-hebrew">
       <h2><InterfaceText>Thanks for Trying the New Editor!</InterfaceText></h2>
-      <p><InterfaceText>Go to your profile to create a new sheet, or edit an existing sheet, to try out the new experience. After you’ve had a chance to try it out, we would love to hear your feedback. You can reach us at</InterfaceText> <a href="mailto:hello@sefaria.org">hello@sefaria.org</a></p>
+      <p><InterfaceText>Go to your profile to create a new sheet, or edit an existing sheet, to try out the new experience. After you’ve had a chance to try it out, we would love to hear your feedback. You can reach us at</InterfaceText> <a href="mailto:hello@mekoros.com">hello@mekoros.com</a></p>
       <div className="buttonContainer"><a href="/enable_new_editor" onClick={()=>toggleFeedbackOverlayState()} className="button" role="button"><InterfaceText>Back to Profile</InterfaceText></a></div>
    </div>
  )
  const thankYouContent = (
    <div class="sans-serif-in-hebrew">
       <h2><InterfaceText>Thank you!</InterfaceText></h2>
-      <p><InterfaceText>Your feedback is greatly appreciated. You can now edit your sheets again using the old source sheet editor. If you have any questions or additional feedback you can reach us at</InterfaceText> <a href="mailto:hello@sefaria.org">hello@sefaria.org</a>.</p>
+      <p><InterfaceText>Your feedback is greatly appreciated. You can now edit your sheets again using the old source sheet editor. If you have any questions or additional feedback you can reach us at</InterfaceText> <a href="mailto:hello@mekoros.com">hello@mekoros.com</a>.</p>
       <div className="buttonContainer"><a href="/disable_new_editor" className="button" role="button"><InterfaceText>Back to Profile</InterfaceText></a></div>
    </div>
  )
@@ -584,7 +584,7 @@ const ProfileSummary = ({ profile:p, follow, openFollowers, openFollowing, toggl
         { p.position || p.organization ?
           <div className="title sub-title">
             <span>{p.position}</span>
-            { p.position && p.organization ? <span>{ Sefaria._(" at ") }</span> : null }
+            { p.position && p.organization ? <span>{ Mekoros._(" at ") }</span> : null }
             <span>{p.organization}</span>
           </div> : null
         }
@@ -601,7 +601,7 @@ const ProfileSummary = ({ profile:p, follow, openFollowers, openFollowing, toggl
           </div> : null
         }
         {
-          Sefaria._uid === p.id ? (
+          Mekoros._uid === p.id ? (
           <div className="profile-actions">
             <a href="/settings/profile" className="resourcesLink sans-serif">
               <span className="int-en">Edit Profile</span>
@@ -621,7 +621,7 @@ const ProfileSummary = ({ profile:p, follow, openFollowers, openFollowing, toggl
             <FollowButton
               large={true}
               uid={p.id}
-              following={Sefaria.following.indexOf(p.id) > -1}
+              following={Mekoros.following.indexOf(p.id) > -1}
               toggleSignUpModal={toggleSignUpModal}
             />
           </div>)
@@ -643,8 +643,8 @@ const ProfileSummary = ({ profile:p, follow, openFollowers, openFollowing, toggl
           url={p.profile_pic_url}
           name={p.full_name}
           len={175}
-          hideOnDefault={Sefaria._uid !== p.id}
-          showButtons={Sefaria._uid === p.id}
+          hideOnDefault={Mekoros._uid !== p.id}
+          showButtons={Mekoros._uid === p.id}
         />
       </div>
     </div>

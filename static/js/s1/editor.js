@@ -60,7 +60,7 @@ sjs.Init.all = function() {
 
 	if ("error" in sjs.current) {
 		sjs.alert.message(sjs.current.error);
-		sjs._$basetext.html("<center>Open another text with the Sefaria menu above</center>");
+		sjs._$basetext.html("<center>Open another text with the Mekoros menu above</center>");
 		sjs._$aboutBar.hide();
 		return;
 	}
@@ -120,7 +120,7 @@ sjs.Init._$ = function() {
 
 sjs.Init.loadView = function () {
 	sjs.cache.save(sjs.current);
-	History.replaceState(parseRef(sjs.current.ref), sjs.current.ref + " | Sefaria.org", null);
+	History.replaceState(parseRef(sjs.current.ref), sjs.current.ref + " | Mekoros.com", null);
 
 	var params = getUrlVars();
 	if ("with" in params) {
@@ -607,7 +607,7 @@ $(function() {
 
         if (sjs.current.isComplex) {
             sjs.hideAbout();
-            sjs.alert.message("This text is not user editable - please email corrections@sefaria.org");
+            sjs.alert.message("This text is not user editable - please email corrections@mekoros.com");
             return;
         }
 		if (!sjs._uid) {
@@ -635,7 +635,7 @@ $(function() {
 
 	$("#newTextOK").click(function(){
         var ref = $("#newTextName").val();
-		Sefaria.getName(ref, true)
+		Mekoros.getName(ref, true)
 			   .then(function(q) {
 					if(!q.is_ref) {
 						// This is an unknown text
@@ -644,7 +644,7 @@ $(function() {
 						window.location = "/add/textinfo/" + title + after;
 					} else {
 						$.extend(sjs.editing, {
-							index: Sefaria.index(q.index),
+							index: Mekoros.index(q.index),
 							indexTitle: q.index,
 							sectionNames: q.sectionNames,
 							textDepth: q.sectionNames.length,
@@ -1601,7 +1601,7 @@ function get(q) {
 	var versionInfo = sjs.cache.getPreferredTextVersion(q['book']);
 	var versionPath = versionInfo ? "/"+versionInfo['lang']+"/"+versionInfo['version'].replace(/ +/g, "_") : '';
 	var url    = "/" + makeRef(q) + versionPath + paramStr;
-	History.pushState(q, q.ref + " | Sefaria.org", url);
+	History.pushState(q, q.ref + " | Mekoros.com", url);
 	sjs.track.open(q.ref);
 }
 
@@ -1733,7 +1733,7 @@ function buildView(data) {
 			q['skipHandler'] = true;
 			var versionPath = "/"+versionInfo['lang']+"/"+versionInfo['version'].replace(/ +/g, "_");
 			var url = window.location.pathname.replace(versionPath, '') + window.location.search;
-			History.replaceState(q, data['ref'] + " | Sefaria.org", url);
+			History.replaceState(q, data['ref'] + " | Mekoros.com", url);
 		}
 	}
 	// take data returned from api and build it into the DOM
@@ -2472,7 +2472,7 @@ function aboutHtml(data) {
 		license: data.license,
 		sources: ("sources" in data ? data.sources : null),
 		notes: data.versionNotes,
-		digitizedBySefaria: data.digitizedBySefaria
+		digitizedByMekoros: data.digitizedByMekoros
 	};
 
 	var heVersion = {
@@ -2483,7 +2483,7 @@ function aboutHtml(data) {
 		license: data.heLicense,
 		sources: ("heSources" in data ? data.heSources : null),
 		notes: data.heVersionNotes,
-		digitizedBySefaria: data.heDigitizedBySefaria
+		digitizedByMekoros: data.heDigitizedByMekoros
 	};
 
 	var licenseLinks = {
@@ -2508,7 +2508,7 @@ function aboutHtml(data) {
 			html += "</div>";
 		} else {
 		// This is a single version	
-			var isSct = (version.title === "Sefaria Community Translation");
+			var isSct = (version.title === "Mekoros Community Translation");
 
 			var sourceLink = (version.source.indexOf(".") == -1 || version.source.indexOf(" ") != -1 ? 
 				version.source.replace("http://", "") : 
@@ -2524,10 +2524,10 @@ function aboutHtml(data) {
 						(version.license === "unknown" ? "" : '<div class="aboutLicense">License: ' + licenseLink + '</div> ⋄ ') +
 						'<div class="credits"></div> ⋄ ' +
 						'<a class="historyLink" href="/activity/'+data.sectionRef.replace(/ /g, "_")+'/'+version.lang+'/'+version.title.replace(/ /g, "_")+'">Full history &raquo;</a>' + 
-						(version.digitizedBySefaria ? "<div class='digitizedBySefaria'>This text was <a href='/digitized-by-sefaria' target='_blank'>digitized by Sefaria</a>.</div>" : "" ) +
+						(version.digitizedByMekoros ? "<div class='digitizedByMekoros'>This text was <a href='/digitized-by-mekoros' target='_blank'>digitized by Mekoros</a>.</div>" : "" ) +
 						(version.notes ? "<div class='versionNotes'>" + version.notes + "</div>" : "" ) +
 						(version.status === "locked" ? 
-							'<div class="lockedMessage"><div class="fa fa-lock"></div> This text is locked. If you believe this text requires further editing, please let us know <a href="https://github.com/Sefaria/Sefaria-Project/wiki/How-to-Report-a-Mistake" target="_blank">here</a>.</div>' : "") +
+							'<div class="lockedMessage"><div class="fa fa-lock"></div> This text is locked. If you believe this text requires further editing, please let us know <a href="https://github.com/Mekoros/Mekoros-Project/wiki/How-to-Report-a-Mistake" target="_blank">here</a>.</div>' : "") +
 						'<div>' +
 							(version.status === "locked" ? "" :
 								"<div class='editText action btn btn-mini btn-info' data-lang='" + version.lang + "'><i class='fa fa-pencil'></i> Edit</div>") +
@@ -2971,14 +2971,14 @@ sjs.updateReviewButton = function(lang) {
 		$(".reviewsButton." + lang).remove();
 		var classStr = sjs.scoreToClass(data.scoreSinceLastEdit) + " " + lang;
 		// Call out unreviewed translations
-		if (data.version === "Sefaria Community Translation" && data.scoreSinceLastEdit < 0.3) {
+		if (data.version === "Mekoros Community Translation" && data.scoreSinceLastEdit < 0.3) {
 			classStr += " badge-error";
 		} 
 		var buttonHtml = 
 			"<div class='reviewsButton "+ classStr + "'>" +
 				data.reviewCount + (data.reviewCount == 1 ? " Review" : " Reviews") + 
 			"</div>";
-		//if (data.version === "Sefaria Community Translation") {
+		//if (data.version === "Mekoros Community Translation") {
 		//	$(".aboutBarBox").last().append(buttonHtml);
 		//}
 		$(".version." + lang + " .aboutTitle").append(" " + buttonHtml);
@@ -3465,7 +3465,7 @@ sjs.newText = function(e) {
 
     // This object is instantiated and sets up its own events.
     // It doesn't need to be interacted with from the outside.
-    var validator = new Sefaria.util.RefValidator($("#newTextName"), $("#newTextMsg"), $("#newTextOK"), undefined, {disallow_segments: true, allow_new_titles: true});
+    var validator = new Mekoros.util.RefValidator($("#newTextName"), $("#newTextMsg"), $("#newTextOK"), undefined, {disallow_segments: true, allow_new_titles: true});
 };
 
 	
@@ -3525,7 +3525,7 @@ sjs.showNewText = function () {
 		.change(updateTextDirection);
 	
 	// Special handing of Original Translation // Sefara Community Translation
-	sjs.editing.sct = (sjs.current.versionTitle === "Sefaria Community Translation" ? sjs.current.text : null);
+	sjs.editing.sct = (sjs.current.versionTitle === "Mekoros Community Translation" ? sjs.current.text : null);
 	$("#textTypeForm input").unbind().click(function() {
 		if ($(this).val() === "copy") { 
 		// Click on "Copied Text" Radio
@@ -3544,7 +3544,7 @@ sjs.showNewText = function () {
 			// Make sure we check if there's an existing SCT 
 			if (sjs.editing.sct === null) {
 				sjs._$newVersion.val("Loading...");
-				$.getJSON("/api/texts/" + sjs.editing.ref + "/en/Sefaria_Community_Translation/?commentary=0", function(data){
+				$.getJSON("/api/texts/" + sjs.editing.ref + "/en/Mekoros_Community_Translation/?commentary=0", function(data){
 					sjs.editing.sct = data.text;
 					if (sjs.editing.pad) {
 						for (var i = sjs.editing.sct.length; i < sjs.editing.pad; i++) {
@@ -3580,7 +3580,7 @@ sjs.showNewText = function () {
 	});
 
 	// Set radio buttons for original/copy to appropriate state
-	if (sjs.editing.versionTitle in {"Sefaria Community Translation":1, "":1}) {
+	if (sjs.editing.versionTitle in {"Mekoros Community Translation":1, "":1}) {
 		$("#originalRadio").trigger("click");
 	} else {
 		$("#copyRadio").trigger("click");
@@ -3776,7 +3776,7 @@ function validateText(text) {
 	 	return false;
 	}
 
-	if (text.language === "he" && text.versionTitle === "Sefaria Community Translation") {
+	if (text.language === "he" && text.versionTitle === "Mekoros Community Translation") {
 		sjs.alert.message('"Original Translations" should not be Hebrew. Is this actually a copied text?');
 	 	return false;
 	}
@@ -4128,8 +4128,8 @@ function readNewVersion() {
 	}
 	
 	if ($("#originalRadio").prop("checked")) {
-		version["versionTitle"] = "Sefaria Community Translation";
-		version["versionSource"] = "https://www.sefaria.org";
+		version["versionTitle"] = "Mekoros Community Translation";
+		version["versionSource"] = "https://www.mekoros.com";
 	} else {
 		version["versionTitle"] = $("#versionTitle").val();
 		var source = $("#versionSource").val();

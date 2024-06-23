@@ -4,10 +4,10 @@ from typing import List, Iterable
 import django
 import spacy, csv
 from spacy import Language
-from sefaria.model import *
-from sefaria.model.linker import ResolvedRef
+from mekoros.model import *
+from mekoros.model.linker import ResolvedRef
 from tqdm import tqdm
-from sefaria.helper.linker import make_html
+from mekoros.helper.linker import make_html
 
 django.setup()
 

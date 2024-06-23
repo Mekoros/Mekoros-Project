@@ -4,8 +4,8 @@ import django
 django.setup()
 
 from django.contrib.auth.models import User
-from sefaria.model import UserProfile
-from sefaria.system.database import db
+from mekoros.model import UserProfile
+from mekoros.system.database import db
 
 os.system('pip install pandas')
 import pandas as pd

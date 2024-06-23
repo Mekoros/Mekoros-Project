@@ -1,7 +1,7 @@
 from django.test.client import Client
 import django
 django.setup()
-from reader.tests import SefariaTestCase
+from reader.tests import MekorosTestCase
 import json
 from api.api_warnings import APIWarningCode
 
@@ -9,7 +9,7 @@ from api.api_warnings import APIWarningCode
 c = Client()
 
 
-class APITextsTests(SefariaTestCase):
+class APITextsTests(MekorosTestCase):
 
     def test_api_get_text_default(self):
         response = c.get('/api/v3/texts/Genesis.1')

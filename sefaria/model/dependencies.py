@@ -5,7 +5,7 @@ dependencies.py -- list cross model dependencies and subscribe listeners to chan
 from . import abstract, link, note, history, schema, text, layer, version_state, timeperiod, garden, notification, collection, library, category, ref_data, user_profile, manuscript, topic, place
 
 from .abstract import subscribe, cascade, cascade_to_list, cascade_delete, cascade_delete_to_list
-import sefaria.system.cache as scache
+import mekoros.system.cache as scache
 
 # Index Save / Create
 subscribe(text.process_index_change_in_core_cache,                      text.Index, "save")
@@ -48,9 +48,9 @@ subscribe(ref_data.process_index_delete_in_ref_data,                    text.Ind
 # Process in ES
 # todo: handle index name change in ES
 def process_version_title_change_in_search(ver, **kwargs):
-    from sefaria.settings import SEARCH_INDEX_ON_SAVE
+    from mekoros.settings import SEARCH_INDEX_ON_SAVE
     if SEARCH_INDEX_ON_SAVE:
-        from sefaria.search import delete_version, TextIndexer, get_new_and_current_index_names
+        from mekoros.search import delete_version, TextIndexer, get_new_and_current_index_names
         search_index_name = get_new_and_current_index_names("text")['current']
         # no reason to deal with merged index since versions don't exist. still leaving this here in case it is necessary
         # search_index_name_merged = get_new_and_current_index_names("merged")['current']
@@ -80,7 +80,7 @@ subscribe(topic.process_topic_delete,                                 topic.Auth
 # Terms
 # TODO cascade change to Term.name.
 # TODO Current locations where we know terms are used [Index, Categories]
-# TODO Use Sefaria-Project/scripts/search_for_indexes_that_use_terms.py for now
+# TODO Use Mekoros-Project/scripts/search_for_indexes_that_use_terms.py for now
 subscribe(cascade(schema.TermSet, "scheme"),                                schema.TermScheme, "attributeChange", "name")
 subscribe(text.reset_simple_term_mapping,                                   schema.Term, "delete")
 subscribe(text.reset_simple_term_mapping,                                   schema.Term, "save")

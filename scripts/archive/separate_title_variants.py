@@ -1,8 +1,8 @@
 """
 Ensure that Hebrew and English Title variants are in the correct field.
 """
-from sefaria.model import *
-from sefaria.utils.hebrew import has_hebrew
+from mekoros.model import *
+from mekoros.utils.hebrew import has_hebrew
 
 indices = IndexSet({})
 for index in indices:

@@ -29,7 +29,7 @@ if __name__ == "__main__":
     parser.add_argument("-k", "--key",
                         help="API Key")
     parser.add_argument("-s", "--server",
-                        help="Sefaria server")
+                        help="Mekoros server")
     parser.add_argument("-r", "--restore", help="1 or 0.  Restore cauldron to original condition. Delete anything posted in last run.", default=0)
     args = parser.parse_args()
     server = args.server
@@ -48,7 +48,7 @@ if __name__ == "__main__":
         send_text = {
             "language": "en",
             "versionTitle": vtitle,
-            "versionSource": "https://www.sefaria.org",
+            "versionSource": "https://www.mekoros.com",
             "text": orig_joshua_text
         }
         success = post_text("Joshua", send_text, server=server, API_KEY=key)
@@ -58,7 +58,7 @@ if __name__ == "__main__":
         send_text = {
             "language": "en",
             "versionTitle": vtitle,
-            "versionSource": "https://www.sefaria.org",
+            "versionSource": "https://www.mekoros.com",
             "text": orig_samuel_text
         }
         success = post_text("II Samuel", send_text, server=server, API_KEY=key)
@@ -73,11 +73,11 @@ if __name__ == "__main__":
     send_text = {
         "language": "en",
         "versionTitle": vtitle,
-        "versionSource": "https://www.sefaria.org",
+        "versionSource": "https://www.mekoros.com",
         "text": orig_samuel_text
     }
     post_text("Joshua", send_text, server=server, API_KEY=key)
-    print("https://ste.cauldron.sefaria.org/Joshua should now contain the text of II Samuel.")
+    print("https://ste.cauldron.mekoros.com/Joshua should now contain the text of II Samuel.")
 
 
     # 3. confirm Joshua is now II Samuel by checking some of the perakim
@@ -87,9 +87,9 @@ if __name__ == "__main__":
     send_text = {
         "language": "en",
         "versionTitle": vtitle,
-        "versionSource": "https://www.sefaria.org",
+        "versionSource": "https://www.mekoros.com",
         "text": orig_joshua_text
     }
     post_text("Joshua", send_text, server=server, API_KEY=key)
     check_texts("Joshua", orig_joshua_text)
-    print("https://ste.cauldron.sefaria.org/Joshua should now contain the text of Joshua.")
+    print("https://ste.cauldron.mekoros.com/Joshua should now contain the text of Joshua.")

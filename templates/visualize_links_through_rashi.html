@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load sefaria_tags %}
+{% load mekoros_tags %}
 {% load i18n static %}
 
 {% block title %}{% trans "Visualizing Torah Connections through Rashi's Commentary" %}{% endblock %}
@@ -310,7 +310,7 @@ function packageImports(nodes) {
 
 $(function() {
   $("#chart").on("click", ".node", function() {
-    var ref = Sefaria.normRef($(this).text());
+    var ref = Mekoros.normRef($(this).text());
     window.open("/" + ref + "?with=Rashi");
   })
 });

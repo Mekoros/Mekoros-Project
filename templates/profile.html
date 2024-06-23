@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% load i18n humanize sefaria_tags %}
+{% load i18n humanize mekoros_tags %}
 
-{% block title %}{{ profile.full_name }} {% trans "on Sefaria" %}{% endblock %}
+{% block title %}{{ profile.full_name }} {% trans "on Mekoros" %}{% endblock %}
 
-{% block description %}{{ profile.full_name }} {% trans "is on Sefaria. Follow to view their public source sheets, notes and translations." %}{% endblock %}
+{% block description %}{{ profile.full_name }} {% trans "is on Mekoros. Follow to view their public source sheets, notes and translations." %}{% endblock %}
 
 {% block content %}
 
@@ -168,9 +168,9 @@ $(function(){
 			}
 			$.post("/api/" + action + "/{{ profile.id }}", {}, function(data) {
                 if (action === "follow") {
-                    Sefaria.track.event("Following", "New Follow", "");
+                    Mekoros.track.event("Following", "New Follow", "");
                 } else {
-                    Sefaria.track.event("Following", "Unfollow", "");
+                    Mekoros.track.event("Following", "Unfollow", "");
                 }
 			});
 		{% else %}
@@ -211,7 +211,7 @@ $(function(){
 			$("#messageComposer").remove();
 			alert("Message Sent");
 			$("#overlay").hide();
-			Sefaria.track.event("Messages", "Message Sent", "");
+			Mekoros.track.event("Messages", "Message Sent", "");
 		});
 	};
 	sjs.viewMessage = function(sender, name, message) {
@@ -237,7 +237,7 @@ $(function(){
 		window.location = "/register?next=" + window.location.pathname;
 		{% endif %}
 	});
-	var params = Sefaria.util.getUrlVars();
+	var params = Mekoros.util.getUrlVars();
 	if ("message" in params) {
 		$("#messageMe").trigger("click");
 	}

@@ -3,10 +3,10 @@ import sys
 import os
 import unicodecsv as csv
 
-from sefaria.model import UserProfile
-from sefaria.sheets import sheet_list
-from sefaria.system.database import db
-from sefaria.utils.util import strip_tags
+from mekoros.model import UserProfile
+from mekoros.sheets import sheet_list
+from mekoros.system.database import db
+from mekoros.utils.util import strip_tags
 
 
 with open("data/private/nationbuilder-people-export-2017-09-01-1120.csv", 'r') as csv_in:
@@ -41,7 +41,7 @@ with open("data/private/nationbuilder-people-export-2017-09-01-1120.csv", 'r') a
       organization        = profile.organization
       position            = profile.position
       jewish_education    = ". ".join(profile.jewish_education)
-      profile_url         = "https://www.sefaria.org/profile/%s" % profile.slug
+      profile_url         = "https://www.mekoros.com/profile/%s" % profile.slug
 
       new_row = row + [
                         has_account, 

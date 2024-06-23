@@ -8,9 +8,9 @@ import requests
 from io import StringIO
 from pprint import pprint
 
-from sefaria.model import *
-from sefaria.sheets import save_sheet
-from sefaria.system.database import db
+from mekoros.model import *
+from mekoros.sheets import save_sheet
+from mekoros.system.database import db
 
 
 url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSL8vy0MbanOBqSQIW_h73uolEFphleIL08OvpJwhQuCH82cUyjTcyoOH817anHRVYQYnMDxXy16kf1/pub?gid=0&single=true&output=csv'

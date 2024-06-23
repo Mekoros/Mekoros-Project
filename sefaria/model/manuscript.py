@@ -1,10 +1,10 @@
 # encoding=utf-8
 #from __future__ import annotations
 
-from sefaria.system.exceptions import InputError, DuplicateRecordError, ManuscriptError
-from sefaria.system.database import db
-from sefaria.model.abstract import AbstractMongoRecord, AbstractMongoSet, SluggedAbstractMongoRecord
-from sefaria.model.text import Ref
+from mekoros.system.exceptions import InputError, DuplicateRecordError, ManuscriptError
+from mekoros.system.database import db
+from mekoros.model.abstract import AbstractMongoRecord, AbstractMongoSet, SluggedAbstractMongoRecord
+from mekoros.model.text import Ref
 import structlog
 logger = structlog.get_logger(__name__)
 
@@ -178,7 +178,7 @@ class ManuscriptPageSet(AbstractMongoSet):
     @classmethod
     def load_set_for_client(cls, tref: str):
         """
-        This method returns an array of results that can be converted to JSON instead of Sefaria MongoSet instances.
+        This method returns an array of results that can be converted to JSON instead of Mekoros MongoSet instances.
         This method uses a mongo aggregation to JOIN the manuscript with the manuscript page.
         :param tref:
         :return:
@@ -216,7 +216,7 @@ class ManuscriptPageSet(AbstractMongoSet):
 
 
 def process_index_title_change_in_manuscript_links(indx, **kwargs):
-    from sefaria.system.exceptions import InputError
+    from mekoros.system.exceptions import InputError
 
     print("Cascading ManuscriptPage from {} to {}".format(kwargs['old'], kwargs['new']))
 

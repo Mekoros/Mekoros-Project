@@ -3,8 +3,8 @@ import PropTypes  from 'prop-types';
 import ReactDOM  from 'react-dom';
 import Component from 'react-class';
 import classNames  from 'classnames';
-import $  from './sefaria/sefariaJquery';
-import Sefaria  from './sefaria/sefaria';
+import $  from './mekoros/mekorosJquery';
+import Mekoros  from './mekoros/mekoros';
 import {
   SearchButton,
   GlobalWarningMessage,
@@ -39,15 +39,15 @@ class Header extends Component {
     if (this.props.hidden && !this.props.mobileNavMenuOpen) {
       return null;
     }
-    const logo = Sefaria.interfaceLang == "hebrew" ?
-      <img src="/static/img/logo-hebrew.png" alt="Sefaria Logo"/> :
-      <img src="/static/img/logo.svg" alt="Sefaria Logo"/>;
+    const logo = Mekoros.interfaceLang == "hebrew" ?
+      <img src="/static/img/logo-hebrew.png" alt="Mekoros Logo"/> :
+      <img src="/static/img/logo.svg" alt="Mekoros Logo"/>;
 
     const headerContent = (
       <>
 
         <div className="headerNavSection">
-          { Sefaria._siteSettings.TORAH_SPECIFIC ?
+          { Mekoros._siteSettings.TORAH_SPECIFIC ?
           <a className="home" href="/" >{logo}</a> : null }
           <a href="/texts" className="textLink"><InterfaceText context="Header">Texts</InterfaceText></a>
           <a href="/topics" className="textLink"><InterfaceText>Topics</InterfaceText></a>
@@ -64,13 +64,13 @@ class Header extends Component {
         />
 
 
-          { Sefaria._uid ?
+          { Mekoros._uid ?
             <LoggedInButtons headerMode={this.props.headerMode}/>
             : <LoggedOutButtons headerMode={this.props.headerMode}/>
           }
-          { !Sefaria._uid && Sefaria._siteSettings.TORAH_SPECIFIC ?
+          { !Mekoros._uid && Mekoros._siteSettings.TORAH_SPECIFIC ?
               <InterfaceLanguageMenu
-                currentLang={Sefaria.interfaceLang}
+                currentLang={Mekoros.interfaceLang}
                 translationLanguagePreference={this.props.translationLanguagePreference}
                 setTranslationLanguagePreference={this.props.setTranslationLanguagePreference} /> : null}
         </div>
@@ -80,13 +80,13 @@ class Header extends Component {
     const mobileHeaderContent = (
       <>
         <div>
-          <button onClick={this.props.onMobileMenuButtonClick} aria-label={Sefaria._("Menu")} className="menuButton">
+          <button onClick={this.props.onMobileMenuButtonClick} aria-label={Mekoros._("Menu")} className="menuButton">
             <i className="fa fa-bars"></i>
           </button>
         </div>
 
         <div className="mobileHeaderCenter">
-          { Sefaria._siteSettings.TORAH_SPECIFIC ?
+          { Mekoros._siteSettings.TORAH_SPECIFIC ?
           <a className="home" href="/texts" >{logo}</a> : null }
         </div>
 
@@ -144,7 +144,7 @@ const LoggedOutButtons = ({mobile, loginOnly}) => {
   }, []);
   useEffect(()=> {
     if(isClient){
-      setNext(encodeURIComponent(Sefaria.util.currentPath()));
+      setNext(encodeURIComponent(Mekoros.util.currentPath()));
       setLoginLink("/login?next="+next);
       setRegisterLink("/register?next="+next);
     }
@@ -161,7 +161,7 @@ const LoggedOutButtons = ({mobile, loginOnly}) => {
          {mobile ? <img src="/static/icons/register.svg" /> : null }
          <InterfaceText>Sign up</InterfaceText>
       </a> }
-      { Sefaria._siteSettings.TORAH_SPECIFIC ? <HelpButton /> : null}
+      { Mekoros._siteSettings.TORAH_SPECIFIC ? <HelpButton /> : null}
     </div>
   );
 }
@@ -174,18 +174,18 @@ const LoggedInButtons = ({headerMode}) => {
       setIsClient(true);
     }
   }, []);
-  const unread = headerMode ? ((isClient && Sefaria.notificationCount > 0) ? 1 : 0) : Sefaria.notificationCount > 0 ? 1 : 0
+  const unread = headerMode ? ((isClient && Mekoros.notificationCount > 0) ? 1 : 0) : Mekoros.notificationCount > 0 ? 1 : 0
   const notificationsClasses = classNames({notifications: 1, unread: unread});
   return (
     <div className="loggedIn accountLinks">
       <a href="/texts/saved" aria-label="See My Saved Texts">
-        <img src="/static/icons/bookmarks.svg" alt={Sefaria._('Bookmarks')}/>
+        <img src="/static/icons/bookmarks.svg" alt={Mekoros._('Bookmarks')}/>
       </a>
       <a href="/notifications" aria-label="See New Notifications" key={`notificationCount-C-${unread}`} className={notificationsClasses}>
-        <img src="/static/icons/notification.svg" alt={Sefaria._('Notifications')} />
+        <img src="/static/icons/notification.svg" alt={Mekoros._('Notifications')} />
       </a>
-      { Sefaria._siteSettings.TORAH_SPECIFIC ? <HelpButton /> : null}
-      <ProfilePicMenu len={24} url={Sefaria.profile_pic_url} name={Sefaria.full_name} key={`profile-${isClient}-${Sefaria.full_name}`}/>
+      { Mekoros._siteSettings.TORAH_SPECIFIC ? <HelpButton /> : null}
+      <ProfilePicMenu len={24} url={Mekoros.profile_pic_url} name={Mekoros.full_name} key={`profile-${isClient}-${Mekoros.full_name}`}/>
     </div>
   );
 }
@@ -234,28 +234,28 @@ const MobileNavMenu = ({onRefClick, showSearch, openTopic, openURL, close, visib
       </DonateLink>
 
       <div className="mobileAccountLinks">
-        {Sefaria._uid ?
+        {Mekoros._uid ?
         <>
           <a href="/my/profile" onClick={close}>
-            <ProfilePic len={22} url={Sefaria.profile_pic_url} name={Sefaria.full_name} />
+            <ProfilePic len={22} url={Mekoros.profile_pic_url} name={Mekoros.full_name} />
             <InterfaceText>Profile</InterfaceText>
           </a>
           <a href="/texts/saved" onClick={close}>
-            <img src="/static/icons/bookmarks.svg" alt={Sefaria._('Bookmarks')} />
+            <img src="/static/icons/bookmarks.svg" alt={Mekoros._('Bookmarks')} />
             <InterfaceText>Saved & History</InterfaceText>
           </a>
           <a href="/notifications" onClick={close}>
-            <img src="/static/icons/notification.svg" alt={Sefaria._('Notifications')} />
+            <img src="/static/icons/notification.svg" alt={Mekoros._('Notifications')} />
             <InterfaceText>Notifications</InterfaceText>
           </a>
         </> : null }
 
         <a href="/mobile-about-menu">
           <img src="/static/icons/info.svg" />
-          <InterfaceText>About Sefaria</InterfaceText>
+          <InterfaceText>About Mekoros</InterfaceText>
         </a>
 
-        {Sefaria._uid ?
+        {Mekoros._uid ?
         <>
           <a href="/settings/account">
           <img src="/static/icons/settings.svg" />
@@ -270,7 +270,7 @@ const MobileNavMenu = ({onRefClick, showSearch, openTopic, openURL, close, visib
           <InterfaceText>Get Help</InterfaceText>
         </a>
 
-        {Sefaria._uid ?
+        {Mekoros._uid ?
         <a href="/logout" className="logout">
           <img src="/static/icons/logout.svg" />
           <InterfaceText>Logout</InterfaceText>
@@ -327,7 +327,7 @@ const ProfilePicMenu = ({len, url, name}) => {
     };
   }, []);
   const getCurrentPage = () => {
-    return encodeURIComponent(Sefaria.util.currentPath());
+    return encodeURIComponent(Mekoros.util.currentPath());
   };
   return (
     <div className="myProfileBox" ref={wrapperRef}>
@@ -349,8 +349,8 @@ const ProfilePicMenu = ({len, url, name}) => {
                 <InterfaceText>Account Settings</InterfaceText>
               </a></div>
               <div className="interfaceLinks-row languages">
-                <a className={`${(Sefaria.interfaceLang == 'hebrew') ? 'active':''}`} href={`/interface/hebrew?next=${getCurrentPage()}`} id="select-hebrew-interface-link">עברית</a>
-                <a className={`${(Sefaria.interfaceLang == 'english') ? 'active':''}`} href={`/interface/english?next=${getCurrentPage()}`} id="select-english-interface-link">English</a>
+                <a className={`${(Mekoros.interfaceLang == 'hebrew') ? 'active':''}`} href={`/interface/hebrew?next=${getCurrentPage()}`} id="select-hebrew-interface-link">עברית</a>
+                <a className={`${(Mekoros.interfaceLang == 'english') ? 'active':''}`} href={`/interface/english?next=${getCurrentPage()}`} id="select-english-interface-link">English</a>
               </div>
               <div><a className="interfaceLinks-row bottom" id="help-link" href="/help">
                 <InterfaceText>Help</InterfaceText>
@@ -368,9 +368,9 @@ const ProfilePicMenu = ({len, url, name}) => {
 
 
 const MobileInterfaceLanguageToggle = () => {
-  const currentURL = encodeURIComponent(Sefaria.util.currentPath());
+  const currentURL = encodeURIComponent(Mekoros.util.currentPath());
 
-  const links = Sefaria.interfaceLang == "hebrew" ?
+  const links = Mekoros.interfaceLang == "hebrew" ?
     <>
       <a href={"/interface/hebrew?next=" + currentURL} className="int-he">עברית</a>
       <span className="separator">•</span>
@@ -393,11 +393,11 @@ const MobileInterfaceLanguageToggle = () => {
 
 
 const HelpButton = () => {
-  const url = Sefaria._v({he: "/collections/%D7%A9%D7%90%D7%9C%D7%95%D7%AA-%D7%A0%D7%A4%D7%95%D7%A6%D7%95%D7%AA-%D7%91%D7%A1%D7%A4%D7%A8%D7%99%D7%90", en:"/collections/sefaria-faqs"});
+  const url = Mekoros._v({he: "/collections/%D7%A9%D7%90%D7%9C%D7%95%D7%AA-%D7%A0%D7%A4%D7%95%D7%A6%D7%95%D7%AA-%D7%91%D7%A1%D7%A4%D7%A8%D7%99%D7%90", en:"/collections/mekoros-faqs"});
   return (
     <div className="help">
       <a href={url}>
-        <img src="/static/img/help.svg" alt={Sefaria._("Help")}/>
+        <img src="/static/img/help.svg" alt={Mekoros._("Help")}/>
       </a>
     </div>
   );

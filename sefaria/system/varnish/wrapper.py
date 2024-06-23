@@ -5,9 +5,9 @@ import re
 import urllib.request, urllib.parse, urllib.error
 
 from .common import ban_url, purge_url, FRONT_END_URL
-from sefaria.model import *
-from sefaria.system.exceptions import InputError
-from sefaria.utils.util import graceful_exception
+from mekoros.model import *
+from mekoros.system.exceptions import InputError
+from mekoros.utils.util import graceful_exception
 
 
 import structlog

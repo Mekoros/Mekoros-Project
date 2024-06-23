@@ -7,10 +7,10 @@ import requests
 from io import StringIO
 from collections import defaultdict
 
-from sefaria.system.database import db
-from sefaria.model import *
-from sefaria.system.exceptions import DuplicateRecordError
-from sefaria.model.abstract import SluggedAbstractMongoRecord
+from mekoros.system.database import db
+from mekoros.model import *
+from mekoros.system.exceptions import DuplicateRecordError
+from mekoros.model.abstract import SluggedAbstractMongoRecord
 
 def create_era_link(topic, prev_era_to_delete=None):
     era_slug_map = {
@@ -39,7 +39,7 @@ def create_era_link(topic, prev_era_to_delete=None):
         "toTopic": to_topic,
         "fromTopic": topic.slug,
         "linkType": "is-a",
-        "dataSource": "sefaria",
+        "dataSource": "mekoros",
         "generatedBy": "update_authors_data"
     })
     itl.save()
@@ -119,7 +119,7 @@ def update_authors_data():
 
     def _(p: Topic, attr, value):
         if value:
-            p.set_property(attr, value, "sefaria")
+            p.set_property(attr, value, "mekoros")
 
     response_texts.append("*** Updating authorTopic records ***")
     for irow, l in enumerate(rows):
@@ -177,7 +177,7 @@ def update_authors_data():
                 "toTopic": 'authors',
                 "fromTopic": p.slug,
                 "generatedBy": "update_authors_data",
-                "dataSource": "sefaria",
+                "dataSource": "mekoros",
                 "linkType": "displays-under"
             }).save()
         except DuplicateRecordError as e:
@@ -218,7 +218,7 @@ def update_authors_data():
                                 "toTopic": to_slug,
                                 "fromTopic": from_slug,
                                 "linkType": link_type_slug,
-                                "dataSource": "sefaria",
+                                "dataSource": "mekoros",
                                 "generatedBy": "update_authors_data",
                             }).save()
                         except DuplicateRecordError:

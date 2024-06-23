@@ -2,8 +2,8 @@ import React  from 'react';
 import Component from 'react-class';
 import PropTypes  from 'prop-types';
 import classNames  from 'classnames';
-import $  from './sefaria/sefariaJquery';
-import Sefaria  from './sefaria/sefaria';
+import $  from './mekoros/mekorosJquery';
+import Mekoros  from './mekoros/mekoros';
 import { NavSidebar } from './NavSidebar';
 import Footer  from './Footer';
 import {
@@ -28,7 +28,7 @@ class CollectionPage extends Component {
   constructor(props) {
     super(props);
 
-    const collectionData = Sefaria.getCollectionFromCache(props.slug);
+    const collectionData = Mekoros.getCollectionFromCache(props.slug);
 
     this.state = {
       tab: props.tab,
@@ -58,14 +58,14 @@ class CollectionPage extends Component {
     }
   }
   loadData() {
-    Sefaria.getCollection(this.props.slug)
+    Mekoros.getCollection(this.props.slug)
       .then(collectionData => {
         this.setState({collectionData});
         this.props.updateCollectionName(collectionData.name);
       });
   }
   onDataChange() {
-    this.setState({collectionData: Sefaria._collections[this.props.slug]});
+    this.setState({collectionData: Mekoros._collections[this.props.slug]});
   }
   setFilter(filter) {
     this.setState({sheetFilterTopic: filter, showFilterHeader: true});
@@ -82,7 +82,7 @@ class CollectionPage extends Component {
   }
   isMember() {
     const members   = this.memberList();
-    return members && members.filter(function(x) { return x.uid == Sefaria._uid } ).length !== 0;
+    return members && members.filter(function(x) { return x.uid == Mekoros._uid } ).length !== 0;
   }
   pinSheet(sheetId) {
     if (this.pinning) { return; }
@@ -90,12 +90,12 @@ class CollectionPage extends Component {
       if ("error" in data) {
         alert(data.error);
       } else {
-        Sefaria._collections[this.props.slug] = data.collection;
+        Mekoros._collections[this.props.slug] = data.collection;
         this.setState({collectionData: data.collection});
       }
       this.pinning = false;
     }.bind(this)).fail(function() {
-        alert(Sefaria._("There was an error pinning your sheet."));
+        alert(Mekoros._("There was an error pinning your sheet."));
         this.pinning = false;
     }.bind(this));
     this.pinning = true;
@@ -141,8 +141,8 @@ class CollectionPage extends Component {
         hideCollection={true}
         pinned={this.state.collectionData.pinnedSheets.indexOf(sheet.id) != -1}
         pinnable={this.isMember()}
-        editable={sheet.author == Sefaria._uid}
-        saveable={sheet.author !== Sefaria._uid && !this.isMember()}
+        editable={sheet.author == Mekoros._uid}
+        saveable={sheet.author !== Mekoros._uid && !this.isMember()}
         collectable={true}
         pinSheet={this.pinSheet.bind(null, sheet.id)}
         handleCollectionsChange={this.onDataChange}
@@ -200,7 +200,7 @@ class CollectionPage extends Component {
       content = <LoadingMessage />;
     } else {
       const sheets  = collection.sheets;
-      const isAdmin = collection.admins.filter(function(x) { return x.uid == Sefaria._uid } ).length !== 0;
+      const isAdmin = collection.admins.filter(function(x) { return x.uid == Mekoros._uid } ).length !== 0;
 
       if (collection.imageUrl) {
         sidebarModules.push({type: "Image", props: {url: collection.imageUrl}});
@@ -213,7 +213,7 @@ class CollectionPage extends Component {
             <CollectionMemberListing
               member={member}
               isAdmin={isAdmin}
-              isSelf={member.uid == Sefaria._uid}
+              isSelf={member.uid == Mekoros._uid}
               slug={this.props.slug}
               onDataChange={this.onDataChange}
               key={i} />
@@ -226,12 +226,12 @@ class CollectionPage extends Component {
 
       const hasContentsTab = (collection.pinnedTags && collection.pinnedTags.length);
       const tabs = !hasContentsTab ? []
-        : [{id: "contents", title: {en: "Contents", he: Sefaria._("Contents")}}];
+        : [{id: "contents", title: {en: "Contents", he: Mekoros._("Contents")}}];
       tabs.push(
-        {id: "sheets", title: {en: "Sheets", he: Sefaria._("Sheets")}},
+        {id: "sheets", title: {en: "Sheets", he: Mekoros._("Sheets")}},
         {
           id: 'filter',
-          title: {en: "Filter", he: Sefaria._("Filter")},
+          title: {en: "Filter", he: Mekoros._("Filter")},
           icon: `/static/icons/arrow-${this.state.showFilterHeader ? 'up' : 'down'}-bold.svg`,
           justifyright: true,
           clickTabOverride: () => {
@@ -323,7 +323,7 @@ const CollectionAbout = ({collection, isAdmin, toggleLanguage}) => (
         <ContentText text={{en: collection.toc.title, he: collection.toc.heTitle}} />
       </h1>
       { isAdmin ? <EditCollectionButton slug={collection.slug} /> : null }
-      { Sefaria.multiPanel && Sefaria.interfaceLang !== "hebrew" ? <LanguageToggleButton toggleLanguage={toggleLanguage} /> : null }
+      { Mekoros.multiPanel && Mekoros.interfaceLang !== "hebrew" ? <LanguageToggleButton toggleLanguage={toggleLanguage} /> : null }
     </div>
     : 
     <div className="navTitle">
@@ -363,7 +363,7 @@ const CollectionContentsTab = ({collection, setFilter}) => {
   
   if (!pinnedTags || !pinnedTags.length) { return null; }
 
-  if (collection.name === "גיליונות נחמה" && Sefaria.interfaceLang === "english"){
+  if (collection.name === "גיליונות נחמה" && Mekoros.interfaceLang === "english"){
     pinnedTags = ["English"].concat(pinnedTags);
   }
 
@@ -423,23 +423,23 @@ class CollectionInvitationBox extends Component {
   }
   inviteByEmail(email) {
     if (!this.validateEmail(email)) {
-      this.flashMessage(Sefaria._("Please enter a valid email address."));
+      this.flashMessage(Mekoros._("Please enter a valid email address."));
       return;
     }
-    this.setState({inviting: true, message: Sefaria._("Inviting...")})
+    this.setState({inviting: true, message: Mekoros._("Inviting...")})
     $.post("/api/collections/" + this.props.slug + "/invite/" + email, function(data) {
       if ("error" in data) {
         alert(data.error);
         this.setState({message: null, inviting: false});
       } else {
-        Sefaria._collections[this.props.slug] = data.collection;
+        Mekoros._collections[this.props.slug] = data.collection;
         $("#collectionInvitationInput").val("");
         this.flashMessage(data.message);
         this.setState({inviting: false})
         this.props.onDataChange();
       }
     }.bind(this)).fail(function() {
-        alert(Sefaria._("There was an error sending your invitation."));
+        alert(Mekoros._("There was an error sending your invitation."));
         this.setState({message: null, inviting: false});
     }.bind(this));
   }
@@ -450,7 +450,7 @@ class CollectionInvitationBox extends Component {
   render() {
     return (<div className="collectionInvitationBox sans-serif">
               <div className="collectionInvitationBoxInner">
-                <input id="collectionInvitationInput" placeholder={Sefaria._("Email Address")} />
+                <input id="collectionInvitationInput" placeholder={Mekoros._("Email Address")} />
                 <div className="button small" onClick={this.onInviteClick}>
                   <InterfaceText>Invite</InterfaceText>
                 </div>
@@ -571,7 +571,7 @@ class CollectionMemberListingActions extends Component {
   }
   setRole(role) {
     if (this.props.isSelf && this.props.isAdmin && role !== "admin") {
-      if (!confirm(Sefaria._("Are you sure you want to change your collection role? You won't be able to undo this action unless another owner restores your permissions."))) {
+      if (!confirm(Mekoros._("Are you sure you want to change your collection role? You won't be able to undo this action unless another owner restores your permissions."))) {
         return;
       }
     }
@@ -580,15 +580,15 @@ class CollectionMemberListingActions extends Component {
       if ("error" in data) {
         alert(data.error)
       } else {
-        Sefaria._collections[data.slug] = data;
+        Mekoros._collections[data.slug] = data;
         this.props.onDataChange();
       }
     }.bind(this));
   }
   removeMember() {
     var message = this.props.isSelf ?
-      Sefaria._("Are you sure you want to leave this collection?") :
-      Sefaria._("Are you sure you want to remove this person from this collection?");
+      Mekoros._("Are you sure you want to leave this collection?") :
+      Mekoros._("Are you sure you want to remove this person from this collection?");
 
     if (confirm(message)) {
       this.setRole("remove");
@@ -599,19 +599,19 @@ class CollectionMemberListingActions extends Component {
       if ("error" in data) {
         alert(data.error)
       } else {
-        Sefaria._collections[this.props.slug] = data.collection;
+        Mekoros._collections[this.props.slug] = data.collection;
         this.props.onDataChange();
         this.setState({"invitationResent": true});
       }
     }.bind(this));
   }
   removeInvitation() {
-    if (confirm(Sefaria._("Are you sure you want to remove this invitation?"))) {
+    if (confirm(Mekoros._("Are you sure you want to remove this invitation?"))) {
       $.post("/api/collections/" + this.props.slug + "/invite/" + this.props.member.email + "/uninvite", function(data) {
         if ("error" in data) {
           alert(data.error)
         } else {
-          Sefaria._collections[this.props.slug] = data.collection;
+          Mekoros._collections[this.props.slug] = data.collection;
           this.props.onDataChange();
         }
       }.bind(this));

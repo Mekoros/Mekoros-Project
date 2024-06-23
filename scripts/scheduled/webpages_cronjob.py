@@ -1,10 +1,10 @@
 import django
 django.setup()
-from sefaria.model.webpage import *
+from mekoros.model.webpage import *
 import requests
 import json
 import pstats, cProfile
-from sefaria.model import *
+from mekoros.model import *
 import os
 
 TRELLO_KEY = os.getenv("TRELLO_KEY")

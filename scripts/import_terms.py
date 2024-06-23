@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import csv
 from collections import defaultdict
-from sefaria.model import Term, TermSet
-from sefaria.utils.util import titlecase
-from sefaria.sheets import change_tag
-from sefaria.system.database import db
+from mekoros.model import Term, TermSet
+from mekoros.utils.util import titlecase
+from mekoros.sheets import change_tag
+from mekoros.system.database import db
 from html.parser import HTMLParser
 h = HTMLParser()
 

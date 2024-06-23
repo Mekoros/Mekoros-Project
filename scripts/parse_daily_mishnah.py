@@ -4,8 +4,8 @@ from datetime import datetime
 from copy import deepcopy
 import argparse
 import glob
-import sefaria.model as model
-from sefaria.system.database import db
+import mekoros.model as model
+from mekoros.system.database import db
 import re
 
 index_name_errors = {}

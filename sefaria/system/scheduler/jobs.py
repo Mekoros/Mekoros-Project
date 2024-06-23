@@ -1,4 +1,4 @@
-from sefaria.model.trend import setAllTrends
+from mekoros.model.trend import setAllTrends
 
 
 def remove_jobs(scheduler):

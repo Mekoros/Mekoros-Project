@@ -2,6 +2,6 @@
 import django
 
 django.setup()
-from sefaria.search import *
+from mekoros.search import *
 
 index_all()

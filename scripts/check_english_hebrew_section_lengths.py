@@ -1,4 +1,4 @@
-from sefaria.model import *
+from mekoros.model import *
 
 all_refs = library.ref_list()
 for r in all_refs:

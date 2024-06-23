@@ -1,6 +1,6 @@
 """
 This works as:
-    from sefaria.model import *
+    from mekoros.model import *
 symbols are then accessed directly as, e.g.:
     get_index("Genesis")
       or

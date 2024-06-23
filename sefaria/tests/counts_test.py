@@ -1,5 +1,5 @@
 import pytest
-from sefaria.model.link import get_link_counts
+from mekoros.model.link import get_link_counts
 
 
 @pytest.mark.deep
